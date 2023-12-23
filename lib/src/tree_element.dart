@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import 'index.dart';
 
 abstract base class TreeElement<T> {
@@ -16,4 +18,6 @@ abstract base class TreeElement<T> {
     this.controlled = false,
     this.tag,
   });
+
+  Widget renderView();
 }
