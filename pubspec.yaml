@@ -1,7 +1,7 @@
 name: duit_kernel
 description: "Core library for flutter_duit package.  Contains reusable models for developing third-party packages."
-version: 0.0.1
-homepage:
+version: 1.0.0
+repository: https://github.com/lesleysin/duit_kernel
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
