@@ -16,7 +16,7 @@ import 'action.dart';
 /// ```
 abstract class Transport {
   final String url;
-  
+
   /// Constructs a new [Transport] instance with the specified URL.
   ///
   /// The [url] parameter represents the URL for the transport connection.
@@ -27,7 +27,8 @@ abstract class Transport {
   /// The [action] parameter represents the server action to execute.
   /// The [payload] parameter contains any additional data required for the action.
   /// Returns a [ServerEvent] object representing the server's response.
-  FutureOr<Map<String, dynamic>?> execute(ServerAction action, Map<String, dynamic> payload);
+  FutureOr<Map<String, dynamic>?> execute(
+      ServerAction action, Map<String, dynamic> payload);
 
   /// Establishes a connection to the server.
   ///
