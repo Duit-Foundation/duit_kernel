@@ -1,3 +1,5 @@
+## 1.1.0
+- Semantic blocks
 ## 1.0.1
 - fix: code formation
 ## 1.0.0
