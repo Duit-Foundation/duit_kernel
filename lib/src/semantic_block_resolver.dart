@@ -24,7 +24,7 @@ abstract base class SemanticBlockResolver {
 
     final layoutType = layout!["type"];
     final widgetAttributes = attributes!["data"];
-    final attributeType = widgetAttributes["type"];
+    final attributeType = attributes["type"];
 
     if (layoutType != attributeType) {
       throw Exception("Types must be the same for merge");
