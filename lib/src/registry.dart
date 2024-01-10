@@ -1,6 +1,8 @@
+import 'package:duit_kernel/src/semantic_block_resolver.dart';
 import 'package:flutter/material.dart';
 
 import 'index.dart';
+import 'semantics_block_description.dart';
 
 /// The `ModelMapper` is a function type that maps a DUIT element to a `DUITElement`.
 ///
@@ -39,8 +41,22 @@ typedef AttributesMapper = DuitAttributes Function(
 /// The `DUITRegistry` class is responsible for registering and retrieving
 /// model mappers, renderers, and attributes mappers for custom DUIT elements.
 sealed class DuitRegistry {
+  static SemanticBlockResolver? _semanticBlockResolver;
+
+  static set semanticsLoader(SemanticBlockResolver value) {
+    _semanticBlockResolver = value;
+  }
+
   static final Map<String, (ModelMapper, Renderer, AttributesMapper)>
       _registry = {};
+
+  static Future<void> loadSemanticBlocks() async {
+    await _semanticBlockResolver?.loadSemanticBlocksDescriptions();
+  }
+
+  static SemanticBlockDescription? getSemanticBlockLayout(String tag) {
+    return _semanticBlockResolver?.getDescription(tag);
+  }
 
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
   ///
