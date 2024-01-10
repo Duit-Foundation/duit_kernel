@@ -10,3 +10,5 @@ export 'ui_driver.dart';
 export 'ui_controller.dart';
 export 'wrapper.dart';
 export 'parser.dart';
+export 'semantic_block_resolver.dart';
+export 'semantics_block_description.dart';
