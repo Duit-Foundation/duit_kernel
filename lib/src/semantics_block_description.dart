@@ -1,12 +1,12 @@
 final class SemanticBlockDescription {
   final String id;
   final String tag;
-  final Map<String, dynamic> layout;
+  final Map<String, dynamic> data;
 
   SemanticBlockDescription({
     required this.id,
     required this.tag,
-    required this.layout,
+    required this.data,
   });
   
   factory SemanticBlockDescription.fromMap(Map<String, dynamic> json) {
@@ -15,7 +15,7 @@ final class SemanticBlockDescription {
     return SemanticBlockDescription(
       id: json['id'] ?? "",
       tag: json['tag'],
-      layout: json['layout'] ?? {},
+      data: json['data'] ?? {},
     );
   }
 }

@@ -56,16 +56,6 @@ sealed class DuitRegistry {
     return _semanticBlockResolver?.getDescription(tag);
   }
 
-  static Future<Map<String, dynamic>?> merge(
-    SemanticBlockDescription description,
-    Map<String, dynamic>? attributesTree,
-  ) async {
-    return await _semanticBlockResolver?.merge(
-      description.layout,
-      attributesTree,
-    );
-  }
-
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
   ///
   /// The [key] is a unique identifier for the DUIT element.
