@@ -35,16 +35,4 @@ final class ViewAttributeWrapper<T> {
       tag,
     );
   }
-
-  static ViewAttributeWrapper<T> createAttributesWithExternalData<T>(
-    String type,
-    Map<String, dynamic>? json,
-    Map<String, dynamic> data,
-  ) {
-    return attributeParser.mergeAndParse(
-      type,
-      json,
-      data,
-    );
-  }
 }
