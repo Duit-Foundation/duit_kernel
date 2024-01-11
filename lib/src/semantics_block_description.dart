@@ -11,11 +11,11 @@ final class SemanticBlockDescription {
   
   factory SemanticBlockDescription.fromMap(Map<String, dynamic> json) {
     assert(json['tag'] != null, "Tag must be provided in semantic block description");
-    assert(json['layout'] != null, "Layout must be provided in semantic block description");
+    assert(json['layoutRoot'] != null, "Layout must be provided in semantic block description");
     return SemanticBlockDescription(
       id: json['id'] ?? "",
       tag: json['tag'],
-      data: json['data'] ?? {},
+      data: json['layoutRoot'] ?? {},
     );
   }
 }
