@@ -45,6 +45,7 @@ sealed class DuitRegistry {
 
   static final Map<String, DuitComponentDescription> _componentRegistry = {};
 
+  /// Registers a list of component descriptions.
   static registerComponents(List<Map<String, dynamic>> components) {
     for (var block in components) {
       final description = DuitComponentDescription.fromJson(block);
@@ -52,6 +53,7 @@ sealed class DuitRegistry {
     }
   }
 
+  /// Returns the component description by the specified tag.
   static DuitComponentDescription? getComponentDescription(String tag) {
     return _componentRegistry[tag];
   }
