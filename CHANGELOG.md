@@ -1,5 +1,5 @@
 ## 1.1.0
-- Semantic blocks
+- Added classes for implementing Duit components, such as DuitComponentDescription and ValueReference 
 ## 1.0.1
 - fix: code formation
 ## 1.0.0
