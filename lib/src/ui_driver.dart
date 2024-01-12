@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'index.dart';
 
-typedef TransportSpawner = Transport Function(TransportOptions options);
-
 abstract interface class UIDriver {
   /// The source url of the UI driver.
   abstract final String source;

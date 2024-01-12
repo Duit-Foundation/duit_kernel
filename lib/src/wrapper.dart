@@ -25,7 +25,14 @@ final class ViewAttributeWrapper<T> {
   /// based on the specified [type], [json], and [tag]. It returns a new instance
   /// of [ViewAttributeWrapper] with the appropriate payload type.
   static ViewAttributeWrapper<T> createAttributes<T>(
-      String type, Map<String, dynamic>? json, String? tag) {
-    return attributeParser.parse(type, json, tag);
+    String type,
+    Map<String, dynamic>? json,
+    String? tag,
+  ) {
+    return attributeParser.parse(
+      type,
+      json,
+      tag,
+    );
   }
 }
