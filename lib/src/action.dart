@@ -48,8 +48,14 @@ final class ServerAction {
   /// The event associated with the server action.
   HttpActionMetainfo? meta;
 
-  String executionType;
+  /// Event execution type
+  ///
+  /// 0 - transport
+  ///
+  /// 1 - local execution
+  int executionType;
 
+  /// Optional action payload for local execution
   Map<String, dynamic>? payload;
 
   ServerAction({
@@ -80,7 +86,7 @@ final class ServerAction {
       payload: json["payload"],
     );
   }
-  
+
   @override
   String toString() {
     return 'ServerAction{dependsOn: $dependsOn, event: $event, meta: $meta}';
