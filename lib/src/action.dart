@@ -33,6 +33,8 @@ final class ActionDependency {
   }
 }
 
+final class LocalExecutionOptions {}
+
 /// Represents a server action.
 ///
 /// The [ServerAction] class encapsulates information about a server action, including its dependencies, event, and metadata.
@@ -46,10 +48,16 @@ final class ServerAction {
   /// The event associated with the server action.
   HttpActionMetainfo? meta;
 
+  String executionType;
+
+  Map<String, dynamic>? payload;
+
   ServerAction({
     required this.event,
+    required this.executionType,
     this.dependsOn = const [],
     this.meta,
+    this.payload,
   });
 
   static ServerAction? fromJSON(Map<String, dynamic>? json) {
@@ -66,11 +74,13 @@ final class ServerAction {
 
     return ServerAction(
       event: json["event"] ?? "",
+      executionType: json["executionType"],
       dependsOn: deps,
       meta: HttpActionMetainfo.fromJson(json["meta"]),
+      payload: json["payload"],
     );
   }
-
+  
   @override
   String toString() {
     return 'ServerAction{dependsOn: $dependsOn, event: $event, meta: $meta}';
