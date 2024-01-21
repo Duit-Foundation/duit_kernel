@@ -1,4 +1,4 @@
-## 1.2.0
+## 1.1.1
 - The ServerAction model has been extended with new properties to maintain local executed actions
 ## 1.1.0
 - Added classes for implementing Duit components, such as DuitComponentDescription and ValueReference 
