@@ -13,13 +13,21 @@ final class HttpActionMetainfo {
   }
 }
 
-final class ScriptDefinition {
-  final String sourceCode;
+final class DuitScript {
+  final String sourceCode, functionName;
 
-  ScriptDefinition({required this.sourceCode});
+  DuitScript({
+    required this.sourceCode,
+    required this.functionName,
+  });
 
-  factory ScriptDefinition.fromJson(Map<String, dynamic> json) {
-    return ScriptDefinition(sourceCode: json["sourceCode"] ?? "");
+  static DuitScript? fromJson(Map<String, dynamic>? json) {
+    if (json == null) return null;
+
+    return DuitScript(
+      sourceCode: json["sourceCode"] ?? "",
+      functionName: json["functionName"] ?? "",
+    );
   }
 }
 
@@ -56,7 +64,7 @@ final class ServerAction {
   /// The event associated with the server action.
   HttpActionMetainfo? meta;
 
-  final ScriptDefinition? script;
+  final DuitScript? script;
 
   /// Event execution type
   ///
@@ -96,7 +104,7 @@ final class ServerAction {
       executionType: json["executionType"],
       dependsOn: deps,
       meta: HttpActionMetainfo.fromJson(json["meta"]),
-      script: ScriptDefinition.fromJson(json["script"]),
+      script: DuitScript.fromJson(json["script"]),
       payload: json["payload"],
     );
   }
