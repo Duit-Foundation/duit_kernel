@@ -22,6 +22,8 @@ abstract interface class UIDriver {
   @protected
   abstract StreamController<DuitAbstractTree?> streamController;
 
+  abstract ScriptRunner? scriptRunner;
+
   /// Attaches a controller to the UI driver.
   ///
   /// Parameters:

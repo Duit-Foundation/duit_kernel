@@ -13,6 +13,16 @@ final class HttpActionMetainfo {
   }
 }
 
+final class ScriptDefinition {
+  final String sourceCode;
+
+  ScriptDefinition({required this.sourceCode});
+
+  factory ScriptDefinition.fromJson(Map<String, dynamic> json) {
+    return ScriptDefinition(sourceCode: json["sourceCode"] ?? "");
+  }
+}
+
 /// Represents a dependency for a server action.
 ///
 /// The [ActionDependency] class contains information about the dependency target and ID.
@@ -33,8 +43,6 @@ final class ActionDependency {
   }
 }
 
-final class LocalExecutionOptions {}
-
 /// Represents a server action.
 ///
 /// The [ServerAction] class encapsulates information about a server action, including its dependencies, event, and metadata.
@@ -48,11 +56,15 @@ final class ServerAction {
   /// The event associated with the server action.
   HttpActionMetainfo? meta;
 
+  final ScriptDefinition? script;
+
   /// Event execution type
   ///
   /// 0 - transport
   ///
   /// 1 - local execution
+  ///
+  /// 2 - script
   int executionType;
 
   /// Optional action payload for local execution
@@ -63,6 +75,7 @@ final class ServerAction {
     required this.executionType,
     this.dependsOn = const [],
     this.meta,
+    this.script,
     this.payload,
   });
 
@@ -83,6 +96,7 @@ final class ServerAction {
       executionType: json["executionType"],
       dependsOn: deps,
       meta: HttpActionMetainfo.fromJson(json["meta"]),
+      script: ScriptDefinition.fromJson(json["script"]),
       payload: json["payload"],
     );
   }

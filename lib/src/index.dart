@@ -11,3 +11,4 @@ export 'ui_controller.dart';
 export 'wrapper.dart';
 export 'parser.dart';
 export 'value_reference.dart';
+export 'script_runner.dart';
