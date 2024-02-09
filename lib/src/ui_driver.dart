@@ -22,7 +22,7 @@ abstract interface class UIDriver {
   @protected
   abstract StreamController<DuitAbstractTree?> streamController;
 
-  abstract ScriptRunner? scriptRunner;
+  abstract DuitScriptRunner? scriptRunner;
 
   /// Attaches a controller to the UI driver.
   ///
@@ -63,6 +63,9 @@ abstract interface class UIDriver {
   /// - [action]: The server action to be executed.
   /// - [dependencies]: A list of dependencies for the server action.
   Future<void> execute(ServerAction action);
+
+  /// Evaluates a script source code.
+  Future<void> evalScript(String source);
 
   /// Disposes of the driver and releases any resources.
   ///
