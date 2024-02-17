@@ -28,7 +28,16 @@ abstract class Transport {
   /// The [payload] parameter contains any additional data required for the action.
   /// Returns a [ServerEvent] object representing the server's response.
   FutureOr<Map<String, dynamic>?> execute(
-      ServerAction action, Map<String, dynamic> payload);
+    ServerAction action,
+    Map<String, dynamic> payload,
+  );
+
+  /// Sends a request to the server.
+  FutureOr<Map<String, dynamic>?> request(
+    String url,
+    Map<String, dynamic> meta,
+    Map<String, dynamic> body,
+  );
 
   /// Establishes a connection to the server.
   ///
