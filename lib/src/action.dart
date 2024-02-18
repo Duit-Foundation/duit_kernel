@@ -15,10 +15,12 @@ final class HttpActionMetainfo {
 
 final class DuitScript {
   final String sourceCode, functionName;
+  final Map<String, dynamic>? meta;
 
   DuitScript({
     required this.sourceCode,
     required this.functionName,
+    required this.meta,
   });
 
   static DuitScript? fromJson(Map<String, dynamic>? json) {
@@ -27,6 +29,7 @@ final class DuitScript {
     return DuitScript(
       sourceCode: json["sourceCode"] ?? "",
       functionName: json["functionName"] ?? "",
+      meta: json["meta"],
     );
   }
 }
