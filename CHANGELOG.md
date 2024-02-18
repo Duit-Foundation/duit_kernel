@@ -1,3 +1,5 @@
+## 1.2.1
+- Added meta property to script model
 ## 1.2.0
 - Added base classes for scripting implementation
 ## 1.1.1
