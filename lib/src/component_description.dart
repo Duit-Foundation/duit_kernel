@@ -29,7 +29,7 @@ final class DuitComponentDescription {
     return DuitComponentDescription(
       tag: json['tag'],
       data: root,
-      referencePaths: _extractRefPaths(root),
+      referencePaths: [],
     );
   }
 }
