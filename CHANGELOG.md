@@ -1,3 +1,7 @@
+## 1.2.3
+
+- Removed ref paths extraction
+
 ## 1.2.2
 
 - Updated DuitComponentDescription model. Added a property containing paths to refs properties in
