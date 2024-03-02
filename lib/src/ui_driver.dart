@@ -22,7 +22,14 @@ abstract interface class UIDriver {
   @protected
   abstract StreamController<DuitAbstractTree?> streamController;
 
+  /// The script runner used by the UI driver.
   abstract DuitScriptRunner? scriptRunner;
+
+  /// The worker pool used by the UI driver.
+  abstract WorkerPool? workerPool;
+
+  /// The concurrent mode enabled for the UI driver.
+  abstract bool concurrentModeEnabled;
 
   /// Attaches a controller to the UI driver.
   ///

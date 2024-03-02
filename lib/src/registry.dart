@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'index.dart';
-import 'component_description.dart';
 
 /// The `ModelMapper` is a function type that maps a DUIT element to a `DUITElement`.
 ///
@@ -40,6 +39,7 @@ typedef AttributesMapper = DuitAttributes Function(
 /// The `DUITRegistry` class is responsible for registering and retrieving
 /// model mappers, renderers, and attributes mappers for custom DUIT elements.
 sealed class DuitRegistry {
+  static late final WorkerPool? _workerPool;
   static final Map<String, (ModelMapper, Renderer, AttributesMapper)>
       _registry = {};
 
@@ -93,4 +93,10 @@ sealed class DuitRegistry {
   static AttributesMapper? getAttributesMapper(String key) {
     return _registry[key]?.$3;
   }
+
+  static void registerWorkerPool(WorkerPool workerPool) {
+    _workerPool = workerPool;
+  }
+
+  static WorkerPool? workerPool() => _workerPool;
 }
