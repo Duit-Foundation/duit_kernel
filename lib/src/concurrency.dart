@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 
 ///An object used for basic configuration of a [WorkerPool]
 base class WorkerPoolConfiguration {
@@ -18,15 +19,14 @@ base class Task {
   ///The payload of the task
   final dynamic payload;
 
-  ///The id of the task
-  late final int taskId;
+  late final Capability cap;
 
   Task({
     required this.key,
     required this.payload,
   });
 
-  void setTaskId(int id) => taskId = id;
+  void setCapability(Capability c) => cap = c;
 }
 
 ///Base class for all worker pools
