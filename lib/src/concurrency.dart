@@ -11,19 +11,22 @@ base class WorkerPoolConfiguration {
 base class Task {
   final String key;
   final dynamic payload;
+  late final int _taskId;
 
   Task({
     required this.key,
     required this.payload,
   });
+
+  set taskId(int taskId) => this.taskId = taskId;
+
+  int get id => _taskId;
 }
 
 abstract class WorkerPool {
-  Future<void> init();
-
   Future<void> initWithConfiguration(WorkerPoolConfiguration policy);
 
-  Future<Object?> run(Task task);
+  Future<Object?> perform(Task task);
 
   void dispose();
 }
