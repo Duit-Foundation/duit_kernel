@@ -19,16 +19,14 @@ base class Task {
   final dynamic payload;
 
   ///The id of the task
-  late final int _taskId;
+  late final int taskId;
 
   Task({
     required this.key,
     required this.payload,
   });
 
-  set taskId(int taskId) => this.taskId = taskId;
-
-  int get id => _taskId;
+  void setTaskId(int id) => taskId = id;
 }
 
 ///Base class for all worker pools
