@@ -44,7 +44,7 @@ abstract base class WorkerPool {
   Future<void> initWithConfiguration(WorkerPoolConfiguration configuration);
 
   ///Performs the task
-  Future<TaskResult> perform(Task task);
+  Future<TaskResult> perform(TaskOperation func, dynamic payload);
 
   ///Disposes the workers in pool
   void dispose();
