@@ -12,3 +12,5 @@ export 'wrapper.dart';
 export 'parser.dart';
 export 'value_reference.dart';
 export 'script_runner.dart';
+export 'concurrency.dart';
+export 'component_description.dart';

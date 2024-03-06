@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'action.dart';
+import 'package:duit_kernel/duit_kernel.dart';
 
 /// Base class for transport implementations.
 ///
@@ -16,11 +16,15 @@ import 'action.dart';
 /// ```
 abstract class Transport {
   final String url;
+  final WorkerPool? workerPool;
 
   /// Constructs a new [Transport] instance with the specified URL.
   ///
   /// The [url] parameter represents the URL for the transport connection.
-  Transport(this.url);
+  Transport(
+    this.url, {
+    this.workerPool,
+  });
 
   /// Executes a server action with the given payload and returns a server event.
   ///
