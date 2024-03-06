@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Added experimental concurrent mode
+
 ## 1.2.3
 
 - Removed ref paths extraction
