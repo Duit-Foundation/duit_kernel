@@ -41,6 +41,12 @@ abstract interface class UIDriver {
   /// - [controller]: The UI element controller to attach.
   void attachController(String id, UIElementController controller);
 
+  /// Detaches a controller from the UI driver.
+  void detachController(String id);
+
+  /// Gets the controller associated with the given ID.
+  UIElementController? getController(String id);
+
   /// Initializes the UI driver.
   ///
   /// This method initializes the UI driver by performing any necessary setup or
