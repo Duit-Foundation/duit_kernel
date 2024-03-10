@@ -50,9 +50,9 @@ abstract interface class UIElementController<T> {
   /// This method is called to perform the passed action.
   void performAction(ServerAction? action);
 
-  void performRelatedActionAsync();
+  Future<void> performRelatedActionAsync();
 
-  void performActionAsync(ServerAction? action);
+  Future<void> performActionAsync(ServerAction? action);
 
   /// Update the state.
   ///
