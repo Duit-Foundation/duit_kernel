@@ -1,3 +1,7 @@
+## 1.4.0
+
+- New methods for driver, controller and tree models
+
 ## 1.3.0
 
 - Added experimental concurrent mode
