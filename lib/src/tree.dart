@@ -32,6 +32,8 @@ abstract class DuitAbstractTree {
   /// Returns a future that completes with the parsed [DuitAbstractTree] instance.
   Future<DuitAbstractTree> parse();
 
+  DuitAbstractTree parseSync();
+
   /// Renders the DUIT element tree to a Flutter widget.
   ///
   /// Returns the rendered Flutter widget.

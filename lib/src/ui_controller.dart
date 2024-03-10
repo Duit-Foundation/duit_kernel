@@ -50,6 +50,10 @@ abstract interface class UIElementController<T> {
   /// This method is called to perform the passed action.
   void performAction(ServerAction? action);
 
+  void performRelatedActionAsync();
+
+  void performActionAsync(ServerAction? action);
+
   /// Update the state.
   ///
   /// This method is called to update the state of the UI element associated with the controller.
