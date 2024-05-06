@@ -1,3 +1,7 @@
+## 1.4.1
+
+- Added id property for attribute objects
+
 ## 1.4.0
 
 - New methods for driver, controller and tree models
