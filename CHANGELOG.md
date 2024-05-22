@@ -1,6 +1,12 @@
 ## 2.0.0
 
-- Transport API was been modified. Transport.connect method can receive initial request data parameter.
+- Transport API was been modified. Transport.connect method can receive initial request data
+  parameter.
+- Modified project structure
+- Rename some structures: ModelMapper => ModelFactory, AttributesMapper => AttributesFactory,
+  Renderer => BuildFactory, ViewAttributesWrapper => ViewAttribute;
+- Added AnimatedPropertyOwner class for describe animations
+- Removed unused extensions and dead-code
 
 ## 1.4.1
 

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'index.dart';
+import '../index.dart';
 
 /// Base class for ViewController objects.
 ///
@@ -11,7 +11,7 @@ abstract interface class UIElementController<T> {
   ///
   /// The [attributes] property holds the typed attributes object associated with the controller.
   /// It provides access to the view properties and allows manipulation of their values.
-  abstract ViewAttributeWrapper<T>? attributes;
+  abstract ViewAttribute<T>? attributes;
 
   /// Id for current controller, same with [DUITElement] id.
   abstract String id;
@@ -58,7 +58,7 @@ abstract interface class UIElementController<T> {
   ///
   /// This method is called to update the state of the UI element associated with the controller.
   /// It takes a [newState] parameter of type [ViewAttributeWrapper<T>] that represents the new state.
-  void updateState(ViewAttributeWrapper<T> newState);
+  void updateState(ViewAttribute<T> newState);
 
   /// Add a listener to [ChangeNotifier].
   ///

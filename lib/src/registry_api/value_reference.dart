@@ -1,4 +1,4 @@
-class ValueReference {
+final class ValueReference {
   String objectKey, attributeKey;
 
   ValueReference({

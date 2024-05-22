@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'index.dart';
+import '../index.dart';
 
 abstract base class TreeElement<T> {
   final String id;
@@ -10,7 +10,7 @@ abstract base class TreeElement<T> {
   final bool controlled;
   final String? tag;
   abstract UIElementController<T>? viewController;
-  abstract ViewAttributeWrapper<T>? attributes;
+  abstract ViewAttribute<T>? attributes;
 
   TreeElement({
     required this.type,

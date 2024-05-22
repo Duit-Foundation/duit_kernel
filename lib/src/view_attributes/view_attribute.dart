@@ -1,10 +1,10 @@
-import 'index.dart';
+import '../index.dart';
 
 /// Represents a wrapper for view attributes.
 ///
-/// The [ViewAttributeWrapper] class is used to wrap view attributes,
+/// The [ViewAttribute] class is used to wrap view attributes,
 /// providing a convenient way to access and manipulate them.
-final class ViewAttributeWrapper<T> {
+final class ViewAttribute<T> {
   /// The unique identifier of the view.
   final String id;
 
@@ -15,20 +15,20 @@ final class ViewAttributeWrapper<T> {
 
   static late AttributeParserBase attributeParser;
 
-  /// Creates a new instance of the [ViewAttributeWrapper] class.
+  /// Creates a new instance of the [ViewAttribute] class.
   ///
   /// The [payload] parameter is the initial value of the view attribute.
-  ViewAttributeWrapper({
+  ViewAttribute({
     required this.payload,
     required this.id,
   });
 
-  /// Creates a new [ViewAttributeWrapper] from the given [type], [json], and [tag].
+  /// Creates a new [ViewAttribute] from the given [type], [json], and [tag].
   ///
-  /// This factory method is used to create a [ViewAttributeWrapper] instance
+  /// This factory method is used to create a [ViewAttribute] instance
   /// based on the specified [type], [json], and [tag]. It returns a new instance
-  /// of [ViewAttributeWrapper] with the appropriate payload type.
-  static ViewAttributeWrapper<T> createAttributes<T>(
+  /// of [ViewAttribute] with the appropriate payload type.
+  static ViewAttribute<T> createAttributes<T>(
     String type,
     Map<String, dynamic>? json,
     String? tag, {
