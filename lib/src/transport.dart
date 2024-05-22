@@ -46,7 +46,9 @@ abstract class Transport {
   /// Establishes a connection to the server.
   ///
   /// Returns a [Future] that completes when the connection is established.
-  Future<Map<String, dynamic>?> connect();
+  Future<Map<String, dynamic>?> connect({
+    Map<String, dynamic>? initialData,
+  });
 
   /// Disposes of any resources associated with the transport.
   ///

@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Transport API was been modified. Transport.connect method can receive initial request data parameter.
+
 ## 1.4.1
 
 - Added id property for attribute objects
