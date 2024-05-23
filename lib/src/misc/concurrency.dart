@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:isolate';
 
-typedef TaskOperation = dynamic Function(dynamic params);
+///The task handler
+typedef TaskHandler = dynamic Function(dynamic params);
 
 ///An object used for basic configuration of a [WorkerPool]
 base class WorkerPoolConfiguration {
@@ -15,7 +16,7 @@ base class WorkerPoolConfiguration {
 
 ///Base class for all Task objects executed by workers
 final class Task {
-  final TaskOperation func;
+  final TaskHandler func;
 
   ///The payload of the task
   final dynamic payload;
@@ -28,6 +29,7 @@ final class Task {
   });
 }
 
+///The result of a task executed by workers
 final class TaskResult {
   final dynamic result;
   final Capability cap;
@@ -44,7 +46,7 @@ abstract base class WorkerPool {
   Future<void> initWithConfiguration(WorkerPoolConfiguration configuration);
 
   ///Performs the task
-  Future<TaskResult> perform(TaskOperation func, dynamic payload);
+  Future<TaskResult> perform(TaskHandler func, dynamic payload);
 
   ///Disposes the workers in pool
   void dispose();

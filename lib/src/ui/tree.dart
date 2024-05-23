@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'index.dart';
+import '../index.dart';
 
 /// Represents an abstract tree structure for rendering DUIT elements.
 ///
@@ -32,6 +32,9 @@ abstract class DuitAbstractTree {
   /// Returns a future that completes with the parsed [DuitAbstractTree] instance.
   Future<DuitAbstractTree> parse();
 
+  /// Parses the JSON object to create a [DuitElement] object tree.
+  ///
+  /// Returns a future that completes with the parsed [DuitAbstractTree] instance.
   DuitAbstractTree parseSync();
 
   /// Renders the DUIT element tree to a Flutter widget.

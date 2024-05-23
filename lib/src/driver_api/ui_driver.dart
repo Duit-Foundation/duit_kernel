@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'index.dart';
+import '../index.dart';
 
 abstract interface class UIDriver {
   /// The source url of the UI driver.

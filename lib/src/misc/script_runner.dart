@@ -1,4 +1,4 @@
-import 'index.dart';
+import '../index.dart';
 
 ///The base class required to implement a script runner
 abstract base class DuitScriptRunner<TOptions> {

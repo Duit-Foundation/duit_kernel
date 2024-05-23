@@ -1,4 +1,6 @@
-class ValueReference {
+///A class representing a data model that
+///can be used to merge with a component description
+final class ValueReference {
   String objectKey, attributeKey;
 
   ValueReference({

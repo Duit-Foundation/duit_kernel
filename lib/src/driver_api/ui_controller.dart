@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'index.dart';
+import '../index.dart';
 
 /// Base class for ViewController objects.
 ///
@@ -11,9 +11,9 @@ abstract interface class UIElementController<T> {
   ///
   /// The [attributes] property holds the typed attributes object associated with the controller.
   /// It provides access to the view properties and allows manipulation of their values.
-  abstract ViewAttributeWrapper<T>? attributes;
+  abstract ViewAttribute<T>? attributes;
 
-  /// Id for current controller, same with [DUITElement] id.
+  /// Id for current controller, same with [TreeElement] id.
   abstract String id;
 
   /// Element type.
@@ -28,9 +28,9 @@ abstract interface class UIElementController<T> {
   /// It can be used to perform an action when the UI element is interacted with.
   abstract ServerAction? action;
 
-  /// Reference to the [DuitDriver] instance.
+  /// Reference to the [UIDriver] instance.
   ///
-  /// The [driver] property represents a reference to the [DuitDriver] instance
+  /// The [driver] property represents a reference to the [UIDriver] instance
   /// that is responsible for driving the UI elements.
   abstract UIDriver driver;
 
@@ -50,15 +50,17 @@ abstract interface class UIElementController<T> {
   /// This method is called to perform the passed action.
   void performAction(ServerAction? action);
 
+  /// Perform the related action asynchronously.
   Future<void> performRelatedActionAsync();
 
+  /// Perform the passed action asynchronously.
   Future<void> performActionAsync(ServerAction? action);
 
   /// Update the state.
   ///
   /// This method is called to update the state of the UI element associated with the controller.
   /// It takes a [newState] parameter of type [ViewAttributeWrapper<T>] that represents the new state.
-  void updateState(ViewAttributeWrapper<T> newState);
+  void updateState(ViewAttribute<T> newState);
 
   /// Add a listener to [ChangeNotifier].
   ///

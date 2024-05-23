@@ -59,13 +59,13 @@ final class ActionDependency {
 /// The [ServerAction] class encapsulates information about a server action, including its dependencies, event, and metadata.
 final class ServerAction {
   /// The list of dependencies for the server action.
-  List<ActionDependency> dependsOn;
+  final List<ActionDependency> dependsOn;
 
   /// The event associated with the server action.
-  String event;
+  final String event;
 
   /// The event associated with the server action.
-  HttpActionMetainfo? meta;
+  final HttpActionMetainfo? meta;
 
   final DuitScript? script;
 
@@ -76,10 +76,10 @@ final class ServerAction {
   /// 1 - local execution
   ///
   /// 2 - script
-  int executionType;
+  final int executionType;
 
   /// Optional action payload for local execution
-  Map<String, dynamic>? payload;
+  final Map<String, dynamic>? payload;
 
   ServerAction({
     required this.event,
@@ -90,10 +90,8 @@ final class ServerAction {
     this.payload,
   });
 
-  static ServerAction? fromJSON(Map<String, dynamic>? json) {
-    if (json == null) return null;
-
-    List<ActionDependency> deps = [];
+  factory ServerAction.fromJson(Map<String, dynamic> json) {
+    final List<ActionDependency> deps = [];
 
     if (json["dependsOn"] != null) {
       json["dependsOn"].forEach((el) {
@@ -110,10 +108,5 @@ final class ServerAction {
       script: DuitScript.fromJson(json["script"]),
       payload: json["payload"],
     );
-  }
-
-  @override
-  String toString() {
-    return 'ServerAction{dependsOn: $dependsOn, event: $event, meta: $meta}';
   }
 }
