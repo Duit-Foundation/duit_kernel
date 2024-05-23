@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+///The task handler
 typedef TaskHandler = dynamic Function(dynamic params);
 
 ///An object used for basic configuration of a [WorkerPool]
@@ -28,6 +29,7 @@ final class Task {
   });
 }
 
+///The result of a task executed by workers
 final class TaskResult {
   final dynamic result;
   final Capability cap;

@@ -1,6 +1,6 @@
 import 'package:duit_kernel/duit_kernel.dart';
 
-/// The `AttributesMapper` is a function type that maps the attributes of a DUIT element to `DUITAttributes`.
+/// The [AttributesFactory] is a function type that maps the attributes of a DUIT element to [ViewAttribute].
 ///
 /// The function takes in the following parameters:
 /// - [type]: The type of the DUIT element.

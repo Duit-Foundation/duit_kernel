@@ -1,6 +1,8 @@
-/// DUITAttributes is an abstract interface that defines the contract for attribute classes in the DUIT library.
+/// [DuitAttributes] is an abstract interface that defines the contract for attribute classes in the DUIT library.
 ///
-/// It provides a `copyWith` method that allows creating a copy of an attribute object with updated values.
+/// It provides a `copyWith` method that allows creating a copy
+/// of an attribute object with updated values and a `dispatchInternalCall` method for calling
+/// private methods or methods not included in the common interface through binding in siblings.
 abstract interface class DuitAttributes<T> {
   /// Creates a copy of an attribute object with updated values.
   T copyWith(T other);

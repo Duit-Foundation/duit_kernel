@@ -1,6 +1,6 @@
 import 'package:duit_kernel/duit_kernel.dart';
 
-/// The `ModelMapper` is a function type that maps a DUIT element to a `DUITElement`.
+/// The [ModelFactory] is a function type that maps a DUIT element to a [TreeElement].
 ///
 /// The function takes in the following parameters:
 /// - [id]: The unique identifier of the DUIT element.

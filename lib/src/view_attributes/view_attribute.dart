@@ -38,13 +38,13 @@ final class ViewAttribute<T> {
   /// This factory method is used to create a [ViewAttribute] instance
   /// based on the specified [type], [json], and [tag]. It returns a new instance
   /// of [ViewAttribute] with the appropriate payload type.
-  static ViewAttribute<T> createAttributes<T>(
+  static ViewAttribute<R> createAttributes<R>(
     String type,
     Map<String, dynamic>? json,
     String? tag, {
     String? id,
   }) {
-    return attributeParser.parse(
+    return attributeParser.parse<R>(
       type,
       json,
       tag,

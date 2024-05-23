@@ -13,7 +13,7 @@ abstract interface class UIElementController<T> {
   /// It provides access to the view properties and allows manipulation of their values.
   abstract ViewAttribute<T>? attributes;
 
-  /// Id for current controller, same with [DUITElement] id.
+  /// Id for current controller, same with [TreeElement] id.
   abstract String id;
 
   /// Element type.
@@ -28,9 +28,9 @@ abstract interface class UIElementController<T> {
   /// It can be used to perform an action when the UI element is interacted with.
   abstract ServerAction? action;
 
-  /// Reference to the [DuitDriver] instance.
+  /// Reference to the [UIDriver] instance.
   ///
-  /// The [driver] property represents a reference to the [DuitDriver] instance
+  /// The [driver] property represents a reference to the [UIDriver] instance
   /// that is responsible for driving the UI elements.
   abstract UIDriver driver;
 
@@ -50,8 +50,10 @@ abstract interface class UIElementController<T> {
   /// This method is called to perform the passed action.
   void performAction(ServerAction? action);
 
+  /// Perform the related action asynchronously.
   Future<void> performRelatedActionAsync();
 
+  /// Perform the passed action asynchronously.
   Future<void> performActionAsync(ServerAction? action);
 
   /// Update the state.

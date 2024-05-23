@@ -1,7 +1,7 @@
 import '../index.dart';
 
 ///A class that defines methods for implementation in the parser on the framework side
-abstract class AttributeParserBase {
+abstract interface class AttributeParserBase {
   ViewAttribute<T> parse<T>(
     String type,
     Map<String, dynamic>? json,

@@ -2,8 +2,8 @@ import 'package:duit_kernel/duit_kernel.dart';
 
 import 'factory_set.dart';
 
-/// The `DUITRegistry` class is responsible for registering and retrieving
-/// model mappers, renderers, and attributes mappers for custom DUIT elements.
+/// The [DuitRegistry] class is responsible for registering and retrieving
+/// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
   static late final WorkerPool? _workerPool;
   static final Map<String, FactoryRecord> _registry = {};
@@ -25,20 +25,23 @@ sealed class DuitRegistry {
 
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
   ///
-  /// The [key] is a unique identifier for the DUIT element.
-  /// The [modelMapper] is a function that maps the DUIT element to a `DUITElement`.
-  /// The [renderer] is a function that returns the widget representation of the `DUITElement`.
-  /// The [attributesMapper] is a function that maps the attributes of the DUIT element to `DUITAttributes`.
+  /// - The [key] is a unique identifier for the DUIT element.
+  ///
+  /// - The [modelFactory] is a function that maps the DUIT element to a [TreeElement].
+  ///
+  /// - The [buildFactory] is a function that returns the [Widget] representation of the [TreeElement].
+  ///
+  /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
   static void register(
-    String key,
-    ModelFactory modelMapper,
-    BuildFactory renderer,
-    AttributesFactory attributesMapper,
-  ) {
+    String key, {
+    required ModelFactory modelFactory,
+    required BuildFactory buildFactory,
+    required AttributesFactory attributesFactory,
+  }) {
     _registry[key] = (
-      attributesFactory: attributesMapper,
-      modelFactory: modelMapper,
-      buildFactory: renderer,
+      attributesFactory: attributesFactory,
+      modelFactory: modelFactory,
+      buildFactory: buildFactory,
     );
   }
 
@@ -63,9 +66,11 @@ sealed class DuitRegistry {
     return _registry[key]?.attributesFactory;
   }
 
+  ///Static set function for worker pool
   static void registerWorkerPool(WorkerPool workerPool) {
     _workerPool = workerPool;
   }
 
+  ///Static get function for worker pool
   static WorkerPool? workerPool() => _workerPool;
 }
