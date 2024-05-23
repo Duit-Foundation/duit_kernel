@@ -5,6 +5,8 @@ import '../index.dart';
 /// The [ViewAttribute] class is used to wrap view attributes,
 /// providing a convenient way to access and manipulate them.
 final class ViewAttribute<T> {
+  static late AttributeParserBase attributeParser;
+
   /// The unique identifier of the view.
   final String id;
 
@@ -13,8 +15,6 @@ final class ViewAttribute<T> {
   /// Use the [payload] property to access or modify the value of the view attribute.
   final T payload;
 
-  static late AttributeParserBase attributeParser;
-
   /// Creates a new instance of the [ViewAttribute] class.
   ///
   /// The [payload] parameter is the initial value of the view attribute.
@@ -22,6 +22,16 @@ final class ViewAttribute<T> {
     required this.payload,
     required this.id,
   });
+
+  /// Casts the view attribute payload to the specified type.
+  ///
+  /// Return new instance of [ViewAttribute] with new payload type and same data.
+  ViewAttribute<R> cast<R>() {
+    return ViewAttribute<R>(
+      id: id,
+      payload: payload as R,
+    );
+  }
 
   /// Creates a new [ViewAttribute] from the given [type], [json], and [tag].
   ///
