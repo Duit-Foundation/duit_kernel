@@ -7,8 +7,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// - [json]: The JSON object representing the attributes of the DUIT element.
 ///
 /// It returns a `DUITAttributes` object that represents the mapped attributes.
-typedef AttributesFactory<T extends DuitAttributes> = DuitAttributes<T>
-    Function(
+typedef AttributesFactory = DuitAttributes Function(
   String type,
   Map<String, dynamic>? json,
 );
