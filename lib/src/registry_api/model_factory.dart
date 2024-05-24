@@ -9,9 +9,9 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// - [controller]: An optional UI element controller.
 ///
 /// It returns a `DUITElement` that represents the mapped DUIT element.
-typedef ModelFactory<T extends DuitAttributes> = TreeElement<T> Function(
+typedef ModelFactory = TreeElement Function(
   String id,
   bool controlled,
-  ViewAttribute<T> attributes,
-  UIElementController<T>? controller,
+  ViewAttribute attributes,
+  UIElementController? controller,
 );
