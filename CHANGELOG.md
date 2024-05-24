@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Fixed a bug with generic factory types 
+
 ## 2.0.0
 
 - Transport API was been modified. Transport.connect method can receive initial request data
