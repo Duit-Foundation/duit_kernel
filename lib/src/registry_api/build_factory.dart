@@ -7,6 +7,6 @@ import 'package:flutter/material.dart' show Widget;
 /// - [model]: The `DUITElement` to be rendered.
 ///
 /// It returns a `Widget` that represents the rendered `DUITElement`.
-typedef BuildFactory<T extends DuitAttributes> = Widget Function(
-  TreeElement<T> model,
+typedef BuildFactory = Widget Function(
+  TreeElement model,
 );

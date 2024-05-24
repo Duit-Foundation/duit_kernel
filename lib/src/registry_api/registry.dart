@@ -1,6 +1,6 @@
 import 'package:duit_kernel/duit_kernel.dart';
 
-import 'factory_set.dart';
+import 'factory_record.dart';
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
@@ -45,24 +45,24 @@ sealed class DuitRegistry {
     );
   }
 
-  /// Returns the model mapper registered with the specified [key].
+  /// Returns the model factory registered with the specified [key].
   ///
   /// Returns `null` if the specified [key] is not registered.
-  static ModelFactory? getModelMapper(String key) {
+  static ModelFactory? getModelFactory(String key) {
     return _registry[key]?.modelFactory;
   }
 
-  /// Returns the renderer registered with the specified [key].
+  /// Returns the build factory registered with the specified [key].
   ///
   /// Returns `null` if the specified [key] is not registered.
-  static BuildFactory? getRenderer(String key) {
+  static BuildFactory? getBuildFactory(String key) {
     return _registry[key]?.buildFactory;
   }
 
-  /// Returns the attributes mapper registered with the specified [key].
+  /// Returns the attributes factory registered with the specified [key].
   ///
   /// Returns `null` if the specified [key] is not registered.
-  static AttributesFactory? getAttributesMapper(String key) {
+  static AttributesFactory? getAttributesFactory(String key) {
     return _registry[key]?.attributesFactory;
   }
 

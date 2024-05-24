@@ -2,9 +2,9 @@
 ///
 /// Adds the necessary properties for correct
 /// handling of attribute changes during animation
-base class AnimatedPropertyOwner<T> {
+base class AnimatedPropertyOwner {
   /// A set of property names that should be animated.
-  final Set<String>? affectedProperties;
+  final Iterable<String>? affectedProperties;
 
   /// ID of parent builder instance
   ///
