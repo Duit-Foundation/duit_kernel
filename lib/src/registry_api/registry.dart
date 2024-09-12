@@ -1,4 +1,5 @@
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/misc/metrics_collector.dart';
 
 import 'factory_record.dart';
 
@@ -6,6 +7,7 @@ import 'factory_record.dart';
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
   static late final WorkerPool? _workerPool;
+  static late final MetricsCollector _collector;
   static final Map<String, FactoryRecord> _registry = {};
 
   static final Map<String, DuitComponentDescription> _componentRegistry = {};
@@ -71,6 +73,12 @@ sealed class DuitRegistry {
     _workerPool = workerPool;
   }
 
+  static void registerMetricsCollector(MetricsCollector collector) {
+    _collector = collector;
+  }
+
   ///Static get function for worker pool
   static WorkerPool? workerPool() => _workerPool;
+
+  static MetricsCollector? metricsCollector() => _collector;
 }

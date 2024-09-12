@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:duit_kernel/src/misc/metrics_collector.dart';
 import 'package:flutter/material.dart';
 
 import '../index.dart';
@@ -27,6 +28,8 @@ abstract interface class UIDriver {
 
   /// The worker pool used by the UI driver.
   abstract WorkerPool? workerPool;
+
+  abstract MetricsCollector? metricsCollector;
 
   /// The worker pool configuration used by the UI driver.
   abstract WorkerPoolConfiguration? workerPoolConfiguration;
