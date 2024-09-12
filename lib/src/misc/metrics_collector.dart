@@ -3,5 +3,7 @@ abstract interface class MetricsCollector<TOptions> {
 
   Future<MetricsCollector> init(TOptions options);
 
-  Future<void> sendEvent();
+  Future<void> sendEvent<T>(T event);
+
+  void dispose();
 }
