@@ -1,7 +1,7 @@
 import 'package:duit_kernel/duit_kernel.dart';
 
 final class RefWithTarget {
-  final Object target;
+  final Map<String, dynamic> target;
   final ValueReference ref;
 
   RefWithTarget({
