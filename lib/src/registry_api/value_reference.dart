@@ -2,16 +2,19 @@
 ///can be used to merge with a component description
 final class ValueReference {
   String objectKey, attributeKey;
+  Object? defaultValue;
 
   ValueReference({
     required this.objectKey,
     required this.attributeKey,
+    this.defaultValue,
   });
 
   factory ValueReference.fromJson(Map<String, dynamic> json) {
     return ValueReference(
       objectKey: json['objectKey'],
       attributeKey: json['attributeKey'],
+      defaultValue: json['defaultValue'],
     );
   }
 }
