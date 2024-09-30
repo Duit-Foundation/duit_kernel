@@ -1,6 +1,10 @@
+## 2.1.0
+
+- Implemented preliminary preparation of component layouts
+
 ## 2.0.1
 
-- Fixed a bug with generic factory types 
+- Fixed a bug with generic factory types
 
 ## 2.0.0
 
