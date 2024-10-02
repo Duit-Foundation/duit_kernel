@@ -48,6 +48,7 @@ final class ViewAttribute<T> {
       type,
       json,
       tag,
+      id: id,
     );
   }
 }
