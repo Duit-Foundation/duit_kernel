@@ -38,7 +38,10 @@ final class DuitScript {
 ///
 /// The [ActionDependency] class contains information about the dependency target and ID.
 final class ActionDependency {
+  /// The ID of the dependency.
   String id;
+
+  /// Name of the target property at resulting object.
   String target;
 
   ActionDependency({
@@ -46,6 +49,7 @@ final class ActionDependency {
     required this.id,
   });
 
+  /// Creates an instance of [ActionDependency] from a JSON map.
   factory ActionDependency.fromJSON(Map<String, dynamic> json) {
     return ActionDependency(
       target: json["target"],
