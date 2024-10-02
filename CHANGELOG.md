@@ -1,3 +1,7 @@
+## 2.1.1
+
+- Fixed a problem with passing the ID parameter to the attribute parser
+
 ## 2.1.0
 
 - Implemented preliminary preparation of component layouts
