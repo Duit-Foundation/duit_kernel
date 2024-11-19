@@ -11,7 +11,7 @@ abstract interface class UIElementController<T> {
   ///
   /// The [attributes] property holds the typed attributes object associated with the controller.
   /// It provides access to the view properties and allows manipulation of their values.
-  abstract ViewAttribute<T>? attributes;
+  abstract ViewAttribute<T> attributes;
 
   /// Id for current controller, same with [TreeElement] id.
   abstract String id;
@@ -68,10 +68,10 @@ abstract interface class UIElementController<T> {
   /// It takes a [listener] parameter of type [VoidCallback] that represents the listener function.
   void addListener(VoidCallback listener);
 
-  /// Dispose the [ChangeNotifier].
+  /// Detach current controller from the driver.
   ///
-  /// This method is called to dispose the controller and release any resources associated with it.
-  void dispose();
+  ///The method does not cause ChangeNotifier subscriptions to be destroyed prematurely
+  void detach();
 
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);
