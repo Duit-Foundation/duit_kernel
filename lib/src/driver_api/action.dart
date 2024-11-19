@@ -1,6 +1,5 @@
 import 'package:duit_kernel/src/driver_api/dependency.dart';
 import 'package:duit_kernel/src/driver_api/event.dart';
-import 'package:duit_kernel/src/driver_api/parser.dart';
 
 /// Represents the metadata for an HTTP action.
 ///
@@ -10,9 +9,7 @@ final class HttpActionMetainfo {
 
   HttpActionMetainfo({required this.method});
 
-  static HttpActionMetainfo? fromJson(Map<String, dynamic>? json) {
-    if (json == null) return null;
-
+  static HttpActionMetainfo fromJson(Map<String, dynamic> json) {
     return HttpActionMetainfo(method: json["method"] ?? "GET");
   }
 }
@@ -78,6 +75,16 @@ extension type ActionJsonView(Map<String, dynamic> json) {
     return DuitScript.fromJson(json["script"]);
   }
 
+  HttpActionMetainfo? get meta {
+    final hasProperty = json.containsKey("meta");
+
+    if (hasProperty) {
+      return HttpActionMetainfo.fromJson(json["meta"]);
+    } else {
+      return null;
+    }
+  }
+
   int get executionType {
     final hasProperty = json.containsKey("executionType");
     if (hasProperty) {
@@ -88,7 +95,7 @@ extension type ActionJsonView(Map<String, dynamic> json) {
   }
 }
 
-base class ServerAction implements Parser<ServerAction> {
+base class ServerAction {
   /// The list of dependencies for the server action.
   final Iterable<ActionDependency> dependsOn;
 
@@ -110,8 +117,7 @@ base class ServerAction implements Parser<ServerAction> {
     this.dependsOn = const [],
   });
 
-  @override
-  ServerAction parse(Map<String, dynamic> json) {
+  static ServerAction parse(Map<String, dynamic> json) {
     final view = ActionJsonView(json);
 
     return switch (view.executionType) {
@@ -142,13 +148,18 @@ final class LocalAction extends ServerAction {
 abstract interface class DependentAction {
   final Iterable<ActionDependency> dependsOn;
 
-  DependentAction({required this.dependsOn});
+  DependentAction({
+    required this.dependsOn,
+  });
 }
 
 final class TransportAction extends ServerAction implements DependentAction {
+  final HttpActionMetainfo? meta;
+
   TransportAction({
     required super.eventName,
     required super.dependsOn,
+    this.meta,
   }) : super(
           executionType: 0,
         );
@@ -159,6 +170,7 @@ final class TransportAction extends ServerAction implements DependentAction {
     return TransportAction(
       eventName: view.eventName,
       dependsOn: view.dependsOn,
+      meta: view.meta,
     );
   }
 }

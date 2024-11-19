@@ -5,7 +5,6 @@ import 'factory_record.dart';
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static late final WorkerPool? _workerPool;
   static final Map<String, FactoryRecord> _registry = {};
 
   static final Map<String, DuitComponentDescription> _componentRegistry = {};
@@ -65,12 +64,4 @@ sealed class DuitRegistry {
   static AttributesFactory? getAttributesFactory(String key) {
     return _registry[key]?.attributesFactory;
   }
-
-  ///Static set function for worker pool
-  static void registerWorkerPool(WorkerPool workerPool) {
-    _workerPool = workerPool;
-  }
-
-  ///Static get function for worker pool
-  static WorkerPool? workerPool() => _workerPool;
 }

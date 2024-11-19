@@ -68,9 +68,12 @@ abstract interface class UIElementController<T> {
   /// It takes a [listener] parameter of type [VoidCallback] that represents the listener function.
   void addListener(VoidCallback listener);
 
+  /// Dispose the controller.
+  void dispose();
+
   /// Detach current controller from the driver.
   ///
-  ///The method does not cause ChangeNotifier subscriptions to be destroyed prematurely
+  /// The method does not cause ChangeNotifier subscriptions to be destroyed prematurely
   void detach();
 
   /// RemoveListener the [ChangeNotifier].

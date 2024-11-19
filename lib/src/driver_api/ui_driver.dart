@@ -25,12 +25,6 @@ abstract interface class UIDriver {
   /// The script runner used by the UI driver.
   abstract DuitScriptRunner? scriptRunner;
 
-  /// The worker pool used by the UI driver.
-  abstract WorkerPool? workerPool;
-
-  /// The worker pool configuration used by the UI driver.
-  abstract WorkerPoolConfiguration? workerPoolConfiguration;
-
   /// The concurrent mode enabled for the UI driver.
   abstract bool concurrentModeEnabled;
 

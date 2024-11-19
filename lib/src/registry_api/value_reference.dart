@@ -1,8 +1,8 @@
 ///A class representing a data model that
 ///can be used to merge with a component description
 final class ValueReference {
-  String objectKey, attributeKey;
-  Object? defaultValue;
+  final String objectKey, attributeKey;
+  final Object? defaultValue;
 
   ValueReference({
     required this.objectKey,
