@@ -5,7 +5,11 @@ import '../index.dart';
 /// The [ViewAttribute] class is used to wrap view attributes,
 /// providing a convenient way to access and manipulate them.
 final class ViewAttribute<T> {
-  static late AttributeParserBase attributeParser;
+  static late AttributeParserBase _attributeParser;
+
+  static set attributeParser(AttributeParserBase value) {
+    _attributeParser = value;
+  }
 
   /// The unique identifier of the view.
   final String id;
@@ -44,7 +48,7 @@ final class ViewAttribute<T> {
     String? tag, {
     String? id,
   }) {
-    return attributeParser.parse<R>(
+    return _attributeParser.parse<R>(
       type,
       json,
       tag,

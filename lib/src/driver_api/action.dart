@@ -1,3 +1,7 @@
+import 'package:duit_kernel/src/driver_api/dependency.dart';
+import 'package:duit_kernel/src/driver_api/event.dart';
+import 'package:duit_kernel/src/driver_api/parser.dart';
+
 /// Represents the metadata for an HTTP action.
 ///
 /// The [HttpActionMetainfo] class contains information about the HTTP method to be used for the action.
@@ -23,55 +27,73 @@ final class DuitScript {
     required this.meta,
   });
 
-  static DuitScript? fromJson(Map<String, dynamic>? json) {
-    if (json == null) return null;
-
+  factory DuitScript.fromJson(Map<String, dynamic> json) {
     return DuitScript(
-      sourceCode: json["sourceCode"] ?? "",
-      functionName: json["functionName"] ?? "",
+      sourceCode: json["sourceCode"],
+      functionName: json["functionName"],
       meta: json["meta"],
     );
   }
 }
 
-/// Represents a dependency for a server action.
-///
-/// The [ActionDependency] class contains information about the dependency target and ID.
-final class ActionDependency {
-  /// The ID of the dependency.
-  String id;
+extension type ActionJsonView(Map<String, dynamic> json) {
+  Iterable<ActionDependency> get dependsOn {
+    final hasProperty = json.containsKey("dependsOn");
+    if (hasProperty) {
+      return json["dependsOn"].map((el) => ActionDependency.fromJson(el));
+    } else {
+      return [];
+    }
+  }
 
-  /// Name of the target property at resulting object.
-  String target;
+  String get eventName {
+    final hasProperty = json.containsKey("event");
+    if (hasProperty) {
+      return json["event"];
+    } else {
+      return "";
+    }
+  }
 
-  ActionDependency({
-    required this.target,
-    required this.id,
-  });
+  /// Parse helper for script model
+  ///
+  /// Use this method with !
+  DuitScript? get script {
+    final hasProperty = json.containsKey("script");
 
-  /// Creates an instance of [ActionDependency] from a JSON map.
-  factory ActionDependency.fromJSON(Map<String, dynamic> json) {
-    return ActionDependency(
-      target: json["target"],
-      id: json["id"],
-    );
+    if (!hasProperty) {
+      throw Exception(
+          "An action with execution type 2 (script action) was created, but the script model is missing");
+    } else {
+      final scriptData = json["script"];
+
+      if (scriptData == null ||
+          scriptData is! Map<String, dynamic> ||
+          scriptData.isEmpty) {
+        throw Exception(
+            "An action with execution type 2 (script action) was created, but the script model is missing");
+      }
+    }
+
+    return DuitScript.fromJson(json["script"]);
+  }
+
+  int get executionType {
+    final hasProperty = json.containsKey("executionType");
+    if (hasProperty) {
+      return json["executionType"];
+    } else {
+      return 0;
+    }
   }
 }
 
-/// Represents a server action.
-///
-/// The [ServerAction] class encapsulates information about a server action, including its dependencies, event, and metadata.
-final class ServerAction {
+base class ServerAction implements Parser<ServerAction> {
   /// The list of dependencies for the server action.
-  final List<ActionDependency> dependsOn;
+  final Iterable<ActionDependency> dependsOn;
 
   /// The event associated with the server action.
-  final String event;
-
-  /// The event associated with the server action.
-  final HttpActionMetainfo? meta;
-
-  final DuitScript? script;
+  final String eventName;
 
   /// Event execution type
   ///
@@ -82,35 +104,80 @@ final class ServerAction {
   /// 2 - script
   final int executionType;
 
-  /// Optional action payload for local execution
-  final Map<String, dynamic>? payload;
-
   ServerAction({
-    required this.event,
+    required this.eventName,
     required this.executionType,
     this.dependsOn = const [],
-    this.meta,
-    this.script,
-    this.payload,
   });
 
-  factory ServerAction.fromJson(Map<String, dynamic> json) {
-    final List<ActionDependency> deps = [];
+  @override
+  ServerAction parse(Map<String, dynamic> json) {
+    final view = ActionJsonView(json);
 
-    if (json["dependsOn"] != null) {
-      json["dependsOn"].forEach((el) {
-        final it = ActionDependency.fromJSON(el);
-        deps.add(it);
-      });
-    }
+    return switch (view.executionType) {
+      0 => TransportAction.fromJson(json),
+      1 => LocalAction.fromJson(json),
+      2 => ScriptAction.fromJson(json),
+      _ => throw Exception("Unknown execution type ${view.executionType}"),
+    };
+  }
+}
 
-    return ServerAction(
-      event: json["event"] ?? "",
-      executionType: json["executionType"],
-      dependsOn: deps,
-      meta: HttpActionMetainfo.fromJson(json["meta"]),
-      script: DuitScript.fromJson(json["script"]),
-      payload: json["payload"],
+final class LocalAction extends ServerAction {
+  final ServerEvent event;
+
+  LocalAction({required this.event})
+      : super(
+          eventName: "local_exec",
+          executionType: 1,
+        );
+
+  factory LocalAction.fromJson(Map<String, dynamic> json) {
+    return LocalAction(
+      event: ServerEvent.parseEvent(json),
+    );
+  }
+}
+
+abstract interface class DependentAction {
+  final Iterable<ActionDependency> dependsOn;
+
+  DependentAction({required this.dependsOn});
+}
+
+final class TransportAction extends ServerAction implements DependentAction {
+  TransportAction({
+    required super.eventName,
+    required super.dependsOn,
+  }) : super(
+          executionType: 0,
+        );
+
+  factory TransportAction.fromJson(Map<String, dynamic> json) {
+    final view = ActionJsonView(json);
+
+    return TransportAction(
+      eventName: view.eventName,
+      dependsOn: view.dependsOn,
+    );
+  }
+}
+
+final class ScriptAction extends ServerAction implements DependentAction {
+  final DuitScript script;
+
+  ScriptAction({required this.script, required super.dependsOn})
+      : super(
+          eventName: "script",
+          executionType: 2,
+        );
+
+  factory ScriptAction.fromJson(Map<String, dynamic> json) {
+    final view = ActionJsonView(json);
+
+    return ScriptAction(
+      script: view.script!,
+      dependsOn: view.dependsOn,
     );
   }
 }
