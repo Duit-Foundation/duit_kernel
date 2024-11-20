@@ -13,5 +13,6 @@ typedef ModelFactory = TreeElement Function(
   String id,
   bool controlled,
   ViewAttribute attributes,
-  UIElementController? controller,
-);
+  UIElementController? controller, [
+  Iterable<TreeElement> subviews,
+]);
