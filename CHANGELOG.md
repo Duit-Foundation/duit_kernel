@@ -1,3 +1,7 @@
+## 2.1.3
+
+- Added `subviews` parameter to ModelFactory and BuildFactory signatures
+
 ## 2.1.1
 
 - Fixed a problem with passing the ID parameter to the attribute parser
