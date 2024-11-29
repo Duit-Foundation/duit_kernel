@@ -1,11 +1,11 @@
 import '../index.dart';
 
 ///The base class required to implement a script runner
-abstract base class DuitScriptRunner<TOptions> {
+abstract base class ScriptRunner<TOptions> {
   ///The script runner options
   final TOptions runnerOptions;
 
-  DuitScriptRunner({
+  ScriptRunner({
     required this.runnerOptions,
   });
 

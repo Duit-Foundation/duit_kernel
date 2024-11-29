@@ -7,18 +7,18 @@ import 'factory_record.dart';
 sealed class DuitRegistry {
   static final Map<String, FactoryRecord> _registry = {};
 
-  static final Map<String, DuitComponentDescription> _componentRegistry = {};
+  static final Map<String, ComponentDescription> _componentRegistry = {};
 
   /// Registers a list of component descriptions.
   static registerComponents(List<Map<String, dynamic>> components) {
     for (var block in components) {
-      final description = DuitComponentDescription.fromJson(block);
+      final description = ComponentDescription.fromJson(block);
       _componentRegistry[description.tag] = description;
     }
   }
 
   /// Returns the component description by the specified tag.
-  static DuitComponentDescription? getComponentDescription(String tag) {
+  static ComponentDescription? getComponentDescription(String tag) {
     return _componentRegistry[tag];
   }
 
@@ -26,9 +26,9 @@ sealed class DuitRegistry {
   ///
   /// - The [key] is a unique identifier for the DUIT element.
   ///
-  /// - The [modelFactory] is a function that maps the DUIT element to a [TreeElement].
+  /// - The [modelFactory] is a function that maps the DUIT element to a [ElementTreeEntry].
   ///
-  /// - The [buildFactory] is a function that returns the [Widget] representation of the [TreeElement].
+  /// - The [buildFactory] is a function that returns the [Widget] representation of the [ElementTreeEntry].
   ///
   /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
   static void register(

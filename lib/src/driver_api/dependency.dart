@@ -3,10 +3,10 @@
 /// The [ActionDependency] class contains information about the dependency target and ID.
 final class ActionDependency {
   /// The ID of the dependency.
-  String id;
+  final String id;
 
   /// Name of the target property at resulting object.
-  String target;
+  final String target;
 
   ActionDependency({
     required this.target,

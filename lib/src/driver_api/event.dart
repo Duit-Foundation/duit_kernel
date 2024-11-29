@@ -4,7 +4,7 @@ import 'package:duit_kernel/src/driver_api/parser.dart';
 typedef EventParser = Parser<ServerEvent>;
 
 base class ServerEvent {
-  static late EventParser _eventParser;
+  static late final EventParser _eventParser;
 
   static set eventParser(Parser<ServerEvent> value) {
     _eventParser = value;
@@ -18,3 +18,5 @@ base class ServerEvent {
     return _eventParser.parse(json);
   }
 }
+
+

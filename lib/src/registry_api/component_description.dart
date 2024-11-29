@@ -2,12 +2,12 @@ import 'package:duit_kernel/duit_kernel.dart';
 
 /// Description of the component for registering it
 /// in the [DuitRegistry] under the key corresponding to the [tag] property
-final class DuitComponentDescription {
+final class ComponentDescription {
   final String tag;
   final Map<String, dynamic> data;
   final Set<RefWithTarget> refs;
 
-  DuitComponentDescription({
+  ComponentDescription({
     required this.tag,
     required this.data,
     required this.refs,
@@ -61,7 +61,7 @@ final class DuitComponentDescription {
     }
   }
 
-  factory DuitComponentDescription.fromJson(Map<String, dynamic> json) {
+  factory ComponentDescription.fromJson(Map<String, dynamic> json) {
     assert(
         json['tag'] != null, "Tag must be provided in component description");
     assert(json['layoutRoot'] != null,
@@ -69,7 +69,7 @@ final class DuitComponentDescription {
     final root = json['layoutRoot'];
     final rf = <RefWithTarget>{};
     _prepareRefs(root, rf);
-    return DuitComponentDescription(
+    return ComponentDescription(
       tag: json['tag'],
       data: root,
       refs: rf,

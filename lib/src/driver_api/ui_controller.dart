@@ -13,7 +13,7 @@ abstract interface class UIElementController<T> {
   /// It provides access to the view properties and allows manipulation of their values.
   abstract ViewAttribute<T> attributes;
 
-  /// Id for current controller, same with [TreeElement] id.
+  /// Id for current controller, same with [ElementTreeEntry] id.
   abstract String id;
 
   /// Element type.

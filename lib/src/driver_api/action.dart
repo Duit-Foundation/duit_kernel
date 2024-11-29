@@ -1,99 +1,8 @@
 import 'package:duit_kernel/src/driver_api/dependency.dart';
 import 'package:duit_kernel/src/driver_api/event.dart';
-
-/// Represents the metadata for an HTTP action.
-///
-/// The [HttpActionMetainfo] class contains information about the HTTP method to be used for the action.
-final class HttpActionMetainfo {
-  String method;
-
-  HttpActionMetainfo({required this.method});
-
-  static HttpActionMetainfo fromJson(Map<String, dynamic> json) {
-    return HttpActionMetainfo(method: json["method"] ?? "GET");
-  }
-}
-
-final class DuitScript {
-  final String sourceCode, functionName;
-  final Map<String, dynamic>? meta;
-
-  DuitScript({
-    required this.sourceCode,
-    required this.functionName,
-    required this.meta,
-  });
-
-  factory DuitScript.fromJson(Map<String, dynamic> json) {
-    return DuitScript(
-      sourceCode: json["sourceCode"],
-      functionName: json["functionName"],
-      meta: json["meta"],
-    );
-  }
-}
-
-extension type ActionJsonView(Map<String, dynamic> json) {
-  Iterable<ActionDependency> get dependsOn {
-    final hasProperty = json.containsKey("dependsOn");
-    if (hasProperty) {
-      return json["dependsOn"].map((el) => ActionDependency.fromJson(el));
-    } else {
-      return [];
-    }
-  }
-
-  String get eventName {
-    final hasProperty = json.containsKey("event");
-    if (hasProperty) {
-      return json["event"];
-    } else {
-      return "";
-    }
-  }
-
-  /// Parse helper for script model
-  ///
-  /// Use this method with !
-  DuitScript? get script {
-    final hasProperty = json.containsKey("script");
-
-    if (!hasProperty) {
-      throw Exception(
-          "An action with execution type 2 (script action) was created, but the script model is missing");
-    } else {
-      final scriptData = json["script"];
-
-      if (scriptData == null ||
-          scriptData is! Map<String, dynamic> ||
-          scriptData.isEmpty) {
-        throw Exception(
-            "An action with execution type 2 (script action) was created, but the script model is missing");
-      }
-    }
-
-    return DuitScript.fromJson(json["script"]);
-  }
-
-  HttpActionMetainfo? get meta {
-    final hasProperty = json.containsKey("meta");
-
-    if (hasProperty) {
-      return HttpActionMetainfo.fromJson(json["meta"]);
-    } else {
-      return null;
-    }
-  }
-
-  int get executionType {
-    final hasProperty = json.containsKey("executionType");
-    if (hasProperty) {
-      return json["executionType"];
-    } else {
-      return 0;
-    }
-  }
-}
+import 'package:duit_kernel/src/driver_api/http_meta.dart';
+import 'package:duit_kernel/src/driver_api/script_def.dart';
+import 'package:duit_kernel/src/driver_api/server_action_view.dart';
 
 base class ServerAction {
   /// The list of dependencies for the server action.
@@ -118,7 +27,7 @@ base class ServerAction {
   });
 
   static ServerAction parse(Map<String, dynamic> json) {
-    final view = ActionJsonView(json);
+    final view = ServerActionJsonView(json);
 
     return switch (view.executionType) {
       0 => TransportAction.fromJson(json),
@@ -165,7 +74,7 @@ final class TransportAction extends ServerAction implements DependentAction {
         );
 
   factory TransportAction.fromJson(Map<String, dynamic> json) {
-    final view = ActionJsonView(json);
+    final view = ServerActionJsonView(json);
 
     return TransportAction(
       eventName: view.eventName,
@@ -176,16 +85,18 @@ final class TransportAction extends ServerAction implements DependentAction {
 }
 
 final class ScriptAction extends ServerAction implements DependentAction {
-  final DuitScript script;
+  final ScriptDefinition script;
 
-  ScriptAction({required this.script, required super.dependsOn})
-      : super(
+  ScriptAction({
+    required this.script,
+    required super.dependsOn,
+  }) : super(
           eventName: "script",
           executionType: 2,
         );
 
   factory ScriptAction.fromJson(Map<String, dynamic> json) {
-    final view = ActionJsonView(json);
+    final view = ServerActionJsonView(json);
 
     return ScriptAction(
       script: view.script!,

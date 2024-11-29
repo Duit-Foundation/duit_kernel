@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../index.dart';
 
-abstract base class TreeElement<T> {
+abstract base class ElementTreeEntry<T> {
   /// The type of the DUIT element.
   final String type, id;
   final bool controlled;
@@ -10,7 +10,7 @@ abstract base class TreeElement<T> {
   abstract UIElementController<T>? viewController;
   abstract ViewAttribute<T>? attributes;
 
-  TreeElement({
+  ElementTreeEntry({
     required this.type,
     required this.id,
     required this.controlled,
