@@ -13,5 +13,6 @@ typedef ModelFactory = ElementTreeEntry Function(
   String id,
   bool controlled,
   ViewAttribute attributes,
-  UIElementController? controller,
-);
+  UIElementController? controller, [
+  Iterable<ElementTreeEntry> subviews,
+]);
