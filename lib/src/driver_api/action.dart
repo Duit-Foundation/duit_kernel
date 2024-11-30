@@ -50,7 +50,7 @@ final class LocalAction extends ServerAction {
 
   factory LocalAction.fromJson(Map<String, dynamic> json) {
     return LocalAction(
-      event: ServerEvent.parseEvent(json["event"]),
+      event: ServerEvent.parseEvent(json["payload"]),
     );
   }
 }

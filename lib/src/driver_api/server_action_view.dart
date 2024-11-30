@@ -2,6 +2,10 @@ import 'package:duit_kernel/src/driver_api/dependency.dart';
 import 'package:duit_kernel/src/driver_api/http_meta.dart';
 import 'package:duit_kernel/src/driver_api/script_def.dart';
 
+/// The [ServerActionJsonView] class is a view over a JSON map representing an action.
+///
+/// The [ServerActionJsonView] class provides a convenient interface for accessing the properties of an
+/// action represented as a JSON map. It's used to parse the JSON map into a concrete action object.
 extension type ServerActionJsonView(Map<String, dynamic> json) {
   Iterable<ActionDependency> get dependsOn {
     final hasProperty = json.containsKey("dependsOn");

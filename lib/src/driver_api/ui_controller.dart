@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import '../index.dart';
+import 'package:duit_kernel/duit_kernel.dart';
 
 /// Base class for ViewController objects.
 ///
