@@ -41,15 +41,16 @@ base class ServerAction {
 final class LocalAction extends ServerAction {
   final ServerEvent event;
 
-  LocalAction({required this.event})
-      : super(
+  LocalAction({
+    required this.event,
+  }) : super(
           eventName: "local_exec",
           executionType: 1,
         );
 
   factory LocalAction.fromJson(Map<String, dynamic> json) {
     return LocalAction(
-      event: ServerEvent.parseEvent(json),
+      event: ServerEvent.parseEvent(json["event"]),
     );
   }
 }
