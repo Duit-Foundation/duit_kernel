@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:duit_kernel/duit_kernel.dart';
 
 /// Description of the component for registering it
@@ -20,10 +22,10 @@ final class ComponentDescription {
     map["id"] = id;
   }
 
-  static void _prepareRefs(
+  static FutureOr<void> _prepareRefs(
     Map<String, dynamic> obj,
     Set<RefWithTarget> container,
-  ) {
+  ) async {
     if (obj['controlled'] == true) {
       _replaceId(obj);
     }
@@ -52,23 +54,27 @@ final class ComponentDescription {
         growable: false,
       );
       for (final child in children) {
-        _prepareRefs(child, container);
+        await _prepareRefs(child, container);
       }
     }
 
     if (obj['child'] != null) {
-      _prepareRefs(obj['child'], container);
+      await _prepareRefs(obj['child'], container);
     }
   }
 
-  factory ComponentDescription.fromJson(Map<String, dynamic> json) {
+  static FutureOr<ComponentDescription> prepare(
+    Map<String, dynamic> json,
+  ) async {
     assert(
         json['tag'] != null, "Tag must be provided in component description");
     assert(json['layoutRoot'] != null,
         "Layout must be provided in component description");
     final root = json['layoutRoot'];
     final rf = <RefWithTarget>{};
-    _prepareRefs(root, rf);
+
+    await _prepareRefs(root, rf);
+
     return ComponentDescription(
       tag: json['tag'],
       data: root,

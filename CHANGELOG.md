@@ -1,3 +1,16 @@
+## 3.0.0
+
+- Rename: DuitScript -> ScriptDefinition
+- Rename: DuitAbstractTree -> ElementTree
+- Rename: TreeElement -> ElementTreeEntry
+- Rename: DuitComponentDescription -> ComponentDescription
+- Rename: DuitScriptRunner -> ScriptRunner
+- UIElementController attributes property no longer nullable (ViewAttributes?)
+- Added `detach` method to UIElementController
+- Bump minimal version of dart sdk to 3.4.4
+- Removed concurrency related models and methods
+- Component registration API is now asynchronous
+
 ## 2.1.3
 
 - Added `subviews` parameter to ModelFactory and BuildFactory signatures

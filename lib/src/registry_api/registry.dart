@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:duit_kernel/duit_kernel.dart';
 
 import 'factory_record.dart';
@@ -10,9 +12,9 @@ sealed class DuitRegistry {
   static final Map<String, ComponentDescription> _componentRegistry = {};
 
   /// Registers a list of component descriptions.
-  static registerComponents(List<Map<String, dynamic>> components) {
+  static FutureOr<void> registerComponents(List<Map<String, dynamic>> components) async {
     for (var block in components) {
-      final description = ComponentDescription.fromJson(block);
+      final description = await ComponentDescription.prepare(block);
       _componentRegistry[description.tag] = description;
     }
   }
