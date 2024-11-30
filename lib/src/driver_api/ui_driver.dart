@@ -24,9 +24,6 @@ abstract interface class UIDriver {
   /// The script runner used by the UI driver.
   abstract ScriptRunner? scriptRunner;
 
-  /// The concurrent mode enabled for the UI driver.
-  abstract bool concurrentModeEnabled;
-
   /// Attaches a controller to the UI driver.
   ///
   /// Parameters:
