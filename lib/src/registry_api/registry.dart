@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:duit_kernel/duit_kernel.dart';
 
 import 'factory_record.dart';
@@ -5,21 +7,20 @@ import 'factory_record.dart';
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static late final WorkerPool? _workerPool;
   static final Map<String, FactoryRecord> _registry = {};
 
-  static final Map<String, DuitComponentDescription> _componentRegistry = {};
+  static final Map<String, ComponentDescription> _componentRegistry = {};
 
   /// Registers a list of component descriptions.
-  static registerComponents(List<Map<String, dynamic>> components) {
+  static FutureOr<void> registerComponents(List<Map<String, dynamic>> components) async {
     for (var block in components) {
-      final description = DuitComponentDescription.fromJson(block);
+      final description = await ComponentDescription.prepare(block);
       _componentRegistry[description.tag] = description;
     }
   }
 
   /// Returns the component description by the specified tag.
-  static DuitComponentDescription? getComponentDescription(String tag) {
+  static ComponentDescription? getComponentDescription(String tag) {
     return _componentRegistry[tag];
   }
 
@@ -27,9 +28,9 @@ sealed class DuitRegistry {
   ///
   /// - The [key] is a unique identifier for the DUIT element.
   ///
-  /// - The [modelFactory] is a function that maps the DUIT element to a [TreeElement].
+  /// - The [modelFactory] is a function that maps the DUIT element to a [ElementTreeEntry].
   ///
-  /// - The [buildFactory] is a function that returns the [Widget] representation of the [TreeElement].
+  /// - The [buildFactory] is a function that returns the [Widget] representation of the [ElementTreeEntry].
   ///
   /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
   static void register(
@@ -65,12 +66,4 @@ sealed class DuitRegistry {
   static AttributesFactory? getAttributesFactory(String key) {
     return _registry[key]?.attributesFactory;
   }
-
-  ///Static set function for worker pool
-  static void registerWorkerPool(WorkerPool workerPool) {
-    _workerPool = workerPool;
-  }
-
-  ///Static get function for worker pool
-  static WorkerPool? workerPool() => _workerPool;
 }

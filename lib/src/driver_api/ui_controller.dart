@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import '../index.dart';
+import 'package:duit_kernel/duit_kernel.dart';
 
 /// Base class for ViewController objects.
 ///
@@ -11,9 +11,9 @@ abstract interface class UIElementController<T> {
   ///
   /// The [attributes] property holds the typed attributes object associated with the controller.
   /// It provides access to the view properties and allows manipulation of their values.
-  abstract ViewAttribute<T>? attributes;
+  abstract ViewAttribute<T> attributes;
 
-  /// Id for current controller, same with [TreeElement] id.
+  /// Id for current controller, same with [ElementTreeEntry] id.
   abstract String id;
 
   /// Element type.
@@ -68,10 +68,13 @@ abstract interface class UIElementController<T> {
   /// It takes a [listener] parameter of type [VoidCallback] that represents the listener function.
   void addListener(VoidCallback listener);
 
-  /// Dispose the [ChangeNotifier].
-  ///
-  /// This method is called to dispose the controller and release any resources associated with it.
+  /// Dispose the controller.
   void dispose();
+
+  /// Detach current controller from the driver.
+  ///
+  /// The method does not cause ChangeNotifier subscriptions to be destroyed prematurely
+  void detach();
 
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);

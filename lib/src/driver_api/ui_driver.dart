@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
-
-import '../index.dart';
 
 abstract interface class UIDriver {
   /// The source url of the UI driver.
@@ -20,19 +19,10 @@ abstract interface class UIDriver {
 
   /// The stream controller for the UI driver.
   @protected
-  abstract StreamController<DuitAbstractTree?> streamController;
+  abstract StreamController<ElementTree?> streamController;
 
   /// The script runner used by the UI driver.
-  abstract DuitScriptRunner? scriptRunner;
-
-  /// The worker pool used by the UI driver.
-  abstract WorkerPool? workerPool;
-
-  /// The worker pool configuration used by the UI driver.
-  abstract WorkerPoolConfiguration? workerPoolConfiguration;
-
-  /// The concurrent mode enabled for the UI driver.
-  abstract bool concurrentModeEnabled;
+  abstract ScriptRunner? scriptRunner;
 
   /// Attaches a controller to the UI driver.
   ///
@@ -89,7 +79,7 @@ abstract interface class UIDriver {
   void dispose();
 
   /// Returns the stream of UI abstract trees.
-  Stream<DuitAbstractTree?> get stream;
+  Stream<ElementTree?> get stream;
 
   /// Set the BuildContext.
   set context(BuildContext value);

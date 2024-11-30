@@ -8,6 +8,6 @@ import 'package:flutter/material.dart' show Widget;
 ///
 /// It returns a `Widget` that represents the rendered `DUITElement`.
 typedef BuildFactory = Widget Function(
-  TreeElement model, [
+  ElementTreeEntry model, [
   Iterable<Widget> subviews,
 ]);
