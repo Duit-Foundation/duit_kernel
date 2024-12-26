@@ -82,7 +82,9 @@ abstract interface class UIElementController<T> {
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);
 
+  void listenCommand(Future<void> Function(AnimationCommand command) callback);
+
   FutureOr<void> emitCommand(AnimationCommand command);
 
-  void removeCommandListener(String controllerId);
+  void removeCommandListener();
 }
