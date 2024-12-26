@@ -5,24 +5,25 @@ import 'package:flutter/material.dart';
 
 abstract class EventResolver {
   final UIDriver driver;
-  final Logger logger;
+  final Logger? logger;
   final BuildContext context;
 
-  EventResolver(
-    this.driver,
+  EventResolver({
+    required this.driver,
+    required this.context,
     this.logger,
-    this.context,
-  );
+  });
 
   Future<void> resolveEvent(dynamic eventData);
 }
 
 final class DefaultEventResolver extends EventResolver {
-  DefaultEventResolver(
-    super.driver,
+
+  DefaultEventResolver({
+    required super.driver,
+    required super.context,
     super.logger,
-    super.context,
-  );
+  });
 
   @override
   Future<void> resolveEvent(dynamic eventData) async {
@@ -95,7 +96,7 @@ final class DefaultEventResolver extends EventResolver {
           break;
       }
     } catch (e, s) {
-      logger.error(
+      logger?.error(
         "Error while resolving ${event.type} event",
         error: e,
         stackTrace: s,

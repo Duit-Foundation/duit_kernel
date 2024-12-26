@@ -43,6 +43,8 @@ abstract interface class UIDriver {
 
   abstract bool isModule;
 
+  abstract Logger? logger;
+
   /// Attaches a controller to the UI driver.
   ///
   /// Parameters:
