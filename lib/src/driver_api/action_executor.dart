@@ -1,4 +1,5 @@
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:flutter/material.dart' show BuildContext;
 
 /// The [ActionExecutor] is an abstract class responsible for executing actions.
 ///
@@ -17,7 +18,7 @@ abstract class ActionExecutor {
     this.logger,
   });
 
-  Future<void> executeAction(ServerAction action);
+  Future<void> executeAction(BuildContext context,ServerAction action);
 }
 
 /// Executes a given [ServerAction].
@@ -40,7 +41,7 @@ final class DefaultActionExecutor extends ActionExecutor {
   });
 
   @override
-  Future<void> executeAction(ServerAction action) async {
+  Future<void> executeAction(BuildContext context, ServerAction action) async {
     final resolver = driver.eventResolver;
 
     switch (action) {
@@ -52,7 +53,7 @@ final class DefaultActionExecutor extends ActionExecutor {
           final event = await driver.transport?.execute(action, payload);
           //case with http request
           if (event != null) {
-            await resolver.resolveEvent(event);
+            await resolver.resolveEvent(context, event);
           }
         } catch (e, s) {
           logger?.error(
@@ -66,7 +67,7 @@ final class DefaultActionExecutor extends ActionExecutor {
       //local execution
       case LocalAction():
         try {
-          await resolver.resolveEvent(action.event);
+          await resolver.resolveEvent(context, action.event);
         } catch (e, s) {
           logger?.error(
             "[Error while executing local action]",
@@ -88,7 +89,7 @@ final class DefaultActionExecutor extends ActionExecutor {
             body: body,
           );
 
-          await resolver.resolveEvent(scriptInvocationResult);
+          await resolver.resolveEvent(context, scriptInvocationResult);
         } catch (e, s) {
           logger?.error(
             "[Error while executing script action]",

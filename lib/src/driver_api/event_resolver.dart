@@ -1,32 +1,28 @@
 import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext;
 
 abstract class EventResolver {
   final UIDriver driver;
   final Logger? logger;
-  final BuildContext context;
 
   EventResolver({
     required this.driver,
-    required this.context,
     this.logger,
   });
 
-  Future<void> resolveEvent(dynamic eventData);
+  Future<void> resolveEvent(BuildContext context, dynamic eventData);
 }
 
 final class DefaultEventResolver extends EventResolver {
-
   DefaultEventResolver({
     required super.driver,
-    required super.context,
     super.logger,
   });
 
   @override
-  Future<void> resolveEvent(dynamic eventData) async {
+  Future<void> resolveEvent(BuildContext context, dynamic eventData) async {
     ServerEvent event;
 
     if (eventData is ServerEvent) {
@@ -72,13 +68,13 @@ final class DefaultEventResolver extends EventResolver {
           break;
         case SequencedEventGroup():
           for (final entry in event.events) {
-            await resolveEvent(entry.event);
+            await resolveEvent(context, entry.event);
             await Future.delayed(entry.delay);
           }
           break;
         case CommonEventGroup():
           for (final entry in event.events) {
-            resolveEvent(entry.event);
+            resolveEvent(context, entry.event);
           }
           break;
         case AnimationTriggerEvent():
@@ -90,7 +86,7 @@ final class DefaultEventResolver extends EventResolver {
           Timer(
             evt.timerDelay,
             () async {
-              await resolveEvent(evt.payload);
+              await resolveEvent(context, evt.payload);
             },
           );
           break;
