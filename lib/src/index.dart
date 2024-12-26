@@ -5,3 +5,5 @@ export 'driver_api/index.dart';
 export 'view_attributes/index.dart';
 export 'misc/index.dart';
 export 'animation_api/index.dart';
+export 'action_api/index.dart';
+export 'package:meta/meta.dart' show internal, experimental, mustBeOverridden;

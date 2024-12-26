@@ -18,7 +18,9 @@ abstract class ActionExecutor {
     this.logger,
   });
 
-  Future<void> executeAction(BuildContext context,ServerAction action);
+  Future<ServerEvent?> executeAction(
+    ServerAction action,
+  );
 }
 
 /// Executes a given [ServerAction].
@@ -34,27 +36,28 @@ abstract class ActionExecutor {
 /// This method is asynchronous and returns a [Future] that completes when
 /// the action execution is finished.
 final class DefaultActionExecutor extends ActionExecutor {
-
   DefaultActionExecutor({
     required super.driver,
     super.logger,
   });
 
   @override
-  Future<void> executeAction(BuildContext context, ServerAction action) async {
-    final resolver = driver.eventResolver;
-
+  Future<ServerEvent?> executeAction(
+    ServerAction action,
+  ) async {
     switch (action) {
       //transport
       case TransportAction():
         try {
           final payload = driver.preparePayload(action.dependsOn);
 
-          final event = await driver.transport?.execute(action, payload);
-          //case with http request
-          if (event != null) {
-            await resolver.resolveEvent(context, event);
+          final res = await driver.transport?.execute(action, payload);
+
+          if (res != null) {
+            return ServerEvent.parseEvent(res);
           }
+
+          return null;
         } catch (e, s) {
           logger?.error(
             "[Error while executing transport action]",
@@ -67,7 +70,7 @@ final class DefaultActionExecutor extends ActionExecutor {
       //local execution
       case LocalAction():
         try {
-          await resolver.resolveEvent(context, action.event);
+          return action.event;
         } catch (e, s) {
           logger?.error(
             "[Error while executing local action]",
@@ -89,7 +92,11 @@ final class DefaultActionExecutor extends ActionExecutor {
             body: body,
           );
 
-          await resolver.resolveEvent(context, scriptInvocationResult);
+          if (scriptInvocationResult != null) {
+            return ServerEvent.parseEvent(scriptInvocationResult);
+          }
+
+          return null;
         } catch (e, s) {
           logger?.error(
             "[Error while executing script action]",
@@ -99,5 +106,7 @@ final class DefaultActionExecutor extends ActionExecutor {
         }
         break;
     }
+
+    return null;
   }
 }

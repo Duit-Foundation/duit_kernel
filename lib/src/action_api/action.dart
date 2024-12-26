@@ -1,10 +1,15 @@
-import 'package:duit_kernel/src/driver_api/dependency.dart';
-import 'package:duit_kernel/src/driver_api/event.dart';
-import 'package:duit_kernel/src/driver_api/http_meta.dart';
-import 'package:duit_kernel/src/driver_api/script_def.dart';
-import 'package:duit_kernel/src/driver_api/server_action_view.dart';
+import 'package:duit_kernel/duit_kernel.dart';
 
 base class ServerAction {
+  static late final Parser<ServerAction> _actionParser;
+
+  /// Set the parser to use for [ServerAction]s.
+  ///
+  /// This should be set by the framework before calling [parse].
+  static void setActionParser(Parser<ServerAction> parser) {
+    _actionParser = parser;
+  }
+
   /// The list of dependencies for the server action.
   final Iterable<ActionDependency> dependsOn;
 
@@ -26,16 +31,16 @@ base class ServerAction {
     this.dependsOn = const [],
   });
 
-  static ServerAction parse(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+  static ServerAction parse(Map<String, dynamic> json) =>
+      _actionParser.parse(json);
+}
 
-    return switch (view.executionType) {
-      0 => TransportAction.fromJson(json),
-      1 => LocalAction.fromJson(json),
-      2 => ScriptAction.fromJson(json),
-      _ => throw Exception("Unknown execution type ${view.executionType}"),
-    };
-  }
+final class UnknownAction extends ServerAction {
+  UnknownAction()
+      : super(
+          eventName: "unknown",
+          executionType: -1,
+        );
 }
 
 final class LocalAction extends ServerAction {

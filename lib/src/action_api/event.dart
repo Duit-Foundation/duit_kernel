@@ -24,25 +24,6 @@ base class ServerEvent {
   }
 }
 
-final class DefaultEventParser implements Parser<ServerEvent> {
-  @override
-  ServerEvent parse(Map<String, dynamic> json) {
-    final type = json["type"];
-
-    return switch (type) {
-      "update" => UpdateEvent.fromJson(json),
-      "navigation" => NavigationEvent.fromJson(json),
-      "openUrl" => OpenUrlEvent.fromJson(json),
-      "custom" => CustomEvent.fromJson(json),
-      "sequenced" => SequencedEventGroup.fromJson(json),
-      "grouped" => CommonEventGroup.fromJson(json),
-      "animationTrigger" => AnimationTriggerEvent.fromJson(json),
-      "timer" => TimerEvent.fromJson(json),
-      String() || Object() || null => NullEvent(),
-    };
-  }
-}
-
 final class NullEvent extends ServerEvent {
   NullEvent() : super(type: "null_event");
 }
