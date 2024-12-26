@@ -17,10 +17,17 @@ abstract interface class Logger {
 ///
 /// It logs messages to the console if the app is running in debug mode.
 final class DefaultLogger implements Logger {
+  /// The [DefaultLogger] singleton instance.
+  static final instance = DefaultLogger._internal();
+
+  /// The internal constructor for the singleton instance.
+  DefaultLogger._internal();
+
   @override
   void error(String message, {error, StackTrace? stackTrace}) {
     if (kDebugMode) {
-      print("\x1B[32m[DUIT FRAMEWORK]: ""\x1B[31m$message, Err: $error, StackTrace: ${stackTrace.toString()}\t\t");
+      print("\x1B[32m[DUIT FRAMEWORK]: "
+          "\x1B[31m$message, Err: $error, StackTrace: ${stackTrace.toString()}\t\t");
     }
   }
 
@@ -37,5 +44,4 @@ final class DefaultLogger implements Logger {
       print("\x1B[32m[DUIT FRAMEWORK]: " "\x1B[33m$message\t\t");
     }
   }
-
 }
