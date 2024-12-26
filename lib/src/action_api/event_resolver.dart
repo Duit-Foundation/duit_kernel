@@ -68,13 +68,15 @@ final class DefaultEventResolver extends EventResolver {
           break;
         case SequencedEventGroup():
           for (final entry in event.events) {
-            await resolveEvent(context, entry.event);
-            await Future.delayed(entry.delay);
+            if (context.mounted) {
+              await resolveEvent(context, entry.event);
+              await Future.delayed(entry.delay);
+            }
           }
           break;
         case CommonEventGroup():
           for (final entry in event.events) {
-            resolveEvent(context, entry.event);
+            await resolveEvent(context, entry.event);
           }
           break;
         case AnimationTriggerEvent():
