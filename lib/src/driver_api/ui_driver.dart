@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 abstract interface class UIDriver {
   /// The source url of the UI driver.
@@ -23,6 +25,23 @@ abstract interface class UIDriver {
 
   /// The script runner used by the UI driver.
   abstract ScriptRunner? scriptRunner;
+
+  /// The script runner used by the UI driver.
+  ///
+  /// The script runner is used to execute scripts defined in the layout.
+  abstract EventResolver eventResolver;
+
+  /// The executor of actions used by the UI driver.
+  ///
+  /// The action executor is used to execute actions defined in the layout.
+  abstract ActionExecutor actionExecutor;
+
+  /// The action executor used by the UI driver.
+  abstract ExternalEventHandler? externalEventHandler;
+
+  abstract MethodChannel? driverChannel;
+
+  abstract bool isModule;
 
   /// Attaches a controller to the UI driver.
   ///
@@ -83,4 +102,10 @@ abstract interface class UIDriver {
 
   /// Set the BuildContext.
   set context(BuildContext value);
+
+  @internal
+  Map<String, dynamic> preparePayload(Iterable<ActionDependency> dependencies);
+
+  @internal
+  Future<void> updateAttributes(String controllerId, Map<String, dynamic> json);
 }

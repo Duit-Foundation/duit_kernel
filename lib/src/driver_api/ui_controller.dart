@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:duit_kernel/duit_kernel.dart';
@@ -40,6 +41,8 @@ abstract interface class UIElementController<T> {
   /// It can be used to categorize or identify the controller.
   abstract String? tag;
 
+  abstract Map<String, StreamController<AnimationCommand>> commandChannel;
+
   /// Perform the related action.
   ///
   /// This method is called to perform the related action associated with the controller.
@@ -78,4 +81,6 @@ abstract interface class UIElementController<T> {
 
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);
+
+  FutureOr<void> emitCommand(AnimationCommand command);
 }
