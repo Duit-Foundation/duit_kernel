@@ -1,3 +1,10 @@
+## 3.1.0
+
+- Added DebugLogger interface and default implementation for it
+- Extend UIDriver API
+- Extend UIElementController API
+- Models of actions and events and some models for animations have been moved to the kernel 
+
 ## 3.0.0
 
 - Rename: DuitScript -> ScriptDefinition
