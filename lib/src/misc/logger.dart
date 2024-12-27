@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ansicolor/ansicolor.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
 /// The [Logger] interface defines a contract for logger implementations.
@@ -13,6 +16,11 @@ abstract interface class Logger {
   });
 }
 
+final _errorPen = AnsiPen()..red();
+final _warnPen = AnsiPen()..yellow();
+final _infoPen = AnsiPen()..white();
+final _headingPen = AnsiPen()..green();
+
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
 /// It logs messages to the console if the app is running in debug mode.
@@ -23,25 +31,39 @@ final class DefaultLogger implements Logger {
   /// The internal constructor for the singleton instance.
   DefaultLogger._internal();
 
+  String _fmt(String msg, AnsiPen pen) {
+    var lines = msg.split('\n');
+    lines = lines.map((e) => pen.write(e)).toList();
+    return lines.join('\n');
+  }
+
   @override
   void error(String message, {error, StackTrace? stackTrace}) {
     if (kDebugMode) {
-      print("\x1B[32m[DUIT FRAMEWORK]: "
-          "\x1B[31m$message, Err: $error, StackTrace: ${stackTrace.toString()}\t\t");
+      final errorMessage =
+          '$message ${error?.toString()}${stackTrace?.toString()}';
+
+      final m =
+          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(errorMessage, _errorPen)}";
+      log(m);
     }
   }
 
   @override
   void info(String message) {
     if (kDebugMode) {
-      print("\x1B[32m[DUIT FRAMEWORK]: " "\x1B[37m$message\t\t");
+      final m =
+          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _infoPen)}";
+      log(m);
     }
   }
 
   @override
   void warn(String message) {
     if (kDebugMode) {
-      print("\x1B[32m[DUIT FRAMEWORK]: " "\x1B[33m$message\t\t");
+      final m =
+          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _warnPen)}";
+      log(m);
     }
   }
 }
