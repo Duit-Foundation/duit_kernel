@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' show BuildContext;
 
 abstract class EventResolver {
   final UIDriver driver;
-  final Logger? logger;
+  final DebugLogger? logger;
 
   EventResolver({
     required this.driver,

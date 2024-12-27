@@ -2,7 +2,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 
 /// The [ActionExecutor] is an abstract class responsible for executing actions.
 ///
-/// It relies on a [UIDriver] to perform actions and an [Logger] to log messages.
+/// It relies on a [UIDriver] to perform actions and an [DebugLogger] to log messages.
 /// This class serves as a base for concrete implementations that define how actions
 /// should be executed.
 ///
@@ -10,7 +10,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// of [ServerAction]s.
 abstract class ActionExecutor {
   final UIDriver driver;
-  final Logger? logger;
+  final DebugLogger? logger;
 
   ActionExecutor({
     required this.driver,

@@ -1,13 +1,10 @@
-import 'dart:developer';
+// import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:logger/logger.dart';
 
-import 'package:ansicolor/ansicolor.dart';
-import 'package:flutter/foundation.dart'
-    show TargetPlatform, debugPrint, defaultTargetPlatform, kDebugMode;
-
-/// The [Logger] interface defines a contract for logger implementations.
+/// The [DebugLogger] interface defines a contract for logger implementations.
 ///
-/// The methods in [Logger] are used to log messages to the console.
-abstract interface class Logger {
+/// The methods in [DebugLogger] are used to log messages to the console.
+abstract interface class DebugLogger {
   void info(String message);
   void warn(String message);
   void error(
@@ -17,64 +14,40 @@ abstract interface class Logger {
   });
 }
 
-final _errorPen = AnsiPen()..red();
-final _warnPen = AnsiPen()..yellow();
-final _infoPen = AnsiPen()..white();
-final _headingPen = AnsiPen()..green();
-
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
 /// It logs messages to the console if the app is running in debug mode.
-final class DefaultLogger implements Logger {
+final class DefaultLogger implements DebugLogger {
+  late final Logger _logger = Logger();
+
   /// The [DefaultLogger] singleton instance.
   static final instance = DefaultLogger._internal();
 
   /// The internal constructor for the singleton instance.
   DefaultLogger._internal();
 
-  String _fmt(String msg, AnsiPen pen) {
-    var lines = msg.split('\n');
-    lines = lines.map((e) => pen.write(e)).toList();
-    return lines.join('\n');
-  }
-
-  // ignore: avoid_print
-  void _out(String v) {
-    if ([TargetPlatform.iOS, TargetPlatform.macOS]
-        .contains(defaultTargetPlatform)) {
-      log(v);
-      return;
-    }
-    debugPrint(v);
-  }
+  @override
+  void error(
+    String message, {
+    error,
+    StackTrace? stackTrace,
+  }) =>
+      _logger.e(
+        "[DUIT FRAMEWORK]: $message",
+        time: DateTime.now(),
+        error: error,
+        stackTrace: stackTrace,
+      );
 
   @override
-  void error(String message, {error, StackTrace? stackTrace}) {
-    if (kDebugMode) {
-      final errorMessage =
-          '$message \nError: ${error?.toString()}\nStackTrace => \n${stackTrace?.toString()}';
-
-      final m =
-          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(errorMessage, _errorPen)}";
-      _out(m);
-    }
-  }
+  void info(String message) => _logger.i(
+        "[DUIT FRAMEWORK]: $message",
+        time: DateTime.now(),
+      );
 
   @override
-  void info(String message) {
-    if (kDebugMode) {
-      final m =
-          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _infoPen)}";
-      _out(m);
-    }
-  }
-
-  @override
-  void warn(String message) {
-    if (kDebugMode) {
-      final m =
-          "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _warnPen)}";
-      _out(m);
-    }
-  }
+  void warn(String message) => _logger.w(
+        "[DUIT FRAMEWORK]: $message",
+        time: DateTime.now(),
+      );
 }
