@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 abstract interface class UIDriver {
   /// The source url of the UI driver.
@@ -105,9 +104,9 @@ abstract interface class UIDriver {
   /// Set the BuildContext.
   set context(BuildContext value);
 
-  @internal
+  /// Prepares the payload for a server action.
   Map<String, dynamic> preparePayload(Iterable<ActionDependency> dependencies);
 
-  @internal
+  /// Updates the attributes of a controller.
   Future<void> updateAttributes(String controllerId, Map<String, dynamic> json);
 }

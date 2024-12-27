@@ -1,5 +1,6 @@
 import 'package:duit_kernel/duit_kernel.dart';
 
+/// The [ServerAction] class represents an action that was sent by the server.
 base class ServerAction {
   static late final Parser<ServerAction> _actionParser;
 
@@ -35,6 +36,10 @@ base class ServerAction {
       _actionParser.parse(json);
 }
 
+/// An unknown action is an action that the framework does not know how to parse.
+///
+/// This can happen if the framework is not configured correctly or if the
+/// server sends an action that is not recognized.
 final class UnknownAction extends ServerAction {
   UnknownAction()
       : super(
@@ -43,6 +48,11 @@ final class UnknownAction extends ServerAction {
         );
 }
 
+/// A local action is an action that is executed locally in the client.
+///
+/// A local action is an action that is not sent to the server and is executed
+/// immediately in the client. A local action is typically used to execute a
+/// local event handler.
 final class LocalAction extends ServerAction {
   final ServerEvent event;
 
@@ -60,6 +70,11 @@ final class LocalAction extends ServerAction {
   }
 }
 
+/// A dependent action is an action that has dependencies.
+///
+/// A dependent action is an action that requires other actions to be executed
+/// before it can be executed. The dependencies are specified in the
+/// [dependsOn] property.
 abstract interface class DependentAction {
   final Iterable<ActionDependency> dependsOn;
 
@@ -67,6 +82,14 @@ abstract interface class DependentAction {
     required this.dependsOn,
   });
 }
+
+/// A transport action represents an action that is executed using a transport mechanism.
+///
+/// A transport action is an action that requires communication with the server
+/// to be executed. It implements the [DependentAction] interface, which means it
+/// has dependencies that need to be resolved before execution. The action can also
+/// include optional metadata, represented by the [meta] property, which may contain
+/// additional information required for execution.
 
 final class TransportAction extends ServerAction implements DependentAction {
   final HttpActionMetainfo? meta;
@@ -90,6 +113,12 @@ final class TransportAction extends ServerAction implements DependentAction {
   }
 }
 
+/// A script action represents an action that is executed using a script.
+///
+/// A script action is an action that requires the execution of a script to be
+/// executed. It implements the [DependentAction] interface, which means it
+/// has dependencies that need to be resolved before execution. The script
+/// to be executed is represented by the [script] property.
 final class ScriptAction extends ServerAction implements DependentAction {
   final ScriptDefinition script;
 

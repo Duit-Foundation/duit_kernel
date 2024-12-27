@@ -41,7 +41,12 @@ abstract interface class UIElementController<T> {
   /// It can be used to categorize or identify the controller.
   abstract String? tag;
 
-  abstract Map<String, StreamController<AnimationCommand>> commandChannel;
+  /// A stream of animation commands.
+  ///
+  /// The [commandChannel] property represents a stream of animation commands
+  /// that are sent to the controller. The commands are processed by the controller
+  /// in order to perform the desired animation.
+  abstract StreamController<AnimationCommand> commandChannel;
 
   /// Perform the related action.
   ///
@@ -82,9 +87,27 @@ abstract interface class UIElementController<T> {
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);
 
+  /// Listen for animation commands.
+  ///
+  /// This method allows you to register a callback function that will be
+  /// triggered whenever an [AnimationCommand] is received. The callback
+  /// function should be a [Future<void> Function(AnimationCommand command)]
+  /// and will be executed with the received command as its argument.
   void listenCommand(Future<void> Function(AnimationCommand command) callback);
 
+  /// Emit an animation command.
+  ///
+  /// This method can be used to emit an animation command to any widgets that
+  /// are listening for commands. The command will be sent to all widgets that
+  /// are listening.
+  ///
+  /// The method takes a single parameter of type [AnimationCommand] which is
+  /// the command to be emitted.
   FutureOr<void> emitCommand(AnimationCommand command);
 
+  /// Remove the command listener.
+  ///
+  /// This method is used to remove the listener that was previously registered
+  /// with the [listenCommand] method.
   void removeCommandListener();
 }
