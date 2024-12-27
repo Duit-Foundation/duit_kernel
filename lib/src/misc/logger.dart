@@ -1,5 +1,8 @@
 // import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:logger/logger.dart';
+import 'dart:io';
+
+import 'package:ansicolor/ansicolor.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 /// The [DebugLogger] interface defines a contract for logger implementations.
 ///
@@ -18,7 +21,12 @@ abstract interface class DebugLogger {
 ///
 /// It logs messages to the console if the app is running in debug mode.
 final class DefaultLogger implements DebugLogger {
-  late final Logger _logger = Logger();
+  final _errorPen = AnsiPen()..red();
+  final _warnPen = AnsiPen()..yellow();
+  final _infoPen = AnsiPen()..white();
+  final _headingPen = AnsiPen()..green();
+  String? _tag;
+  static const logTag = "[DUIT FRAMEWORK]: ";
 
   /// The [DefaultLogger] singleton instance.
   static final instance = DefaultLogger._internal();
@@ -26,28 +34,58 @@ final class DefaultLogger implements DebugLogger {
   /// The internal constructor for the singleton instance.
   DefaultLogger._internal();
 
+  String _colorize(String m, AnsiPen c) {
+    var lines = m.split('\n');
+    lines = lines.map((e) => c.write(e)).toList();
+    final coloredMsg = lines.join('\n');
+    return coloredMsg;
+  }
+
+  //ignore: avoid_print
+  void _outPrinter(String m) => m.split("\n").forEach(print);
+
+  String _createTag() => _colorize(logTag, _headingPen);
+
   @override
   void error(
     String message, {
     error,
     StackTrace? stackTrace,
-  }) =>
-      _logger.e(
-        "[DUIT FRAMEWORK]: $message",
-        time: DateTime.now(),
-        error: error,
-        stackTrace: stackTrace,
-      );
+  }) {
+    if (kDebugMode) {
+      if (Platform.isIOS || Platform.isMacOS) {
+        _outPrinter(
+            "$logTag$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}");
+      } else {
+        _tag ??= _createTag();
+        final text =
+            "$message\n Error text: ${error.toString()} \n StackTrace: ${stackTrace.toString()}";
+        _outPrinter("$_tag${_colorize(text, _errorPen)}");
+      }
+    }
+  }
 
   @override
-  void info(String message) => _logger.i(
-        "[DUIT FRAMEWORK]: $message",
-        time: DateTime.now(),
-      );
+  void info(String message) {
+    if (kDebugMode) {
+      if (Platform.isIOS || Platform.isMacOS) {
+        _outPrinter("$logTag$message");
+      } else {
+        _tag ??= _createTag();
+        _outPrinter("$_tag${_colorize(message, _infoPen)}");
+      }
+    }
+  }
 
   @override
-  void warn(String message) => _logger.w(
-        "[DUIT FRAMEWORK]: $message",
-        time: DateTime.now(),
-      );
+  void warn(String message) {
+    if (kDebugMode) {
+      if (Platform.isIOS || Platform.isMacOS) {
+        _outPrinter("$logTag$message");
+      } else {
+        _tag ??= _createTag();
+        _outPrinter("$_tag${_colorize(message, _warnPen)}");
+      }
+    }
+  }
 }
