@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ansicolor/ansicolor.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
@@ -37,15 +35,18 @@ final class DefaultLogger implements Logger {
     return lines.join('\n');
   }
 
+  // ignore: avoid_print
+  void _out(String v) => v.split('\n').forEach(print);
+
   @override
   void error(String message, {error, StackTrace? stackTrace}) {
     if (kDebugMode) {
       final errorMessage =
-          '$message ${error?.toString()}${stackTrace?.toString()}';
+          '$message \nError: ${error?.toString()}\nStackTrace => \n${stackTrace?.toString()}';
 
       final m =
           "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(errorMessage, _errorPen)}";
-      log(m);
+      _out(m);
     }
   }
 
@@ -54,7 +55,7 @@ final class DefaultLogger implements Logger {
     if (kDebugMode) {
       final m =
           "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _infoPen)}";
-      log(m);
+      _out(m);
     }
   }
 
@@ -63,7 +64,7 @@ final class DefaultLogger implements Logger {
     if (kDebugMode) {
       final m =
           "${_fmt("[DUIT FRAMEWORK]: ", _headingPen)}${_fmt(message, _warnPen)}";
-      log(m);
+      _out(m);
     }
   }
 }
