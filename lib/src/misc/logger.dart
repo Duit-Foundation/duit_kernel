@@ -1,7 +1,6 @@
 // import 'package:flutter/foundation.dart' show kDebugMode;
 import 'dart:io';
 
-import 'package:ansicolor/ansicolor.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform;
 
 /// The [DebugLogger] interface defines a contract for logger implementations.
@@ -21,12 +20,8 @@ abstract interface class DebugLogger {
 ///
 /// It logs messages to the console if the app is running in debug mode.
 final class DefaultLogger implements DebugLogger {
-  final _errorPen = AnsiPen()..red();
-  final _warnPen = AnsiPen()..yellow();
-  final _infoPen = AnsiPen()..white();
-  final _headingPen = AnsiPen()..green();
   String? _tag;
-  static const logTag = "[DUIT FRAMEWORK]: ";
+  static const logTag = "[DUIT FRAMEWORK] ";
 
   /// The [DefaultLogger] singleton instance.
   static final instance = DefaultLogger._internal();
@@ -34,17 +29,13 @@ final class DefaultLogger implements DebugLogger {
   /// The internal constructor for the singleton instance.
   DefaultLogger._internal();
 
-  String _colorize(String m, AnsiPen c) {
-    var lines = m.split('\n');
-    lines = lines.map((e) => c.write(e)).toList();
-    final coloredMsg = lines.join('\n');
-    return coloredMsg;
-  }
+  String _colorize(String m, String escapeCode) =>
+      "\x1b[${escapeCode}m$m\x1b[0m";
 
   //ignore: avoid_print
   void _outPrinter(String m) => m.split("\n").forEach(print);
 
-  String _createTag() => _colorize(logTag, _headingPen);
+  String _createTag() => _colorize(logTag, "32");
 
   static final _isApple =
       [Platform.isIOS || Platform.isMacOS].contains(defaultTargetPlatform);
@@ -63,7 +54,7 @@ final class DefaultLogger implements DebugLogger {
         _tag ??= _createTag();
         final text =
             "$message\n Error text: ${error.toString()} \n StackTrace: ${stackTrace.toString()}";
-        _outPrinter("$_tag${_colorize(text, _errorPen)}");
+        _outPrinter("$_tag${_colorize("ERR: $text", "31")}");
       }
     }
   }
@@ -75,7 +66,7 @@ final class DefaultLogger implements DebugLogger {
         _outPrinter("$logTag$message");
       } else {
         _tag ??= _createTag();
-        _outPrinter("$_tag${_colorize(message, _infoPen)}");
+        _outPrinter("$_tag${_colorize("INFO: $message", "37")}");
       }
     }
   }
@@ -87,7 +78,7 @@ final class DefaultLogger implements DebugLogger {
         _outPrinter("$logTag$message");
       } else {
         _tag ??= _createTag();
-        _outPrinter("$_tag${_colorize(message, _warnPen)}");
+        _outPrinter("$_tag${_colorize("WARN: $message", "33")}");
       }
     }
   }
