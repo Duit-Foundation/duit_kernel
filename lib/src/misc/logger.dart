@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:ansicolor/ansicolor.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, debugPrint, defaultTargetPlatform, kDebugMode;
 
 /// The [Logger] interface defines a contract for logger implementations.
 ///
@@ -36,7 +39,14 @@ final class DefaultLogger implements Logger {
   }
 
   // ignore: avoid_print
-  void _out(String v) => v.split('\n').forEach(print);
+  void _out(String v) {
+    if ([TargetPlatform.iOS, TargetPlatform.macOS]
+        .contains(defaultTargetPlatform)) {
+      log(v);
+      return;
+    }
+    debugPrint(v);
+  }
 
   @override
   void error(String message, {error, StackTrace? stackTrace}) {
