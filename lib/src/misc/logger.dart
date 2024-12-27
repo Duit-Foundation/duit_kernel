@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform;
 
 /// The [DebugLogger] interface defines a contract for logger implementations.
 ///
@@ -46,6 +46,9 @@ final class DefaultLogger implements DebugLogger {
 
   String _createTag() => _colorize(logTag, _headingPen);
 
+  static final _isApple =
+      [Platform.isIOS || Platform.isMacOS].contains(defaultTargetPlatform);
+
   @override
   void error(
     String message, {
@@ -53,7 +56,7 @@ final class DefaultLogger implements DebugLogger {
     StackTrace? stackTrace,
   }) {
     if (kDebugMode) {
-      if (Platform.isIOS || Platform.isMacOS) {
+      if (_isApple) {
         _outPrinter(
             "$logTag$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}");
       } else {
@@ -68,7 +71,7 @@ final class DefaultLogger implements DebugLogger {
   @override
   void info(String message) {
     if (kDebugMode) {
-      if (Platform.isIOS || Platform.isMacOS) {
+      if (_isApple) {
         _outPrinter("$logTag$message");
       } else {
         _tag ??= _createTag();
@@ -80,7 +83,7 @@ final class DefaultLogger implements DebugLogger {
   @override
   void warn(String message) {
     if (kDebugMode) {
-      if (Platform.isIOS || Platform.isMacOS) {
+      if (_isApple) {
         _outPrinter("$logTag$message");
       } else {
         _tag ??= _createTag();
