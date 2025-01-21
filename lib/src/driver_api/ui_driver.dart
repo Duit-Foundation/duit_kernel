@@ -20,7 +20,12 @@ abstract interface class UIDriver {
 
   /// The stream controller for the UI driver.
   @protected
+  @Deprecated("Use eventStreamController instead")
   abstract StreamController<ElementTree?> streamController;
+
+  /// The stream controller for the UI driver.
+  @protected
+  abstract StreamController<UIDriverEvent> eventStreamController;
 
   /// The script runner used by the UI driver.
   abstract ScriptRunner? scriptRunner;
@@ -99,14 +104,22 @@ abstract interface class UIDriver {
   void dispose();
 
   /// Returns the stream of UI abstract trees.
+  @Deprecated("Use eventStream instead")
   Stream<ElementTree?> get stream;
+
+  Stream<UIDriverEvent> get eventStream;
 
   /// Set the BuildContext.
   set context(BuildContext value);
 
   /// Prepares the payload for a server action.
-  Map<String, dynamic> preparePayload(Iterable<ActionDependency> dependencies);
+  Map<String, dynamic> preparePayload(
+    Iterable<ActionDependency> dependencies,
+  );
 
   /// Updates the attributes of a controller.
-  Future<void> updateAttributes(String controllerId, Map<String, dynamic> json);
+  Future<void> updateAttributes(
+    String controllerId,
+    Map<String, dynamic> json,
+  );
 }
