@@ -12,16 +12,40 @@ sealed class DuitRegistry {
   static final Map<String, ComponentDescription> _componentRegistry = {};
 
   /// Registers a list of component descriptions.
-  static FutureOr<void> registerComponents(List<Map<String, dynamic>> components) async {
+  static FutureOr<void> registerComponents(
+    List<Map<String, dynamic>> components,
+  ) async {
     for (var block in components) {
       final description = await ComponentDescription.prepare(block);
       _componentRegistry[description.tag] = description;
     }
   }
 
+  /// Registers a component description.
+  ///
+  /// This method takes a component description as a JSON-compatible map and
+  /// registers it in the registry. The component description must have a 'tag'
+  /// key with a unique string value as its identifier.
+  ///
+  /// The function returns a [FutureOr] that resolves when the component description
+  /// is registered.
+  static FutureOr<void> registerComponent(
+    Map<String, dynamic> component,
+  ) async {
+    final description = await ComponentDescription.prepare(component);
+    _componentRegistry[description.tag] = description;
+  }
+
   /// Returns the component description by the specified tag.
   static ComponentDescription? getComponentDescription(String tag) {
     return _componentRegistry[tag];
+  }
+
+  /// Removes the component description with the specified tag from the registry.
+  ///
+  /// Returns [true] if the component description was successfully removed, and [false] otherwise.
+  static bool removeComponentDescription(String tag) {
+    return _componentRegistry.remove(tag) == null;
   }
 
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.

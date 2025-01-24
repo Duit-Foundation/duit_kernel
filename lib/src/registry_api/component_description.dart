@@ -2,6 +2,35 @@ import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
 
+extension type _UiElementJsonView(Map<String, dynamic> json) {
+  bool get controlled => json["controlled"] ?? false;
+
+  Map<String, dynamic> get attributes {
+    final hasProperty = json.containsKey("attributes");
+    if (hasProperty) {
+      return (json["attributes"] as Map).cast<String, dynamic>();
+    } else {
+      return <String, dynamic>{};
+    }
+  }
+
+  Set<RefWithTarget> get refs {
+    final hasProperty = json.containsKey("refs") && json["refs"] != null;
+    if (hasProperty) {
+      return (json["refs"] as Iterable)
+          .map(
+            (el) => RefWithTarget(
+              target: attributes,
+              ref: ValueReference.fromJson(el),
+            ),
+          )
+          .toSet();
+    } else {
+      return <RefWithTarget>{};
+    }
+  }
+}
+
 /// Description of the component for registering it
 /// in the [DuitRegistry] under the key corresponding to the [tag] property
 final class ComponentDescription {
@@ -26,27 +55,12 @@ final class ComponentDescription {
     Map<String, dynamic> obj,
     Set<RefWithTarget> container,
   ) async {
-    if (obj['controlled'] == true) {
+    final view = _UiElementJsonView(obj);
+    if (view.controlled) {
       _replaceId(obj);
     }
 
-    final attributes = obj['attributes'] as Map<String, dynamic>;
-    final refs = attributes['refs'];
-
-    if (refs != null) {
-      final list = List.from(
-        refs,
-        growable: false,
-      );
-
-      for (final ref in list) {
-        final rT = RefWithTarget(
-          target: attributes,
-          ref: ValueReference.fromJson(ref),
-        );
-        container.add(rT);
-      }
-    }
+    container.addAll(view.refs);
 
     if (obj['children'] != null) {
       final children = List.from(
