@@ -8,7 +8,7 @@ extension type _UiElementJsonView(Map<String, dynamic> json) {
   Map<String, dynamic> get attributes {
     final hasProperty = json.containsKey("attributes");
     if (hasProperty) {
-      return (json["attributes"] as Map).cast<String, dynamic>();
+      return json["attributes"] as Map<String, dynamic>;
     } else {
       return <String, dynamic>{};
     }
