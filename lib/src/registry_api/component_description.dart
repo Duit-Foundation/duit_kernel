@@ -2,6 +2,35 @@ import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
 
+extension type _UiElementJsonView(Map<String, dynamic> json) {
+  bool get controlled => json["controlled"] ?? false;
+
+  Map<String, dynamic> get attributes {
+    final hasProperty = json.containsKey("attributes");
+    if (hasProperty) {
+      return (json["attributes"] as Map).cast<String, dynamic>();
+    } else {
+      return <String, dynamic>{};
+    }
+  }
+
+  Set<RefWithTarget> get refs {
+    final attrs = attributes;
+    if (attributes.containsKey("refs")) {
+      return (attrs["refs"] as Iterable)
+          .map(
+            (el) => RefWithTarget(
+              ref: ValueReference.fromJson(el),
+              target: attrs,
+            ),
+          )
+          .toSet();
+    } else {
+      return <RefWithTarget>{};
+    }
+  }
+}
+
 /// Description of the component for registering it
 /// in the [DuitRegistry] under the key corresponding to the [tag] property
 final class ComponentDescription {

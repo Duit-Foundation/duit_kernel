@@ -9,10 +9,14 @@ import 'package:duit_kernel/src/driver_api/script_def.dart';
 extension type ServerActionJsonView(Map<String, dynamic> json) {
   Iterable<ActionDependency> get dependsOn {
     final hasProperty = json.containsKey("dependsOn");
-    if (hasProperty) {
-      return json["dependsOn"].map((el) => ActionDependency.fromJson(el));
+    if (hasProperty &&
+        json["dependsOn"] is List &&
+        json["dependsOn"].isNotEmpty) {
+      return (json["dependsOn"] as List).map(
+        (el) => ActionDependency.fromJson(el),
+      );
     } else {
-      return [];
+      return const [];
     }
   }
 
