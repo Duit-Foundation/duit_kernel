@@ -19,6 +19,12 @@ sealed class DuitRegistry {
     }
   }
 
+  static FutureOr<void> registerComponent(
+      Map<String, dynamic> component) async {
+    final description = await ComponentDescription.prepare(component);
+    _componentRegistry[description.tag] = description;
+  }
+
   /// Returns the component description by the specified tag.
   static ComponentDescription? getComponentDescription(String tag) {
     return _componentRegistry[tag];

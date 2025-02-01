@@ -110,4 +110,7 @@ abstract interface class UIElementController<T> {
   /// This method is used to remove the listener that was previously registered
   /// with the [listenCommand] method.
   void removeCommandListener();
+
+  /// Cast the controller to the specified type.
+  UIElementController<R> cast<R>();
 }
