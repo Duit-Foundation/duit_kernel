@@ -1,3 +1,9 @@
+## 3.2.0
+
+- New stream of typed events from driver
+- Duit view abstraction
+- View display state changes handling
+
 ## 3.1.0
 
 - Added DebugLogger interface and default implementation for it
