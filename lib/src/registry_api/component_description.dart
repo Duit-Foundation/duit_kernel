@@ -10,7 +10,7 @@ extension type _UiElementJsonView(Map<String, dynamic> json) {
     if (hasProperty) {
       return (json["attributes"] as Map).cast<String, dynamic>();
     } else {
-      return <String, dynamic>{};
+      return const <String, dynamic>{};
     }
   }
 
@@ -26,7 +26,7 @@ extension type _UiElementJsonView(Map<String, dynamic> json) {
           )
           .toSet();
     } else {
-      return <RefWithTarget>{};
+      return const <RefWithTarget>{};
     }
   }
 }
@@ -55,28 +55,14 @@ final class ComponentDescription {
     Map<String, dynamic> obj,
     Set<RefWithTarget> container,
   ) async {
-    if (obj['controlled'] == true) {
+    final view = _UiElementJsonView(obj);
+    if (view.controlled) {
       _replaceId(obj);
     }
 
-    final attributes = obj['attributes'] as Map<String, dynamic>;
-    final refs = attributes['refs'];
+    container.addAll(view.refs);
 
-    if (refs != null) {
-      final list = List.from(
-        refs,
-        growable: false,
-      );
-
-      for (final ref in list) {
-        final rT = RefWithTarget(
-          target: attributes,
-          ref: ValueReference.fromJson(ref),
-        );
-        container.add(rT);
-      }
-    }
-
+    
     if (obj['children'] != null) {
       final children = List.from(
         obj['children'],
