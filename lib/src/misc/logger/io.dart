@@ -1,27 +1,13 @@
-// import 'package:flutter/foundation.dart' show kDebugMode;
 import 'dart:io';
 
+import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform;
-
-/// The [DebugLogger] interface defines a contract for logger implementations.
-///
-/// The methods in [DebugLogger] are used to log messages to the console.
-abstract interface class DebugLogger {
-  void info(String message);
-  void warn(String message);
-  void error(
-    String message, {
-    dynamic error,
-    StackTrace? stackTrace,
-  });
-}
 
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
 /// It logs messages to the console if the app is running in debug mode.
 final class DefaultLogger implements DebugLogger {
   String? _tag;
-  static const logTag = "[DUIT FRAMEWORK] ";
 
   /// The [DefaultLogger] singleton instance.
   static final instance = DefaultLogger._internal();
@@ -35,7 +21,7 @@ final class DefaultLogger implements DebugLogger {
   //ignore: avoid_print
   void _outPrinter(String m) => m.split("\n").forEach(print);
 
-  String _createTag() => _colorize(logTag, "32");
+  String _createTag() => _colorize(DebugLogger.logTag, "32");
 
   static final _isApple =
       [Platform.isIOS || Platform.isMacOS].contains(defaultTargetPlatform);
@@ -49,7 +35,7 @@ final class DefaultLogger implements DebugLogger {
     if (kDebugMode) {
       if (_isApple) {
         _outPrinter(
-            "$logTag$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}");
+            "${DebugLogger.logTag}$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}");
       } else {
         _tag ??= _createTag();
         final text =
@@ -63,7 +49,7 @@ final class DefaultLogger implements DebugLogger {
   void info(String message) {
     if (kDebugMode) {
       if (_isApple) {
-        _outPrinter("$logTag$message");
+        _outPrinter("${DebugLogger.logTag}$message");
       } else {
         _tag ??= _createTag();
         _outPrinter("$_tag${_colorize("INFO: $message", "37")}");
@@ -75,7 +61,7 @@ final class DefaultLogger implements DebugLogger {
   void warn(String message) {
     if (kDebugMode) {
       if (_isApple) {
-        _outPrinter("$logTag$message");
+        _outPrinter("${DebugLogger.logTag}$message");
       } else {
         _tag ??= _createTag();
         _outPrinter("$_tag${_colorize("WARN: $message", "33")}");

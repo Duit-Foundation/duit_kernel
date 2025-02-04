@@ -1,3 +1,3 @@
 export 'script_runner.dart';
-export 'logger.dart';
+export 'logger/index.dart';
 export 'parser.dart';
