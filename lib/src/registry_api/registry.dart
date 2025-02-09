@@ -45,19 +45,9 @@ sealed class DuitRegistry {
   static FutureOr<void> registerComponents(
     List<Map<String, dynamic>> components,
   ) async {
-      for (var block in components) {
-        await _componentManager.prepare(block);
-      }
-      _logger.info(
-        "All of ${components.length} components registered successfull",
-      );
-    } catch (e, s) {
-      _logger.error(
-        "Components registration failed",
-        error: e,
-        stackTrace: s,
-      );
-      rethrow;
+    for (var block in components) {
+      final description = await ComponentDescription.prepare(block);
+      _componentRegistry[description.tag] = description;
     }
   }
 
