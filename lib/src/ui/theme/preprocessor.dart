@@ -16,8 +16,14 @@ final class ThemePreprocessor {
         "BackdropFilter" ||
         "ColoredBox" ||
         "Container" =>
-          AnimatedWidgetThemeToken(themeData),
-        "ElevatedButton" || "Center" => const DefaultThemeToken(),
+          AnimatedWidgetThemeToken(
+            themeData,
+            theme["type"],
+          ),
+        "ElevatedButton" || "Center" => DefaultThemeToken(
+            themeData,
+            theme["type"],
+          ),
         _ => const UnknownThemeToken(),
       };
 

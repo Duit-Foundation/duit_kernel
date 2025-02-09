@@ -1,5 +1,4 @@
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/ui/theme/theme_override_rule.dart';
 
 /// Represents a wrapper for view attributes.
 ///
@@ -59,7 +58,10 @@ final class ViewAttribute<T> {
       final overrideRule = ThemeOverrideRule.fromString(json["overrideRule"]);
 
       if (themeKey != null) {
-        final token = DuitRegistry.theme.getToken(themeKey);
+        final token = DuitRegistry.theme.getToken(
+          themeKey,
+          type,
+        );
 
         if (overrideRule == ThemeOverrideRule.themeOverlay) {
           value = {
@@ -67,10 +69,9 @@ final class ViewAttribute<T> {
             ...value,
           };
         } else {
-          value = {
-            ...value,
-            ...token.widgetTheme,
-          };
+          value.addAll(
+            token.widgetTheme,
+          );
         }
       }
     }

@@ -7,5 +7,18 @@ final class DuitTheme {
     Map<String, ThemeToken> theme,
   ) : _tokens = theme;
 
-  ThemeToken getToken(String key) => _tokens[key] ?? const UnknownThemeToken();
+  ThemeToken getToken(
+    String key,
+    String type,
+  ) {
+    final token = _tokens[key];
+
+    if (token == null) {
+      return const UnknownThemeToken();
+    } else if (token.type == type) {
+      return token;
+    } else {
+      return const UnknownThemeToken();
+    }
+  }
 }

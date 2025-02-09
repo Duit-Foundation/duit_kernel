@@ -1,6 +1,6 @@
 enum ThemeOverrideRule {
   themeOverlay,
-  themePriority();
+  themePriority;
 
   static ThemeOverrideRule fromString(dynamic value) {
     switch (value) {
