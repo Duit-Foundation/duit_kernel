@@ -70,15 +70,7 @@ sealed class DuitRegistry {
 
   /// Returns the component description by the specified tag.
   static ComponentDescription? getComponentDescription(String tag) {
-    final desctiption = _componentManager.getComponentDescription(tag);
-    if (desctiption != null) {
-      return desctiption;
-    } else {
-      _logger.warn(
-        "Not found desctiption for specified tag - $tag",
-      );
-      return null;
-    }
+    return _componentRegistry[tag];
   }
 
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
