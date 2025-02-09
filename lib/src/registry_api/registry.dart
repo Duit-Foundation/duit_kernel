@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/ui/theme/theme.dart';
-
-import 'factory_record.dart';
+import 'package:duit_kernel/src/registry_api/factory_record.dart';
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
@@ -16,7 +14,6 @@ sealed class DuitRegistry {
   static DuitTheme _theme = const DuitTheme({});
 
   static void configure({
-    ComponentRegistry? componentManager,
     DebugLogger? logger,
     ResourceLoader<DuitTheme>? themeLoader,
   }) {
