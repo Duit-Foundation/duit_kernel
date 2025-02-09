@@ -24,7 +24,7 @@ final class ThemePreprocessor {
       for (var entry in themeData.entries) {
         final key = entry.key;
         if (token.excludedFields.contains(key)) {
-          errors.add("Token contains excluded field $key");
+          errors.add("Token contains excluded field |$key|");
         }
       }
 

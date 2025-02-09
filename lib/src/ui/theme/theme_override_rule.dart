@@ -9,7 +9,7 @@ enum ThemeOverrideRule {
       case "themePriority" || 1:
         return ThemeOverrideRule.themePriority;
       default:
-        throw ArgumentError("Invalid ThemeOverrideRule value: $value");
+        return ThemeOverrideRule.themeOverlay;
     }
   }
 }

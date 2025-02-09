@@ -58,7 +58,7 @@ final class ViewAttribute<T> {
       final themeKey = json["theme"] as String?;
       final overrideRule = ThemeOverrideRule.fromString(json["overrideRule"]);
 
-      if (!ignoreTheme && themeKey != null) {
+      if (themeKey != null) {
         final token = DuitRegistry.theme.getToken(themeKey);
 
         if (overrideRule == ThemeOverrideRule.themeOverlay) {

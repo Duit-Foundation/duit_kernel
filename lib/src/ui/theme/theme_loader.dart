@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/ui/theme/index.dart';
 import 'package:duit_kernel/src/ui/theme/preprocessor.dart';
 import 'package:flutter/services.dart';
 
