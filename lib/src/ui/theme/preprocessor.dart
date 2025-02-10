@@ -9,20 +9,75 @@ final class ThemePreprocessor {
     for (var themeEntry in theme.entries) {
       final theme = themeEntry.value as Map<String, dynamic>;
       final themeData = theme["data"] as Map<String, dynamic>;
+      final widgetType = theme["type"];
 
-      final ThemeToken token = switch (theme["type"]) {
-        "Text" => TextThemeToken(themeData),
+      /* Ignored widget types:
+      - AnimatedBuilder
+      - GestureDetector
+      - IntrinsicHeight
+      - LifecycleStateListener
+      - ListView
+      - Meta
+      - Subtree
+      */
+      final ThemeToken token = switch (widgetType) {
+        "Text" => TextThemeToken(
+            themeData,
+          ),
+        "Image" => ImageThemeToken(
+            themeData,
+          ),
         "Align" ||
         "BackdropFilter" ||
         "ColoredBox" ||
-        "Container" =>
-          AnimatedWidgetThemeToken(
+        "ConstrainedBoxAttributes" ||
+        "DecoratedBox" ||
+        "Expanded" ||
+        "FittedBox" ||
+        "Row" ||
+        "Column" ||
+        "SizedBox" ||
+        "Container" ||
+        "OverflowBox" ||
+        "Padding" ||
+        "Positioned" ||
+        "Opacity" ||
+        "RotatedBox" ||
+        "Stack" ||
+        "Wrap" ||
+        "Transform" =>
+          AnimatedPropOwnerThemeToken(
             themeData,
-            theme["type"],
+            widgetType,
           ),
-        "ElevatedButton" || "Center" => DefaultThemeToken(
+        "AnimatedOpacity" => ImplicitAnimatableThemeToken(
             themeData,
-            theme["type"],
+            widgetType,
+          ),
+        "ElevatedButton" ||
+        "Center" ||
+        "IgnorePointerAttributes" ||
+        "RepaintBoundary" ||
+        "SingleChildScrollView" =>
+          DefaultThemeToken(
+            themeData,
+            widgetType,
+          ),
+        "CheckboxAttributes" ||
+        "Switch" ||
+        "TextField" =>
+          AttendedWidgetThemeToken(
+            themeData,
+            widgetType,
+          ),
+        "RadioGroupContext" => RadioGroupContextThemeToken(
+            themeData,
+          ),
+        "Radio" => RadioThemeToken(
+            themeData,
+          ),
+        "Slider" => SliderThemeToken(
+            themeData,
           ),
         _ => const UnknownThemeToken(),
       };
@@ -30,7 +85,7 @@ final class ThemePreprocessor {
       for (var entry in themeData.entries) {
         final key = entry.key;
         if (token.excludedFields.contains(key)) {
-          errors.add("Token contains excluded field |$key|");
+          errors.add("Token can`t contains excluded field - |$key|");
         }
       }
 

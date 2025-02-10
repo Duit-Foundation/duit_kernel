@@ -1,4 +1,5 @@
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/ui/theme/theme_token.dart';
 
 /// Represents a wrapper for view attributes.
 ///
@@ -62,6 +63,15 @@ final class ViewAttribute<T> {
           themeKey,
           type,
         );
+
+        if (token is UnknownThemeToken) {
+          return _attributeParser.parse<R>(
+            type,
+            value,
+            tag,
+            id: id,
+          );
+        }
 
         if (overrideRule == ThemeOverrideRule.themeOverlay) {
           value = {
