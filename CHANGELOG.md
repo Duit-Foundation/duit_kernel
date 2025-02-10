@@ -1,3 +1,7 @@
+## 3.3.0
+
+- Added experimental theme support
+
 ## 3.2.0
 
 - New stream of typed events from driver
