@@ -1,18 +1,47 @@
 import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
-
-import 'factory_record.dart';
+import 'package:duit_kernel/src/registry_api/factory_record.dart';
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static final Map<String, FactoryRecord> _registry = {};
+  static final Map<String, FactoryRecord> _customWidgetRegistry = {};
 
   static final Map<String, ComponentDescription> _componentRegistry = {};
+  static late final DebugLogger _logger;
+  static late final ResourceLoader<DuitTheme> _themeLoader;
+  static DuitTheme _theme = const DuitTheme({});
+
+  static void configure({
+    DebugLogger? logger,
+    ResourceLoader<DuitTheme>? themeLoader,
+  }) {
+    _logger = logger ?? DefaultLogger.instance;
+    if (themeLoader != null) {
+      _themeLoader = themeLoader;
+    }
+  }
+
+  static DuitTheme get theme => _theme;
+
+  static Future<void> initTheme() async {
+    try {
+      _theme = await _themeLoader.load();
+    } catch (e, s) {
+      _logger.error(
+        "Theme initialization failed",
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
+  }
 
   /// Registers a list of component descriptions.
-  static FutureOr<void> registerComponents(List<Map<String, dynamic>> components) async {
+  static FutureOr<void> registerComponents(
+    List<Map<String, dynamic>> components,
+  ) async {
     for (var block in components) {
       final description = await ComponentDescription.prepare(block);
       _componentRegistry[description.tag] = description;
@@ -20,7 +49,8 @@ sealed class DuitRegistry {
   }
 
   static FutureOr<void> registerComponent(
-      Map<String, dynamic> component) async {
+    Map<String, dynamic> component,
+  ) async {
     final description = await ComponentDescription.prepare(component);
     _componentRegistry[description.tag] = description;
   }
@@ -45,31 +75,59 @@ sealed class DuitRegistry {
     required BuildFactory buildFactory,
     required AttributesFactory attributesFactory,
   }) {
-    _registry[key] = (
+    _customWidgetRegistry[key] = (
       attributesFactory: attributesFactory,
       modelFactory: modelFactory,
       buildFactory: buildFactory,
     );
+
+    _logger.info(
+      "Custom widget $key registered successfull",
+    );
   }
 
-  /// Returns the model factory registered with the specified [key].
+  /// Returns the model factory registered with the specified [tag].
   ///
-  /// Returns `null` if the specified [key] is not registered.
-  static ModelFactory? getModelFactory(String key) {
-    return _registry[key]?.modelFactory;
+  /// Returns `null` if the specified [tag] is not registered.
+  static ModelFactory? getModelFactory(String tag) {
+    final factory = _customWidgetRegistry[tag]?.modelFactory;
+    if (factory != null) {
+      return factory;
+    } else {
+      _logger.warn(
+        "Not found model factory for specified tag - $tag",
+      );
+      return null;
+    }
   }
 
-  /// Returns the build factory registered with the specified [key].
+  /// Returns the build factory registered with the specified [tag].
   ///
-  /// Returns `null` if the specified [key] is not registered.
-  static BuildFactory? getBuildFactory(String key) {
-    return _registry[key]?.buildFactory;
+  /// Returns `null` if the specified [tag] is not registered.
+  static BuildFactory? getBuildFactory(String tag) {
+    final factory = _customWidgetRegistry[tag]?.buildFactory;
+    if (factory != null) {
+      return factory;
+    } else {
+      _logger.warn(
+        "Not found build factory for specified tag - $tag",
+      );
+      return null;
+    }
   }
 
-  /// Returns the attributes factory registered with the specified [key].
+  /// Returns the attributes factory registered with the specified [tag].
   ///
-  /// Returns `null` if the specified [key] is not registered.
-  static AttributesFactory? getAttributesFactory(String key) {
-    return _registry[key]?.attributesFactory;
+  /// Returns `null` if the specified [tag] is not registered.
+  static AttributesFactory? getAttributesFactory(String tag) {
+    final factory = _customWidgetRegistry[tag]?.attributesFactory;
+    if (factory != null) {
+      return factory;
+    } else {
+      _logger.warn(
+        "Not found attributes factory for specified tag - $tag",
+      );
+      return null;
+    }
   }
 }

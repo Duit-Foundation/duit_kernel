@@ -1,4 +1,5 @@
-import '../index.dart';
+import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/ui/theme/theme_token.dart';
 
 /// Represents a wrapper for view attributes.
 ///
@@ -48,9 +49,46 @@ final class ViewAttribute<T> {
     String? tag, {
     String? id,
   }) {
+    assert(json != null);
+
+    final ignoreTheme = json!["ignoreTheme"] ?? false;
+    var value = json;
+
+    if (!ignoreTheme) {
+      final themeKey = json["theme"] as String?;
+      final overrideRule = ThemeOverrideRule.fromString(json["overrideRule"]);
+
+      if (themeKey != null) {
+        final token = DuitRegistry.theme.getToken(
+          themeKey,
+          type,
+        );
+
+        if (token is UnknownThemeToken) {
+          return _attributeParser.parse<R>(
+            type,
+            value,
+            tag,
+            id: id,
+          );
+        }
+
+        if (overrideRule == ThemeOverrideRule.themeOverlay) {
+          value = {
+            ...token.widgetTheme,
+            ...value,
+          };
+        } else {
+          value.addAll(
+            token.widgetTheme,
+          );
+        }
+      }
+    }
+
     return _attributeParser.parse<R>(
       type,
-      json,
+      value,
       tag,
       id: id,
     );

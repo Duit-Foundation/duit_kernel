@@ -1,6 +1,9 @@
-name: On PR
+name: Post-merge
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - 'main'
 
 jobs:
   test:
