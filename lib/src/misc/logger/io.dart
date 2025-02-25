@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/foundation.dart' show kDebugMode, defaultTargetPlatform;
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
@@ -23,8 +23,7 @@ final class DefaultLogger implements DebugLogger {
 
   String _createTag() => _colorize(DebugLogger.logTag, "32");
 
-  static final _isApple =
-      [Platform.isIOS || Platform.isMacOS].contains(defaultTargetPlatform);
+  static final _isApple = Platform.isIOS || Platform.isMacOS;
 
   @override
   void error(
