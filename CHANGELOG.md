@@ -1,3 +1,7 @@
+## 3.3.1
+
+- Themes patch
+
 ## 3.3.0
 
 - Added experimental theme support
