@@ -59,10 +59,19 @@ final class ViewAttribute<T> {
       final overrideRule = ThemeOverrideRule.fromString(json["overrideRule"]);
 
       if (themeKey != null) {
-        final token = DuitRegistry.theme.getToken(
-          themeKey,
-          type,
-        );
+        ThemeToken token;
+
+        if (tag != null) {
+          token = DuitRegistry.theme.getToken(
+            themeKey,
+            tag,
+          );
+        } else {
+          token = DuitRegistry.theme.getToken(
+            themeKey,
+            type,
+          );
+        }
 
         if (token is UnknownThemeToken) {
           return _attributeParser.parse<R>(
