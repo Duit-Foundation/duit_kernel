@@ -4,6 +4,8 @@
 abstract interface class DebugLogger {
   static const logTag = "[DUIT FRAMEWORK] ";
 
+  const DebugLogger();
+
   void info(String message);
   void warn(String message);
   void error(

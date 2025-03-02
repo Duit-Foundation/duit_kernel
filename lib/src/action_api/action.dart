@@ -2,7 +2,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 
 /// The [ServerAction] class represents an action that was sent by the server.
 base class ServerAction {
-  static late final Parser<ServerAction> _actionParser;
+  static late Parser<ServerAction> _actionParser;
 
   /// Set the parser to use for [ServerAction]s.
   ///

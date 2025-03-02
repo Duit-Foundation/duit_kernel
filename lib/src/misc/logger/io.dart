@@ -23,7 +23,7 @@ final class DefaultLogger implements DebugLogger {
 
   String _createTag() => _colorize(DebugLogger.logTag, "32");
 
-  static final _isApple = Platform.isIOS || Platform.isMacOS;
+  static final _isApple = !(Platform.isMacOS || Platform.isIOS);
 
   @override
   void error(
