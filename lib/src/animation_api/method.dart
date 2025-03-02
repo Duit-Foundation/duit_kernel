@@ -4,6 +4,7 @@ enum AnimationMethod {
   forward,
   repeat,
   reverse,
+
   /// Toggle between forward and reverse
   toggle,
 }

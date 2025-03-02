@@ -1,4 +1,3 @@
-
 /// The [ScriptDefinition] class represents a script definition used for script actions.
 ///
 /// It contains the following fields:

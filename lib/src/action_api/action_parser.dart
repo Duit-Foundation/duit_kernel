@@ -5,7 +5,6 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// It uses a [ServerActionJsonView] to parse the JSON map into a concrete action
 /// object based on the [ExecutionType] of the action.
 final class DefaultActionParser implements Parser<ServerAction> {
-
   const DefaultActionParser();
 
   @override

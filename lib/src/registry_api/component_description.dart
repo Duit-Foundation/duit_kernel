@@ -62,7 +62,6 @@ final class ComponentDescription {
 
     container.addAll(view.refs);
 
-    
     if (obj['children'] != null) {
       final children = List.from(
         obj['children'],

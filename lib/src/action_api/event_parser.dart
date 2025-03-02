@@ -8,7 +8,6 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// The [DefaultEventParser] is used by the [DefaultEventResolver] to parse events
 /// from the server.
 final class DefaultEventParser implements Parser<ServerEvent> {
-
   const DefaultEventParser();
 
   @override

@@ -1,4 +1,3 @@
-
 /// An [AnimationInterval] represents a time interval
 /// for an animation.
 final class AnimationInterval {
