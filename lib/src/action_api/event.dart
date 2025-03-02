@@ -7,7 +7,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// The [ServerEvent] class provides a static [parse] method for parsing a JSON map
 /// into a concrete event object.
 base class ServerEvent {
-  static late final Parser<ServerEvent> _eventParser;
+  static late Parser<ServerEvent> _eventParser;
 
   static set eventParser(Parser<ServerEvent> value) {
     _eventParser = value;
