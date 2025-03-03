@@ -1,23 +1,28 @@
 import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/registry_api/components/index.dart';
 import 'package:duit_kernel/src/registry_api/factory_record.dart';
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static final Map<String, FactoryRecord> _customWidgetRegistry = {};
-
-  static final Map<String, ComponentDescription> _componentRegistry = {};
-  static late final DebugLogger _logger;
+  static final Map<String, FactoryRecord> _customComponentRegistry = {};
+  static DebugLogger _logger = DefaultLogger.instance;
+  static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static late final ResourceLoader<DuitTheme> _themeLoader;
   static DuitTheme _theme = const DuitTheme({});
 
-  static void configure({
+  static FutureOr<void> configure({
     DebugLogger? logger,
     ResourceLoader<DuitTheme>? themeLoader,
-  }) {
-    _logger = logger ?? DefaultLogger.instance;
+    ComponentRegistry? componentRegistry,
+  }) async {
+    _logger = logger ?? _logger;
+    _componentRegistry = componentRegistry ?? _componentRegistry;
+
+    await _componentRegistry.init();
+
     if (themeLoader != null) {
       _themeLoader = themeLoader;
     }
@@ -42,22 +47,52 @@ sealed class DuitRegistry {
   static FutureOr<void> registerComponents(
     List<Map<String, dynamic>> components,
   ) async {
-    for (var block in components) {
-      final description = await ComponentDescription.prepare(block);
-      _componentRegistry[description.tag] = description;
+    try {
+      for (var block in components) {
+        await _componentRegistry.prepareComponent(block);
+      }
+      _logger.info(
+        "All of ${components.length} components registered successfull",
+      );
+    } catch (e, s) {
+      _logger.error(
+        "Components registration failed",
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
     }
   }
 
   static FutureOr<void> registerComponent(
     Map<String, dynamic> component,
   ) async {
-    final description = await ComponentDescription.prepare(component);
-    _componentRegistry[description.tag] = description;
+    try {
+      await _componentRegistry.prepareComponent(component);
+      _logger.info(
+        "Components registered successfully",
+      );
+    } catch (e, s) {
+      _logger.error(
+        "Components registration failed",
+        error: e,
+        stackTrace: s,
+      );
+      rethrow;
+    }
   }
 
   /// Returns the component description by the specified tag.
   static ComponentDescription? getComponentDescription(String tag) {
-    return _componentRegistry[tag];
+    final desctiption = _componentRegistry.getComponentDescription(tag);
+    if (desctiption != null) {
+      return desctiption;
+    } else {
+      _logger.warn(
+        "Not found desctiption for specified tag - $tag",
+      );
+      return null;
+    }
   }
 
   /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
@@ -75,7 +110,7 @@ sealed class DuitRegistry {
     required BuildFactory buildFactory,
     required AttributesFactory attributesFactory,
   }) {
-    _customWidgetRegistry[key] = (
+    _customComponentRegistry[key] = (
       attributesFactory: attributesFactory,
       modelFactory: modelFactory,
       buildFactory: buildFactory,
@@ -90,7 +125,7 @@ sealed class DuitRegistry {
   ///
   /// Returns `null` if the specified [tag] is not registered.
   static ModelFactory? getModelFactory(String tag) {
-    final factory = _customWidgetRegistry[tag]?.modelFactory;
+    final factory = _customComponentRegistry[tag]?.modelFactory;
     if (factory != null) {
       return factory;
     } else {
@@ -105,7 +140,7 @@ sealed class DuitRegistry {
   ///
   /// Returns `null` if the specified [tag] is not registered.
   static BuildFactory? getBuildFactory(String tag) {
-    final factory = _customWidgetRegistry[tag]?.buildFactory;
+    final factory = _customComponentRegistry[tag]?.buildFactory;
     if (factory != null) {
       return factory;
     } else {
@@ -120,7 +155,7 @@ sealed class DuitRegistry {
   ///
   /// Returns `null` if the specified [tag] is not registered.
   static AttributesFactory? getAttributesFactory(String tag) {
-    final factory = _customWidgetRegistry[tag]?.attributesFactory;
+    final factory = _customComponentRegistry[tag]?.attributesFactory;
     if (factory != null) {
       return factory;
     } else {
