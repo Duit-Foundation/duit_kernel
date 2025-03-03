@@ -4,7 +4,7 @@ final class ValueReference {
   final String objectKey, attributeKey;
   final Object? defaultValue;
 
-  ValueReference({
+  const ValueReference({
     required this.objectKey,
     required this.attributeKey,
     this.defaultValue,
