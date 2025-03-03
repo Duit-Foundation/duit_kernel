@@ -37,11 +37,7 @@ extension type _ComponentJsonView(Map<String, dynamic> json) {
 /// It provides methods for registering, getting and removing components.
 /// It also provides methods for initializing and disposing the registry.
 abstract base class ComponentRegistry {
-  final DebugLogger? logger;
-
-  const ComponentRegistry({
-    this.logger,
-  });
+  const ComponentRegistry();
 
   /// [ComponentRegistry] initialization method
   Future<void> init();

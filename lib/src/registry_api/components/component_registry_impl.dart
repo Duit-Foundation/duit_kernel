@@ -6,11 +6,7 @@ import 'package:duit_kernel/src/registry_api/components/index.dart';
 final class DefaultComponentRegistry extends ComponentRegistry {
   final Map<String, ComponentDescription> _components = {};
 
-  DefaultComponentRegistry({
-    DebugLogger? logger,
-  }) : super(
-          logger: logger,
-        );
+  DefaultComponentRegistry();
 
   @override
   Future<void> init() async {

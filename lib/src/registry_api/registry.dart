@@ -13,13 +13,15 @@ sealed class DuitRegistry {
   static late final ResourceLoader<DuitTheme> _themeLoader;
   static DuitTheme _theme = const DuitTheme({});
 
-  static void configure({
+  static FutureOr<void> configure({
     DebugLogger? logger,
     ResourceLoader<DuitTheme>? themeLoader,
     ComponentRegistry? componentRegistry,
-  }) {
+  }) async {
     _logger = logger ?? _logger;
     _componentRegistry = componentRegistry ?? _componentRegistry;
+
+    await _componentRegistry.init();
 
     if (themeLoader != null) {
       _themeLoader = themeLoader;
