@@ -7,7 +7,7 @@ void main() {
   setUpAll(() async {
     ViewAttribute.attributeParser = TestAttrParser();
 
-    DuitRegistry.configure(
+    await DuitRegistry.configure(
       themeLoader: const StaticThemeLoader(
         {
           "text_1": {
