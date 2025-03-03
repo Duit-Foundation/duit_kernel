@@ -1,3 +1,7 @@
+## 3.3.2
+
+- Added component registry
+
 ## 3.3.1
 
 - Themes patch
