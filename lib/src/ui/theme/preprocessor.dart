@@ -29,7 +29,7 @@ final class ThemePreprocessor {
       "Align" ||
       "BackdropFilter" ||
       "ColoredBox" ||
-      "ConstrainedBoxAttributes" ||
+      "ConstrainedBox" ||
       "DecoratedBox" ||
       "Expanded" ||
       "FittedBox" ||
@@ -44,7 +44,8 @@ final class ThemePreprocessor {
       "RotatedBox" ||
       "Stack" ||
       "Wrap" ||
-      "Transform" =>
+      "Transform" ||
+      "Card" =>
         AnimatedPropOwnerThemeToken(
           themeData,
           widgetType,
@@ -53,19 +54,28 @@ final class ThemePreprocessor {
           themeData,
           widgetType,
         ),
+      "GestureDetector" || "InkWell" => ExcludeGestureCallbacksThemeToken(
+          themeData,
+          widgetType,
+        ),
+      "AppBar" || "Scaffold" => ExcludeChildThemeToken(
+          themeData,
+          widgetType,
+        ),
+      "GridView" || "ListView" => DynamicChildHolderThemeToken(
+          themeData,
+          widgetType,
+        ),
       "ElevatedButton" ||
       "Center" ||
-      "IgnorePointerAttributes" ||
+      "IgnorePointer" ||
       "RepaintBoundary" ||
       "SingleChildScrollView" =>
         DefaultThemeToken(
           themeData,
           widgetType,
         ),
-      "CheckboxAttributes" ||
-      "Switch" ||
-      "TextField" =>
-        AttendedWidgetThemeToken(
+      "Checkbox" || "Switch" || "TextField" => AttendedWidgetThemeToken(
           themeData,
           widgetType,
         ),

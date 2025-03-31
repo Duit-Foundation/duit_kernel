@@ -7,6 +7,20 @@ const _attendedWidgetExcludedFields = {
   "value",
 };
 
+const _subviewsExcludedFields = {
+  "leading",
+  "title",
+  "actions",
+  "bottom",
+  "flexibleSpace",
+  "body",
+  "appBar",
+  "bottomNavigationBar",
+  "floatingActionButton",
+  "bottomSheet",
+  "persistentFooterButtons"
+};
+
 /// An abstract class representing a token for a theme in the application.
 ///
 /// [ThemeToken] is used to encapsulate theme-related data for widgets,
@@ -185,5 +199,71 @@ final class SliderThemeToken extends ThemeToken {
           },
           data,
           "Slider",
+        );
+}
+
+final class ExcludeGestureCallbacksThemeToken extends ThemeToken {
+  const ExcludeGestureCallbacksThemeToken(
+    Map<String, dynamic> data,
+    String type,
+  ) : super(
+          const {
+            ..._animatedOwnerExcludedFields,
+            "onTap",
+            "onTapDown",
+            "onTapUp",
+            "onTapCancel",
+            "onDoubleTap",
+            "onDoubleTapDown",
+            "onDoubleTapCancel",
+            "onLongPressDown",
+            "onLongPressCancel",
+            "onLongPress",
+            "onLongPressStart",
+            "onLongPressMoveUpdate",
+            "onLongPressUp",
+            "onLongPressEnd",
+            "onPanStart",
+            "onPanDown",
+            "onPanUpdate",
+            "onPanEnd",
+            "onPanCancel",
+            "onSecondaryTapDown",
+            "onSecondaryTapCancel",
+            "onSecondaryTap",
+            "onSecondaryTapUp",
+          },
+          data,
+          type,
+        );
+}
+
+final class ExcludeChildThemeToken extends ThemeToken {
+  const ExcludeChildThemeToken(
+    Map<String, dynamic> data,
+    String type,
+  ) : super(
+          const {
+            ..._animatedOwnerExcludedFields,
+            ..._subviewsExcludedFields,
+          },
+          data,
+          type,
+        );
+}
+
+final class DynamicChildHolderThemeToken extends ThemeToken {
+  const DynamicChildHolderThemeToken(
+    Map<String, dynamic> data,
+    String type,
+  ) : super(
+          const {
+            "childObjects",
+            "constructor",
+            "type",
+            "restorationId",
+          },
+          data,
+          type,
         );
 }
