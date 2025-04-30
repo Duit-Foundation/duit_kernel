@@ -7,12 +7,12 @@ import 'package:duit_kernel/duit_kernel.dart';
 ///
 /// This class serves as the base class for all ViewController objects in your application.
 /// It provides common properties and methods that can be used by subclasses.
-abstract interface class UIElementController<T> {
+abstract interface class UIElementController {
   /// Typed attributes object (view properties).
   ///
   /// The [attributes] property holds the typed attributes object associated with the controller.
   /// It provides access to the view properties and allows manipulation of their values.
-  abstract ViewAttribute<T> attributes;
+  abstract ViewAttribute attributes;
 
   /// Id for current controller, same with [ElementTreeEntry] id.
   abstract String id;
@@ -68,7 +68,7 @@ abstract interface class UIElementController<T> {
   ///
   /// This method is called to update the state of the UI element associated with the controller.
   /// It takes a [newState] parameter of type [ViewAttributeWrapper<T>] that represents the new state.
-  void updateState(ViewAttribute<T> newState);
+  void updateState(Map<String, dynamic> newState);
 
   /// Add a listener to [ChangeNotifier].
   ///
@@ -112,5 +112,5 @@ abstract interface class UIElementController<T> {
   void removeCommandListener();
 
   /// Cast the controller to the specified type.
-  UIElementController<R> cast<R>();
+  // UIElementController<R> cast<R>();
 }

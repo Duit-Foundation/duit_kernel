@@ -5,7 +5,7 @@ repository: https://github.com/lesleysin/duit_kernel
 
 environment:
   sdk: '>=3.4.4 <4.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=3.24.3"
 
 dependencies:
   ansicolor: ^2.0.3

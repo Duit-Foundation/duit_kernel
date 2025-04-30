@@ -15,7 +15,7 @@ base class ServerEvent {
 
   final String type;
 
-  ServerEvent({
+  const ServerEvent({
     required this.type,
   });
 
@@ -194,4 +194,48 @@ final class TimerEvent extends ServerEvent {
       payload: ServerEvent.parseEvent(json["event"]),
     );
   }
+}
+
+final class ShowBottomSheetEvent extends ServerEvent {
+  final Map<String, dynamic> child;
+  final Map<String, dynamic>? configuration;
+
+  ShowBottomSheetEvent({
+    required this.child,
+    this.configuration,
+  }) : super(type: "bottomSheet");
+
+  factory ShowBottomSheetEvent.fromJson(Map<String, dynamic> json) {
+    return ShowBottomSheetEvent(
+      child: json["child"] ?? {},
+      configuration: json["configuration"],
+    );
+  }
+}
+
+final class HideBottomSheetEvent extends ServerEvent {
+  final String id;
+  const HideBottomSheetEvent(this.id) : super(type: "hideBottomSheet");
+}
+
+final class ShowDialogEvent extends ServerEvent {
+  final Map<String, dynamic> child;
+  final Map<String, dynamic>? configuration;
+
+  ShowDialogEvent({
+    required this.child,
+    this.configuration,
+  }) : super(type: "dialog");
+
+  factory ShowDialogEvent.fromJson(Map<String, dynamic> json) {
+    return ShowDialogEvent(
+      child: json["child"] ?? {},
+      configuration: json["configuration"],
+    );
+  }
+}
+
+final class HideDialogEvent extends ServerEvent {
+  final String id;
+  const HideDialogEvent(this.id) : super(type: "hideBottomSheet");
 }
