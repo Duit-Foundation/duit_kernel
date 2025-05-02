@@ -1,7 +1,7 @@
-const _envAllowInlineFn = bool.fromEnvironment(
-  "allowInline",
+const _envPreferInlineFn = bool.fromEnvironment(
+  "preferInline",
   defaultValue: true,
 );
 
 const Object preferInline =
-    _envAllowInlineFn ? pragma("vm:prefer-inline") : Object();
+    _envPreferInlineFn ? pragma("vm:prefer-inline") : Object();

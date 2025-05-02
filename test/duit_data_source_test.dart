@@ -3,17 +3,111 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("FontWeight", () {
-    final attrs = DuitDataSource({
-      "fontWeight": 700,
-    });
+  group(
+    "Color",
+    () {
+      test(
+        "parsing",
+        () {
+          final attrs = DuitDataSource({
+            "color": "#DCDCDC",
+            "colorInst": Colors.amber,
+            "colList": [
+              255,
+              0,
+              0,
+            ],
+            "colList2": [
+              255,
+              0,
+              0,
+              0.0,
+            ],
+          });
 
-    expect(attrs.fontWeight(), FontWeight.w700);
+          final color = attrs.parseColor();
+          final defaultColorValue = attrs.parseColor(
+            key: "color1",
+            defaultValue: Colors.black,
+          );
+          final defaultColorValue2 = attrs.parseColor(
+            key: "color2",
+          );
+          final nullableColor = attrs.tryParseColor(key: "color3");
 
-    attrs["fontWeight"] = 400;
+          final listColor = attrs.parseColor(key: "colList");
+          final listColor2 = attrs.parseColor(key: "colList2");
+          final inst = attrs.parseColor(key: "colorInst");
 
-    expect(attrs.fontWeight(), FontWeight.w400);
-  });
+          expect(color, const Color(0xffdcdcdc));
+          expect(defaultColorValue, const Color(0xff000000));
+          expect(defaultColorValue2, Colors.transparent);
+          expect(nullableColor, isNull);
+          expect(listColor, const Color(0xffff0000));
+          expect(listColor.opacity, 1.0);
+          expect(listColor2.opacity, 0);
+          expect(inst, Colors.amber);
+        },
+      );
+
+      test(
+        "rewrite",
+        () {
+          final attrs = DuitDataSource({
+            "color": "#DCDCDC",
+          });
+
+          expect(attrs["color"], isA<String>());
+
+          attrs.parseColor();
+
+          expect(attrs["color"], isA<Color>());
+
+          attrs["color"] = [255, 0, 0];
+
+          expect(attrs["color"], isA<List>());
+
+          attrs.parseColor();
+
+          expect(attrs["color"], isA<Color>());
+        },
+      );
+    },
+  );
+
+  group(
+    "FontWeight",
+    () {
+      test(
+        "parsing",
+        () {
+          final attrs = DuitDataSource({
+            "fontWeight": 700,
+            "fw": FontWeight.w300,
+          });
+
+          expect(attrs.fontWeight(), FontWeight.w700);
+          expect(attrs.fontWeight(key: "fw"), FontWeight.w300);
+        },
+      );
+
+      test(
+        "rewrite",
+        () {
+          final attrs = DuitDataSource({
+            "fontWeight": 700,
+          });
+          expect(attrs["fontWeight"], isA<int>());
+          attrs.fontWeight();
+          expect(attrs["fontWeight"], isA<FontWeight>());
+          attrs["fontWeight"] = "invalid_value";
+          attrs.fontWeight();
+          expect(attrs["fontWeight"], isNull);
+        },
+      );
+    },
+  );
+
   test(
     "Align test",
     () {

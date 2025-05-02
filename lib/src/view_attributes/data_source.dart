@@ -7,6 +7,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+/// Converts a given hex color string to a [Color].
+///
+/// The provided [color] must be a valid hex color string, optionally prefixed with a '#'.
+/// If the [color] is `null`, or if it's not a valid hex color string, this function returns `null`.
+/// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
+/// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
 @preferInline
 Color? _colorFromHexString(String color) {
   final isHexColor = color.startsWith("#");
@@ -19,6 +25,16 @@ Color? _colorFromHexString(String color) {
   return null;
 }
 
+/// Converts a list of 3 or 4 elements to a [Color].
+///
+/// The list must contain 3 or 4 elements, each of which must be a valid
+/// [int] value between 0 and 255. If the list has 3 elements, the opacity
+/// is assumed to be 1.0. If the list has 4 elements, the first element is
+/// assumed to be the opacity, and the remaining 3 elements are the color.
+///
+/// If the list is `null`, or if it does not contain exactly 3 or 4 elements,
+/// or if any of the elements are not valid integers between 0 and 255, this
+/// function returns `null`.
 @preferInline
 Color? _colorFromList(List color) {
   return switch (color.length) {
@@ -38,6 +54,14 @@ Color? _colorFromList(List color) {
   };
 }
 
+/// Converts a JSON value to a [Color].
+///
+/// The JSON value must be either a string (which is interpreted as a
+/// hexadecimal color string) or a list of 3 or 4 elements (which is
+/// interpreted as a color with optional opacity).
+///
+/// If the JSON value is not a valid color (i.e. it is not a string or a list
+/// of 3 or 4 elements), this function returns `null`.
 @preferInline
 Color? _parseColor(color) => switch (color) {
       String() => _colorFromHexString(color),
@@ -47,6 +71,18 @@ Color? _parseColor(color) => switch (color) {
 
 extension type DuitDataSource(Map<String, dynamic> json)
     implements Map<String, dynamic> {
+  /// Retrieves a [ServerAction] from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [ServerAction], it returns that action.
+  /// If the value is a [Map<String, dynamic>], it attempts to parse it into a [ServerAction].
+  /// Otherwise, it returns `null`.
+  ///
+  /// The parsed or existing [ServerAction] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [ServerAction] if the value is valid or can be parsed.
+  /// - `null` if the value is not a valid [ServerAction] or cannot be parsed.
+
   @preferInline
   ServerAction? getAction(String key) {
     final action = json[key];
@@ -56,6 +92,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
       _ => null
     };
   }
+
+  /// Retrieves a list of action dependencies from the JSON map.
+  ///
+  /// This method checks if the JSON map contains a "dependsOn" key, which is
+  /// expected to be a non-empty list. If present, it converts each element
+  /// of the list into an `ActionDependency` using `ActionDependency.fromJson`.
+  /// If the key is absent or the list is empty, it returns an empty iterable.
+  ///
+  /// Returns:
+  /// - A non-empty `Iterable<ActionDependency>` if "dependsOn" exists and is valid.
+  /// - An empty iterable if "dependsOn" does not exist or is empty.
 
   @preferInline
   Iterable<ActionDependency> getActionDependencies() {
@@ -75,6 +122,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+  Map<String, dynamic> _map(Map value) => Map<String, dynamic>.from(value);
+
+  @preferInline
   String? get parentBuilderId {
     final id = json["parentBuilderId"];
     return id is String? ? id : null;
@@ -90,6 +140,30 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+  List<DuitTweenDescription> getTweens() {
+    final value = json["tweenDescriptions"];
+    return json["tweenDescriptions"] = switch (value) {
+      List<DuitTweenDescription>() => value,
+      List() => value
+          .map<DuitTweenDescription>((v) => DuitTweenDescription.fromJson(v))
+          .toList(),
+      _ => <DuitTweenDescription>[],
+    };
+  }
+
+  /// Retrieves a color value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [Color], it returns that color.
+  /// If the value is a [String], it attempts to parse it into a [Color].
+  /// If the value is a [List], it attempts to parse it into a [Color].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Color] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [Color] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Color] or cannot be parsed.
+  @preferInline
   Color parseColor({
     String key = "color",
     Color defaultValue = Colors.transparent,
@@ -100,17 +174,42 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return json[key] = col ?? defaultValue;
   }
 
+  /// Retrieves a color value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [Color], it returns that color.
+  /// If the value is a [String], it attempts to parse it into a [Color].
+  /// If the value is a [List], it attempts to parse it into a [Color].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// Unlike [parseColor], this method does not store the parsed or existing [Color] back into the JSON map.
+  ///
+  /// Returns:
+  /// - A [Color] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Color] or cannot be parsed.
   @preferInline
   Color? tryParseColor({
     String key = "color",
     Color? defaultValue,
   }) {
     final value = json[key];
-    if (value is Color) return value;
-    final val = _parseColor(value);
-    return val ?? defaultValue;
+    return json[key] = switch (value) {
+      Color() => value,
+      String() || List() => _parseColor(value),
+      _ => defaultValue,
+    };
   }
 
+  /// Retrieves a duration value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [Duration], it returns that duration.
+  /// If the value is a [num], it attempts to parse it into a [Duration].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Duration] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [Duration] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Duration] or cannot be parsed.
   @preferInline
   Duration duration({
     String key = "duration",
@@ -118,17 +217,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }) {
     final value = json[key];
 
-    if (value == null) {
-      return json[key] = defaultValue ?? Duration.zero;
-    }
-
-    //value not copied, return original
-    if (value is Duration) return value;
-
-    if (value is num) {
-      return json[key] = Duration(milliseconds: value.toInt());
-    }
-    return json[key] = Duration.zero;
+    return json[key] = switch (value) {
+      Duration() => value,
+      num() => Duration(milliseconds: value.toInt()),
+      _ => defaultValue ?? Duration.zero,
+    };
   }
 
   @preferInline
@@ -234,12 +327,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
     String key = "textAlign",
     TextAlign? defaultValue,
   }) {
-    if (!json.containsKey(key)) {
-      return defaultValue;
-    }
-
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       TextAlign() => value,
       "left" || 0 => TextAlign.left,
       "right" || 1 => TextAlign.right,
@@ -257,7 +346,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     TextDirection? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       TextDirection() => value,
       "ltr" || 0 => TextDirection.ltr,
       "rtl" || 1 => TextDirection.rtl,
@@ -272,7 +361,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     TextOverflow? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       TextOverflow() => value,
       "clip" || 0 => TextOverflow.clip,
       "ellipsis" || 1 => TextOverflow.ellipsis,
@@ -287,15 +376,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
   Clip clipBehavior({
     String key = "clipBehavior",
     Clip? defaultValue,
-  }) =>
-      json[key] = switch (json[key]) {
-        Clip() => json[key],
-        "hardEdge" || 0 => Clip.hardEdge,
-        "antiAlias" || 1 => Clip.antiAlias,
-        "antiAliasWithSaveLayer" || 2 => Clip.antiAliasWithSaveLayer,
-        "none" || 3 => Clip.none,
-        _ => defaultValue ?? Clip.hardEdge
-      };
+  }) {
+    final value = json[key];
+    return json[key] = switch (value) {
+      Clip() => value,
+      "hardEdge" || 0 => Clip.hardEdge,
+      "antiAlias" || 1 => Clip.antiAlias,
+      "antiAliasWithSaveLayer" || 2 => Clip.antiAliasWithSaveLayer,
+      "none" || 3 => Clip.none,
+      _ => defaultValue ?? Clip.hardEdge
+    };
+  }
 
   @preferInline
   Size _sizeFromMap(DuitDataSource map) => Size(
@@ -330,41 +421,35 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+  EdgeInsets _edgeInsetsFromList(List value) {
+    final list = List.castFrom<dynamic, num>(value);
+    return switch (list.length) {
+      2 => EdgeInsets.symmetric(
+          vertical: value[0].toDouble(),
+          horizontal: value[1].toDouble(),
+        ),
+      4 => EdgeInsets.only(
+          left: value[0].toDouble(),
+          top: value[1].toDouble(),
+          right: value[2].toDouble(),
+          bottom: value[3].toDouble(),
+        ),
+      _ => EdgeInsets.zero
+    };
+  }
+
+  @preferInline
   EdgeInsets edgeInsets({
     String key = "padding",
     EdgeInsets? defaultValue,
   }) {
-    final insets = json[key];
-    if (insets == null) return json[key] = defaultValue ?? EdgeInsets.zero;
-
-    if (insets is EdgeInsets) return insets;
-
-    if (insets is num) {
-      return json[key] = EdgeInsets.all(
-        insets.toDouble(),
-      );
-    }
-
-    if (insets is List) {
-      final list = List.castFrom<dynamic, num>(insets);
-
-      if (list.length == 2) {
-        return json[key] = EdgeInsets.symmetric(
-          vertical: insets[0].toDouble(),
-          horizontal: insets[1].toDouble(),
-        );
-      }
-
-      if (list.length == 4) {
-        return json[key] = EdgeInsets.only(
-            left: insets[0].toDouble(),
-            top: insets[1].toDouble(),
-            right: insets[2].toDouble(),
-            bottom: insets[3].toDouble());
-      }
-    }
-
-    return json[key] = EdgeInsets.zero;
+    final value = json[key];
+    return json[key] = switch (value) {
+      EdgeInsets() => value,
+      num() => EdgeInsets.all(value.toDouble()),
+      List() => _edgeInsetsFromList(value),
+      _ => defaultValue ?? EdgeInsets.zero,
+    };
   }
 
   @preferInline
@@ -451,13 +536,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final value = json[key];
     return json[key] = switch (value) {
       TextStyle() => value,
-      Map<String, dynamic>() => _parseStyle(value),
+      Map<String, dynamic>() => _textStyleFromMap(Map.from(value)),
       _ => defaultValue,
     };
   }
 
   @preferInline
-  TextStyle _parseStyle(Map<String, dynamic> data) {
+  TextStyle _textStyleFromMap(Map<String, dynamic> data) {
     final style = DuitDataSource(data);
 
     return TextStyle(
@@ -587,7 +672,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     TextDecoration? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       TextDecoration() => value,
       "none" || 0 => TextDecoration.none,
       "underline" || 1 => TextDecoration.underline,
@@ -620,7 +705,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     FontWeight? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       FontWeight() => value,
       100 => FontWeight.w100,
       200 => FontWeight.w200,
@@ -641,7 +726,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     FontStyle? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       FontStyle() => value,
       "normal" || 0 => FontStyle.normal,
       "italic" || 1 => FontStyle.italic,
@@ -804,7 +889,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       "start" || 0 => WrapCrossAlignment.start,
       "end" || 1 => WrapCrossAlignment.end,
       "center" || 2 => WrapCrossAlignment.center,
-      _ => json[key] = defaultValue ?? WrapCrossAlignment.start,
+      _ => defaultValue ?? WrapCrossAlignment.start,
     };
   }
 
@@ -882,7 +967,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     OverflowBoxFit? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       OverflowBoxFit() => value,
       "max" || 0 => OverflowBoxFit.max,
       "deferToChild" || 1 => OverflowBoxFit.deferToChild,
@@ -897,6 +982,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }) {
     final value = json[key];
     return json[key] = switch (value) {
+      Alignment() => value,
       "topCenter" || 0 => Alignment.topCenter,
       "topLeft" || 1 => Alignment.topLeft,
       "topRight" || 2 => Alignment.topRight,
@@ -906,7 +992,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
       "bottomLeft" || 6 => Alignment.bottomLeft,
       "bottomCenter" || 7 => Alignment.bottomCenter,
       "bottomRight" || 8 => Alignment.bottomRight,
-      Alignment() => value,
       _ => defaultValue,
     };
   }
@@ -937,15 +1022,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
     MainAxisAlignment? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       MainAxisAlignment() => value,
-      "start" || 0 => json[key] = MainAxisAlignment.start,
-      "end" || 1 => json[key] = MainAxisAlignment.end,
-      "center" || 2 => json[key] = MainAxisAlignment.center,
-      "spaceBetween" || 3 => json[key] = MainAxisAlignment.spaceBetween,
-      "spaceAround" || 4 => json[key] = MainAxisAlignment.spaceAround,
-      "spaceEvenly" || 5 => json[key] = MainAxisAlignment.spaceEvenly,
-      _ => json[key] = defaultValue ?? MainAxisAlignment.start,
+      "start" || 0 => MainAxisAlignment.start,
+      "end" || 1 => MainAxisAlignment.end,
+      "center" || 2 => MainAxisAlignment.center,
+      "spaceBetween" || 3 => MainAxisAlignment.spaceBetween,
+      "spaceAround" || 4 => MainAxisAlignment.spaceAround,
+      "spaceEvenly" || 5 => MainAxisAlignment.spaceEvenly,
+      _ => defaultValue ?? MainAxisAlignment.start,
     };
   }
 
@@ -955,14 +1040,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     CrossAxisAlignment? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       CrossAxisAlignment() => value,
-      "start" || 0 => json[key] = CrossAxisAlignment.start,
-      "end" || 1 => json[key] = CrossAxisAlignment.end,
-      "center" || 2 => json[key] = CrossAxisAlignment.center,
-      "stretch" || 3 => json[key] = CrossAxisAlignment.stretch,
-      "baseline" || 4 => json[key] = CrossAxisAlignment.baseline,
-      _ => json[key] = defaultValue ?? CrossAxisAlignment.center,
+      "start" || 0 => CrossAxisAlignment.start,
+      "end" || 1 => CrossAxisAlignment.end,
+      "center" || 2 => CrossAxisAlignment.center,
+      "stretch" || 3 => CrossAxisAlignment.stretch,
+      "baseline" || 4 => CrossAxisAlignment.baseline,
+      _ => defaultValue ?? CrossAxisAlignment.center,
     };
   }
 
@@ -972,11 +1057,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
     MainAxisSize? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       MainAxisSize() => value,
-      "min" || 0 => json[key] = MainAxisSize.min,
-      "max" || 1 => json[key] = MainAxisSize.max,
-      _ => json[key] = defaultValue ?? MainAxisSize.max,
+      "min" || 0 => MainAxisSize.min,
+      "max" || 1 => MainAxisSize.max,
+      _ => defaultValue ?? MainAxisSize.max,
     };
   }
 
@@ -986,13 +1071,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     SliderInteraction? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       SliderInteraction() => value,
-      "tapOnly" || 0 => json[key] = SliderInteraction.tapOnly,
-      "tapAndSlide" || 1 => json[key] = SliderInteraction.tapAndSlide,
-      "slideOnly" || 2 => json[key] = SliderInteraction.slideOnly,
-      "slideThumb" || 3 => json[key] = SliderInteraction.slideThumb,
-      _ => json[key] = defaultValue,
+      "tapOnly" || 0 => SliderInteraction.tapOnly,
+      "tapAndSlide" || 1 => SliderInteraction.tapAndSlide,
+      "slideOnly" || 2 => SliderInteraction.slideOnly,
+      "slideThumb" || 3 => SliderInteraction.slideThumb,
+      _ => defaultValue,
     };
   }
 
@@ -1002,11 +1087,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
     MaterialTapTargetSize? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       MaterialTapTargetSize() => value,
-      "shrinkWrap" || 0 => json[key] = MaterialTapTargetSize.shrinkWrap,
-      "padded" || 1 => json[key] = MaterialTapTargetSize.padded,
-      _ => json[key] = defaultValue,
+      "shrinkWrap" || 0 => MaterialTapTargetSize.shrinkWrap,
+      "padded" || 1 => MaterialTapTargetSize.padded,
+      _ => defaultValue,
     };
   }
 
@@ -1016,13 +1101,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     FilterQuality? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       FilterQuality() => value,
-      "none" || 0 => json[key] = FilterQuality.none,
-      "low" || 1 => json[key] = FilterQuality.low,
-      "medium" || 2 => json[key] = FilterQuality.medium,
-      "high" || 3 => json[key] = FilterQuality.high,
-      _ => json[key] = defaultValue ?? FilterQuality.low,
+      "none" || 0 => FilterQuality.none,
+      "low" || 1 => FilterQuality.low,
+      "medium" || 2 => FilterQuality.medium,
+      "high" || 3 => FilterQuality.high,
+      _ => defaultValue ?? FilterQuality.low,
     };
   }
 
@@ -1032,13 +1117,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     ImageRepeat? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       ImageRepeat() => value,
-      "repeat" || 0 => json[key] = ImageRepeat.repeat,
-      "repeatX" || 1 => json[key] = ImageRepeat.repeatX,
-      "repeatY" || 2 => json[key] = ImageRepeat.repeatY,
-      "noRepeat" || 3 => json[key] = ImageRepeat.noRepeat,
-      _ => json[key] = defaultValue ?? ImageRepeat.noRepeat,
+      "repeat" || 0 => ImageRepeat.repeat,
+      "repeatX" || 1 => ImageRepeat.repeatX,
+      "repeatY" || 2 => ImageRepeat.repeatY,
+      "noRepeat" || 3 => ImageRepeat.noRepeat,
+      _ => defaultValue ?? ImageRepeat.noRepeat,
     };
   }
 
@@ -1056,29 +1141,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     Uint8List? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       Uint8List() => value,
       List() => _uint8ListFromList(value),
       String() => _uint8ListFromString(value),
-      _ => json[key] = defaultValue ?? Uint8List(0),
+      _ => defaultValue ?? Uint8List(0),
     };
   }
-
-  //TODO
-  // static ImageType toImageType(String? value) {
-  //   if (value == null) return ImageType.network;
-
-  //   switch (value) {
-  //     case "asset":
-  //       return ImageType.asset;
-  //     case "network":
-  //       return ImageType.network;
-  //     case "memory":
-  //       return ImageType.memory;
-  //   }
-
-  //   return ImageType.network;
-  // }
 
   @preferInline
   BoxFit? boxFit({
@@ -1086,19 +1155,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
     BoxFit? defaultValue,
   }) {
     final value = json[key];
-    return switch (value) {
+    return json[key] = switch (value) {
       BoxFit() => value,
-      "fill" || 0 => json[key] = BoxFit.fill,
-      "contain" || 1 => json[key] = BoxFit.contain,
-      "cover" || 2 => json[key] = BoxFit.cover,
-      "fitHeight" || 3 => json[key] = BoxFit.fitHeight,
-      "fitWidth" || 4 => json[key] = BoxFit.fitWidth,
-      "none" || 5 => json[key] = BoxFit.none,
-      "scaleDown" || 6 => json[key] = BoxFit.scaleDown,
-      _ => json[key] = defaultValue,
+      "fill" || 0 => BoxFit.fill,
+      "contain" || 1 => BoxFit.contain,
+      "cover" || 2 => BoxFit.cover,
+      "fitHeight" || 3 => BoxFit.fitHeight,
+      "fitWidth" || 4 => BoxFit.fitWidth,
+      "none" || 5 => BoxFit.none,
+      "scaleDown" || 6 => BoxFit.scaleDown,
+      _ => defaultValue,
     };
   }
 
+  @preferInline
   BlendMode blendMode({
     String key = "blendMode",
     BlendMode? defaultValue,
@@ -1511,6 +1581,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return json[key] = switch (value) {
       ShapeBorder() => value,
       Map<String, dynamic>() => _shapeBorderFromMap(value),
+      _ => defaultValue,
+    };
+  }
+
+  @preferInline
+  Border _borderFromMap(Map<String, dynamic> value) {
+    final data = DuitDataSource(value);
+    return Border.fromBorderSide(data.borderSide());
+  }
+
+  @preferInline
+  Border? border({
+    String key = "shape",
+    Border? defaultValue,
+  }) {
+    final value = json[key];
+    return json[key] = switch (value) {
+      Border() => value,
+      Map<String, dynamic>() => _borderFromMap(value),
       _ => defaultValue,
     };
   }
