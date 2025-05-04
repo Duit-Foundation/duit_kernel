@@ -394,9 +394,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
       );
 
   @preferInline
-  Size _sizeFromList(List<double> list) => Size(
-        list[0],
-        list[1],
+  Size _sizeFromList(List<num> list) => Size(
+        list[0].toDouble(),
+        list[1].toDouble(),
       );
 
   @preferInline
@@ -408,7 +408,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return json[key] = switch (value) {
       Size() => value,
       Map<String, dynamic>() => _sizeFromMap(DuitDataSource(value)),
-      List<double>() => _sizeFromList(value),
+      List<num>() => _sizeFromList(value),
       double() => Size.square(value),
       _ => defaultValue ?? Size.zero,
     };
