@@ -37,22 +37,15 @@ final class ViewAttribute {
       if (themeKey != null) {
         ThemeToken token;
 
-        if (tag != null) {
-          token = DuitRegistry.theme.getToken(
-            themeKey,
-            tag,
-          );
-        } else {
-          token = DuitRegistry.theme.getToken(
-            themeKey,
-            type,
-          );
-        }
+        token = DuitRegistry.theme.getToken(
+          themeKey,
+          tag ?? type,
+        );
 
         if (token is UnknownThemeToken) {
           return ViewAttribute._(
             id: id,
-            payload: DuitDataSource(value),
+            payload: Map<String, dynamic>.from(value),
           );
         }
 
@@ -71,7 +64,7 @@ final class ViewAttribute {
 
     return ViewAttribute._(
       id: id,
-      payload: DuitDataSource(value),
+      payload: Map<String, dynamic>.from(value),
     );
   }
 
@@ -90,6 +83,7 @@ final class ViewAttribute {
   /// This factory method is used to create a [ViewAttribute] instance
   /// based on the specified [type], [json], and [tag]. It returns a new instance
   /// of [ViewAttribute] with the appropriate payload type.
+  @Deprecated("Use .from instead")
   static ViewAttribute createAttributes(
     String type,
     Map<String, dynamic>? json,
@@ -124,7 +118,7 @@ final class ViewAttribute {
         if (token is UnknownThemeToken) {
           return ViewAttribute._(
             id: id!,
-            payload: DuitDataSource(value),
+            payload: Map<String, dynamic>.from(value),
           );
         }
 
@@ -143,7 +137,7 @@ final class ViewAttribute {
 
     return ViewAttribute._(
       id: id!,
-      payload: DuitDataSource(Map<String, dynamic>.from(value)),
+      payload: Map<String, dynamic>.from(value),
     );
   }
 }
