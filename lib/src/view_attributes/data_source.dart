@@ -84,7 +84,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns:
   /// - A [ServerAction] if the value is valid or can be parsed.
   /// - `null` if the value is not a valid [ServerAction] or cannot be parsed.
-
   @preferInline
   ServerAction? getAction(String key) {
     final action = json[key];
@@ -125,6 +124,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   Map<String, dynamic> _map(Map value) => Map<String, dynamic>.from(value);
+
+  /// A protection mechanism that allows checking the presence of a key in a [Map<String, dynamic>],
+  /// which prevents further calls to "heavy" data parsing functions
+  ///
+  /// Returns `this` if the JSON map contains the given [key], otherwise returns `null`.
+  @preferInline
+  DuitDataSource? nullProtect(String key) =>
+      json.containsKey(key) ? this : null;
 
   @preferInline
   String? get parentBuilderId {
@@ -581,9 +588,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
     Offset? defaultValue,
   }) {
     final value = json[key];
-    print("_____________________");
-    print(value);
-    print("_____________________");
     return json[key] = switch (value) {
       Offset() => value,
       Map<String, dynamic>() => _offsetFromMap(value),
