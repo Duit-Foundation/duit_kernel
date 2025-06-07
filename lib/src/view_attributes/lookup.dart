@@ -535,12 +535,14 @@ const _textInputTypeStringLookupTable = <String, TextInputType>{
   "multiline": TextInputType.multiline,
 };
 
-const _keyboardDismissBehaviorIntLookupTable = <int, ScrollViewKeyboardDismissBehavior>{
+const _keyboardDismissBehaviorIntLookupTable =
+    <int, ScrollViewKeyboardDismissBehavior>{
   0: ScrollViewKeyboardDismissBehavior.manual,
   1: ScrollViewKeyboardDismissBehavior.onDrag,
 };
 
-const _keyboardDismissBehaviorStringLookupTable = <String, ScrollViewKeyboardDismissBehavior>{
+const _keyboardDismissBehaviorStringLookupTable =
+    <String, ScrollViewKeyboardDismissBehavior>{
   "manual": ScrollViewKeyboardDismissBehavior.manual,
   "onDrag": ScrollViewKeyboardDismissBehavior.onDrag,
 };
