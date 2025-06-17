@@ -149,6 +149,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return deps;
   }
 
+  /// Converts a [Map] to a [Map<String, dynamic>].
+  ///
+  /// This is a helper method used internally to ensure type safety when working with JSON data.
+  ///
+  /// - [value]: The map to convert.
+  /// Returns a new [Map<String, dynamic>] containing the same key-value pairs as the input map.
   @preferInline
   Map<String, dynamic> _map(Map value) => Map<String, dynamic>.from(value);
 
@@ -262,10 +268,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Duration) return value;
 
-    return json[key] = switch (value) {
-      int() => Duration(milliseconds: value),
-      _ => defaultValue ?? Duration.zero,
-    };
+    if (value == null) {
+      return defaultValue ?? Duration.zero;
+    }
+
+    switch (value) {
+      case int():
+        return json[key] = Duration(milliseconds: value);
+      default:
+        return defaultValue ?? Duration.zero;
+    }
   }
 
   /// Retrieves an [int] value from the JSON map associated with the given [key].
@@ -520,13 +532,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   TextAlign? textAlign({
     String key = "textAlign",
-    TextAlign? defaultValue,
+    TextAlign defaultValue = TextAlign.start,
   }) {
     final value = json[key];
 
-    if (value is TextAlign) {
-      return value;
-    }
+    if (value is TextAlign) return value;
 
     if (value == null) {
       return defaultValue;
@@ -534,9 +544,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _textAlignStringLookupTable[value];
-      case int():
-        return json[key] = _textAlignIntLookupTable[value];
+        return json[key] = _textAlignStringLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -591,22 +599,21 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ///   textOverflow(key: 'myOverflow', defaultValue: TextOverflow.ellipsis)
   @preferInline
   TextOverflow? textOverflow({
-    String key = "overflow",
-    TextOverflow? defaultValue,
+    String key = "textOverflow",
+    TextOverflow defaultValue = TextOverflow.clip,
   }) {
     final value = json[key];
 
     if (value is TextOverflow) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
     switch (value) {
       case String():
-        return json[key] = _textOverflowStringLookupTable[value];
-      case int():
-        return json[key] = _textOverflowIntLookupTable[value];
+        return json[key] =
+            _textOverflowStringLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -844,7 +851,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   TextWidthBasis? textWidthBasis({
     String key = "textWidthBasis",
-    TextWidthBasis? defaultValue,
+    TextWidthBasis defaultValue = TextWidthBasis.parent,
   }) {
     final value = json[key];
 
@@ -856,9 +863,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _textWidthBasisStringLookupTable[value];
-      case int():
-        return json[key] = _textWidthBasisIntLookupTable[value];
+        return json[key] =
+            _textWidthBasisStringLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -969,7 +975,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Offset) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -990,7 +996,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is List<BoxShadow>) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1035,7 +1041,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Decoration) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1056,7 +1062,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextDecoration) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1079,7 +1085,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextDecorationStyle) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1102,7 +1108,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FontWeight) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -2566,4 +2572,50 @@ extension type DuitDataSource(Map<String, dynamic> json)
       _ => defaultValue,
     };
   }
+
+  // @preferInline
+  // List<Map<String, dynamic>> get childObjects {
+  //   final value = json["_childObjects"];
+  //   if (value is List<Map<String, dynamic>>) return value;
+
+  //   return const <Map<String, dynamic>>[];
+  // }
+
+  // @preferInline
+  // set childObjects(List<Map<String, dynamic>> value) {
+  //   final List? list = json["_childObjects"];
+
+  //   if (list == null) {
+  //     json["_childObjects"] = [...value];
+  //   } else {
+  //     list.addAll(value);
+  //   }
+  // }
+
+  static const _clipIntLookupTable = {
+    0: Clip.hardEdge,
+    1: Clip.antiAlias,
+    2: Clip.antiAliasWithSaveLayer,
+  };
+
+  static const _textAlignStringLookupTable = {
+    "left": TextAlign.left,
+    "right": TextAlign.right,
+    "center": TextAlign.center,
+    "justify": TextAlign.justify,
+    "start": TextAlign.start,
+    "end": TextAlign.end,
+  };
+
+  static const _textOverflowStringLookupTable = {
+    "clip": TextOverflow.clip,
+    "fade": TextOverflow.fade,
+    "ellipsis": TextOverflow.ellipsis,
+    "visible": TextOverflow.visible,
+  };
+
+  static const _textWidthBasisStringLookupTable = {
+    "parent": TextWidthBasis.parent,
+    "longestLine": TextWidthBasis.longestLine,
+  };
 }

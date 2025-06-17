@@ -166,8 +166,8 @@ base class DuitTweenDescription<T> {
       "edgeInsetsTween" => EdgeInsetsTweenDescription(
           animatedPropKey: json["animatedPropKey"],
           duration: data.duration(),
-          begin: data.edgeInsets(key: "begin"),
-          end: data.edgeInsets(key: "end"),
+          begin: data.edgeInsets(key: "begin", defaultValue: EdgeInsets.zero)!,
+          end: data.edgeInsets(key: "end", defaultValue: EdgeInsets.zero)!,
           curve: data.curve(defaultValue: Curves.linear)!,
           trigger: view.trigger,
           method: view.method,
@@ -177,8 +177,14 @@ base class DuitTweenDescription<T> {
       "boxConstraintsTween" => BoxConstraintsTweenDescription(
           animatedPropKey: json["animatedPropKey"],
           duration: data.duration(),
-          begin: data.boxConstraints(key: "begin"),
-          end: data.boxConstraints(key: "end"),
+          begin: data.boxConstraints(
+            key: "begin",
+            defaultValue: const BoxConstraints(),
+          )!,
+          end: data.boxConstraints(
+            key: "end",
+            defaultValue: const BoxConstraints(),
+          )!,
           curve: data.curve(defaultValue: Curves.linear)!,
           trigger: view.trigger,
           method: view.method,
