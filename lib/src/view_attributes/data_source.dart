@@ -2591,31 +2591,4 @@ extension type DuitDataSource(Map<String, dynamic> json)
   //     list.addAll(value);
   //   }
   // }
-
-  static const _clipIntLookupTable = {
-    0: Clip.hardEdge,
-    1: Clip.antiAlias,
-    2: Clip.antiAliasWithSaveLayer,
-  };
-
-  static const _textAlignStringLookupTable = {
-    "left": TextAlign.left,
-    "right": TextAlign.right,
-    "center": TextAlign.center,
-    "justify": TextAlign.justify,
-    "start": TextAlign.start,
-    "end": TextAlign.end,
-  };
-
-  static const _textOverflowStringLookupTable = {
-    "clip": TextOverflow.clip,
-    "fade": TextOverflow.fade,
-    "ellipsis": TextOverflow.ellipsis,
-    "visible": TextOverflow.visible,
-  };
-
-  static const _textWidthBasisStringLookupTable = {
-    "parent": TextWidthBasis.parent,
-    "longestLine": TextWidthBasis.longestLine,
-  };
 }
