@@ -614,6 +614,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
       case String():
         return json[key] =
             _textOverflowStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] = _textOverflowIntLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -865,6 +867,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
       case String():
         return json[key] =
             _textWidthBasisStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] = _textWidthBasisIntLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -1129,7 +1133,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FontStyle) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1144,9 +1148,30 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+  TextSpan _textSpanFromMap(Map<String, dynamic> value) {
+    final span = DuitDataSource(value);
+    final List? children = value['children'];
+    final spanChildren = <InlineSpan>[];
+
+    if (children != null) {
+      for (final child in children) {
+        spanChildren.add(DuitDataSource(child).textSpan());
+      }
+    }
+
+    return TextSpan(
+      text: span.tryGetString("text"),
+      children: spanChildren.isNotEmpty ? spanChildren : null,
+      style: span.textStyle(),
+      spellOut: span.tryGetBool("spellOut"),
+      semanticsLabel: span.tryGetString("semanticsLabel"),
+    );
+  }
+
+  @preferInline
   TextSpan textSpan({
     String key = "textSpan",
-    TextSpan? defaultValue,
+    TextSpan defaultValue = const TextSpan(),
   }) {
     final value = json[key];
 
@@ -1154,27 +1179,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
       return value;
     }
 
-    final List? children = value['children'];
-
-    final spanChildren = <InlineSpan>[];
-
-    if (children != null) {
-      for (final child in children) {
-        spanChildren.add(
-          DuitDataSource(child).textSpan(),
-        );
-      }
+    if (value == null) {
+      return defaultValue;
     }
 
-    final span = DuitDataSource(value);
-
-    return json[key] = TextSpan(
-      text: span.tryGetString("text"),
-      children: spanChildren.isNotEmpty ? spanChildren : null,
-      style: span.textStyle(),
-      spellOut: span.tryGetBool("spellOut"),
-      semanticsLabel: span.tryGetString("semanticsLabel"),
-    );
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = _textSpanFromMap(value);
+      default:
+        return defaultValue;
+    }
   }
 
   @preferInline
@@ -1204,7 +1218,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextHeightBehavior) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1230,13 +1244,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   TextScaler textScaler({
     String key = "textScaler",
-    TextScaler? defaultValue,
+    TextScaler defaultValue = TextScaler.noScaling,
   }) {
     final value = json[key];
 
     if (value is TextScaler) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1246,7 +1260,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       case double():
         return json[key] = TextScaler.linear(value);
       default:
-        return defaultValue ?? TextScaler.noScaling;
+        return defaultValue;
     }
   }
 
@@ -1262,6 +1276,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       fontStyle: json.fontStyle(),
       forceStrutHeight: json.tryGetBool("forceStrutHeight"),
       debugLabel: json.tryGetString("debugLabel"),
+      leadingDistribution: json.textLeadingDistribution(),
     );
   }
 
@@ -1274,7 +1289,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is StrutStyle) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1310,7 +1325,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
-  Axis? axis({
+  Axis axis({
     String key = "scrollDirection",
     Axis defaultValue = Axis.vertical,
   }) {
@@ -1324,9 +1339,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _axisStringLookupTable[value];
+        return json[key] = _axisStringLookupTable[value] ?? defaultValue;
       case int():
-        return json[key] = _axisIntLookupTable[value];
+        return json[key] = _axisIntLookupTable[value] ?? defaultValue;
       default:
         return defaultValue;
     }
@@ -1477,7 +1492,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Alignment) return value;
 
-    //TODO: Alignment(x,y) as [double, double]
     if (value == null) {
       return defaultValue;
     }
@@ -1487,6 +1501,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
         return json[key] = _alignmentStringLookupTable[value];
       case int():
         return json[key] = _alignmentIntLookupTable[value];
+      case List<num>() when value.length == 2:
+        return json[key] = Alignment(
+          value[0].toDouble(),
+          value[1].toDouble(),
+        );
       default:
         return defaultValue;
     }
@@ -1523,7 +1542,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   MainAxisAlignment? mainAxisAlignment({
     String key = "mainAxisAlignment",
-    MainAxisAlignment defaultValue = MainAxisAlignment.start,
+    MainAxisAlignment? defaultValue,
   }) {
     final value = json[key];
 
@@ -1546,7 +1565,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   CrossAxisAlignment? crossAxisAlignment({
     String key = "crossAxisAlignment",
-    CrossAxisAlignment defaultValue = CrossAxisAlignment.start,
+    CrossAxisAlignment? defaultValue,
   }) {
     final value = json[key];
 
@@ -1569,7 +1588,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   MainAxisSize? mainAxisSize({
     String key = "mainAxisSize",
-    MainAxisSize defaultValue = MainAxisSize.max,
+    MainAxisSize? defaultValue,
   }) {
     final value = json[key];
 
@@ -1757,6 +1776,28 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  TileMode tileMode({
+    String key = "tileMode",
+    TileMode defaultValue = TileMode.clamp,
+  }) {
+    final value = json[key];
+
+    if (value is TileMode) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] = _tileModeStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] = _tileModeIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
+  }
+
   //TODO: needs work
   @preferInline
   ImageFilter _imageFilterFromMap(Map<String, dynamic> value) {
@@ -1766,9 +1807,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       "blur" || 0 => ImageFilter.blur(
           sigmaX: json.getDouble(key: "sigmaX"),
           sigmaY: json.getDouble(key: "sigmaY"),
-          tileMode: value["tileMode"] != null
-              ? TileMode.values.byName(value["tileMode"])
-              : TileMode.clamp,
+          tileMode: json.tileMode(),
         ),
       "compose" || 1 => () {
           final outerFilter =
@@ -1828,11 +1867,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is VerticalDirection) return value;
 
-    return json[key] = switch (value) {
-      String() => _verticalDirectionStringLookupTable[value] ?? defaultValue,
-      int() => _verticalDirectionIntLookupTable[value] ?? defaultValue,
-      _ => defaultValue,
-    };
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] =
+            _verticalDirectionStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] =
+            _verticalDirectionIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
   }
 
   @preferInline

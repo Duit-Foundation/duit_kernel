@@ -1,5 +1,6 @@
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -1207,6 +1208,1427 @@ void main() {
 
         expect(data.textDecoration(), TextDecoration.underline);
         expect(data["decoration"], TextDecoration.underline);
+      });
+    },
+  );
+
+  group(
+    "textDecorationStyle method",
+    () {
+      test("should parse and return the textDecorationStyle from string", () {
+        final json = <String, dynamic>{
+          "decorationStyle": "solid",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textDecorationStyle(), TextDecorationStyle.solid);
+        expect(data["decorationStyle"], TextDecorationStyle.solid);
+      });
+
+      test("should parse and return the textDecorationStyle from int", () {
+        final json = <String, dynamic>{
+          "decorationStyle": 0, // TextDecorationStyle.solid
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textDecorationStyle(), TextDecorationStyle.solid);
+        expect(data["decorationStyle"], TextDecorationStyle.solid);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.textDecorationStyle(), null);
+        expect(
+          data.textDecorationStyle(defaultValue: TextDecorationStyle.dashed),
+          TextDecorationStyle.dashed,
+        );
+        expect(data["decorationStyle"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "decorationStyle": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.textDecorationStyle(defaultValue: TextDecorationStyle.dashed),
+          TextDecorationStyle.dashed,
+        );
+        expect(data["decorationStyle"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "decorationStyle": TextDecorationStyle.dashed,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textDecorationStyle(), TextDecorationStyle.dashed);
+        expect(data["decorationStyle"], TextDecorationStyle.dashed);
+      });
+    },
+  );
+
+  group(
+    "fontWeight method",
+    () {
+      test("should parse and return the fontWeight from string", () {
+        final json = <String, dynamic>{
+          "fontWeight": 700,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontWeight(), FontWeight.bold);
+        expect(data["fontWeight"], FontWeight.bold);
+      });
+
+      test("should parse and return the fontWeight from int", () {
+        final json = <String, dynamic>{
+          "fontWeight": 700, // FontWeight.bold
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontWeight(), FontWeight.bold);
+        expect(data["fontWeight"], FontWeight.bold);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontWeight(), null);
+        expect(
+          data.fontWeight(defaultValue: FontWeight.w500),
+          FontWeight.w500,
+        );
+        expect(data["fontWeight"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "fontWeight": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.fontWeight(defaultValue: FontWeight.w500),
+          FontWeight.w500,
+        );
+        expect(data["fontWeight"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "fontWeight": FontWeight.w500,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontWeight(), FontWeight.w500);
+        expect(data["fontWeight"], FontWeight.w500);
+      });
+    },
+  );
+
+  group(
+    "fontStyle method",
+    () {
+      test("should parse and return the fontStyle from string", () {
+        final json = <String, dynamic>{
+          "fontStyle": "italic",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontStyle(), FontStyle.italic);
+        expect(data["fontStyle"], FontStyle.italic);
+      });
+
+      test("should parse and return the fontStyle from int", () {
+        final json = <String, dynamic>{
+          "fontStyle": 1, // FontStyle.italic
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontStyle(), FontStyle.italic);
+        expect(data["fontStyle"], FontStyle.italic);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontStyle(), null);
+        expect(
+          data.fontStyle(defaultValue: FontStyle.italic),
+          FontStyle.italic,
+        );
+        expect(data["fontStyle"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "fontStyle": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.fontStyle(defaultValue: FontStyle.italic),
+          FontStyle.italic,
+        );
+        expect(data["fontStyle"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "fontStyle": FontStyle.italic,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.fontStyle(), FontStyle.italic);
+        expect(data["fontStyle"], FontStyle.italic);
+      });
+    },
+  );
+
+  group(
+    "textSpan method",
+    () {
+      test("should parse and return the textSpan from map", () {
+        final json = <String, dynamic>{
+          "textSpan": {
+            "text": "Hello",
+            "style": {
+              "color": "#FF0000",
+              "fontSize": 16.0,
+            },
+            "children": [
+              {
+                "text": " World",
+                "style": {
+                  "color": "#0000FF",
+                  "fontSize": 14.0,
+                },
+              },
+            ],
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final textSpan = data.textSpan();
+
+        expect(textSpan.text, "Hello");
+        expect(textSpan.style!.color, const Color(0xFFFF0000));
+        expect(textSpan.style!.fontSize, 16.0);
+        expect(textSpan.children!.length, 1);
+        expect(data["textSpan"], textSpan);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultTextSpan = TextSpan(
+          text: "Default",
+          style: TextStyle(fontSize: 14.0),
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.textSpan(), const TextSpan());
+        expect(data.textSpan(defaultValue: defaultTextSpan), defaultTextSpan);
+        expect(data["textSpan"], null);
+      });
+
+      test("should return the default value if the value is not a map", () {
+        final json = <String, dynamic>{
+          "textSpan": true,
+        };
+        const defaultTextSpan = TextSpan(
+          text: "Default",
+          style: TextStyle(fontSize: 14.0),
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.textSpan(defaultValue: defaultTextSpan), defaultTextSpan);
+        expect(data["textSpan"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const textSpan = TextSpan(
+          text: "Hello",
+          style: TextStyle(fontSize: 16.0),
+        );
+        final json = <String, dynamic>{
+          "textSpan": textSpan,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textSpan(), textSpan);
+        expect(data["textSpan"], textSpan);
+      });
+    },
+  );
+
+  group(
+    "textHeightBehavior method",
+    () {
+      test("should parse and return the textHeightBehavior from map", () {
+        final json = <String, dynamic>{
+          "textHeightBehavior": {
+            "leadingDistribution": "even",
+            "applyHeightToFirstAscent": true,
+            "applyHeightToLastDescent": false,
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final behavior = data.textHeightBehavior()!;
+
+        expect(behavior.leadingDistribution, TextLeadingDistribution.even);
+        expect(behavior.applyHeightToFirstAscent, true);
+        expect(behavior.applyHeightToLastDescent, false);
+        expect(data["textHeightBehavior"], behavior);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultBehavior = TextHeightBehavior(
+          leadingDistribution: TextLeadingDistribution.even,
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.textHeightBehavior(), null);
+        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
+            defaultBehavior);
+        expect(data["textHeightBehavior"], null);
+      });
+
+      test("should return the default value if the value is not a map", () {
+        final json = <String, dynamic>{
+          "textHeightBehavior": true,
+        };
+        const defaultBehavior = TextHeightBehavior(
+          leadingDistribution: TextLeadingDistribution.even,
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
+            defaultBehavior);
+        expect(data["textHeightBehavior"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const behavior = TextHeightBehavior(
+          leadingDistribution: TextLeadingDistribution.even,
+          applyHeightToFirstAscent: true,
+          applyHeightToLastDescent: false,
+        );
+        final json = <String, dynamic>{
+          "textHeightBehavior": behavior,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textHeightBehavior(), behavior);
+        expect(data["textHeightBehavior"], behavior);
+      });
+    },
+  );
+
+  group(
+    "textScaler method",
+    () {
+      test("should parse and return the textScaler from map", () {
+        final json = <String, dynamic>{
+          "textScaler": {
+            "textScaleFactor": 1.5,
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final scaler = data.textScaler();
+
+        expect(scaler, const TextScaler.linear(1.5));
+        expect(data["textScaler"], scaler);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultScaler = TextScaler.linear(1.2);
+
+        final data = DuitDataSource(json);
+
+        expect(data.textScaler(), TextScaler.noScaling);
+        expect(data.textScaler(defaultValue: defaultScaler), defaultScaler);
+        expect(data["textScaler"], null);
+      });
+
+      test("should return the default value if the value is not a map", () {
+        final json = <String, dynamic>{
+          "textScaler": true,
+        };
+        const defaultScaler = TextScaler.linear(1.2);
+
+        final data = DuitDataSource(json);
+
+        expect(data.textScaler(defaultValue: defaultScaler), defaultScaler);
+        expect(data["textScaler"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const scaler = TextScaler.linear(1.5);
+        final json = <String, dynamic>{
+          "textScaler": scaler,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textScaler(), scaler);
+        expect(data["textScaler"], scaler);
+      });
+    },
+  );
+
+  group(
+    "strutStyle method",
+    () {
+      test("should parse and return the strutStyle from map", () {
+        final json = <String, dynamic>{
+          "strutStyle": {
+            "fontSize": 16.0,
+            "height": 1.5,
+            "leading": 0.5,
+            "fontWeight": 700,
+            "fontStyle": "italic",
+            "forceStrutHeight": true,
+            "leadingDistribution": "even",
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final style = data.strutStyle()!;
+
+        expect(style.fontSize, 16.0);
+        expect(style.height, 1.5);
+        expect(style.leading, 0.5);
+        expect(style.fontWeight, FontWeight.w700);
+        expect(style.fontStyle, FontStyle.italic);
+        expect(style.forceStrutHeight, true);
+        expect(style.leadingDistribution, TextLeadingDistribution.even);
+        expect(data["strutStyle"], style);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultStyle = StrutStyle(fontSize: 14.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.strutStyle(), null);
+        expect(data.strutStyle(defaultValue: defaultStyle), defaultStyle);
+        expect(data["strutStyle"], null);
+      });
+
+      test("should return the default value if the value is not a map", () {
+        final json = <String, dynamic>{
+          "strutStyle": true,
+        };
+        const defaultStyle = StrutStyle(fontSize: 14.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.strutStyle(defaultValue: defaultStyle), defaultStyle);
+        expect(data["strutStyle"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const style = StrutStyle(fontSize: 16.0);
+        final json = <String, dynamic>{
+          "strutStyle": style,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.strutStyle(), style);
+        expect(data["strutStyle"], style);
+      });
+    },
+  );
+
+  group(
+    "textLeadingDistribution method",
+    () {
+      test("should parse and return the textLeadingDistribution from string",
+          () {
+        final json = <String, dynamic>{
+          "leadingDistribution": "even",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textLeadingDistribution(), TextLeadingDistribution.even);
+        expect(data["leadingDistribution"], TextLeadingDistribution.even);
+      });
+
+      test("should parse and return the textLeadingDistribution from int", () {
+        final json = <String, dynamic>{
+          "leadingDistribution": 1,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textLeadingDistribution(), TextLeadingDistribution.even);
+        expect(data["leadingDistribution"], TextLeadingDistribution.even);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.textLeadingDistribution(), null);
+        expect(
+          data.textLeadingDistribution(
+              defaultValue: TextLeadingDistribution.even),
+          TextLeadingDistribution.even,
+        );
+        expect(data["leadingDistribution"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "leadingDistribution": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.textLeadingDistribution(
+              defaultValue: TextLeadingDistribution.even),
+          TextLeadingDistribution.even,
+        );
+        expect(data["leadingDistribution"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "leadingDistribution": TextLeadingDistribution.even,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textLeadingDistribution(), TextLeadingDistribution.even);
+        expect(data["leadingDistribution"], TextLeadingDistribution.even);
+      });
+    },
+  );
+
+  group(
+    "axis method",
+    () {
+      test("should parse and return the axis from string", () {
+        final json = <String, dynamic>{
+          "scrollDirection": "horizontal",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.axis(), Axis.horizontal);
+        expect(data["scrollDirection"], Axis.horizontal);
+      });
+
+      test("should parse and return the axis from int", () {
+        final json = <String, dynamic>{
+          "scrollDirection": 1,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.axis(), Axis.horizontal);
+        expect(data["scrollDirection"], Axis.horizontal);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.axis(), Axis.vertical);
+        expect(
+          data.axis(defaultValue: Axis.vertical),
+          Axis.vertical,
+        );
+        expect(data["scrollDirection"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "scrollDirection": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.axis(defaultValue: Axis.vertical),
+          Axis.vertical,
+        );
+        expect(data["scrollDirection"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "scrollDirection": Axis.vertical,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.axis(), Axis.vertical);
+        expect(data["scrollDirection"], Axis.vertical);
+      });
+    },
+  );
+
+  group(
+    "wrapCrossAlignment method",
+    () {
+      test("should parse and return the wrapCrossAlignment from string", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": "start",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
+        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
+      });
+
+      test("should parse and return the wrapCrossAlignment from int", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": 0, // WrapCrossAlignment.start
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
+        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapCrossAlignment(), null);
+        expect(
+          data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
+          WrapCrossAlignment.center,
+        );
+        expect(data["crossAxisAlignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
+          WrapCrossAlignment.center,
+        );
+        expect(data["crossAxisAlignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": WrapCrossAlignment.center,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapCrossAlignment(), WrapCrossAlignment.center);
+        expect(data["crossAxisAlignment"], WrapCrossAlignment.center);
+      });
+    },
+  );
+
+  group(
+    "wrapAlignment method",
+    () {
+      test("should parse and return the wrapAlignment from string", () {
+        final json = <String, dynamic>{
+          "alignment": "start",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapAlignment(), WrapAlignment.start);
+        expect(data["alignment"], WrapAlignment.start);
+      });
+
+      test("should parse and return the wrapAlignment from int", () {
+        final json = <String, dynamic>{
+          "alignment": 0, // WrapAlignment.start
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapAlignment(), WrapAlignment.start);
+        expect(data["alignment"], WrapAlignment.start);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapAlignment(), null);
+        expect(
+          data.wrapAlignment(defaultValue: WrapAlignment.center),
+          WrapAlignment.center,
+        );
+        expect(data["alignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "alignment": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.wrapAlignment(defaultValue: WrapAlignment.center),
+          WrapAlignment.center,
+        );
+        expect(data["alignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "alignment": WrapAlignment.center,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.wrapAlignment(), WrapAlignment.center);
+        expect(data["alignment"], WrapAlignment.center);
+      });
+    },
+  );
+
+  group(
+    "boxConstraints method",
+    () {
+      test("should parse and return the boxConstraints from map", () {
+        final json = <String, dynamic>{
+          "constraints": {
+            "minWidth": 100.0,
+            "maxWidth": 200.0,
+            "minHeight": 150.0,
+            "maxHeight": 250.0,
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final constraints = data.boxConstraints()!;
+
+        expect(constraints.minWidth, 100.0);
+        expect(constraints.maxWidth, 200.0);
+        expect(constraints.minHeight, 150.0);
+        expect(constraints.maxHeight, 250.0);
+        expect(data["constraints"], constraints);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultConstraints = BoxConstraints(
+          minWidth: 50.0,
+          maxWidth: 100.0,
+          minHeight: 50.0,
+          maxHeight: 100.0,
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.boxConstraints(), null);
+        expect(data.boxConstraints(defaultValue: defaultConstraints),
+            defaultConstraints);
+        expect(data["constraints"], null);
+      });
+
+      test("should return the default value if the value is not a map", () {
+        final json = <String, dynamic>{
+          "constraints": true,
+        };
+        const defaultConstraints = BoxConstraints(
+          minWidth: 50.0,
+          maxWidth: 100.0,
+          minHeight: 50.0,
+          maxHeight: 100.0,
+        );
+
+        final data = DuitDataSource(json);
+
+        expect(data.boxConstraints(defaultValue: defaultConstraints),
+            defaultConstraints);
+        expect(data["constraints"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const constraints = BoxConstraints(
+          minWidth: 100.0,
+          maxWidth: 200.0,
+          minHeight: 150.0,
+          maxHeight: 250.0,
+        );
+        final json = <String, dynamic>{
+          "constraints": constraints,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.boxConstraints(), constraints);
+        expect(data["constraints"], constraints);
+      });
+    },
+  );
+
+  group(
+    "stackFit method",
+    () {
+      test("should parse and return the stackFit from string", () {
+        final json = <String, dynamic>{
+          "fit": "loose",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.stackFit(), StackFit.loose);
+        expect(data["fit"], StackFit.loose);
+      });
+
+      test("should parse and return the stackFit from int", () {
+        final json = <String, dynamic>{
+          "fit": 0, // StackFit.loose
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.stackFit(), StackFit.expand);
+        expect(data["fit"], StackFit.expand);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.stackFit(), null);
+        expect(
+          data.stackFit(defaultValue: StackFit.expand),
+          StackFit.expand,
+        );
+        expect(data["fit"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "fit": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.stackFit(defaultValue: StackFit.expand),
+          StackFit.expand,
+        );
+        expect(data["fit"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "fit": StackFit.expand,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.stackFit(), StackFit.expand);
+        expect(data["fit"], StackFit.expand);
+      });
+    },
+  );
+
+  group(
+    "overflowBoxFit method",
+    () {
+      test("should parse and return the overflowBoxFit from string", () {
+        final json = <String, dynamic>{
+          "fit": "max",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.overflowBoxFit(), OverflowBoxFit.max);
+        expect(data["fit"], OverflowBoxFit.max);
+      });
+
+      test("should parse and return the overflowBoxFit from int", () {
+        final json = <String, dynamic>{
+          "fit": 0, // OverflowBoxFit.max
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.overflowBoxFit(), OverflowBoxFit.max);
+        expect(data["fit"], OverflowBoxFit.max);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.overflowBoxFit(), OverflowBoxFit.max);
+        expect(
+          data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
+          OverflowBoxFit.deferToChild,
+        );
+        expect(data["fit"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "fit": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
+          OverflowBoxFit.deferToChild,
+        );
+        expect(data["fit"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "fit": OverflowBoxFit.deferToChild,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.overflowBoxFit(), OverflowBoxFit.deferToChild);
+        expect(data["fit"], OverflowBoxFit.deferToChild);
+      });
+    },
+  );
+
+  group(
+    "alignment method",
+    () {
+      test("should parse and return the alignment from map", () {
+        final json = <String, dynamic>{
+          "alignment": [0.5, 0.5],
+        };
+
+        final data = DuitDataSource(json);
+        final alignment = data.alignment()!;
+
+        expect(alignment, const Alignment(0.5, 0.5));
+        expect(data["alignment"], const Alignment(0.5, 0.5));
+      });
+
+      test("should parse and return the alignment from string", () {
+        final json = <String, dynamic>{
+          "alignment": "center",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignment(), Alignment.center);
+        expect(data["alignment"], Alignment.center);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultAlignment = Alignment.topLeft;
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignment(), null);
+        expect(
+            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+        expect(data["alignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a map or string",
+          () {
+        final json = <String, dynamic>{
+          "alignment": true,
+        };
+        const defaultAlignment = Alignment.topLeft;
+
+        final data = DuitDataSource(json);
+
+        expect(
+            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+        expect(data["alignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const alignment = Alignment.topRight;
+        final json = <String, dynamic>{
+          "alignment": alignment,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignment(), alignment);
+        expect(data["alignment"], alignment);
+      });
+    },
+  );
+
+  group(
+    "alignmentDirectional method",
+    () {
+      test("should parse and return the alignmentDirectional from map", () {
+        final json = <String, dynamic>{
+          "alignment": [0.5, 0.5],
+        };
+
+        final data = DuitDataSource(json);
+        final alignment = data.alignmentDirectional()!;
+
+        expect(alignment, const AlignmentDirectional(0.5, 0.5));
+        expect(data["alignment"], const AlignmentDirectional(0.5, 0.5));
+      });
+
+      test("should parse and return the alignmentDirectional from string", () {
+        final json = <String, dynamic>{
+          "alignment": "center",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignmentDirectional(), AlignmentDirectional.center);
+        expect(data["alignment"], AlignmentDirectional.center);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        const defaultAlignment = AlignmentDirectional.topStart;
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignmentDirectional(), null);
+        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
+            defaultAlignment);
+        expect(data["alignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a map or string",
+          () {
+        final json = <String, dynamic>{
+          "alignment": true,
+        };
+        const defaultAlignment = AlignmentDirectional.topStart;
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
+            defaultAlignment);
+        expect(data["alignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const alignment = AlignmentDirectional.topEnd;
+        final json = <String, dynamic>{
+          "alignment": alignment,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.alignmentDirectional(), alignment);
+        expect(data["alignment"], alignment);
+      });
+    },
+  );
+
+  group(
+    "mainAxisAlignment method",
+    () {
+      test("should parse and return the mainAxisAlignment from string", () {
+        final json = <String, dynamic>{
+          "mainAxisAlignment": "start",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisAlignment(), MainAxisAlignment.start);
+        expect(data["mainAxisAlignment"], MainAxisAlignment.start);
+      });
+
+      test("should parse and return the mainAxisAlignment from int", () {
+        final json = <String, dynamic>{
+          "mainAxisAlignment": 0, // MainAxisAlignment.start
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisAlignment(), MainAxisAlignment.start);
+        expect(data["mainAxisAlignment"], MainAxisAlignment.start);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisAlignment(), null);
+        expect(
+          data.mainAxisAlignment(defaultValue: MainAxisAlignment.center),
+          MainAxisAlignment.center,
+        );
+        expect(data["mainAxisAlignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "mainAxisAlignment": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.mainAxisAlignment(defaultValue: MainAxisAlignment.center),
+          MainAxisAlignment.center,
+        );
+        expect(data["mainAxisAlignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "mainAxisAlignment": MainAxisAlignment.center,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisAlignment(), MainAxisAlignment.center);
+        expect(data["mainAxisAlignment"], MainAxisAlignment.center);
+      });
+    },
+  );
+
+  group(
+    "crossAxisAlignment method",
+    () {
+      test("should parse and return the crossAxisAlignment from string", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": "start",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.crossAxisAlignment(), CrossAxisAlignment.start);
+        expect(data["crossAxisAlignment"], CrossAxisAlignment.start);
+      });
+
+      test("should parse and return the crossAxisAlignment from int", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": 0, // CrossAxisAlignment.start
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.crossAxisAlignment(), CrossAxisAlignment.start);
+        expect(data["crossAxisAlignment"], CrossAxisAlignment.start);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.crossAxisAlignment(), null);
+        expect(
+          data.crossAxisAlignment(defaultValue: CrossAxisAlignment.center),
+          CrossAxisAlignment.center,
+        );
+        expect(data["crossAxisAlignment"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.crossAxisAlignment(defaultValue: CrossAxisAlignment.center),
+          CrossAxisAlignment.center,
+        );
+        expect(data["crossAxisAlignment"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "crossAxisAlignment": CrossAxisAlignment.center,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.crossAxisAlignment(), CrossAxisAlignment.center);
+        expect(data["crossAxisAlignment"], CrossAxisAlignment.center);
+      });
+    },
+  );
+
+  group(
+    "mainAxisSize method",
+    () {
+      test("should parse and return the mainAxisSize from string", () {
+        final json = <String, dynamic>{
+          "mainAxisSize": "min",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisSize(), MainAxisSize.min);
+        expect(data["mainAxisSize"], MainAxisSize.min);
+      });
+
+      test("should parse and return the mainAxisSize from int", () {
+        final json = <String, dynamic>{
+          "mainAxisSize": 0, // MainAxisSize.min
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisSize(), MainAxisSize.min);
+        expect(data["mainAxisSize"], MainAxisSize.min);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisSize(), null);
+        expect(
+          data.mainAxisSize(defaultValue: MainAxisSize.max),
+          MainAxisSize.max,
+        );
+        expect(data["mainAxisSize"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "mainAxisSize": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.mainAxisSize(defaultValue: MainAxisSize.max),
+          MainAxisSize.max,
+        );
+        expect(data["mainAxisSize"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "mainAxisSize": MainAxisSize.max,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.mainAxisSize(), MainAxisSize.max);
+        expect(data["mainAxisSize"], MainAxisSize.max);
+      });
+    },
+  );
+
+  group(
+    "sliderInteraction method",
+    () {
+      test("should parse and return the sliderInteraction from string", () {
+        final json = <String, dynamic>{
+          "interaction": "tapOnly",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.sliderInteraction(), SliderInteraction.tapOnly);
+        expect(data["interaction"], SliderInteraction.tapOnly);
+      });
+
+      test("should parse and return the sliderInteraction from int", () {
+        final json = <String, dynamic>{
+          "interaction": 0, // SliderInteraction.tapOnly
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.sliderInteraction(), SliderInteraction.tapOnly);
+        expect(data["interaction"], SliderInteraction.tapOnly);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.sliderInteraction(), null);
+        expect(
+          data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
+          SliderInteraction.slideOnly,
+        );
+        expect(data["interaction"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "interaction": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
+          SliderInteraction.slideOnly,
+        );
+        expect(data["interaction"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "interaction": SliderInteraction.slideOnly,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.sliderInteraction(), SliderInteraction.slideOnly);
+        expect(data["interaction"], SliderInteraction.slideOnly);
+      });
+    },
+  );
+
+  group(
+    "materialTapTargetSize method",
+    () {
+      test("should parse and return the materialTapTargetSize from string", () {
+        final json = <String, dynamic>{
+          "materialTapTargetSize": "shrinkWrap",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.materialTapTargetSize(), MaterialTapTargetSize.shrinkWrap);
+        expect(data["materialTapTargetSize"], MaterialTapTargetSize.shrinkWrap);
+      });
+
+      test("should parse and return the materialTapTargetSize from int", () {
+        final json = <String, dynamic>{
+          "materialTapTargetSize": 0, // MaterialTapTargetSize.shrinkWrap
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.materialTapTargetSize(), MaterialTapTargetSize.shrinkWrap);
+        expect(data["materialTapTargetSize"], MaterialTapTargetSize.shrinkWrap);
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+
+        final data = DuitDataSource(json);
+
+        expect(data.materialTapTargetSize(), null);
+        expect(
+          data.materialTapTargetSize(
+              defaultValue: MaterialTapTargetSize.padded),
+          MaterialTapTargetSize.padded,
+        );
+        expect(data["materialTapTargetSize"], null);
+      });
+
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
+        final json = <String, dynamic>{
+          "materialTapTargetSize": true,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(
+          data.materialTapTargetSize(
+              defaultValue: MaterialTapTargetSize.padded),
+          MaterialTapTargetSize.padded,
+        );
+        expect(data["materialTapTargetSize"], true);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        final json = <String, dynamic>{
+          "materialTapTargetSize": MaterialTapTargetSize.padded,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.materialTapTargetSize(), MaterialTapTargetSize.padded);
+        expect(data["materialTapTargetSize"], MaterialTapTargetSize.padded);
       });
     },
   );

@@ -511,7 +511,6 @@ const _blendModeIntLookupTable = <int, BlendMode>{
   28: BlendMode.luminosity,
 };
 
-
 const _verticalDirectionIntLookupTable = <int, VerticalDirection>{
   0: VerticalDirection.up,
   1: VerticalDirection.down,
@@ -658,4 +657,18 @@ const _fabLocationIntLookupTable = <int, FloatingActionButtonLocation>{
   15: FloatingActionButtonLocation.miniStartDocked,
   16: FloatingActionButtonLocation.miniStartFloat,
   17: FloatingActionButtonLocation.miniStartTop,
+};
+
+const _tileModeStringLookupTable = <String, TileMode>{
+  "clamp": TileMode.clamp,
+  "mirror": TileMode.mirror,
+  "repeated": TileMode.repeated,
+  "decal": TileMode.decal,
+};
+
+const _tileModeIntLookupTable = <int, TileMode>{
+  0: TileMode.clamp,
+  1: TileMode.mirror,
+  2: TileMode.repeated,
+  3: TileMode.decal,
 };
