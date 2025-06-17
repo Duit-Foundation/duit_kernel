@@ -71,6 +71,31 @@ Color? _parseColor(color) => switch (color) {
       _ => null,
     };
 
+/// A wrapper for JSON data that provides type-safe access to Flutter properties.
+///
+/// This extension type wraps a [Map<String, dynamic>] and provides methods to safely
+/// parse and convert JSON values into Flutter types. It implements [Map<String, dynamic>]
+/// to maintain compatibility with JSON operations.
+///
+/// The extension type provides methods for:
+/// - Parsing basic types (int, double, string, bool)
+/// - Converting colors from hex strings or RGB arrays
+/// - Parsing Flutter-specific types (Size, EdgeInsets, Alignment, etc.)
+/// - Handling enums through string or integer lookups
+/// - Managing widget states and properties
+///
+/// Example usage:
+/// ```dart
+/// final data = DuitDataSource({
+///   'color': '#FF0000',
+///   'size': {'width': 100, 'height': 100},
+///   'padding': [10, 20, 10, 20],
+/// });
+///
+/// final color = data.parseColor(); // Returns Color(0xFFFF0000)
+/// final size = data.size('size'); // Returns Size(100, 100)
+/// final padding = data.edgeInsets(); // Returns EdgeInsets(10, 20, 10, 20)
+/// ```
 extension type DuitDataSource(Map<String, dynamic> json)
     implements Map<String, dynamic> {
   /// Retrieves a [ServerAction] from the JSON map associated with the given [key].
@@ -254,6 +279,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns:
   /// - An [int] if the value is valid or can be parsed.
   /// - [defaultValue] if the value is not a valid [int] or cannot be parsed.
+  /// - 0 if both the value and [defaultValue] are null.
   @preferInline
   int getInt({
     required String key,
@@ -277,6 +303,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns:
   /// - An [int] if the value is valid or can be parsed.
   /// - [defaultValue] if the value is not a valid [int] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   int? tryGetInt({
     required String key,
@@ -290,6 +317,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+
+  /// Retrieves a [double] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [double], it returns that value.
+  /// If the value is a [num], it attempts to parse it into a [double].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [double] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [double] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [double] or cannot be parsed.
+  /// - 0.0 if both the value and [defaultValue] are null.
+  @preferInline
   double getDouble({
     required String key,
     double? defaultValue,
@@ -301,6 +342,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return defaultValue ?? 0.0;
   }
 
+  @preferInline
+
+  /// Retrieves a [double] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [double], it returns that value.
+  /// If the value is a [num], it attempts to parse it into a [double].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// Unlike [getDouble], this method does not store the parsed or existing [double] back into the JSON map.
+  ///
+  /// Returns:
+  /// - A [double] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [double] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   double? tryGetDouble({
     required String key,
@@ -314,6 +369,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
+
+  /// Retrieves a [String] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [String], it returns that value.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [String] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [String] if the value is valid.
+  /// - [defaultValue] if the value is not a valid [String].
+  /// - Empty string ("") if both the value and [defaultValue] are null.
+  @preferInline
   String getString({
     required String key,
     String? defaultValue,
@@ -325,6 +393,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return defaultValue ?? "";
   }
 
+  /// Retrieves a [String] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [String], it returns that value.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// Unlike [getString], this method does not store the parsed or existing [String] back into the JSON map.
+  ///
+  /// Returns:
+  /// - A [String] if the value is valid.
+  /// - [defaultValue] if the value is not a valid [String].
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   String? tryGetString(
     String key, {
@@ -337,8 +416,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return defaultValue;
   }
 
-  ///Returns a boolean value for the given key.
-  ///Defaults to **false** if the value is not a boolean or not set.
+  /// Retrieves a [bool] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [bool], it returns that value.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [bool] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [bool] if the value is valid.
+  /// - [defaultValue] if the value is not a valid [bool].
+  /// - false if both the value and [defaultValue] are null.
   @preferInline
   bool getBool(
     String key, {
@@ -351,6 +439,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return defaultValue ?? false;
   }
 
+  /// Retrieves a [bool] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [bool], it returns that value.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// Unlike [getBool], this method does not store the parsed or existing [bool] back into the JSON map.
   @preferInline
   bool? tryGetBool(
     String key, {
@@ -398,7 +492,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
-  TextAlign? textAlign({
+  TextAlign? textAlignxx({
     String key = "textAlign",
     TextAlign? defaultValue,
   }) {
@@ -411,8 +505,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
     };
   }
 
+  /// Retrieves a [TextAlign] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TextAlign], it returns that value.
+  /// If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TextAlign] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TextAlign] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextAlign] or cannot be parsed.
+  /// - `null` if the value is `null` and [defaultValue] is provided.
   @preferInline
-  TextAlign? textAlignExpanded({
+  TextAlign? textAlign({
     String key = "textAlign",
     TextAlign? defaultValue,
   }) {
@@ -422,7 +528,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       return value;
     }
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -612,6 +718,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Creates an [EdgeInsets] object from a list of double values.
+  ///
+  /// The list should contain either 2 or 4 elements representing vertical and horizontal padding
+  /// or left, top, right, and bottom padding.
+  ///
+  /// - [value]: A list containing padding values.
+  /// Returns an [EdgeInsets] object with the specified padding.
   @preferInline
   EdgeInsets _edgeInsetsFromList(List<double> value) {
     return switch (value.length) {
@@ -629,6 +742,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     };
   }
 
+  /// Retrieves an [EdgeInsets] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [EdgeInsets],
+  /// it is returned as is. The value can be provided in several formats:
+  /// - A list of 2 or 4 numbers [vertical, horizontal] or [left, top, right, bottom]
+  /// - A single number (creates a square padding)
+  /// If the value is `null`, returns [defaultValue].
   @preferInline
   EdgeInsets? edgeInsets({
     String key = "padding",
@@ -651,6 +771,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
         return defaultValue;
     }
   }
+
+  /// Retrieves a [Curve] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [Curve],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// If the value is `null`, returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'curve'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to Curves.linear.
+  ///
+  /// Example:
+  ///   curve(key: 'myCurve', defaultValue: Curves.ease)
 
   @preferInline
   Curve? curve({
@@ -675,6 +807,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextBaseline] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextBaseline],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// If the value is `null`, returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'textBaseline'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TextBaseline.alphabetic.
+  ///
+  /// Example:
+  ///   textBaseline(key: 'myBaseline', defaultValue: TextBaseline.ideographic)
   @preferInline
   TextBaseline? textBaseline({
     String key = "textBaseline",
@@ -1352,7 +1495,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is AlignmentDirectional) return value;
 
-    //TODO: AlignmentDirectional(start,y) as [double, double]
     if (value == null) {
       return defaultValue;
     }
@@ -1362,6 +1504,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
         return json[key] = _alignmentDirectionalStringLookupTable[value];
       case int():
         return json[key] = _alignmentDirectionalIntLookupTable[value];
+      case List<num>() when value.length == 2:
+        return json[key] = AlignmentDirectional(
+          value[0].toDouble(),
+          value[1].toDouble(),
+        );
       default:
         return defaultValue;
     }
