@@ -241,11 +241,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Color) return value;
 
-    return json[key] = switch (value) {
-      String() => _colorFromHexString(value),
-      List<num>() => _colorFromList(value),
-      _ => defaultValue,
-    };
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] = _colorFromHexString(value);
+      case List<num>():
+        return json[key] = _colorFromList(value);
+      default:
+        return defaultValue;
+    }
   }
 
   /// Retrieves a duration value from the JSON map associated with the given [key].
@@ -883,7 +890,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextStyle) return value;
 
-    if (value == null && defaultValue != null) {
+    if (value == null) {
       return defaultValue;
     }
 
@@ -1837,6 +1844,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     };
   }
 
+  //TODO: add test
   @preferInline
   ImageFilter imageFilter({
     String key = "filter",
@@ -1978,9 +1986,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _borderStyleStringLookupTable[value] ?? defaultValue;
+        return json[key] = _borderStyleStringLookupTable[value];
       case int():
-        return json[key] = _borderStyleIntLookupTable[value] ?? defaultValue;
+        return json[key] = _borderStyleIntLookupTable[value];
       default:
         return defaultValue;
     }
@@ -2112,21 +2120,21 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   VisualDensity visualDensity({
     String key = "visualDensity",
-    VisualDensity? defaultValue,
+    VisualDensity defaultValue = const VisualDensity(),
   }) {
     final value = json[key];
 
     if (value is VisualDensity) return value;
 
     if (value == null) {
-      return defaultValue ?? const VisualDensity();
+      return defaultValue;
     }
 
     switch (value) {
       case Map<String, dynamic>():
         return json[key] = _visualDensityFromMap(value);
       default:
-        return defaultValue ?? const VisualDensity();
+        return defaultValue;
     }
   }
 
@@ -2333,10 +2341,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
 
     return BorderRadius.only(
-      topLeft: Radius.circular(json['topLeft']?['radius'] ?? 0.0),
-      topRight: Radius.circular(json['topRight']?['radius'] ?? 0.0),
-      bottomLeft: Radius.circular(json['bottomLeft']?['radius'] ?? 0.0),
-      bottomRight: Radius.circular(json['bottomRight']?['radius'] ?? 0.0),
+      topLeft: Radius.circular(value['topLeft']?['radius'] ?? 0.0),
+      topRight: Radius.circular(value['topRight']?['radius'] ?? 0.0),
+      bottomLeft: Radius.circular(value['bottomLeft']?['radius'] ?? 0.0),
+      bottomRight: Radius.circular(value['bottomRight']?['radius'] ?? 0.0),
     );
   }
 
@@ -2581,28 +2589,28 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   ButtonStyle _buttonStyleFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final data = DuitDataSource(value);
     return ButtonStyle(
-      textStyle: json.widgetStateProperty<TextStyle>(key: "textStyle"),
-      backgroundColor: json.widgetStateProperty<Color>(key: "backgroundColor"),
-      foregroundColor: json.widgetStateProperty<Color>(key: "foregroundColor"),
-      overlayColor: json.widgetStateProperty<Color>(key: "overlayColor"),
-      shadowColor: json.widgetStateProperty<Color>(key: "shadowColor"),
+      textStyle: data.widgetStateProperty<TextStyle>(key: "textStyle"),
+      backgroundColor: data.widgetStateProperty<Color>(key: "backgroundColor"),
+      foregroundColor: data.widgetStateProperty<Color>(key: "foregroundColor"),
+      overlayColor: data.widgetStateProperty<Color>(key: "overlayColor"),
+      shadowColor: data.widgetStateProperty<Color>(key: "shadowColor"),
       surfaceTintColor:
-          json.widgetStateProperty<Color>(key: "surfaceTintColor"),
-      elevation: json.widgetStateProperty<double>(key: "elevation"),
-      padding: json.widgetStateProperty<EdgeInsetsGeometry>(key: "padding"),
-      minimumSize: json.widgetStateProperty<Size>(key: "minimumSize"),
-      maximumSize: json.widgetStateProperty<Size>(key: "maximumSize"),
-      iconColor: json.widgetStateProperty<Color>(key: "iconColor"),
-      iconSize: json.widgetStateProperty<double>(key: "iconSize"),
-      side: json.widgetStateProperty<BorderSide>(key: "side"),
-      shape: json.widgetStateProperty<OutlinedBorder>(key: "shape"),
-      visualDensity: json.visualDensity(key: "visualDensity"),
-      tapTargetSize: json.materialTapTargetSize(key: "tapTargetSize"),
-      animationDuration: json.duration(key: "animationDuration"),
-      enableFeedback: json.tryGetBool("enableFeedback"),
-      alignment: json.alignment(key: "alignment"),
+          data.widgetStateProperty<Color>(key: "surfaceTintColor"),
+      elevation: data.widgetStateProperty<double>(key: "elevation"),
+      padding: data.widgetStateProperty<EdgeInsetsGeometry>(key: "padding"),
+      minimumSize: data.widgetStateProperty<Size>(key: "minimumSize"),
+      maximumSize: data.widgetStateProperty<Size>(key: "maximumSize"),
+      iconColor: data.widgetStateProperty<Color>(key: "iconColor"),
+      iconSize: data.widgetStateProperty<double>(key: "iconSize"),
+      side: data.widgetStateProperty<BorderSide>(key: "side"),
+      shape: data.widgetStateProperty<OutlinedBorder>(key: "shape"),
+      visualDensity: data.visualDensity(key: "visualDensity"),
+      tapTargetSize: data.materialTapTargetSize(key: "tapTargetSize"),
+      animationDuration: data.duration(key: "animationDuration"),
+      enableFeedback: data.tryGetBool("enableFeedback"),
+      alignment: data.alignment(key: "alignment"),
     );
   }
 
@@ -2615,10 +2623,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ButtonStyle) return value;
 
-    return json[key] = switch (value) {
-      Map<String, dynamic>() => _buttonStyleFromMap(value),
-      _ => defaultValue,
-    };
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = _buttonStyleFromMap(value);
+      default:
+        return defaultValue;
+    }
   }
 
   // @preferInline
