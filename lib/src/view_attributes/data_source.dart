@@ -149,15 +149,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return deps;
   }
 
-  /// Converts a [Map] to a [Map<String, dynamic>].
-  ///
-  /// This is a helper method used internally to ensure type safety when working with JSON data.
-  ///
-  /// - [value]: The map to convert.
-  /// Returns a new [Map<String, dynamic>] containing the same key-value pairs as the input map.
-  @preferInline
-  Map<String, dynamic> _map(Map value) => Map<String, dynamic>.from(value);
-
   /// A protection mechanism that allows checking the presence of a key in a [Map<String, dynamic>],
   /// which prevents further calls to "heavy" data parsing functions
   ///
@@ -896,7 +887,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _textStyleFromMap(_map(value));
+        return json[key] = _textStyleFromMap(value);
       default:
         return defaultValue;
     }
@@ -959,7 +950,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   BoxShadow _boxShadowFromMap(json) {
-    final data = DuitDataSource(_map(json));
+    final data = DuitDataSource(json);
     return BoxShadow(
       color: data.parseColor(key: "color"),
       offset: data.offset(defaultValue: Offset.zero)!,
@@ -1805,48 +1796,150 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
-  //TODO: needs work
+  /// Creates a blur [ImageFilter] from a map containing blur parameters.
+  ///
+  /// The map should contain the following keys:
+  /// - `sigmaX`: The horizontal blur radius (double)
+  /// - `sigmaY`: The vertical blur radius (double)
+  /// - `tileMode`: The tile mode for the blur effect (optional)
+  ///
+  /// - [value]: The map containing blur parameters.
+  /// Returns an [ImageFilter] that applies a blur effect.
   @preferInline
-  ImageFilter _imageFilterFromMap(Map<String, dynamic> value) {
+  static ImageFilter _blurImageFilterFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
-    final fType = json["type"];
-    return switch (fType) {
-      "blur" || 0 => ImageFilter.blur(
-          sigmaX: json.getDouble(key: "sigmaX"),
-          sigmaY: json.getDouble(key: "sigmaY"),
-          tileMode: json.tileMode(),
-        ),
-      "compose" || 1 => () {
-          final outerFilter =
-              value.containsKey("outer") ? value["outer"] : const {};
-          final innerFilter =
-              value.containsKey("inner") ? value["inner"] : const {};
-
-          return ImageFilter.compose(
-            outer: DuitDataSource(outerFilter).imageFilter(),
-            inner: DuitDataSource(innerFilter).imageFilter(),
-          );
-        }(),
-      "dilate" || 2 => ImageFilter.dilate(
-          radiusX: json.getDouble(key: "radiusX"),
-          radiusY: json.getDouble(key: "radiusY"),
-        ),
-      "erode" || 3 => ImageFilter.erode(
-          radiusX: json.getDouble(key: "radiusX"),
-          radiusY: json.getDouble(key: "radiusY"),
-        ),
-      "matrix" || 4 => ImageFilter.matrix(
-          Float64List.fromList(value["matrix4"] as List<double>),
-          filterQuality:
-              json.filterQuality(defaultValue: FilterQuality.medium)!,
-        ),
-      Object() || null || String() => ImageFilter.blur(),
-    };
+    return ImageFilter.blur(
+      sigmaX: json.getDouble(key: "sigmaX"),
+      sigmaY: json.getDouble(key: "sigmaY"),
+      tileMode: json.tileMode(),
+    );
   }
 
-  //TODO: add test
+  /// Creates a dilate [ImageFilter] from a map containing dilate parameters.
+  ///
+  /// The map should contain the following keys:
+  /// - `radiusX`: The horizontal dilation radius (double)
+  /// - `radiusY`: The vertical dilation radius (double)
+  ///
+  /// - [value]: The map containing dilate parameters.
+  /// Returns an [ImageFilter] that applies a dilation effect.
   @preferInline
-  ImageFilter imageFilter({
+  static ImageFilter _dilateImageFilterFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return ImageFilter.dilate(
+      radiusX: json.getDouble(key: "radiusX"),
+      radiusY: json.getDouble(key: "radiusY"),
+    );
+  }
+
+  /// Creates an erode [ImageFilter] from a map containing erode parameters.
+  ///
+  /// The map should contain the following keys:
+  /// - `radiusX`: The horizontal erosion radius (double)
+  /// - `radiusY`: The vertical erosion radius (double)
+  ///
+  /// - [value]: The map containing erode parameters.
+  /// Returns an [ImageFilter] that applies an erosion effect.
+  @preferInline
+  static ImageFilter _erodeImageFilterFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return ImageFilter.erode(
+      radiusX: json.getDouble(key: "radiusX"),
+      radiusY: json.getDouble(key: "radiusY"),
+    );
+  }
+
+  /// Creates a matrix [ImageFilter] from a map containing matrix parameters.
+  ///
+  /// The map should contain the following keys:
+  /// - `matrix4`: A 4x4 transformation matrix as a list of 16 doubles
+  /// - `filterQuality`: The quality of the filter (optional, defaults to medium)
+  ///
+  /// - [value]: The map containing matrix parameters.
+  /// Returns an [ImageFilter] that applies a matrix transformation.
+  @preferInline
+  static ImageFilter _matrixImageFilterFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return ImageFilter.matrix(
+      Float64List.fromList(value["matrix4"] as List<double>),
+      filterQuality: json.filterQuality(defaultValue: FilterQuality.medium),
+    );
+  }
+
+  /// Creates a compose [ImageFilter] from a map containing compose parameters.
+  ///
+  /// The map should contain the following keys:
+  /// - `outer`: The outer filter to apply
+  /// - `inner`: The inner filter to apply
+  ///
+  /// Both outer and inner filters are parsed using the [imageFilter] method.
+  /// If either filter is not provided, a default blur filter is used.
+  ///
+  /// - [value]: The map containing compose parameters.
+  /// Returns an [ImageFilter] that combines two filters.
+  @preferInline
+  static ImageFilter _composeImageFilterFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return ImageFilter.compose(
+      outer: json.imageFilter(defaultValue: ImageFilter.blur())!,
+      inner: json.imageFilter(defaultValue: ImageFilter.blur())!,
+    );
+  }
+
+  /// Creates an [ImageFilter] from a map based on the filter type.
+  ///
+  /// The map should contain a `type` key that specifies the filter type.
+  /// The type can be either a string or integer identifier.
+  /// Based on the type, the appropriate filter creation function is called
+  /// with the provided map as parameters.
+  ///
+  /// - [value]: The map containing filter type and parameters.
+  /// Returns an [ImageFilter] if the type is valid, otherwise `null`.
+  @preferInline
+  ImageFilter? _imageFilterFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    final fType = json["type"];
+
+    switch (fType) {
+      case String():
+        return _imageFilterTypeStringLookupTable[fType]?.call(value);
+      case int():
+        return _imageFilterTypeIntLookupTable[fType]?.call(value);
+      default:
+        return null;
+    }
+  }
+
+  /// Retrieves an [ImageFilter] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [ImageFilter],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it is parsed using [_imageFilterFromMap].
+  /// If the value is `null`, returns [defaultValue].
+  ///
+  /// The parsed or existing [ImageFilter] is also stored back into the JSON map at the given [key].
+  ///
+  /// Supported filter types:
+  /// - `blur`: Applies a blur effect with sigmaX and sigmaY parameters
+  /// - `dilate`: Applies a dilation effect with radiusX and radiusY parameters
+  /// - `erode`: Applies an erosion effect with radiusX and radiusY parameters
+  /// - `matrix`: Applies a matrix transformation with a 4x4 matrix
+  /// - `compose`: Combines two filters (outer and inner)
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'filter'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Blur filter
+  /// final blurFilter = data.imageFilter(key: 'blurFilter');
+  /// // JSON: {"type": "blur", "sigmaX": 5.0, "sigmaY": 5.0}
+  ///
+  /// // Matrix filter
+  /// final matrixFilter = data.imageFilter(key: 'matrixFilter');
+  /// // JSON: {"type": "matrix", "matrix4": [1.0, 0.0, 0.0, 0.0, ...]}
+  /// ```
+  @preferInline
+  ImageFilter? imageFilter({
     String key = "filter",
     ImageFilter? defaultValue,
   }) {
@@ -1855,14 +1948,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     if (value is ImageFilter) return value;
 
     if (value == null) {
-      return defaultValue ?? ImageFilter.blur();
+      return defaultValue;
     }
 
     switch (value) {
       case Map<String, dynamic>():
         return json[key] = _imageFilterFromMap(value);
       default:
-        return defaultValue ?? ImageFilter.blur();
+        return defaultValue;
     }
   }
 
@@ -2635,22 +2728,95 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
-  // @preferInline
-  // List<Map<String, dynamic>> get childObjects {
-  //   final value = json["_childObjects"];
-  //   if (value is List<Map<String, dynamic>>) return value;
+  /// Returns a list of child objects from the JSON structure by the given key.
+  ///
+  /// This method looks up the [key] (default is 'childObjects') in the JSON and expects
+  /// a list of child objects (List<Map<String, dynamic>>). If such objects are found, they are
+  /// added to the internal buffer '_listContentBuffer', and the original key is cleared (json[key] = null).
+  /// This prevents the same objects from being added multiple times on repeated calls.
+  ///
+  /// Returns the accumulated list of child objects (List<Map<String, dynamic>>)
+  /// stored in the '_listContentBuffer'. If there are no child objects, returns an empty list.
+  List<Map<String, dynamic>> childObjects({
+    String key = "childObjects",
+  }) {
+    final children = json[key];
+    final List<Map<String, dynamic>> cachedChildren =
+        json["_listContentBuffer"] ?? [];
 
-  //   return const <Map<String, dynamic>>[];
-  // }
+    if (children != null && children is List<Map<String, dynamic>>) {
+      cachedChildren.addAll(children);
+      json[key] = null;
+      json["_listContentBuffer"] = cachedChildren;
+    }
 
-  // @preferInline
-  // set childObjects(List<Map<String, dynamic>> value) {
-  //   final List? list = json["_childObjects"];
+    return cachedChildren;
+  }
 
-  //   if (list == null) {
-  //     json["_childObjects"] = [...value];
-  //   } else {
-  //     list.addAll(value);
-  //   }
-  // }
+  @preferInline
+  ThemeOverrideRule themeOverrideRule({
+    String key = "overrideRule",
+    ThemeOverrideRule defaultValue = ThemeOverrideRule.themeOverlay,
+  }) {
+    final value = json[key];
+
+    if (value is ThemeOverrideRule) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] =
+            _themeOverrideRuleStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] =
+            _themeOverrideRuleIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  List<dynamic> _copyList(List<dynamic> source) {
+    final List<dynamic> result = [];
+    for (final item in source) {
+      if (item is Map<String, dynamic>) {
+        result.add(_copyMap(item));
+      } else if (item is List) {
+        result.add(_copyList(item));
+      } else {
+        result.add(item);
+      }
+    }
+    return result;
+  }
+
+  @preferInline
+  Map<String, dynamic> _copyMap(Map<String, dynamic> source) {
+    final Map<String, dynamic> result = {};
+    for (final entry in source.entries) {
+      final key = entry.key;
+      final value = entry.value;
+
+      if (value is Map<String, dynamic>) {
+        result[key] = _copyMap(value);
+      } else if (value is List) {
+        result[key] = _copyList(value);
+      } else {
+        result[key] = value;
+      }
+    }
+    return result;
+  }
+
+  /// Creates a deep copy of the current JSON data structure.
+  ///
+  /// This method recursively copies all nested objects, lists, and primitive values
+  /// to create a completely independent copy of the original data structure.
+  ///
+  /// Returns a new Map<String, dynamic> that is a deep copy of the current json.
+  @preferInline
+  Map<String, dynamic> deepCopy() => _copyMap(json);
 }

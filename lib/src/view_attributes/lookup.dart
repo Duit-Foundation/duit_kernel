@@ -672,3 +672,39 @@ const _tileModeIntLookupTable = <int, TileMode>{
   2: TileMode.repeated,
   3: TileMode.decal,
 };
+
+const _themeOverrideRuleStringLookupTable = <String, ThemeOverrideRule>{
+  "themeOverlay": ThemeOverrideRule.themeOverlay,
+  "themePriority": ThemeOverrideRule.themePriority,
+};
+
+const _themeOverrideRuleIntLookupTable = <int, ThemeOverrideRule>{
+  0: ThemeOverrideRule.themeOverlay,
+  1: ThemeOverrideRule.themePriority,
+};
+
+/// Lookup table for string-based image filter types.
+///
+/// Maps string identifiers to their corresponding filter creation functions.
+/// Supported types: "blur", "compose", "dilate", "erode", "matrix".
+const _imageFilterTypeStringLookupTable =
+    <String, ImageFilter Function(Map<String, dynamic> value)>{
+  "blur": DuitDataSource._blurImageFilterFromMap,
+  "compose": DuitDataSource._composeImageFilterFromMap,
+  "dilate": DuitDataSource._dilateImageFilterFromMap,
+  "erode": DuitDataSource._erodeImageFilterFromMap,
+  "matrix": DuitDataSource._matrixImageFilterFromMap,
+};
+
+/// Lookup table for integer-based image filter types.
+///
+/// Maps integer identifiers to their corresponding filter creation functions.
+/// Supported types: 0 (blur), 1 (compose), 2 (dilate), 3 (erode), 4 (matrix).
+const _imageFilterTypeIntLookupTable =
+    <int, ImageFilter Function(Map<String, dynamic> value)>{
+  0: DuitDataSource._blurImageFilterFromMap,
+  1: DuitDataSource._composeImageFilterFromMap,
+  2: DuitDataSource._dilateImageFilterFromMap,
+  3: DuitDataSource._erodeImageFilterFromMap,
+  4: DuitDataSource._matrixImageFilterFromMap,
+};

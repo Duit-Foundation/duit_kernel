@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:typed_data';
 import 'package:flutter/gestures.dart';
+import 'dart:ui';
 
 void main() {
   group(
@@ -688,15 +689,38 @@ void main() {
   group(
     "textOverflow method",
     () {
-      test("should parse and return the textOverflow", () {
+      test("should parse and return the textOverflow from string", () {
         final json = <String, dynamic>{
           "textOverflow": "ellipsis",
+          "textOverflow2": "fade",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.textOverflow(), TextOverflow.ellipsis);
+        expect(data.textOverflow(key: "textOverflow2"), TextOverflow.fade);
         expect(data["textOverflow"], TextOverflow.ellipsis);
+        expect(data["textOverflow2"], TextOverflow.fade);
+      });
+
+      test("should parse and return the textOverflow from int", () {
+        final json = <String, dynamic>{
+          "textOverflow": 0,
+          "textOverflow2": 1,
+          "textOverflow3": 2,
+          "textOverflow4": 3,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textOverflow(), TextOverflow.clip);
+        expect(data.textOverflow(key: "textOverflow2"), TextOverflow.ellipsis);
+        expect(data.textOverflow(key: "textOverflow3"), TextOverflow.fade);
+        expect(data.textOverflow(key: "textOverflow4"), TextOverflow.visible);
+        expect(data["textOverflow"], TextOverflow.clip);
+        expect(data["textOverflow2"], TextOverflow.ellipsis);
+        expect(data["textOverflow3"], TextOverflow.fade);
+        expect(data["textOverflow4"], TextOverflow.visible);
       });
 
       test("should return the default value if the value is null", () {
@@ -712,7 +736,9 @@ void main() {
         expect(data["textOverflow"], null);
       });
 
-      test("should return the default value if the value is not a string", () {
+      test(
+          "should return the default value if the value is not a string or int",
+          () {
         final json = <String, dynamic>{
           "textOverflow": true,
         };
@@ -735,6 +761,28 @@ void main() {
 
         expect(data.textOverflow(), TextOverflow.ellipsis);
         expect(data["textOverflow"], TextOverflow.ellipsis);
+      });
+
+      test("should handle unknown string values", () {
+        final json = <String, dynamic>{
+          "textOverflow": "unknownValue",
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textOverflow(), TextOverflow.clip);
+        expect(data["textOverflow"], TextOverflow.clip);
+      });
+
+      test("should handle unknown int values", () {
+        final json = <String, dynamic>{
+          "textOverflow": 999,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.textOverflow(), TextOverflow.clip);
+        expect(data["textOverflow"], TextOverflow.clip);
       });
     },
   );
@@ -4163,4 +4211,667 @@ void main() {
       });
     },
   );
+
+  group("childObjects method", () {
+    test("should return empty list if no childObjects present", () {
+      final json = <String, dynamic>{};
+      final data = DuitDataSource(json);
+      expect(data.childObjects(), isEmpty);
+    });
+
+    test("should return child objects from the list and clear the key", () {
+      final children = [
+        {"id": 1, "name": "child1"},
+        {"id": 2, "name": "child2"},
+      ];
+      final json = <String, dynamic>{
+        "childObjects": List<Map<String, dynamic>>.from(children),
+      };
+      final data = DuitDataSource(json);
+      final result = data.childObjects();
+      expect(result, equals(children));
+      expect(json["childObjects"], isNull);
+      expect(json["_listContentBuffer"], equals(children));
+    });
+
+    test("should accumulate child objects on multiple calls", () {
+      final children1 = [
+        {"id": 1, "name": "child1"},
+      ];
+      final children2 = [
+        {"id": 2, "name": "child2"},
+      ];
+      final json = <String, dynamic>{
+        "childObjects": List<Map<String, dynamic>>.from(children1),
+      };
+      final data = DuitDataSource(json);
+      data.childObjects();
+      // Add more children and call again
+      json["childObjects"] = List<Map<String, dynamic>>.from(children2);
+      final result = data.childObjects();
+      expect(result, equals([...children1, ...children2]));
+      expect(json["childObjects"], isNull);
+      expect(json["_listContentBuffer"], equals([...children1, ...children2]));
+    });
+
+    test("should ignore non-list values for childObjects", () {
+      final json = <String, dynamic>{
+        "childObjects": "not a list",
+      };
+      final data = DuitDataSource(json);
+      final result = data.childObjects();
+      expect(result, isEmpty);
+      expect(json["childObjects"], "not a list");
+      expect(json["_listContentBuffer"], null);
+    });
+
+    test("should use custom key for childObjects", () {
+      final children = [
+        {"id": 1, "name": "child1"},
+      ];
+      final json = <String, dynamic>{
+        "customKey": List<Map<String, dynamic>>.from(children),
+      };
+      final data = DuitDataSource(json);
+      final result = data.childObjects(key: "customKey");
+      expect(result, equals(children));
+      expect(json["customKey"], isNull);
+      expect(json["_listContentBuffer"], equals(children));
+    });
+
+    test("should handle empty list for childObjects", () {
+      final json = <String, dynamic>{
+        "childObjects": <Map<String, dynamic>>[],
+      };
+      final data = DuitDataSource(json);
+      final result = data.childObjects();
+      expect(result, isEmpty);
+      expect(json["childObjects"], isNull);
+      expect(json["_listContentBuffer"], isEmpty);
+    });
+  });
+
+  group("themeOverrideRule method", () {
+    test("should parse and return themeOverrideRule from string", () {
+      final json = <String, dynamic>{
+        "overrideRule": "themeOverlay",
+        "overrideRule2": "themePriority",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
+      expect(data.themeOverrideRule(key: "overrideRule2"),
+          ThemeOverrideRule.themePriority);
+      expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
+      expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
+    });
+
+    test("should parse and return themeOverrideRule from int", () {
+      final json = <String, dynamic>{
+        "overrideRule": 0,
+        "overrideRule2": 1,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
+      expect(data.themeOverrideRule(key: "overrideRule2"),
+          ThemeOverrideRule.themePriority);
+      expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
+      expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
+      expect(
+        data.themeOverrideRule(defaultValue: ThemeOverrideRule.themePriority),
+        ThemeOverrideRule.themePriority,
+      );
+      expect(data["overrideRule"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "overrideRule": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.themeOverrideRule(defaultValue: ThemeOverrideRule.themePriority),
+        ThemeOverrideRule.themePriority,
+      );
+      expect(data["overrideRule"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "overrideRule": ThemeOverrideRule.themePriority,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themePriority);
+      expect(data["overrideRule"], ThemeOverrideRule.themePriority);
+    });
+
+    test("should handle unknown string values", () {
+      final json = <String, dynamic>{
+        "overrideRule": "unknownValue",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
+      expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
+    });
+
+    test("should handle unknown int values", () {
+      final json = <String, dynamic>{
+        "overrideRule": 999,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
+      expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
+    });
+  });
+
+  group("deepCopy method", () {
+    test("should create a deep copy of simple values", () {
+      final json = <String, dynamic>{
+        "string": "test",
+        "int": 42,
+        "double": 3.14,
+        "bool": true,
+        "null": null,
+      };
+
+      final data = DuitDataSource(json);
+      final copy = data.deepCopy();
+
+      expect(copy, isA<Map<String, dynamic>>());
+      expect(copy, isNot(same(json)));
+      expect(copy["string"], equals("test"));
+      expect(copy["int"], equals(42));
+      expect(copy["double"], equals(3.14));
+      expect(copy["bool"], equals(true));
+      expect(copy["null"], isNull);
+    });
+
+    test("should create a deep copy of nested maps", () {
+      final nestedMap = <String, dynamic>{
+        "inner": "value",
+        "number": 123,
+      };
+      final json = <String, dynamic>{
+        "outer": nestedMap,
+      };
+
+      final data = DuitDataSource(json);
+      final copy = data.deepCopy();
+
+      expect(copy["outer"], isA<Map<String, dynamic>>());
+      expect(copy["outer"], isNot(same(nestedMap)));
+      expect(copy["outer"]["inner"], equals("value"));
+      expect(copy["outer"]["number"], equals(123));
+    });
+
+    test("should create a deep copy of lists", () {
+      final list = [1, 2, 3];
+      final json = <String, dynamic>{
+        "numbers": list,
+      };
+
+      final data = DuitDataSource(json);
+      final copy = data.deepCopy();
+
+      expect(copy["numbers"], isA<List>());
+      expect(copy["numbers"], isNot(same(list)));
+      expect(copy["numbers"], equals([1, 2, 3]));
+    });
+
+    test("should create a deep copy of nested lists", () {
+      final nestedList = [
+        [1, 2],
+        [3, 4],
+      ];
+      final json = <String, dynamic>{
+        "matrix": nestedList,
+      };
+
+      final data = DuitDataSource(json);
+      final copy = data.deepCopy();
+
+      expect(copy["matrix"], isA<List>());
+      expect(copy["matrix"], isNot(same(nestedList)));
+      expect(copy["matrix"][0], isA<List>());
+      expect(copy["matrix"][0], isNot(same(nestedList[0])));
+      expect(
+          copy["matrix"],
+          equals([
+            [1, 2],
+            [3, 4]
+          ]));
+    });
+
+    test("should create a deep copy of complex nested structures", () {
+      final complexStructure = <String, dynamic>{
+        "users": [
+          {
+            "name": "John",
+            "age": 30,
+            "hobbies": ["reading", "gaming"],
+            "address": {
+              "street": "123 Main St",
+              "city": "New York",
+            },
+          },
+          {
+            "name": "Jane",
+            "age": 25,
+            "hobbies": ["painting"],
+            "address": {
+              "street": "456 Oak Ave",
+              "city": "Los Angeles",
+            },
+          },
+        ],
+        "settings": {
+          "theme": "dark",
+          "notifications": true,
+          "preferences": [1, 2, 3],
+        },
+      };
+
+      final data = DuitDataSource(complexStructure);
+      final copy = data.deepCopy();
+
+      expect(copy, isNot(same(complexStructure)));
+      expect(copy["users"], isNot(same(complexStructure["users"])));
+      expect(copy["users"][0], isNot(same(complexStructure["users"][0])));
+      expect(copy["users"][0]["hobbies"],
+          isNot(same(complexStructure["users"][0]["hobbies"])));
+      expect(copy["users"][0]["address"],
+          isNot(same(complexStructure["users"][0]["address"])));
+      expect(copy["settings"], isNot(same(complexStructure["settings"])));
+      expect(copy["settings"]["preferences"],
+          isNot(same(complexStructure["settings"]["preferences"])));
+
+      // Verify the content is identical
+      expect(copy, equals(complexStructure));
+    });
+
+    test("should handle empty structures", () {
+      final emptyJson = <String, dynamic>{};
+      final data = DuitDataSource(emptyJson);
+      final copy = data.deepCopy();
+
+      expect(copy, isA<Map<String, dynamic>>());
+      expect(copy, isEmpty);
+      expect(copy, isNot(same(emptyJson)));
+    });
+
+    test("should handle structures with empty lists and maps", () {
+      final json = <String, dynamic>{
+        "emptyList": <dynamic>[],
+        "emptyMap": <String, dynamic>{},
+        "nestedEmpty": {
+          "list": <dynamic>[],
+          "map": <String, dynamic>{},
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final copy = data.deepCopy();
+
+      expect(copy["emptyList"], isA<List>());
+      expect(copy["emptyList"], isEmpty);
+      expect(copy["emptyMap"], isA<Map<String, dynamic>>());
+      expect(copy["emptyMap"], isEmpty);
+      expect(copy["nestedEmpty"]["list"], isA<List>());
+      expect(copy["nestedEmpty"]["list"], isEmpty);
+      expect(copy["nestedEmpty"]["map"], isA<Map<String, dynamic>>());
+      expect(copy["nestedEmpty"]["map"], isEmpty);
+    });
+
+    test("should not affect the original data when modifying the copy", () {
+      final original = <String, dynamic>{
+        "nested": {
+          "value": "original",
+          "list": [1, 2, 3],
+        },
+      };
+
+      final data = DuitDataSource(original);
+      final copy = data.deepCopy();
+
+      // Modify the copy
+      copy["nested"]["value"] = "modified";
+      copy["nested"]["list"].add(4);
+
+      // Original should remain unchanged
+      expect(original["nested"]["value"], equals("original"));
+      expect(original["nested"]["list"], equals([1, 2, 3]));
+      expect(data["nested"]["value"], equals("original"));
+      expect(data["nested"]["list"], equals([1, 2, 3]));
+
+      // Copy should reflect changes
+      expect(copy["nested"]["value"], equals("modified"));
+      expect(copy["nested"]["list"], equals([1, 2, 3, 4]));
+    });
+  });
+
+  group("imageFilter method", () {
+    test("should parse and return blur ImageFilter from string type", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "blur",
+          "sigmaX": 5.0,
+          "sigmaY": 3.0,
+          "tileMode": "clamp",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter();
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should parse and return blur ImageFilter from int type", () {
+      final json = <String, dynamic>{
+        "filter": <String, dynamic>{
+          "type": 0,
+          "sigmaX": 2.0,
+          "sigmaY": 2.0,
+          "tileMode": 0,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter();
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should parse and return dilate ImageFilter", () {
+      final json = <String, dynamic>{
+        "filter": <String, dynamic>{
+          "type": "dilate",
+          "radiusX": 3.0,
+          "radiusY": 4.0,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter();
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should parse and return erode ImageFilter", () {
+      final json = <String, dynamic>{
+        "filter": <String, dynamic>{
+          "type": "erode",
+          "radiusX": 1.5,
+          "radiusY": 2.5,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter();
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should parse and return matrix ImageFilter", () {
+      final json = <String, dynamic>{
+        "filter": <String, dynamic>{
+          "type": "matrix",
+          "matrix4": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "filterQuality": "high",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should parse and return compose ImageFilter", () {
+      final json = <String, dynamic>{
+        "filter": <String, dynamic>{
+          "type": "compose",
+          "outer": {
+            "type": "blur",
+            "sigmaX": 2.0,
+            "sigmaY": 2.0,
+          },
+          "inner": {
+            "type": "dilate",
+            "radiusX": 1.0,
+            "radiusY": 1.0,
+          },
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.imageFilter(defaultValue: ImageFilter.blur()),
+          ImageFilter.blur());
+      expect(data["filter"], null);
+    });
+
+    test("should return the default value if the value is not a map", () {
+      final json = <String, dynamic>{
+        "filter": "not a map",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.imageFilter(), isNull);
+      expect(data["filter"], "not a map");
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final filter = ImageFilter.blur();
+      final json = <String, dynamic>{
+        "filter": filter,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.imageFilter(), filter);
+      expect(data["filter"], filter);
+    });
+
+    test("should handle null type values", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": null,
+          "sigmaX": 1.0,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter();
+
+      expect(filter, isNull);
+      expect(data["filter"], isNull);
+    });
+
+    test("should use custom key for imageFilter", () {
+      final json = <String, dynamic>{
+        "customFilter": {
+          "type": "blur",
+          "sigmaX": 3.0,
+          "sigmaY": 3.0,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter(key: "customFilter")!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["customFilter"], filter);
+    });
+
+    test("should handle missing parameters in blur filter", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "blur",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should handle missing parameters in dilate filter", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "dilate",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should handle missing parameters in erode filter", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "erode",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should handle missing parameters in matrix filter", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "matrix",
+          "matrix4": [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should handle missing parameters in compose filter", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "compose",
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+
+    test("should handle nested compose filters", () {
+      final json = <String, dynamic>{
+        "filter": {
+          "type": "compose",
+          "outer": {
+            "type": "compose",
+            "outer": {
+              "type": "blur",
+              "sigmaX": 1.0,
+            },
+            "inner": {
+              "type": "dilate",
+              "radiusX": 1.0,
+            },
+          },
+          "inner": {
+            "type": "erode",
+            "radiusX": 1.0,
+          },
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final filter = data.imageFilter()!;
+
+      expect(filter, isA<ImageFilter>());
+      expect(data["filter"], filter);
+    });
+  });
 }
