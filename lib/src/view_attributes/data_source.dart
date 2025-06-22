@@ -71,16 +71,16 @@ Color? _parseColor(color) => switch (color) {
       _ => null,
     };
 
-/// A wrapper for JSON data that provides type-safe access to Flutter properties.
+/// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
 ///
 /// This extension type wraps a [Map<String, dynamic>] and provides methods to safely
-/// parse and convert JSON values into Flutter types. It implements [Map<String, dynamic>]
+/// parse and convert JSON values into Dart/Flutter types. It implements [Map<String, dynamic>]
 /// to maintain compatibility with JSON operations.
 ///
 /// The extension type provides methods for:
 /// - Parsing basic types (int, double, string, bool)
 /// - Converting colors from hex strings or RGB arrays
-/// - Parsing Flutter-specific types (Size, EdgeInsets, Alignment, etc.)
+/// - Parsing Dart/Flutter-specific types (Size, EdgeInsets, Alignment, etc.)
 /// - Handling enums through string or integer lookups
 /// - Managing widget states and properties
 ///
@@ -115,10 +115,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (action is ServerAction) return action;
 
-    return json[key] = switch (action) {
-      Map<String, dynamic>() => ServerAction.parse(action),
-      _ => null
-    };
+    if (action == null) {
+      return null;
+    }
+
+    if (action is Map<String, dynamic>) {
+      return json[key] = ServerAction.parse(action);
+    }
+
+    return null;
   }
 
   /// Retrieves a list of action dependencies from the JSON map.
@@ -204,6 +209,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final value = json[key];
 
     if (value is Color) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
 
     return json[key] = switch (value) {
       String() => _colorFromHexString(value) ?? defaultValue,
@@ -542,7 +551,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _textAlignStringLookupTable[value] ?? defaultValue;
+        return json[key] = _textAlignStringLookupTable[value];
+      case int():
+        return json[key] = _textAlignIntLookupTable[value];
       default:
         return defaultValue;
     }
@@ -610,10 +621,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] =
-            _textOverflowStringLookupTable[value] ?? defaultValue;
+        return json[key] = _textOverflowStringLookupTable[value];
       case int():
-        return json[key] = _textOverflowIntLookupTable[value] ?? defaultValue;
+        return json[key] = _textOverflowIntLookupTable[value];
       default:
         return defaultValue;
     }
@@ -632,7 +642,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Example:
   ///   clipBehavior(key: 'myClip', defaultValue: Clip.antiAlias)
   @preferInline
-  Clip clipBehavior({
+  Clip? clipBehavior({
     String key = "clipBehavior",
     Clip defaultValue = Clip.hardEdge,
   }) {
@@ -646,9 +656,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _clipStringLookupTable[value] ?? defaultValue;
+        return json[key] = _clipStringLookupTable[value];
       case int():
-        return json[key] = _clipIntLookupTable[value] ?? defaultValue;
+        return json[key] = _clipIntLookupTable[value];
       default:
         return defaultValue;
     }
@@ -2819,4 +2829,108 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a new Map<String, dynamic> that is a deep copy of the current json.
   @preferInline
   Map<String, dynamic> deepCopy() => _copyMap(json);
+
+  @preferInline
+  AnimationInterval animationInterval({
+    String key = "interval",
+    AnimationInterval defaultValue = const AnimationInterval(0.0, 1.0),
+  }) {
+    final value = json[key];
+
+    if (value is AnimationInterval) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = AnimationInterval(
+          value["begin"] ?? 0.0,
+          value["end"] ?? 1.0,
+        );
+      case List<num>():
+        return json[key] = AnimationInterval(
+          value[0].toDouble(),
+          value[1].toDouble(),
+        );
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  AnimationTrigger animationTrigger({
+    String key = "trigger",
+    AnimationTrigger defaultValue = AnimationTrigger.onEnter,
+  }) {
+    final value = json[key];
+
+    if (value is AnimationTrigger) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] =
+            _animationTriggerStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] =
+            _animationTriggerIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  AnimationMethod animationMethod({
+    String key = "method",
+    AnimationMethod defaultValue = AnimationMethod.forward,
+  }) {
+    final value = json[key];
+
+    if (value is AnimationMethod) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] =
+            _animationMethodStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] =
+            _animationMethodIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  TweenType tweenType({
+    String key = "type",
+    TweenType defaultValue = TweenType.tween,
+  }) {
+    final value = json[key];
+
+    if (value is TweenType) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] = _tweenTypeStringLookupTable[value] ?? defaultValue;
+      case int():
+        return json[key] = _tweenTypeIntLookupTable[value] ?? defaultValue;
+      default:
+        return defaultValue;
+    }
+  }
+
+  // DuitTweenDescription
 }
