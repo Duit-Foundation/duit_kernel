@@ -376,8 +376,8 @@ void main() {
 
       expect(data.curve(), Curves.linear);
       expect(
-        data.curve(defaultValue: Curves.easeInOut),
-        Curves.easeInOut,
+        data.curve(defaultValue: Curves.easeIn),
+        Curves.easeIn,
       );
       expect(data["curve"], null);
     });
@@ -390,21 +390,21 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(
-        data.curve(defaultValue: Curves.easeInOut),
-        Curves.easeInOut,
+        data.curve(defaultValue: Curves.easeIn),
+        Curves.easeIn,
       );
       expect(data["curve"], true);
     });
 
     test("should return instance if value is already an instance", () {
       final json = <String, dynamic>{
-        "curve": Curves.easeInOut,
+        "curve": Curves.easeIn,
       };
 
       final data = DuitDataSource(json);
 
-      expect(data.curve(), Curves.easeInOut);
-      expect(data["curve"], Curves.easeInOut);
+      expect(data.curve(), Curves.easeIn);
+      expect(data["curve"], Curves.easeIn);
     });
   });
 
@@ -770,8 +770,8 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.textOverflow(), TextOverflow.clip);
-        expect(data["textOverflow"], TextOverflow.clip);
+        expect(data.textOverflow(), null);
+        expect(data["textOverflow"], null);
       });
 
       test("should handle unknown int values", () {
@@ -781,8 +781,8 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.textOverflow(), TextOverflow.clip);
-        expect(data["textOverflow"], TextOverflow.clip);
+        expect(data.textOverflow(), null);
+        expect(data["textOverflow"], null);
       });
     },
   );
@@ -4872,6 +4872,854 @@ void main() {
 
       expect(filter, isA<ImageFilter>());
       expect(data["filter"], filter);
+    });
+  });
+
+  group("collapseMode method", () {
+    test("should parse and return the collapseMode from string", () {
+      final json = <String, dynamic>{
+        "collapseMode": "parallax",
+        "collapseMode2": "pin",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.collapseMode(), CollapseMode.parallax);
+      expect(data.collapseMode(key: "collapseMode2"), CollapseMode.pin);
+      expect(data["collapseMode"], CollapseMode.parallax);
+      expect(data["collapseMode2"], CollapseMode.pin);
+    });
+
+    test("should parse and return the collapseMode from int", () {
+      final json = <String, dynamic>{
+        "collapseMode": 0, // parallax
+        "collapseMode2": 1, // pin
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.collapseMode(), CollapseMode.parallax);
+      expect(data.collapseMode(key: "collapseMode2"), CollapseMode.pin);
+      expect(data["collapseMode"], CollapseMode.parallax);
+      expect(data["collapseMode2"], CollapseMode.pin);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.collapseMode(), CollapseMode.parallax);
+      expect(
+        data.collapseMode(defaultValue: CollapseMode.pin),
+        CollapseMode.pin,
+      );
+      expect(data["collapseMode"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "collapseMode": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.collapseMode(defaultValue: CollapseMode.pin),
+        CollapseMode.pin,
+      );
+      expect(data["collapseMode"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "collapseMode": CollapseMode.parallax,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.collapseMode(), CollapseMode.parallax);
+      expect(data["collapseMode"], CollapseMode.parallax);
+    });
+
+    test("should use custom key for collapseMode", () {
+      final json = <String, dynamic>{
+        "customCollapseMode": "pin",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.collapseMode(key: "customCollapseMode"), CollapseMode.pin);
+      expect(data["customCollapseMode"], CollapseMode.pin);
+    });
+  });
+
+  group("stretchModes method", () {
+    test("should parse and return the stretchModes from list of strings", () {
+      final json = <String, dynamic>{
+        "stretchMode": ["zoomBackground", "blurBackground"],
+        "stretchMode2": ["fadeTitle"],
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(),
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
+      expect(data["stretchMode"],
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data["stretchMode2"], [StretchMode.fadeTitle]);
+    });
+
+    test("should parse and return the stretchModes from list of ints", () {
+      final json = <String, dynamic>{
+        "stretchMode": [0, 1], // zoomBackground, blurBackground
+        "stretchMode2": [2], // fadeTitle
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(),
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
+      expect(data["stretchMode"],
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data["stretchMode2"], [StretchMode.fadeTitle]);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(), [StretchMode.zoomBackground]);
+      expect(
+        data.stretchModes(defaultValue: [StretchMode.fadeTitle]),
+        [StretchMode.fadeTitle],
+      );
+      expect(data["stretchMode"], null);
+    });
+
+    test("should return the default value if the value is not a list", () {
+      final json = <String, dynamic>{
+        "stretchMode": "not a list",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.stretchModes(defaultValue: [StretchMode.fadeTitle]),
+        [StretchMode.fadeTitle],
+      );
+      expect(data["stretchMode"], "not a list");
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final stretchModes = [
+        StretchMode.zoomBackground,
+        StretchMode.blurBackground
+      ];
+      final json = <String, dynamic>{
+        "stretchMode": stretchModes,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(), stretchModes);
+      expect(data["stretchMode"], stretchModes);
+    });
+
+    test("should use custom key for stretchModes", () {
+      final json = <String, dynamic>{
+        "customStretchMode": ["zoomBackground", "fadeTitle"],
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(key: "customStretchMode"),
+          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
+      expect(data["customStretchMode"],
+          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
+    });
+
+    test("should handle empty list of strings", () {
+      final json = <String, dynamic>{
+        "stretchMode": <String>[],
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(), [StretchMode.zoomBackground]);
+      expect(data["stretchMode"], [StretchMode.zoomBackground]);
+    });
+
+    test("should handle empty list of ints", () {
+      final json = <String, dynamic>{
+        "stretchMode": <int>[],
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(), [StretchMode.zoomBackground]);
+      expect(data["stretchMode"], [StretchMode.zoomBackground]);
+    });
+
+    test("should handle mixed valid and invalid string values", () {
+      final json = <String, dynamic>{
+        "stretchMode": ["zoomBackground", "invalidMode", "blurBackground"],
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(),
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data["stretchMode"],
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+    });
+
+    test("should handle mixed valid and invalid int values", () {
+      final json = <String, dynamic>{
+        "stretchMode": [
+          0,
+          999,
+          1
+        ], // 0=zoomBackground, 999=invalid, 1=blurBackground
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.stretchModes(),
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(data["stretchMode"],
+          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+    });
+  });
+
+  group("DuitDataSource action/meta methods", () {
+    test("getAction should parse TransportAction from map", () {
+      final json = <String, dynamic>{
+        "action": {
+          "event": "testEvent",
+          "executionType": 0,
+          "dependsOn": [
+            {"target": "t1", "id": "id1"}
+          ],
+          "meta": {"method": "POST"}
+        }
+      };
+      ServerAction.setActionParser(const DefaultActionParser());
+      final data = DuitDataSource(json);
+      final action = data.getAction("action");
+      expect(action, isA<TransportAction>());
+      expect(action!.eventName, "testEvent");
+      expect(action.executionType, 0);
+      expect(action.dependsOn.length, 1);
+      expect(action.dependsOn.first.target, "t1");
+      expect(action.dependsOn.first.id, "id1");
+      expect((action as TransportAction).meta!.method, "POST");
+    });
+
+    test("getAction should parse LocalAction from map", () {
+      // Настроим парсеры для корректной работы
+      ServerAction.setActionParser(const DefaultActionParser());
+      ServerEvent.eventParser = const DefaultEventParser();
+
+      final json = <String, dynamic>{
+        "action": {
+          "event": "local_exec",
+          "executionType": 1,
+          "payload": {
+            "type": "update",
+            "updates": {"key": "value"}
+          }
+        }
+      };
+      final data = DuitDataSource(json);
+      final action = data.getAction("action");
+      expect(action, isA<LocalAction>());
+      expect(action!.eventName, "local_exec");
+      expect(action.executionType, 1);
+      expect((action as LocalAction).event, isA<UpdateEvent>());
+    });
+
+    test("getAction should parse ScriptAction from map", () {
+      final json = <String, dynamic>{
+        "action": {
+          "event": "script",
+          "executionType": 2,
+          "dependsOn": [
+            {"target": "t1", "id": "id1"}
+          ],
+          "script": {
+            "sourceCode": "print('hi')",
+            "functionName": "main",
+            "meta": {"info": "metaInfo"}
+          }
+        }
+      };
+      ServerAction.setActionParser(const DefaultActionParser());
+      final data = DuitDataSource(json);
+      final action = data.getAction("action");
+      expect(action, isA<ScriptAction>());
+      expect(action!.eventName, "script");
+      expect(action.executionType, 2);
+      expect(action.dependsOn.length, 1);
+      expect(action.dependsOn.first.target, "t1");
+      expect(action.dependsOn.first.id, "id1");
+      expect((action as ScriptAction).script.sourceCode, "print('hi')");
+      expect((action as ScriptAction).script.functionName, "main");
+      expect((action as ScriptAction).script.meta, {"info": "metaInfo"});
+    });
+
+    test("getAction should parse UnknownAction for invalid executionType", () {
+      final json = <String, dynamic>{
+        "action": {"event": "unknown", "executionType": 999}
+      };
+      ServerAction.setActionParser(const DefaultActionParser());
+      final data = DuitDataSource(json);
+      final action = data.getAction("action");
+      expect(action, isA<UnknownAction>());
+      expect(action!.eventName, "unknown");
+      expect(action.executionType, -1);
+    });
+
+    test("getAction should return existing ServerAction instance", () {
+      final existingAction = TransportAction(
+        eventName: "existing",
+        dependsOn: [],
+        meta: HttpActionMetainfo(method: "GET"),
+      );
+      final json = <String, dynamic>{"action": existingAction};
+      final data = DuitDataSource(json);
+      final action = data.getAction("action");
+      expect(action, same(existingAction));
+      expect(action!.eventName, "existing");
+      expect(action.executionType, 0);
+    });
+
+    test("getAction should return null if not present", () {
+      final data = DuitDataSource({});
+      expect(data.getAction("action"), isNull);
+    });
+
+    test("getAction should return null for invalid action data", () {
+      final json = <String, dynamic>{"action": "not a map"};
+      final data = DuitDataSource(json);
+      expect(data.getAction("action"), isNull);
+    });
+
+    test("getActionDependencies should parse dependencies", () {
+      final json = <String, dynamic>{
+        "dependsOn": [
+          {"target": "t1", "id": "id1"},
+          {"target": "t2", "id": "id2"}
+        ]
+      };
+      final data = DuitDataSource(json);
+      final deps = data.getActionDependencies().toList();
+      expect(deps.length, 2);
+      expect(deps[0].target, "t1");
+      expect(deps[0].id, "id1");
+      expect(deps[1].target, "t2");
+      expect(deps[1].id, "id2");
+    });
+
+    test("getActionDependencies should return empty list if not present", () {
+      final data = DuitDataSource({});
+      final deps = data.getActionDependencies();
+      expect(deps, isEmpty);
+    });
+
+    test("getActionDependencies should return empty list for invalid data", () {
+      final json = <String, dynamic>{"dependsOn": "not a list"};
+      final data = DuitDataSource(json);
+      final deps = data.getActionDependencies();
+      expect(deps, isEmpty);
+    });
+
+    test("meta should parse HttpActionMetainfo from map", () {
+      final json = <String, dynamic>{
+        "meta": {"method": "POST"}
+      };
+      final data = DuitDataSource(json);
+      expect(data.meta, isA<HttpActionMetainfo>());
+      expect(data.meta!.method, "POST");
+    });
+
+    test("meta should return null if not present", () {
+      final data = DuitDataSource({});
+      expect(data.meta, isNull);
+    });
+
+    test("executionType should return int if present", () {
+      final data = DuitDataSource({"executionType": 2});
+      expect(data.executionType, 2);
+    });
+
+    test("executionType should return 0 if not present or not int", () {
+      expect(DuitDataSource({}).executionType, 0);
+      expect(DuitDataSource({"executionType": "str"}).executionType, 0);
+    });
+
+    test("script should parse ScriptDefinition from map", () {
+      final json = <String, dynamic>{
+        "script": {
+          "sourceCode": "print('hi')",
+          "functionName": "main",
+          "meta": {"info": "metaInfo"}
+        }
+      };
+      final data = DuitDataSource(json);
+      final script = data.script;
+      expect(script, isA<ScriptDefinition>());
+      expect(script.sourceCode, "print('hi')");
+      expect(script.functionName, "main");
+      expect(script.meta, {"info": "metaInfo"});
+    });
+
+    test("parentBuilderId should return string if present", () {
+      final data = DuitDataSource({"parentBuilderId": "pid123"});
+      expect(data.parentBuilderId, "pid123");
+    });
+
+    test("parentBuilderId should return null if not present or not string", () {
+      expect(DuitDataSource({}).parentBuilderId, isNull);
+      expect(DuitDataSource({"parentBuilderId": 123}).parentBuilderId, isNull);
+    });
+
+    test("affectedProperties should return set of strings if present", () {
+      final data = DuitDataSource({
+        "affectedProperties": ["a", "b", "c"]
+      });
+      expect(data.affectedProperties, isA<Set<String>>());
+      expect(data.affectedProperties, containsAll(["a", "b", "c"]));
+    });
+
+    test("affectedProperties should return null if not present or not iterable",
+        () {
+      expect(DuitDataSource({}).affectedProperties, isNull);
+      expect(DuitDataSource({"affectedProperties": 123}).affectedProperties,
+          isNull);
+    });
+  });
+
+  group("DuitDataSource tweens method", () {
+    test("tweens should parse basic tween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "tween",
+            "animatedPropKey": "opacity",
+            "duration": 500,
+            "begin": 0.0,
+            "end": 1.0,
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": false,
+            "interval": {"begin": 0.0, "end": 1.0}
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<TweenDescription>());
+      final tween = tweens.first as TweenDescription;
+      expect(tween.animatedPropKey, "opacity");
+      expect(tween.duration, const Duration(milliseconds: 500));
+      expect(tween.begin, 0.0);
+      expect(tween.end, 1.0);
+      expect(tween.curve, Curves.easeIn);
+      expect(tween.trigger, AnimationTrigger.onEnter);
+      expect(tween.method, AnimationMethod.forward);
+      expect(tween.reverseOnRepeat, false);
+      expect(tween.interval, isA<AnimationInterval>());
+    });
+
+    test("tweens should parse colorTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "colorTween",
+            "animatedPropKey": "backgroundColor",
+            "duration": 300,
+            "begin": "#FF0000",
+            "end": "#0000FF",
+            "curve": "easeIn",
+            "trigger": 1, // onAction
+            "method": 1, // repeat
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<ColorTweenDescription>());
+      final tween = tweens.first as ColorTweenDescription;
+      expect(tween.animatedPropKey, "backgroundColor");
+      expect(tween.duration, const Duration(milliseconds: 300));
+      expect(tween.begin, const Color(0xFFFF0000)); // #FF0000
+      expect(tween.end, const Color(0xFF0000FF)); // #0000FF
+      expect(tween.curve, Curves.easeIn);
+      expect(tween.trigger, AnimationTrigger.onAction);
+      expect(tween.method, AnimationMethod.repeat);
+      expect(tween.reverseOnRepeat, true);
+    });
+
+    test("tweens should parse textStyleTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "textStyleTween",
+            "animatedPropKey": "textStyle",
+            "duration": 400,
+            "begin": {"fontSize": 14, "color": "#000000"},
+            "end": {"fontSize": 18, "color": "#FF0000", "fontWeight": 700},
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": false
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<TextStyleTweenDescription>());
+      final tween = tweens.first as TextStyleTweenDescription;
+      expect(tween.animatedPropKey, "textStyle");
+      expect(tween.duration, const Duration(milliseconds: 400));
+      expect(tween.begin.fontSize, 14);
+      expect(tween.begin.color, const Color(0xFF000000)); // #000000
+      expect(tween.end.fontSize, 18);
+      expect(tween.end.color, const Color(0xFFFF0000)); // #FF0000
+      expect(tween.end.fontWeight, FontWeight.bold);
+    });
+
+    test("tweens should parse decorationTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "decorationTween",
+            "animatedPropKey": "decoration",
+            "duration": 600,
+            "begin": {"color": "#FFFFFF", "borderRadius": 8},
+            "end": {
+              "color": "#0000FF",
+              "borderRadius": 20,
+              "boxShadow": [
+                {"color": "#000000", "blurRadius": 10}
+              ]
+            },
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<DecorationTweenDescription>());
+      final tween = tweens.first as DecorationTweenDescription;
+      expect(tween.animatedPropKey, "decoration");
+      expect(tween.duration, const Duration(milliseconds: 600));
+      expect((tween.begin as BoxDecoration).color,
+          const Color(0xFFFFFFFF)); // #FFFFFF
+      expect((tween.end as BoxDecoration).color,
+          const Color(0xFF0000FF)); // #0000FF
+    });
+
+    test("tweens should parse alignmentTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "alignmentTween",
+            "animatedPropKey": "alignment",
+            "duration": 500,
+            "begin": "topLeft",
+            "end": "bottomRight",
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<AlignmentTweenDescription>());
+      final tween = tweens.first as AlignmentTweenDescription;
+      expect(tween.animatedPropKey, "alignment");
+      expect(tween.duration, const Duration(milliseconds: 500));
+      expect(tween.begin, Alignment.topLeft);
+      expect(tween.end, Alignment.bottomRight);
+    });
+
+    test("tweens should parse sizeTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "sizeTween",
+            "animatedPropKey": "size",
+            "duration": 500,
+            "begin": {"width": 100, "height": 50},
+            "end": {"width": 200, "height": 100},
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<SizeTweenDescription>());
+      final tween = tweens.first as SizeTweenDescription;
+      expect(tween.animatedPropKey, "size");
+      expect(tween.duration, const Duration(milliseconds: 500));
+      expect(tween.begin, const Size(100, 50));
+      expect(tween.end, const Size(200, 100));
+    });
+
+    test("tweens should parse edgeInsetsTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "edgeInsetsTween",
+            "animatedPropKey": "padding",
+            "duration": 300,
+            "begin": [8, 8, 8, 8],
+            "end": [16, 16, 16, 16],
+            "curve": "easeIn",
+            "trigger": 1, // onAction
+            "method": 0, // forward
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<EdgeInsetsTweenDescription>());
+      final tween = tweens.first as EdgeInsetsTweenDescription;
+      expect(tween.animatedPropKey, "padding");
+      expect(tween.duration, const Duration(milliseconds: 300));
+      expect(tween.begin, const EdgeInsets.all(8));
+      expect(tween.end, const EdgeInsets.all(16));
+    });
+
+    test("tweens should parse boxConstraintsTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "boxConstraintsTween",
+            "animatedPropKey": "constraints",
+            "duration": 400,
+            "begin": {"minWidth": 100, "minHeight": 50},
+            "end": {"minWidth": 200, "minHeight": 100},
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": false
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<BoxConstraintsTweenDescription>());
+      final tween = tweens.first as BoxConstraintsTweenDescription;
+      expect(tween.animatedPropKey, "constraints");
+      expect(tween.duration, const Duration(milliseconds: 400));
+      expect(tween.begin.minWidth, 100);
+      expect(tween.begin.minHeight, 50);
+      expect(tween.end.minWidth, 200);
+      expect(tween.end.minHeight, 100);
+    });
+
+    test("tweens should parse borderTween from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "borderTween",
+            "animatedPropKey": "border",
+            "duration": 300,
+            "begin": <String, dynamic>{
+              "color": "#808080",
+              "width": 1,
+            },
+            "end": <String, dynamic>{
+              "color": "#0000FF",
+              "width": 3,
+            },
+            "curve": "easeIn",
+            "trigger": 1, // onAction
+            "method": 0, // forward
+            "reverseOnRepeat": false
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.first, isA<BorderTweenDescription>());
+      final tween = tweens.first as BorderTweenDescription;
+      expect(tween.animatedPropKey, "border");
+      expect(tween.duration, const Duration(milliseconds: 300));
+      expect(tween.begin.top.width, 1);
+      expect(tween.end.top.color, const Color(0xFF0000FF)); // #0000FF
+      expect(tween.end.top.width, 3);
+    });
+
+    test("tweens should parse group from map", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "group",
+            "groupId": "fade_and_scale",
+            "duration": 800,
+            "tweens": [
+              {
+                "type": "tween",
+                "animatedPropKey": "opacity",
+                "duration": 800,
+                "begin": 0.0,
+                "end": 1.0,
+                "curve": "easeIn",
+                "trigger": 0, // onEnter
+                "method": 0, // forward
+                "reverseOnRepeat": false
+              },
+              {
+                "type": "tween",
+                "animatedPropKey": "scale",
+                "duration": 800,
+                "begin": 0.5,
+                "end": 1.0,
+                "curve": "easeIn",
+                "trigger": 0, // onEnter
+                "method": 0, // forward
+                "reverseOnRepeat": false
+              }
+            ],
+            "method": 0, // forward
+            "reverseOnRepeat": false,
+            "trigger": 0 // onEnter
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      expect(tweens.first, isA<TweenDescriptionGroup>());
+      final group = tweens.first as TweenDescriptionGroup;
+      expect(group.groupId, "fade_and_scale");
+      expect(group.duration, const Duration(milliseconds: 800));
+      expect(group.tweens.length, 2);
+      expect(group.method, AnimationMethod.forward);
+      expect(group.reverseOnRepeat, false);
+      expect(group.trigger, AnimationTrigger.onEnter);
+
+      final firstTween = group.tweens.first as TweenDescription;
+      expect(firstTween.animatedPropKey, "opacity");
+      expect(firstTween.begin, 0.0);
+      expect(firstTween.end, 1.0);
+
+      final secondTween = group.tweens.elementAt(1) as TweenDescription;
+      expect(secondTween.animatedPropKey, "scale");
+      expect(secondTween.begin, 0.5);
+      expect(secondTween.end, 1.0);
+    });
+
+    test("tweens should return empty list when key is not present", () {
+      final data = DuitDataSource({});
+      final tweens = data.tweens();
+      expect(tweens, isEmpty);
+    });
+
+    test(
+        "tweens should return empty list when value is not List<Map<String, dynamic>>",
+        () {
+      final json = <String, dynamic>{"tweenDescriptions": "not a list"};
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+      expect(tweens, isEmpty);
+    });
+
+    test("tweens should handle multiple tween types in one list", () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "tween",
+            "animatedPropKey": "opacity",
+            "duration": 500,
+            "begin": 0.0,
+            "end": 1.0,
+            "curve": "easeIn",
+            "trigger": 0, // onEnter
+            "method": 0, // forward
+            "reverseOnRepeat": false
+          },
+          {
+            "type": "colorTween",
+            "animatedPropKey": "backgroundColor",
+            "duration": 300,
+            "begin": "#FF0000",
+            "end": "#0000FF",
+            "curve": "easeIn",
+            "trigger": 1, // onAction
+            "method": 1, // repeat
+            "reverseOnRepeat": true
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 2);
+      expect(tweens.first, isA<TweenDescription>());
+      expect(tweens.last, isA<ColorTweenDescription>());
+    });
+
+    test("tweens should use default values when optional fields are missing",
+        () {
+      final json = <String, dynamic>{
+        "tweenDescriptions": [
+          {
+            "type": "tween",
+            "animatedPropKey": "opacity",
+            "duration": 500,
+            "begin": 0.0,
+            "end": 1.0
+            // Missing curve, trigger, method, reverseOnRepeat - should use defaults
+          }
+        ]
+      };
+      final data = DuitDataSource(json);
+      final tweens = data.tweens();
+
+      expect(tweens.length, 1);
+      final tween = tweens.first as TweenDescription;
+      expect(tween.curve, Curves.linear); // Default curve
+      expect(tween.trigger, AnimationTrigger.onEnter); // Default trigger
+      expect(tween.method, AnimationMethod.forward); // Default method
+      expect(tween.reverseOnRepeat, false); // Default reverseOnRepeat
     });
   });
 }

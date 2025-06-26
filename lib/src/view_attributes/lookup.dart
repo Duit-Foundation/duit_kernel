@@ -1,6 +1,9 @@
 part of 'data_source.dart';
 
-///Lookup table for [TextAlign] values by [int] type key
+/// Lookup table for [TextAlign] values by [int] type key.
+///
+/// Maps integer identifiers to [TextAlign] enum values for text alignment.
+/// Supported values: 0 (left), 1 (right), 2 (center), 3 (justify), 4 (start), 5 (end).
 const _textAlignIntLookupTable = <int, TextAlign>{
   0: TextAlign.left,
   1: TextAlign.right,
@@ -10,7 +13,10 @@ const _textAlignIntLookupTable = <int, TextAlign>{
   5: TextAlign.end,
 };
 
-///Lookup table for [TextAlign] values by [String] type key
+/// Lookup table for [TextAlign] values by [String] type key.
+///
+/// Maps string identifiers to [TextAlign] enum values for text alignment.
+/// Supported values: "left", "right", "center", "justify", "start", "end".
 const _textAlignStringLookupTable = <String, TextAlign>{
   "left": TextAlign.left,
   "right": TextAlign.right,
@@ -20,19 +26,28 @@ const _textAlignStringLookupTable = <String, TextAlign>{
   "end": TextAlign.end,
 };
 
-///Lookup table for [TextDirection] values by [String] type key
+/// Lookup table for [TextDirection] values by [String] type key.
+///
+/// Maps string identifiers to [TextDirection] enum values for text direction.
+/// Supported values: "ltr" (left-to-right), "rtl" (right-to-left).
 const _textDirectionStringLookupTable = <String, TextDirection>{
   "ltr": TextDirection.ltr,
   "rtl": TextDirection.rtl,
 };
 
-///Lookup table for [TextDirection] values by [int] type key
+/// Lookup table for [TextDirection] values by [int] type key.
+///
+/// Maps integer identifiers to [TextDirection] enum values for text direction.
+/// Supported values: 0 (ltr), 1 (rtl).
 const _textDirectionIntLookupTable = <int, TextDirection>{
   0: TextDirection.ltr,
   1: TextDirection.rtl,
 };
 
-///Lookup table for [FontWeight] values by [int] type key
+/// Lookup table for [FontWeight] values by [int] type key.
+///
+/// Maps integer identifiers to [FontWeight] enum values for font weight.
+/// Supported values: 100-900 (w100-w900).
 const _fontWeightLookupTable = <int, FontWeight>{
   100: FontWeight.w100,
   200: FontWeight.w200,
@@ -45,6 +60,10 @@ const _fontWeightLookupTable = <int, FontWeight>{
   900: FontWeight.w900,
 };
 
+/// Lookup table for [TextOverflow] values by [int] type key.
+///
+/// Maps integer identifiers to [TextOverflow] enum values for text overflow behavior.
+/// Supported values: 0 (clip), 1 (ellipsis), 2 (fade), 3 (visible).
 const _textOverflowIntLookupTable = <int, TextOverflow>{
   0: TextOverflow.clip,
   1: TextOverflow.ellipsis,
@@ -52,6 +71,10 @@ const _textOverflowIntLookupTable = <int, TextOverflow>{
   3: TextOverflow.visible,
 };
 
+/// Lookup table for [TextOverflow] values by [String] type key.
+///
+/// Maps string identifiers to [TextOverflow] enum values for text overflow behavior.
+/// Supported values: "clip", "ellipsis", "fade", "visible".
 const _textOverflowStringLookupTable = <String, TextOverflow>{
   "clip": TextOverflow.clip,
   "ellipsis": TextOverflow.ellipsis,
@@ -59,6 +82,10 @@ const _textOverflowStringLookupTable = <String, TextOverflow>{
   "visible": TextOverflow.visible,
 };
 
+/// Lookup table for [Clip] values by [String] type key.
+///
+/// Maps string identifiers to [Clip] enum values for clipping behavior.
+/// Supported values: "hardEdge", "antiAlias", "antiAliasWithSaveLayer", "none".
 const _clipStringLookupTable = <String, Clip>{
   "hardEdge": Clip.hardEdge,
   "antiAlias": Clip.antiAlias,
@@ -66,6 +93,10 @@ const _clipStringLookupTable = <String, Clip>{
   "none": Clip.none,
 };
 
+/// Lookup table for [Clip] values by [int] type key.
+///
+/// Maps integer identifiers to [Clip] enum values for clipping behavior.
+/// Supported values: 0 (hardEdge), 1 (antiAlias), 2 (antiAliasWithSaveLayer), 3 (none).
 const _clipIntLookupTable = <int, Clip>{
   0: Clip.hardEdge,
   1: Clip.antiAlias,
@@ -73,6 +104,10 @@ const _clipIntLookupTable = <int, Clip>{
   3: Clip.none,
 };
 
+/// Lookup table for [Curve] values by [int] type key.
+///
+/// Maps integer identifiers to [Curve] values for animation curves.
+/// Supported values: 0-35 (various curve types including linear, ease, bounce, etc.).
 const _curveIntLookupTable = <int, Curve>{
   0: Curves.linear,
   1: Curves.fastEaseInToSlowEaseOut,
@@ -112,6 +147,10 @@ const _curveIntLookupTable = <int, Curve>{
   35: Curves.elasticOut,
 };
 
+/// Lookup table for [Curve] values by [String] type key.
+///
+/// Maps string identifiers to [Curve] values for animation curves.
+/// Supported values: "linear", "fastEaseInToSlowEaseOut", "bounceIn", etc.
 const _curveStringLookupTable = <String, Curve>{
   "linear": Curves.linear,
   "fastEaseInToSlowEaseOut": Curves.fastEaseInToSlowEaseOut,
@@ -151,36 +190,64 @@ const _curveStringLookupTable = <String, Curve>{
   "elasticOut": Curves.elasticOut,
 };
 
+/// Lookup table for [FontStyle] values by [int] type key.
+///
+/// Maps integer identifiers to [FontStyle] enum values for font style.
+/// Supported values: 0 (normal), 1 (italic).
 const _fontStyleIntLookupTable = <int, FontStyle>{
   0: FontStyle.normal,
   1: FontStyle.italic,
 };
 
+/// Lookup table for [FontStyle] values by [String] type key.
+///
+/// Maps string identifiers to [FontStyle] enum values for font style.
+/// Supported values: "normal", "italic".
 const _fontStyleStringLookupTable = <String, FontStyle>{
   "normal": FontStyle.normal,
   "italic": FontStyle.italic,
 };
 
+/// Lookup table for [TextBaseline] values by [String] type key.
+///
+/// Maps string identifiers to [TextBaseline] enum values for text baseline.
+/// Supported values: "alphabetic", "ideographic".
 const _textBaselineStringLookupTable = <String, TextBaseline>{
   "alphabetic": TextBaseline.alphabetic,
   "ideographic": TextBaseline.ideographic,
 };
 
+/// Lookup table for [TextBaseline] values by [int] type key.
+///
+/// Maps integer identifiers to [TextBaseline] enum values for text baseline.
+/// Supported values: 0 (alphabetic), 1 (ideographic).
 const _textBaselineIntLookupTable = <int, TextBaseline>{
   0: TextBaseline.alphabetic,
   1: TextBaseline.ideographic,
 };
 
+/// Lookup table for [TextWidthBasis] values by [String] type key.
+///
+/// Maps string identifiers to [TextWidthBasis] enum values for text width calculation.
+/// Supported values: "parent", "longestLine".
 const _textWidthBasisStringLookupTable = <String, TextWidthBasis>{
   "parent": TextWidthBasis.parent,
   "longestLine": TextWidthBasis.longestLine,
 };
 
+/// Lookup table for [TextWidthBasis] values by [int] type key.
+///
+/// Maps integer identifiers to [TextWidthBasis] enum values for text width calculation.
+/// Supported values: 0 (parent), 1 (longestLine).
 const _textWidthBasisIntLookupTable = <int, TextWidthBasis>{
   0: TextWidthBasis.parent,
   1: TextWidthBasis.longestLine,
 };
 
+/// Lookup table for [TextDecoration] values by [String] type key.
+///
+/// Maps string identifiers to [TextDecoration] enum values for text decoration.
+/// Supported values: "none", "underline", "overline", "lineThrough".
 const _textDecorationStringLookupTable = <String, TextDecoration>{
   "none": TextDecoration.none,
   "underline": TextDecoration.underline,
@@ -188,6 +255,10 @@ const _textDecorationStringLookupTable = <String, TextDecoration>{
   "lineThrough": TextDecoration.lineThrough,
 };
 
+/// Lookup table for [TextDecoration] values by [int] type key.
+///
+/// Maps integer identifiers to [TextDecoration] enum values for text decoration.
+/// Supported values: 0 (none), 1 (underline), 2 (overline), 3 (lineThrough).
 const _textDecorationIntLookupTable = <int, TextDecoration>{
   0: TextDecoration.none,
   1: TextDecoration.underline,
@@ -195,6 +266,10 @@ const _textDecorationIntLookupTable = <int, TextDecoration>{
   3: TextDecoration.lineThrough,
 };
 
+/// Lookup table for [TextDecorationStyle] values by [String] type key.
+///
+/// Maps string identifiers to [TextDecorationStyle] enum values for text decoration style.
+/// Supported values: "solid", "double", "dotted", "dashed", "wavy".
 const _textDecorationStyleStringLookupTable = <String, TextDecorationStyle>{
   "solid": TextDecorationStyle.solid,
   "double": TextDecorationStyle.double,
@@ -203,6 +278,10 @@ const _textDecorationStyleStringLookupTable = <String, TextDecorationStyle>{
   "wavy": TextDecorationStyle.wavy,
 };
 
+/// Lookup table for [TextDecorationStyle] values by [int] type key.
+///
+/// Maps integer identifiers to [TextDecorationStyle] enum values for text decoration style.
+/// Supported values: 0 (solid), 1 (double), 2 (dotted), 3 (dashed), 4 (wavy).
 const _textDecorationStyleIntLookupTable = <int, TextDecorationStyle>{
   0: TextDecorationStyle.solid,
   1: TextDecorationStyle.double,
@@ -211,38 +290,66 @@ const _textDecorationStyleIntLookupTable = <int, TextDecorationStyle>{
   4: TextDecorationStyle.wavy,
 };
 
+/// Lookup table for [TextLeadingDistribution] values by [String] type key.
+///
+/// Maps string identifiers to [TextLeadingDistribution] enum values for text leading distribution.
+/// Supported values: "proportional", "even".
 const _leadingDistributionStringLookupTable = <String, TextLeadingDistribution>{
   "proportional": TextLeadingDistribution.proportional,
   "even": TextLeadingDistribution.even,
 };
 
+/// Lookup table for [TextLeadingDistribution] values by [int] type key.
+///
+/// Maps integer identifiers to [TextLeadingDistribution] enum values for text leading distribution.
+/// Supported values: 0 (proportional), 1 (even).
 const _leadingDistributionIntLookupTable = <int, TextLeadingDistribution>{
   0: TextLeadingDistribution.proportional,
   1: TextLeadingDistribution.even,
 };
 
+/// Lookup table for [Axis] values by [String] type key.
+///
+/// Maps string identifiers to [Axis] enum values for layout direction.
+/// Supported values: "vertical", "horizontal".
 const _axisStringLookupTable = <String, Axis>{
   "vertical": Axis.vertical,
   "horizontal": Axis.horizontal,
 };
 
+/// Lookup table for [Axis] values by [int] type key.
+///
+/// Maps integer identifiers to [Axis] enum values for layout direction.
+/// Supported values: 0 (vertical), 1 (horizontal).
 const _axisIntLookupTable = <int, Axis>{
   0: Axis.vertical,
   1: Axis.horizontal,
 };
 
+/// Lookup table for [WrapCrossAlignment] values by [int] type key.
+///
+/// Maps integer identifiers to [WrapCrossAlignment] enum values for wrap cross alignment.
+/// Supported values: 0 (start), 1 (end), 2 (center).
 const _wrapCrossAlignmentIntLookupTable = <int, WrapCrossAlignment>{
   0: WrapCrossAlignment.start,
   1: WrapCrossAlignment.end,
   2: WrapCrossAlignment.center,
 };
 
+/// Lookup table for [WrapCrossAlignment] values by [String] type key.
+///
+/// Maps string identifiers to [WrapCrossAlignment] enum values for wrap cross alignment.
+/// Supported values: "start", "end", "center".
 const _wrapCrossAlignmentStringLookupTable = <String, WrapCrossAlignment>{
   "start": WrapCrossAlignment.start,
   "end": WrapCrossAlignment.end,
   "center": WrapCrossAlignment.center,
 };
 
+/// Lookup table for [WrapAlignment] values by [int] type key.
+///
+/// Maps integer identifiers to [WrapAlignment] enum values for wrap alignment.
+/// Supported values: 0 (start), 1 (end), 2 (center), 3 (spaceBetween), 4 (spaceAround), 5 (spaceEvenly).
 const _wrapAlignmentIntLookupTable = <int, WrapAlignment>{
   0: WrapAlignment.start,
   1: WrapAlignment.end,
@@ -252,6 +359,10 @@ const _wrapAlignmentIntLookupTable = <int, WrapAlignment>{
   5: WrapAlignment.spaceEvenly,
 };
 
+/// Lookup table for [WrapAlignment] values by [String] type key.
+///
+/// Maps string identifiers to [WrapAlignment] enum values for wrap alignment.
+/// Supported values: "start", "end", "center", "spaceBetween", "spaceAround", "spaceEvenly".
 const _wrapAlignmentStringLookupTable = <String, WrapAlignment>{
   "start": WrapAlignment.start,
   "end": WrapAlignment.end,
@@ -261,28 +372,48 @@ const _wrapAlignmentStringLookupTable = <String, WrapAlignment>{
   "spaceEvenly": WrapAlignment.spaceEvenly,
 };
 
+/// Lookup table for [StackFit] values by [int] type key.
+///
+/// Maps integer identifiers to [StackFit] enum values for stack fit behavior.
+/// Supported values: 0 (expand), 1 (passthrough), 2 (loose).
 const _stackFitIntLookupTable = <int, StackFit>{
   0: StackFit.expand,
   1: StackFit.passthrough,
   2: StackFit.loose,
 };
 
+/// Lookup table for [StackFit] values by [String] type key.
+///
+/// Maps string identifiers to [StackFit] enum values for stack fit behavior.
+/// Supported values: "expand", "passthrough", "loose".
 const _stackFitStringLookupTable = <String, StackFit>{
   "expand": StackFit.expand,
   "passthrough": StackFit.passthrough,
   "loose": StackFit.loose,
 };
 
+/// Lookup table for [OverflowBoxFit] values by [int] type key.
+///
+/// Maps integer identifiers to [OverflowBoxFit] enum values for overflow box fit behavior.
+/// Supported values: 0 (max), 1 (deferToChild).
 const _overflowBoxFitIntLookupTable = <int, OverflowBoxFit>{
   0: OverflowBoxFit.max,
   1: OverflowBoxFit.deferToChild,
 };
 
+/// Lookup table for [OverflowBoxFit] values by [String] type key.
+///
+/// Maps string identifiers to [OverflowBoxFit] enum values for overflow box fit behavior.
+/// Supported values: "max", "deferToChild".
 const _overflowBoxFitStringLookupTable = <String, OverflowBoxFit>{
   "max": OverflowBoxFit.max,
   "deferToChild": OverflowBoxFit.deferToChild,
 };
 
+/// Lookup table for [Alignment] values by [int] type key.
+///
+/// Maps integer identifiers to [Alignment] values for widget alignment.
+/// Supported values: 0-8 (topCenter, topLeft, topRight, centerLeft, center, centerRight, bottomLeft, bottomCenter, bottomRight).
 const _alignmentIntLookupTable = <int, Alignment>{
   0: Alignment.topCenter,
   1: Alignment.topLeft,
@@ -295,6 +426,10 @@ const _alignmentIntLookupTable = <int, Alignment>{
   8: Alignment.bottomRight,
 };
 
+/// Lookup table for [Alignment] values by [String] type key.
+///
+/// Maps string identifiers to [Alignment] values for widget alignment.
+/// Supported values: "topCenter", "topLeft", "topRight", "centerLeft", "center", "centerRight", "bottomLeft", "bottomCenter", "bottomRight".
 const _alignmentStringLookupTable = <String, Alignment>{
   "topCenter": Alignment.topCenter,
   "topLeft": Alignment.topLeft,
@@ -307,6 +442,10 @@ const _alignmentStringLookupTable = <String, Alignment>{
   "bottomRight": Alignment.bottomRight,
 };
 
+/// Lookup table for [AlignmentDirectional] values by [int] type key.
+///
+/// Maps integer identifiers to [AlignmentDirectional] values for directional alignment.
+/// Supported values: 0-8 (topStart, topCenter, topEnd, bottomCenter, bottomEnd, bottomStart, center, centerStart, centerEnd).
 const _alignmentDirectionalIntLookupTable = <int, AlignmentDirectional>{
   0: AlignmentDirectional.topStart,
   1: AlignmentDirectional.topCenter,
@@ -319,6 +458,10 @@ const _alignmentDirectionalIntLookupTable = <int, AlignmentDirectional>{
   8: AlignmentDirectional.centerEnd,
 };
 
+/// Lookup table for [AlignmentDirectional] values by [String] type key.
+///
+/// Maps string identifiers to [AlignmentDirectional] values for directional alignment.
+/// Supported values: "topStart", "topCenter", "topEnd", "bottomCenter", "bottomEnd", "bottomStart", "center", "centerStart", "centerEnd".
 const _alignmentDirectionalStringLookupTable = <String, AlignmentDirectional>{
   "topStart": AlignmentDirectional.topStart,
   "topCenter": AlignmentDirectional.topCenter,
@@ -331,6 +474,10 @@ const _alignmentDirectionalStringLookupTable = <String, AlignmentDirectional>{
   "centerEnd": AlignmentDirectional.centerEnd,
 };
 
+/// Lookup table for [MainAxisAlignment] values by [int] type key.
+///
+/// Maps integer identifiers to [MainAxisAlignment] enum values for main axis alignment.
+/// Supported values: 0 (start), 1 (end), 2 (center), 3 (spaceBetween), 4 (spaceAround), 5 (spaceEvenly).
 const _mainAxisAlignmentIntLookupTable = <int, MainAxisAlignment>{
   0: MainAxisAlignment.start,
   1: MainAxisAlignment.end,
@@ -340,6 +487,10 @@ const _mainAxisAlignmentIntLookupTable = <int, MainAxisAlignment>{
   5: MainAxisAlignment.spaceEvenly,
 };
 
+/// Lookup table for [MainAxisAlignment] values by [String] type key.
+///
+/// Maps string identifiers to [MainAxisAlignment] enum values for main axis alignment.
+/// Supported values: "start", "end", "center", "spaceBetween", "spaceAround", "spaceEvenly".
 const _mainAxisAlignmentStringLookupTable = <String, MainAxisAlignment>{
   "start": MainAxisAlignment.start,
   "end": MainAxisAlignment.end,
@@ -349,6 +500,10 @@ const _mainAxisAlignmentStringLookupTable = <String, MainAxisAlignment>{
   "spaceEvenly": MainAxisAlignment.spaceEvenly,
 };
 
+/// Lookup table for [CrossAxisAlignment] values by [int] type key.
+///
+/// Maps integer identifiers to [CrossAxisAlignment] enum values for cross axis alignment.
+/// Supported values: 0 (start), 1 (end), 2 (center), 3 (stretch), 4 (baseline).
 const _crossAxisAlignmentIntLookupTable = <int, CrossAxisAlignment>{
   0: CrossAxisAlignment.start,
   1: CrossAxisAlignment.end,
@@ -357,6 +512,10 @@ const _crossAxisAlignmentIntLookupTable = <int, CrossAxisAlignment>{
   4: CrossAxisAlignment.baseline,
 };
 
+/// Lookup table for [CrossAxisAlignment] values by [String] type key.
+///
+/// Maps string identifiers to [CrossAxisAlignment] enum values for cross axis alignment.
+/// Supported values: "start", "end", "center", "stretch", "baseline".
 const _crossAxisAlignmentStringLookupTable = <String, CrossAxisAlignment>{
   "start": CrossAxisAlignment.start,
   "end": CrossAxisAlignment.end,
@@ -365,16 +524,28 @@ const _crossAxisAlignmentStringLookupTable = <String, CrossAxisAlignment>{
   "baseline": CrossAxisAlignment.baseline,
 };
 
+/// Lookup table for [MainAxisSize] values by [int] type key.
+///
+/// Maps integer identifiers to [MainAxisSize] enum values for main axis size.
+/// Supported values: 0 (min), 1 (max).
 const _mainAxisSizeIntLookupTable = <int, MainAxisSize>{
   0: MainAxisSize.min,
   1: MainAxisSize.max,
 };
 
+/// Lookup table for [MainAxisSize] values by [String] type key.
+///
+/// Maps string identifiers to [MainAxisSize] enum values for main axis size.
+/// Supported values: "min", "max".
 const _mainAxisSizeStringLookupTable = <String, MainAxisSize>{
   "min": MainAxisSize.min,
   "max": MainAxisSize.max,
 };
 
+/// Lookup table for [SliderInteraction] values by [int] type key.
+///
+/// Maps integer identifiers to [SliderInteraction] enum values for slider interaction behavior.
+/// Supported values: 0 (tapOnly), 1 (tapAndSlide), 2 (slideOnly), 3 (slideThumb).
 const _sliderInteractionIntLookupTable = <int, SliderInteraction>{
   0: SliderInteraction.tapOnly,
   1: SliderInteraction.tapAndSlide,
@@ -382,6 +553,10 @@ const _sliderInteractionIntLookupTable = <int, SliderInteraction>{
   3: SliderInteraction.slideThumb,
 };
 
+/// Lookup table for [SliderInteraction] values by [String] type key.
+///
+/// Maps string identifiers to [SliderInteraction] enum values for slider interaction behavior.
+/// Supported values: "tapOnly", "tapAndSlide", "slideOnly", "slideThumb".
 const _sliderInteractionStringLookupTable = <String, SliderInteraction>{
   "tapOnly": SliderInteraction.tapOnly,
   "tapAndSlide": SliderInteraction.tapAndSlide,
@@ -389,16 +564,28 @@ const _sliderInteractionStringLookupTable = <String, SliderInteraction>{
   "slideThumb": SliderInteraction.slideThumb,
 };
 
+/// Lookup table for [MaterialTapTargetSize] values by [int] type key.
+///
+/// Maps integer identifiers to [MaterialTapTargetSize] enum values for material tap target size.
+/// Supported values: 0 (shrinkWrap), 1 (padded).
 const _materialTapTargetSizeIntLookupTable = <int, MaterialTapTargetSize>{
   0: MaterialTapTargetSize.shrinkWrap,
   1: MaterialTapTargetSize.padded,
 };
 
+/// Lookup table for [MaterialTapTargetSize] values by [String] type key.
+///
+/// Maps string identifiers to [MaterialTapTargetSize] enum values for material tap target size.
+/// Supported values: "shrinkWrap", "padded".
 const _materialTapTargetSizeStringLookupTable = <String, MaterialTapTargetSize>{
   "shrinkWrap": MaterialTapTargetSize.shrinkWrap,
   "padded": MaterialTapTargetSize.padded,
 };
 
+/// Lookup table for [FilterQuality] values by [int] type key.
+///
+/// Maps integer identifiers to [FilterQuality] enum values for image filter quality.
+/// Supported values: 0 (none), 1 (low), 2 (medium), 3 (high).
 const _filterQualityIntLookupTable = <int, FilterQuality>{
   0: FilterQuality.none,
   1: FilterQuality.low,
@@ -406,6 +593,10 @@ const _filterQualityIntLookupTable = <int, FilterQuality>{
   3: FilterQuality.high,
 };
 
+/// Lookup table for [FilterQuality] values by [String] type key.
+///
+/// Maps string identifiers to [FilterQuality] enum values for image filter quality.
+/// Supported values: "none", "low", "medium", "high".
 const _filterQualityStringLookupTable = <String, FilterQuality>{
   "none": FilterQuality.none,
   "low": FilterQuality.low,
@@ -413,6 +604,10 @@ const _filterQualityStringLookupTable = <String, FilterQuality>{
   "high": FilterQuality.high,
 };
 
+/// Lookup table for [ImageRepeat] values by [int] type key.
+///
+/// Maps integer identifiers to [ImageRepeat] enum values for image repeat behavior.
+/// Supported values: 0 (repeat), 1 (repeatX), 2 (repeatY), 3 (noRepeat).
 const _imageRepeatIntLookupTable = <int, ImageRepeat>{
   0: ImageRepeat.repeat,
   1: ImageRepeat.repeatX,
@@ -420,6 +615,10 @@ const _imageRepeatIntLookupTable = <int, ImageRepeat>{
   3: ImageRepeat.noRepeat,
 };
 
+/// Lookup table for [ImageRepeat] values by [String] type key.
+///
+/// Maps string identifiers to [ImageRepeat] enum values for image repeat behavior.
+/// Supported values: "repeat", "repeatX", "repeatY", "noRepeat".
 const _imageRepeatStringLookupTable = <String, ImageRepeat>{
   "repeat": ImageRepeat.repeat,
   "repeatX": ImageRepeat.repeatX,
@@ -427,6 +626,10 @@ const _imageRepeatStringLookupTable = <String, ImageRepeat>{
   "noRepeat": ImageRepeat.noRepeat,
 };
 
+/// Lookup table for [BoxFit] values by [int] type key.
+///
+/// Maps integer identifiers to [BoxFit] enum values for box fit behavior.
+/// Supported values: 0 (fill), 1 (contain), 2 (cover), 3 (fitHeight), 4 (fitWidth), 5 (none), 6 (scaleDown).
 const _boxFitIntLookupTable = <int, BoxFit>{
   0: BoxFit.fill,
   1: BoxFit.contain,
@@ -437,6 +640,10 @@ const _boxFitIntLookupTable = <int, BoxFit>{
   6: BoxFit.scaleDown,
 };
 
+/// Lookup table for [BoxFit] values by [String] type key.
+///
+/// Maps string identifiers to [BoxFit] enum values for box fit behavior.
+/// Supported values: "fill", "contain", "cover", "fitHeight", "fitWidth", "none", "scaleDown".
 const _boxFitStringLookupTable = <String, BoxFit>{
   "fill": BoxFit.fill,
   "contain": BoxFit.contain,
@@ -447,6 +654,10 @@ const _boxFitStringLookupTable = <String, BoxFit>{
   "scaleDown": BoxFit.scaleDown,
 };
 
+/// Lookup table for [BlendMode] values by [String] type key.
+///
+/// Maps string identifiers to [BlendMode] enum values for blend mode.
+/// Supported values: "clear", "src", "dst", "srcOver", "dstOver", "srcIn", "dstIn", "srcOut", "dstOut", "srcATop", "dstATop", "xor", "plus", "modulate", "screen", "overlay", "darken", "lighten", "colorDodge", "colorBurn", "hardLight", "softLight", "difference", "exclusion", "multiply", "hue", "saturation", "color", "luminosity".
 const _blendModeStringLookupTable = <String, BlendMode>{
   "clear": BlendMode.clear,
   "src": BlendMode.src,
@@ -479,6 +690,10 @@ const _blendModeStringLookupTable = <String, BlendMode>{
   "luminosity": BlendMode.luminosity,
 };
 
+/// Lookup table for [BlendMode] values by [int] type key.
+///
+/// Maps integer identifiers to [BlendMode] enum values for blend mode.
+/// Supported values: 0-28 (см. порядок BlendMode).
 const _blendModeIntLookupTable = <int, BlendMode>{
   0: BlendMode.clear,
   1: BlendMode.src,
@@ -511,36 +726,64 @@ const _blendModeIntLookupTable = <int, BlendMode>{
   28: BlendMode.luminosity,
 };
 
+/// Lookup table for [VerticalDirection] values by [int] type key.
+///
+/// Maps integer identifiers to [VerticalDirection] enum values for vertical direction.
+/// Supported values: 0 (up), 1 (down).
 const _verticalDirectionIntLookupTable = <int, VerticalDirection>{
   0: VerticalDirection.up,
   1: VerticalDirection.down,
 };
 
+/// Lookup table for [VerticalDirection] values by [String] type key.
+///
+/// Maps string identifiers to [VerticalDirection] enum values for vertical direction.
+/// Supported values: "up", "down".
 const _verticalDirectionStringLookupTable = <String, VerticalDirection>{
   "up": VerticalDirection.up,
   "down": VerticalDirection.down,
 };
 
+/// Lookup table for [BoxShape] values by [int] type key.
+///
+/// Maps integer identifiers to [BoxShape] enum values for box shape.
+/// Supported values: 0 (circle), 1 (rectangle).
 const _boxShapeIntLookupTable = <int, BoxShape>{
   0: BoxShape.circle,
   1: BoxShape.rectangle,
 };
 
+/// Lookup table for [BoxShape] values by [String] type key.
+///
+/// Maps string identifiers to [BoxShape] enum values for box shape.
+/// Supported values: "circle", "rectangle".
 const _boxShapeStringLookupTable = <String, BoxShape>{
   "circle": BoxShape.circle,
   "rectangle": BoxShape.rectangle,
 };
 
+/// Lookup table for [BorderStyle] values by [int] type key.
+///
+/// Maps integer identifiers to [BorderStyle] enum values for border style.
+/// Supported values: 0 (solid), 1 (none).
 const _borderStyleIntLookupTable = <int, BorderStyle>{
   0: BorderStyle.solid,
   1: BorderStyle.none,
 };
 
+/// Lookup table for [BorderStyle] values by [String] type key.
+///
+/// Maps string identifiers to [BorderStyle] enum values for border style.
+/// Supported values: "solid", "none".
 const _borderStyleStringLookupTable = <String, BorderStyle>{
   "solid": BorderStyle.solid,
   "none": BorderStyle.none,
 };
 
+/// Lookup table for [TextInputType] values by [int] type key.
+///
+/// Maps integer identifiers to [TextInputType] enum values for text input type.
+/// Supported values: 0 (text), 1 (name), 2 (none), 3 (url), 4 (emailAddress), 5 (datetime), 6 (streetAddress), 7 (number), 8 (phone), 9 (multiline).
 const _textInputTypeIntLookupTable = <int, TextInputType>{
   0: TextInputType.text,
   1: TextInputType.name,
@@ -554,6 +797,10 @@ const _textInputTypeIntLookupTable = <int, TextInputType>{
   9: TextInputType.multiline,
 };
 
+/// Lookup table for [TextInputType] values by [String] type key.
+///
+/// Maps string identifiers to [TextInputType] enum values for text input type.
+/// Supported values: "text", "name", "none", "url", "emailAddress", "datetime", "streetAddress", "number", "phone", "multiline".
 const _textInputTypeStringLookupTable = <String, TextInputType>{
   "text": TextInputType.text,
   "name": TextInputType.name,
@@ -567,18 +814,30 @@ const _textInputTypeStringLookupTable = <String, TextInputType>{
   "multiline": TextInputType.multiline,
 };
 
+/// Lookup table for [ScrollViewKeyboardDismissBehavior] values by [int] type key.
+///
+/// Maps integer identifiers to [ScrollViewKeyboardDismissBehavior] enum values for keyboard dismiss behavior in scroll views.
+/// Supported values: 0 (manual), 1 (onDrag).
 const _keyboardDismissBehaviorIntLookupTable =
     <int, ScrollViewKeyboardDismissBehavior>{
   0: ScrollViewKeyboardDismissBehavior.manual,
   1: ScrollViewKeyboardDismissBehavior.onDrag,
 };
 
+/// Lookup table for [ScrollViewKeyboardDismissBehavior] values by [String] type key.
+///
+/// Maps string identifiers to [ScrollViewKeyboardDismissBehavior] enum values for keyboard dismiss behavior in scroll views.
+/// Supported values: "manual", "onDrag".
 const _keyboardDismissBehaviorStringLookupTable =
     <String, ScrollViewKeyboardDismissBehavior>{
   "manual": ScrollViewKeyboardDismissBehavior.manual,
   "onDrag": ScrollViewKeyboardDismissBehavior.onDrag,
 };
 
+/// Lookup table for [ScrollPhysics] values by [int] type key.
+///
+/// Maps integer identifiers to [ScrollPhysics] objects for scroll physics behavior.
+/// Supported values: 0 (AlwaysScrollableScrollPhysics), 1 (BouncingScrollPhysics), 2 (ClampingScrollPhysics), 3 (FixedExtentScrollPhysics), 4 (NeverScrollableScrollPhysics).
 const _scrollPhysicsIntLookupTable = <int, ScrollPhysics>{
   0: AlwaysScrollableScrollPhysics(),
   1: BouncingScrollPhysics(),
@@ -587,6 +846,10 @@ const _scrollPhysicsIntLookupTable = <int, ScrollPhysics>{
   4: NeverScrollableScrollPhysics(),
 };
 
+/// Lookup table for [ScrollPhysics] values by [String] type key.
+///
+/// Maps string identifiers to [ScrollPhysics] objects for scroll physics behavior.
+/// Supported values: "alwaysScrollableScrollPhysics", "bouncingScrollPhysics", "clampingScrollPhysics", "fixedExtentScrollPhysics", "neverScrollableScrollPhysics".
 const _scrollPhysicsStringLookupTable = <String, ScrollPhysics>{
   "alwaysScrollableScrollPhysics": AlwaysScrollableScrollPhysics(),
   "bouncingScrollPhysics": BouncingScrollPhysics(),
@@ -595,28 +858,48 @@ const _scrollPhysicsStringLookupTable = <String, ScrollPhysics>{
   "neverScrollableScrollPhysics": NeverScrollableScrollPhysics(),
 };
 
+/// Lookup table for [DragStartBehavior] values by [int] type key.
+///
+/// Maps integer identifiers to [DragStartBehavior] enum values for drag start behavior.
+/// Supported values: 0 (start), 1 (down).
 const _dragStartBehaviorIntLookupTable = <int, DragStartBehavior>{
   0: DragStartBehavior.start,
   1: DragStartBehavior.down,
 };
 
+/// Lookup table for [DragStartBehavior] values by [String] type key.
+///
+/// Maps string identifiers to [DragStartBehavior] enum values for drag start behavior.
+/// Supported values: "start", "down".
 const _dragStartBehaviorStringLookupTable = <String, DragStartBehavior>{
   "start": DragStartBehavior.start,
   "down": DragStartBehavior.down,
 };
 
+/// Lookup table for [HitTestBehavior] values by [int] type key.
+///
+/// Maps integer identifiers to [HitTestBehavior] enum values for hit test behavior.
+/// Supported values: 0 (deferToChild), 1 (opaque), 2 (translucent).
 const _hitTestBehaviorIntLookupTable = <int, HitTestBehavior>{
   0: HitTestBehavior.deferToChild,
   1: HitTestBehavior.opaque,
   2: HitTestBehavior.translucent,
 };
 
+/// Lookup table for [HitTestBehavior] values by [String] type key.
+///
+/// Maps string identifiers to [HitTestBehavior] enum values for hit test behavior.
+/// Supported values: "deferToChild", "opaque", "translucent".
 const _hitTestBehaviorStringLookupTable = <String, HitTestBehavior>{
   "deferToChild": HitTestBehavior.deferToChild,
   "opaque": HitTestBehavior.opaque,
   "translucent": HitTestBehavior.translucent,
 };
 
+/// Lookup table for [FloatingActionButtonLocation] values by [String] type key.
+///
+/// Maps string identifiers to [FloatingActionButtonLocation] values for FAB location.
+/// Supported values: "centerDocked", "centerFloat", "centerTop", "endDocked", "endFloat", "endTop", "startDocked", "startFloat", "startTop", "miniCenterDocked", "miniCenterFloat", "miniCenterTop", "miniEndDocked", "miniEndFloat", "miniEndTop", "miniStartDocked", "miniStartFloat", "miniStartTop".
 const _fabLocationStringLookupTable = <String, FloatingActionButtonLocation>{
   "centerDocked": FloatingActionButtonLocation.centerDocked,
   "centerFloat": FloatingActionButtonLocation.centerFloat,
@@ -638,6 +921,10 @@ const _fabLocationStringLookupTable = <String, FloatingActionButtonLocation>{
   "miniStartTop": FloatingActionButtonLocation.miniStartTop,
 };
 
+/// Lookup table for [FloatingActionButtonLocation] values by [int] type key.
+///
+/// Maps integer identifiers to [FloatingActionButtonLocation] values for FAB location.
+/// Supported values: 0-17 (см. порядок FloatingActionButtonLocation).
 const _fabLocationIntLookupTable = <int, FloatingActionButtonLocation>{
   0: FloatingActionButtonLocation.centerDocked,
   1: FloatingActionButtonLocation.centerFloat,
@@ -659,6 +946,10 @@ const _fabLocationIntLookupTable = <int, FloatingActionButtonLocation>{
   17: FloatingActionButtonLocation.miniStartTop,
 };
 
+/// Lookup table for [TileMode] values by [String] type key.
+///
+/// Maps string identifiers to [TileMode] enum values for tile mode.
+/// Supported values: "clamp", "mirror", "repeated", "decal".
 const _tileModeStringLookupTable = <String, TileMode>{
   "clamp": TileMode.clamp,
   "mirror": TileMode.mirror,
@@ -666,6 +957,10 @@ const _tileModeStringLookupTable = <String, TileMode>{
   "decal": TileMode.decal,
 };
 
+/// Lookup table for [TileMode] values by [int] type key.
+///
+/// Maps integer identifiers to [TileMode] enum values for tile mode.
+/// Supported values: 0 (clamp), 1 (mirror), 2 (repeated), 3 (decal).
 const _tileModeIntLookupTable = <int, TileMode>{
   0: TileMode.clamp,
   1: TileMode.mirror,
@@ -673,11 +968,19 @@ const _tileModeIntLookupTable = <int, TileMode>{
   3: TileMode.decal,
 };
 
+/// Lookup table for [ThemeOverrideRule] values by [String] type key.
+///
+/// Maps string identifiers to [ThemeOverrideRule] enum values for theme override rules.
+/// Supported values: "themeOverlay", "themePriority".
 const _themeOverrideRuleStringLookupTable = <String, ThemeOverrideRule>{
   "themeOverlay": ThemeOverrideRule.themeOverlay,
   "themePriority": ThemeOverrideRule.themePriority,
 };
 
+/// Lookup table for [ThemeOverrideRule] values by [int] type key.
+///
+/// Maps integer identifiers to [ThemeOverrideRule] enum values for theme override rules.
+/// Supported values: 0 (themeOverlay), 1 (themePriority).
 const _themeOverrideRuleIntLookupTable = <int, ThemeOverrideRule>{
   0: ThemeOverrideRule.themeOverlay,
   1: ThemeOverrideRule.themePriority,
@@ -707,4 +1010,118 @@ const _imageFilterTypeIntLookupTable =
   2: DuitDataSource._dilateImageFilterFromMap,
   3: DuitDataSource._erodeImageFilterFromMap,
   4: DuitDataSource._matrixImageFilterFromMap,
+};
+
+/// Lookup table for [AnimationTrigger] values by [String] type key.
+///
+/// Maps string identifiers to [AnimationTrigger] enum values for animation triggers.
+/// Supported values: "onEnter", "onAction".
+const _animationTriggerStringLookupTable = <String, AnimationTrigger>{
+  "onEnter": AnimationTrigger.onEnter,
+  "onAction": AnimationTrigger.onAction,
+};
+
+/// Lookup table for [AnimationTrigger] values by [int] type key.
+///
+/// Maps integer identifiers to [AnimationTrigger] enum values for animation triggers.
+/// Supported values: 0 (onEnter), 1 (onAction).
+const _animationTriggerIntLookupTable = <int, AnimationTrigger>{
+  0: AnimationTrigger.onEnter,
+  1: AnimationTrigger.onAction,
+};
+
+/// Lookup table for [AnimationMethod] values by [String] type key.
+///
+/// Maps string identifiers to [AnimationMethod] enum values for animation methods.
+/// Supported values: "forward", "repeat", "reverse", "toggle".
+const _animationMethodStringLookupTable = <String, AnimationMethod>{
+  "forward": AnimationMethod.forward,
+  "repeat": AnimationMethod.repeat,
+  "reverse": AnimationMethod.reverse,
+  "toggle": AnimationMethod.toggle,
+};
+
+/// Lookup table for [AnimationMethod] values by [int] type key.
+///
+/// Maps integer identifiers to [AnimationMethod] enum values for animation methods.
+/// Supported values: 0 (forward), 1 (repeat), 2 (reverse), 3 (toggle).
+const _animationMethodIntLookupTable = <int, AnimationMethod>{
+  0: AnimationMethod.forward,
+  1: AnimationMethod.repeat,
+  2: AnimationMethod.reverse,
+  3: AnimationMethod.toggle,
+};
+
+/// Lookup table for [TweenType] values by [String] type key.
+///
+/// Maps string identifiers to [TweenType] enum values for tween types.
+/// Supported values: "tween", "group", "colorTween", "textStyleTween", "decorationTween", "alignmentTween", "sizeTween", "edgeInsetsTween", "boxConstraintsTween", "borderTween".
+const _tweenTypeStringLookupTable = <String, TweenType>{
+  "tween": TweenType.tween,
+  "group": TweenType.group,
+  "colorTween": TweenType.colorTween,
+  "textStyleTween": TweenType.textStyleTween,
+  "decorationTween": TweenType.decorationTween,
+  "alignmentTween": TweenType.alignmentTween,
+  "sizeTween": TweenType.sizeTween,
+  "edgeInsetsTween": TweenType.edgeInsetsTween,
+  "boxConstraintsTween": TweenType.boxConstraintsTween,
+  "borderTween": TweenType.borderTween,
+};
+
+/// Lookup table for [TweenType] values by [int] type key.
+///
+/// Maps integer identifiers to [TweenType] enum values for tween types.
+/// Supported values: 0 (tween), 1 (colorTween), 2 (textStyleTween), 3 (decorationTween), 4 (alignmentTween), 5 (sizeTween), 6 (edgeInsetsTween), 7 (boxConstraintsTween), 8 (borderTween), 9 (group).
+const _tweenTypeIntLookupTable = <int, TweenType>{
+  0: TweenType.tween,
+  1: TweenType.colorTween,
+  2: TweenType.textStyleTween,
+  3: TweenType.decorationTween,
+  4: TweenType.alignmentTween,
+  5: TweenType.sizeTween,
+  6: TweenType.edgeInsetsTween,
+  7: TweenType.boxConstraintsTween,
+  8: TweenType.borderTween,
+  9: TweenType.group,
+};
+
+/// Lookup table for [CollapseMode] values by [String] type key.
+///
+/// Maps string identifiers to [CollapseMode] enum values for collapse behavior.
+/// Supported values: "parallax", "pin", "none".
+const _collapseModeStringLookupTable = <String, CollapseMode>{
+  "parallax": CollapseMode.parallax,
+  "pin": CollapseMode.pin,
+  "none": CollapseMode.none,
+};
+
+/// Lookup table for [CollapseMode] values by [int] type key.
+///
+/// Maps integer identifiers to [CollapseMode] enum values for collapse behavior.
+/// Supported values: 0 (parallax), 1 (pin), 2 (none).
+const _collapseModeIntLookupTable = <int, CollapseMode>{
+  0: CollapseMode.parallax,
+  1: CollapseMode.pin,
+  2: CollapseMode.none,
+};
+
+/// Lookup table for [StretchMode] values by [String] type key.
+///
+/// Maps string identifiers to [StretchMode] enum values for stretch behavior.
+/// Supported values: "zoomBackground", "fadeTitle".
+const _stretchModeStringLookupTable = <String, StretchMode>{
+  "zoomBackground": StretchMode.zoomBackground,
+  "blurBackground": StretchMode.blurBackground,
+  "fadeTitle": StretchMode.fadeTitle,
+};
+
+/// Lookup table for [StretchMode] values by [int] type key.
+///
+/// Maps integer identifiers to [StretchMode] enum values for stretch behavior.
+/// Supported values: 0 (zoomBackground), 1 (fadeTitle).
+const _stretchModeIntLookupTable = <int, StretchMode>{
+  0: StretchMode.zoomBackground,
+  1: StretchMode.blurBackground,
+  2: StretchMode.fadeTitle,
 };

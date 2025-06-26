@@ -139,28 +139,47 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   Iterable<ActionDependency> getActionDependencies() {
-    Iterable<ActionDependency> deps;
-    final hasProperty = json.containsKey("dependsOn");
-    if (hasProperty &&
-        json["dependsOn"] is List &&
-        json["dependsOn"].isNotEmpty) {
-      deps = (json["dependsOn"] as List).map(
-        (el) => ActionDependency.fromJson(el),
-      );
-    } else {
-      deps = const [];
-    }
-
-    return deps;
+    final dependsOn = json["dependsOn"];
+    return dependsOn is List<Map<String, dynamic>> && dependsOn.isNotEmpty
+        ? dependsOn.map((el) => _actionDependency(el))
+        : const <ActionDependency>[];
   }
 
-  /// A protection mechanism that allows checking the presence of a key in a [Map<String, dynamic>],
-  /// which prevents further calls to "heavy" data parsing functions
-  ///
-  /// Returns `this` if the JSON map contains the given [key], otherwise returns `null`.
   @preferInline
-  DuitDataSource? nullProtect(String key) =>
-      json.containsKey(key) ? this : null;
+  ActionDependency _actionDependency(Map<String, dynamic> dep) {
+    final data = DuitDataSource(dep);
+    return ActionDependency(
+      target: data.getString(key: "target"),
+      id: data.getString(key: "id"),
+    );
+  }
+
+  @preferInline
+  HttpActionMetainfo? get meta {
+    final metaData = json["meta"];
+
+    if (metaData == null) {
+      return null;
+    }
+    return HttpActionMetainfo.fromJson(metaData);
+  }
+
+  @preferInline
+  int get executionType {
+    final executionType = json["executionType"];
+    return executionType is int ? executionType : 0;
+  }
+
+  @preferInline
+  ScriptDefinition get script {
+    final Map<String, dynamic> scriptData = json["script"];
+    final data = DuitDataSource(scriptData);
+    return ScriptDefinition(
+      sourceCode: data.getString(key: "sourceCode"),
+      functionName: data.getString(key: "functionName"),
+      meta: data["meta"],
+    );
+  }
 
   @preferInline
   String? get parentBuilderId {
@@ -170,24 +189,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   Iterable<String>? get affectedProperties {
-    if (json.containsKey("affectedProperties")) {
-      return Set.from(json["affectedProperties"]);
-    } else {
-      return null;
-    }
-  }
-
-  @preferInline
-  List<DuitTweenDescription> getTweens() {
-    final value = json["tweenDescriptions"];
-    if (value is List<DuitTweenDescription>) return value;
-
-    return json["tweenDescriptions"] = switch (value) {
-      List() => value
-          .map<DuitTweenDescription>((v) => DuitTweenDescription.fromJson(v))
-          .toList(),
-      _ => <DuitTweenDescription>[],
-    };
+    final value = json["affectedProperties"];
+    return value is Iterable ? Set<String>.from(value) : null;
   }
 
   /// Retrieves a color value from the JSON map associated with the given [key].
@@ -202,6 +205,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns:
   /// - A [Color] if the value is valid or can be parsed.
   /// - [defaultValue] if the value is not a valid [Color] or cannot be parsed.
+  @preferInline
   Color parseColor({
     String key = "color",
     Color defaultValue = Colors.transparent,
@@ -233,6 +237,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns:
   /// - A [Color] if the value is valid or can be parsed.
   /// - [defaultValue] if the value is not a valid [Color] or cannot be parsed.
+  @preferInline
   Color? tryParseColor({
     String key = "color",
     Color? defaultValue,
@@ -476,54 +481,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return defaultValue;
   }
 
-  @preferInline
-  TextAlign? textAlignPrevVersion({
-    String key = "textAlign",
-    TextAlign? defaultValue,
-  }) {
-    final value = json[key];
-    return json[key] = switch (value) {
-      "left" || 0 => TextAlign.left,
-      "right" || 1 => TextAlign.right,
-      "center" || 2 => TextAlign.center,
-      "justify" || 3 => TextAlign.justify,
-      "start" || 4 => TextAlign.start,
-      "end" || 5 => TextAlign.end,
-      _ => defaultValue
-    };
-  }
-
-  @pragma("vm:never-inline")
-  TextAlign? textAlignPrevVersion2({
-    String key = "textAlign",
-    TextAlign? defaultValue,
-  }) {
-    final value = json[key];
-    return json[key] = switch (value) {
-      "left" || 0 => TextAlign.left,
-      "right" || 1 => TextAlign.right,
-      "center" || 2 => TextAlign.center,
-      "justify" || 3 => TextAlign.justify,
-      "start" || 4 => TextAlign.start,
-      "end" || 5 => TextAlign.end,
-      _ => defaultValue
-    };
-  }
-
-  @preferInline
-  TextAlign? textAlignxx({
-    String key = "textAlign",
-    TextAlign? defaultValue,
-  }) {
-    final value = json[key];
-    return json[key] = switch (value) {
-      TextAlign() => value,
-      String() => _textAlignStringLookupTable[value],
-      int() => _textAlignIntLookupTable[value],
-      _ => defaultValue
-    };
-  }
-
   /// Retrieves a [TextAlign] value from the JSON map associated with the given [key].
   ///
   /// If the value associated with the [key] is already a [TextAlign], it returns that value.
@@ -743,17 +700,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [value]: A list containing padding values.
   /// Returns an [EdgeInsets] object with the specified padding.
   @preferInline
-  EdgeInsets _edgeInsetsFromList(List<double> value) {
+  EdgeInsets _edgeInsetsFromList(List<num> value) {
     return switch (value.length) {
       2 => EdgeInsets.symmetric(
-          vertical: value[0],
-          horizontal: value[1],
+          vertical: value[0].toDouble(),
+          horizontal: value[1].toDouble(),
         ),
       4 => EdgeInsets.only(
-          left: value[0],
-          top: value[1],
-          right: value[2],
-          bottom: value[3],
+          left: value[0].toDouble(),
+          top: value[1].toDouble(),
+          right: value[2].toDouble(),
+          bottom: value[3].toDouble(),
         ),
       _ => EdgeInsets.zero
     };
@@ -780,7 +737,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
 
     switch (value) {
-      case List<double>():
+      case List<num>():
         return json[key] = _edgeInsetsFromList(value);
       case num():
         return json[key] = EdgeInsets.all(value.toDouble());
@@ -873,10 +830,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] =
-            _textWidthBasisStringLookupTable[value] ?? defaultValue;
+        return json[key] = _textWidthBasisStringLookupTable[value];
       case int():
-        return json[key] = _textWidthBasisIntLookupTable[value] ?? defaultValue;
+        return json[key] = _textWidthBasisIntLookupTable[value];
       default:
         return defaultValue;
     }
@@ -2932,5 +2888,211 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
-  // DuitTweenDescription
+  @preferInline
+  List<DuitTweenDescription> tweens({
+    String key = "tweenDescriptions",
+  }) {
+    final value = json[key];
+
+    if (value is List<Map<String, dynamic>>) {
+      final list = <DuitTweenDescription>[];
+
+      for (final tweenDescription in value) {
+        final tweenData = DuitDataSource(tweenDescription);
+        final tweenType = tweenData.tweenType();
+
+        final tweenObj = switch (tweenType) {
+          TweenType.tween => TweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.getDouble(key: "begin"),
+              end: tweenData.getDouble(key: "end"),
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.colorTween => ColorTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.parseColor(key: "begin"),
+              end: tweenData.parseColor(key: "end"),
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.textStyleTween => TextStyleTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.textStyle(
+                  key: "begin", defaultValue: const TextStyle())!,
+              end: tweenData.textStyle(
+                  key: "end", defaultValue: const TextStyle())!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.decorationTween => DecorationTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.decoration(
+                  key: "begin", defaultValue: const BoxDecoration())!,
+              end: tweenData.decoration(
+                  key: "end", defaultValue: const BoxDecoration())!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.alignmentTween => AlignmentTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.alignment(
+                  key: "begin", defaultValue: Alignment.center)!,
+              end: tweenData.alignment(
+                  key: "end", defaultValue: Alignment.center)!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.sizeTween => SizeTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.size("begin"),
+              end: tweenData.size("end"),
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.edgeInsetsTween => EdgeInsetsTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.edgeInsets(
+                  key: "begin", defaultValue: EdgeInsets.zero)!,
+              end: tweenData.edgeInsets(
+                  key: "end", defaultValue: EdgeInsets.zero)!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.boxConstraintsTween => BoxConstraintsTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin: tweenData.boxConstraints(
+                  key: "begin", defaultValue: const BoxConstraints())!,
+              end: tweenData.boxConstraints(
+                  key: "end", defaultValue: const BoxConstraints())!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.borderTween => BorderTweenDescription(
+              animatedPropKey: tweenData.getString(key: "animatedPropKey"),
+              duration: tweenData.duration(),
+              begin:
+                  tweenData.border(key: "begin", defaultValue: const Border())!,
+              end: tweenData.border(key: "end", defaultValue: const Border())!,
+              curve: tweenData.curve(defaultValue: Curves.linear)!,
+              trigger: tweenData.animationTrigger(),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              interval: tweenData.animationInterval(),
+            ),
+          TweenType.group => TweenDescriptionGroup(
+              duration: tweenData.duration(),
+              groupId: tweenData.getString(key: "groupId"),
+              tweens: tweenData.tweens(key: "tweens"),
+              method: tweenData.animationMethod(),
+              reverseOnRepeat: tweenData.getBool("reverseOnRepeat"),
+              trigger: tweenData.animationTrigger(),
+            ),
+        } as DuitTweenDescription;
+
+        list.add(tweenObj);
+      }
+
+      return list;
+    }
+
+    return [];
+  }
+
+  @preferInline
+  CollapseMode collapseMode({
+    String key = "collapseMode",
+    CollapseMode defaultValue = CollapseMode.parallax,
+  }) {
+    final value = json[key];
+
+    if (value is CollapseMode) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] = _collapseModeStringLookupTable[value]!;
+      case int():
+        return json[key] = _collapseModeIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  List<StretchMode> stretchModes({
+    String key = "stretchMode",
+    List<StretchMode> defaultValue = const [
+      StretchMode.zoomBackground,
+    ],
+  }) {
+    final value = json[key];
+
+    if (value is List<StretchMode>) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    if (value is List<String>) {
+      final list = <StretchMode>[];
+      for (final item in value) {
+        final stretchMode = _stretchModeStringLookupTable[item];
+        if (stretchMode != null) {
+          list.add(stretchMode);
+        }
+      }
+
+      return json[key] = list.isNotEmpty ? list : defaultValue;
+    }
+
+    if (value is List<int>) {
+      final list = <StretchMode>[];
+      for (final item in value) {
+        final stretchMode = _stretchModeIntLookupTable[item];
+        if (stretchMode != null) {
+          list.add(stretchMode);
+        }
+      }
+
+      return json[key] = list.isNotEmpty ? list : defaultValue;
+    }
+
+    return defaultValue;
+  }
 }
