@@ -5,7 +5,6 @@ import "misc.dart";
 
 void main() {
   setUpAll(() async {
-    // ViewAttribute.attributeParser = TestAttrParser();
 
     await DuitRegistry.configure(
       themeLoader: const StaticThemeLoader(
