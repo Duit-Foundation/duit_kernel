@@ -757,7 +757,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ///
   /// Example:
   ///   curve(key: 'myCurve', defaultValue: Curves.ease)
-
+  ///
   @preferInline
   Curve? curve({
     String key = "curve",
@@ -787,11 +787,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
   /// If the value is `null`, returns [defaultValue].
   ///
+  /// Unlike [textBaseline], this method does not store the parsed or existing [TextBaseline] back into the JSON map.
+  ///
   /// - [key]: The key to look up in the JSON map. Defaults to 'textBaseline'.
-  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TextBaseline.alphabetic.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TextBaseline] if the value is valid or can be converted.
+  /// - [defaultValue] if the value is not a valid [TextBaseline] or cannot be converted.
+  /// - `null` if both the value and [defaultValue] are null.
   ///
   /// Example:
-  ///   textBaseline(key: 'myBaseline', defaultValue: TextBaseline.ideographic)
+  ///   tryTextBaseline(key: 'myBaseline', defaultValue: TextBaseline.alphabetic)
+
   @preferInline
   TextBaseline? textBaseline({
     String key = "textBaseline",
@@ -815,6 +823,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextWidthBasis] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextWidthBasis],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// If the value is `null`, returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'textWidthBasis'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TextWidthBasis.parent.
+  ///
+  /// Example:
+  ///   textWidthBasis(key: 'myBasis', defaultValue: TextWidthBasis.longestLine)
   @preferInline
   TextWidthBasis? textWidthBasis({
     String key = "textWidthBasis",
@@ -838,6 +857,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextStyle] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TextStyle], it returns that value.
+  /// If the value is a [Map<String, dynamic>], it attempts to parse it into a [TextStyle].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TextStyle] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TextStyle] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextStyle] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextStyle? textStyle({
     String key = "style",
@@ -859,6 +890,27 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [TextStyle] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'color': A color value.
+  /// - 'fontFamily': A font family string.
+  /// - 'fontWeight': A font weight value.
+  /// - 'fontSize': A font size value.
+  /// - 'fontStyle': A font style value.
+  /// - 'overflow': A text overflow value.
+  /// - 'textBaseline': A text baseline value.
+  /// - 'height': A text height value.
+  /// - 'letterSpacing': A letter spacing value.
+  /// - 'wordSpacing': A word spacing value.
+  /// - 'backgroundColor': A background color value.
+  /// - 'decoration': A text decoration value.
+  /// - 'decorationColor': A text decoration color value.
+  /// - 'decorationStyle': A text decoration style value.
+  /// - 'decorationThickness': A text decoration thickness value.
+  /// - 'debugLabel': A debug label value.
+  /// - 'package': A package value.
+  /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextStyle _textStyleFromMap(Map<String, dynamic> data) {
     final value = DuitDataSource(data);
@@ -884,6 +936,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [Gradient] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'colors': A list of color values.
+  /// - 'stops': A list of stop values.
+  /// - 'begin': An alignment value.
+  /// - 'end': An alignment value.
   @preferInline
   Gradient? _gradientFromMap(Map<String, dynamic>? data) {
     if (data == null) return null;
@@ -910,6 +969,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [BoxShadow] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'color': A color value.
+  /// - 'offset': An offset value.
+  /// - 'blurRadius': A blur radius value.
+  /// - 'spreadRadius': A spread radius value.
   @preferInline
   BoxShadow _boxShadowFromMap(json) {
     final data = DuitDataSource(json);
@@ -921,6 +987,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses an [Offset] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'dx': An x-axis offset value.
+  /// - 'dy': A y-axis offset value.
   @preferInline
   Offset _offsetFromMap(Map<String, dynamic> map) {
     final json = DuitDataSource(map);
@@ -930,6 +1001,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves an [Offset] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [Offset],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into an [Offset].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'offset'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [Offset] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Offset] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Offset? offset({
     String key = "offset",
@@ -951,6 +1035,20 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a list of [BoxShadow] values from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [List<BoxShadow>],
+  /// it is returned as is. If the value is a [List], it attempts to parse it into a list of [BoxShadow].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'boxShadow'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A list of [BoxShadow] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid list of [BoxShadow] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  ///
   @preferInline
   List<BoxShadow>? boxShadow({
     String key = "boxShadow",
@@ -972,6 +1070,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [Decoration] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'color': A color value.
+  /// - 'borderRadius': A border radius value.
+  /// - 'border': A border value.
+  /// - 'gradient': A gradient value.
+  /// - 'boxShadow': A list of box shadow values.
   @preferInline
   Decoration _decorationFromMap(Map<String, dynamic> data) {
     final value = DuitDataSource(Map<String, dynamic>.from(data));
@@ -996,6 +1102,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [Decoration] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [Decoration],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [Decoration].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'decoration'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [Decoration] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Decoration] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Decoration? decoration({
     String key = "decoration",
@@ -1017,6 +1136,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextDecoration] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextDecoration],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'decoration'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TextDecoration] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextDecoration] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextDecoration? textDecoration({
     String key = "decoration",
@@ -1040,6 +1172,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextDecorationStyle] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextDecorationStyle],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'decorationStyle'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TextDecorationStyle] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextDecorationStyle] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextDecorationStyle? textDecorationStyle({
     String key = "decorationStyle",
@@ -1063,6 +1208,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [FontWeight] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [FontWeight],
+  /// it is returned as is. If the value is an [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'fontWeight'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [FontWeight] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FontWeight] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   FontWeight? fontWeight({
     String key = "fontWeight",
@@ -1107,6 +1265,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [TextSpan] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'text': A text string.
+  /// - 'children': A list of text span values.
+  /// - 'style': A text style value.
+  /// - 'spellOut': A boolean value.
+  /// - 'semanticsLabel': A semantics label value.
   @preferInline
   TextSpan _textSpanFromMap(Map<String, dynamic> value) {
     final span = DuitDataSource(value);
@@ -1128,6 +1294,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [TextSpan] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextSpan],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [TextSpan].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'textSpan'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to a default [TextSpan].
+  ///
+  /// Returns:
+  /// - A [TextSpan] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextSpan] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextSpan textSpan({
     String key = "textSpan",
@@ -1151,6 +1330,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [TextHeightBehavior] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'applyHeightToFirstAscent': A boolean value.
+  /// - 'applyHeightToLastDescent': A boolean value.
+  /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextHeightBehavior? _parseTextHeightBehavior(Map<String, dynamic> data) {
     final json = DuitDataSource(data);
@@ -1169,6 +1354,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [TextHeightBehavior] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextHeightBehavior],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [TextHeightBehavior].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'textHeightBehavior'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TextHeightBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextHeightBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextHeightBehavior? textHeightBehavior({
     String key = "textHeightBehavior",
@@ -1190,6 +1388,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [TextScaler] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'textScaleFactor': A double value.
   @preferInline
   TextScaler _textScalerFromMap(Map<String, dynamic> data) {
     final json = DuitDataSource(data);
@@ -1201,6 +1403,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [TextScaler] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextScaler],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [TextScaler].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'textScaler'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TextScaler.noScaling.
+  ///
+  /// Returns:
+  /// - A [TextScaler] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextScaler] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextScaler textScaler({
     String key = "textScaler",
@@ -1224,6 +1439,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [StrutStyle] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'fontSize': A double value.
+  /// - 'height': A double value.
+  /// - 'leading': A double value.
+  /// - 'fontWeight': A font weight value.
+  /// - 'fontFamily': A font family string.
+  /// - 'fontStyle': A font style value.
+  /// - 'forceStrutHeight': A boolean value.
+  /// - 'debugLabel': A debug label value.
+  /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   StrutStyle _strutStyleFromMap(Map<String, dynamic> data) {
     final json = DuitDataSource(data);
@@ -1240,6 +1467,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [StrutStyle] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [StrutStyle],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [StrutStyle].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'strutStyle'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [StrutStyle] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [StrutStyle] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   StrutStyle? strutStyle({
     String key = "strutStyle",
@@ -1261,6 +1501,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TextLeadingDistribution] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TextLeadingDistribution],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'leadingDistribution'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TextLeadingDistribution] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TextLeadingDistribution] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   TextLeadingDistribution? textLeadingDistribution({
     String key = "leadingDistribution",
@@ -1284,6 +1537,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [Axis] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [Axis],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'scrollDirection'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to Axis.vertical.
+  ///
+  /// Returns:
+  /// - An [Axis] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Axis] or cannot be parsed.
   @preferInline
   Axis axis({
     String key = "scrollDirection",
@@ -1307,6 +1572,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [WrapCrossAlignment] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [WrapCrossAlignment],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'crossAxisAlignment'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [WrapCrossAlignment] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [WrapCrossAlignment] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   WrapCrossAlignment? wrapCrossAlignment({
     String key = "crossAxisAlignment",
@@ -1353,6 +1631,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [BoxConstraints] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'minWidth': A double value.
+  /// - 'maxWidth': A double value.
+  /// - 'minHeight': A double value.
+  /// - 'maxHeight': A double value.
   @preferInline
   BoxConstraints _boxConstraintsFromMap(Map<String, dynamic> data) {
     final json = DuitDataSource(data);
@@ -1376,6 +1661,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [BoxConstraints] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BoxConstraints],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [BoxConstraints].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'constraints'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [BoxConstraints] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BoxConstraints] or cannot be parsed.
   @preferInline
   BoxConstraints? boxConstraints({
     String key = "constraints",
@@ -1397,6 +1694,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [StackFit] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [StackFit],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'fit'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to StackFit.loose.
+  ///
+  /// Returns:
+  /// - A [StackFit] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [StackFit] or cannot be parsed.
   @preferInline
   StackFit? stackFit({
     String key = "fit",
@@ -1420,6 +1729,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [OverflowBoxFit] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [OverflowBoxFit],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'fit'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to OverflowBoxFit.max.
+  ///
+  /// Returns:
+  /// - An [OverflowBoxFit] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [OverflowBoxFit] or cannot be parsed.
   @preferInline
   OverflowBoxFit? overflowBoxFit({
     String key = "fit",
@@ -1443,6 +1764,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [Alignment] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [Alignment],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'alignment'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [Alignment] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Alignment] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Alignment? alignment({
     String key = "alignment",
@@ -1471,6 +1805,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [AlignmentDirectional] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [AlignmentDirectional],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'alignment'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [AlignmentDirectional] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [AlignmentDirectional] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   AlignmentDirectional? alignmentDirectional({
     String key = "alignment",
@@ -1499,6 +1846,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [MainAxisAlignment] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [MainAxisAlignment],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'mainAxisAlignment'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [MainAxisAlignment] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [MainAxisAlignment] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MainAxisAlignment? mainAxisAlignment({
     String key = "mainAxisAlignment",
@@ -1522,6 +1882,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [CrossAxisAlignment] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [CrossAxisAlignment],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'crossAxisAlignment'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [CrossAxisAlignment] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [CrossAxisAlignment] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   CrossAxisAlignment? crossAxisAlignment({
     String key = "crossAxisAlignment",
@@ -1545,6 +1918,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [MainAxisSize] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [MainAxisSize],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'mainAxisSize'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [MainAxisSize] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [MainAxisSize] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MainAxisSize? mainAxisSize({
     String key = "mainAxisSize",
@@ -1568,6 +1954,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [SliderInteraction] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [SliderInteraction],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'interaction'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [SliderInteraction] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [SliderInteraction] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   SliderInteraction? sliderInteraction({
     String key = "interaction",
@@ -1591,6 +1990,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [MaterialTapTargetSize] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [MaterialTapTargetSize],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'materialTapTargetSize'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [MaterialTapTargetSize] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [MaterialTapTargetSize] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MaterialTapTargetSize? materialTapTargetSize({
     String key = "materialTapTargetSize",
@@ -1614,6 +2026,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [FilterQuality] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [FilterQuality],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'filterQuality'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to FilterQuality.medium.
+  ///
+  /// Returns:
+  /// - A [FilterQuality] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FilterQuality] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   FilterQuality filterQuality({
     String key = "filterQuality",
@@ -1638,6 +2063,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [ImageRepeat] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [ImageRepeat],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'repeat'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to ImageRepeat.noRepeat.
+  ///
+  /// Returns:
+  /// - An [ImageRepeat] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ImageRepeat] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ImageRepeat imageRepeat({
     String key = "repeat",
@@ -1661,12 +2099,32 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [Uint8List] from a base64 encoded string.
+  ///
+  /// - [value]: The base64 encoded string.
+  /// Returns a [Uint8List] decoded from the string.
   @preferInline
   Uint8List _uint8ListFromString(String value) => base64Decode(value);
 
+  /// Parses a [Uint8List] from a list of integers.
+  ///
+  /// - [value]: The list of integers.
+  /// Returns a [Uint8List] created from the list.
   @preferInline
   Uint8List _uint8ListFromList(List<int> value) => Uint8List.fromList(value);
 
+  /// Retrieves a [Uint8List] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [Uint8List],
+  /// it is returned as is. If the value is a [String] or [List<int>], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'byteData'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [Uint8List] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Uint8List] or cannot be parsed.
   @preferInline
   Uint8List uint8List({
     String key = "byteData",
@@ -1690,6 +2148,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [BoxFit] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BoxFit],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'fit'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [BoxFit] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BoxFit] or cannot be parsed.
   @preferInline
   BoxFit? boxFit({
     String key = "fit",
@@ -1713,6 +2183,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [BlendMode] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BlendMode],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'blendMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to BlendMode.srcOver.
+  ///
+  /// Returns:
+  /// - A [BlendMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BlendMode] or cannot be parsed.
   @preferInline
   BlendMode blendMode({
     String key = "blendMode",
@@ -1736,6 +2218,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TileMode] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TileMode],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'tileMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TileMode.clamp.
+  ///
+  /// Returns:
+  /// - A [TileMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TileMode] or cannot be parsed.
   TileMode tileMode({
     String key = "tileMode",
     TileMode defaultValue = TileMode.clamp,
@@ -1921,6 +2415,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [VerticalDirection] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [VerticalDirection],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'verticalDirection'.
   @preferInline
   VerticalDirection verticalDirection({
     String key = "verticalDirection",
@@ -1946,6 +2447,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [BoxShape] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BoxShape],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'shape'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [BoxShape] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BoxShape] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BoxShape? boxShape({
     String key = "shape",
@@ -1969,6 +2483,46 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses an [InputDecoration] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'labelText': A string value.
+  /// - 'labelStyle': A [TextStyle] value.
+  /// - 'floatingLabelStyle': A [TextStyle] value.
+  /// - 'helperText': A string value.
+  /// - 'helperMaxLines': An integer value.
+  /// - 'helperStyle': A [TextStyle] value.
+  /// - 'hintText': A string value.
+  /// - 'hintStyle': A [TextStyle] value.
+  /// - 'hintMaxLines': An integer value.
+  /// - 'errorText': A string value.
+  /// - 'errorMaxLines': An integer value.
+  /// - 'errorStyle': A [TextStyle] value.
+  /// - 'enabledBorder': An [InputBorder] value.
+  /// - 'border': An [InputBorder] value.
+  /// - 'errorBorder': An [InputBorder] value.
+  /// - 'focusedBorder': An [InputBorder] value.
+  /// - 'focusedErrorBorder': An [InputBorder] value.
+  /// - 'enabled': A boolean value.
+  /// - 'isCollapsed': A boolean value.
+  /// - 'isDense': A boolean value.
+  /// - 'suffixText': A string value.
+  /// - 'suffixStyle': A [TextStyle] value.
+  /// - 'prefixText': A string value.
+  /// - 'prefixStyle': A [TextStyle] value.
+  /// - 'counterText': A string value.
+  /// - 'counterStyle': A [TextStyle] value.
+  /// - 'alignLabelWithHint': A boolean value.
+  /// - 'filled': A boolean value.
+  /// - 'fillColor': A color value.
+  /// - 'focusColor': A color value.
+  /// - 'hoverColor': A color value.
+  /// - 'contentPadding': An [EdgeInsets] value.
+  /// - 'prefixIconColor': A color value.
+  /// - 'suffixIconColor': A color value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns an [InputDecoration] created from the map.
   @preferInline
   InputDecoration _inputDecorationFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2010,6 +2564,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [BorderSide] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'color': A color value.
+  /// - 'width': A double value.
+  /// - 'style': A [BorderStyle] value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns a [BorderSide] created from the map.
   @preferInline
   BorderSide _borderSideFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2026,6 +2589,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [BorderStyle] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BorderStyle],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'style'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to BorderStyle.solid.
+  ///
+  /// Returns:
+  /// - A [BorderStyle] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BorderStyle] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderStyle? borderStyle({
     String key = "style",
@@ -2049,6 +2625,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [BorderSide] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BorderSide],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [BorderSide].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'side'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to BorderSide.none.
+  ///
+  /// Returns:
+  /// - A [BorderSide] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BorderSide] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderSide borderSide({
     String key = "side",
@@ -2070,6 +2659,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses an [OutlineInputBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderSide': A [BorderSide] value.
+  /// - 'gapPadding': A double value.
+  /// - 'borderRadius': A double value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns an [OutlineInputBorder] created from the map.
   @preferInline
   static InputBorder _outlineInputBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2082,6 +2680,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses an [UnderlineInputBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderSide': A [BorderSide] value.
+  ///
+  /// - [value]: The JSON map to parse.
   @preferInline
   static InputBorder _underlineInputBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2090,6 +2694,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses an [InputBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'type': A string value representing the type of input border.
+  /// - 'borderSide': A [BorderSide] value.
+  /// - 'gapPadding': A double value.
+  /// - 'borderRadius': A double value.
   @preferInline
   InputBorder _inputBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2098,6 +2709,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
         const OutlineInputBorder();
   }
 
+  /// Retrieves an [InputBorder] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [InputBorder],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into an [InputBorder].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'border'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [InputBorder] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [InputBorder] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   InputBorder? inputBorder({
     String key = "border",
@@ -2119,6 +2743,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [InputDecoration] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [InputDecoration],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into an [InputDecoration].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'decoration'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [InputDecoration] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [InputDecoration] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   InputDecoration? inputDecoration({
     String key = "decoration",
@@ -2163,6 +2800,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [VisualDensity] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'horizontal': A double value.
+  /// - 'vertical': A double value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns a [VisualDensity] created from the map.
   VisualDensity _visualDensityFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
     return VisualDensity(
@@ -2177,6 +2822,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [VisualDensity] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [VisualDensity],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [VisualDensity].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'visualDensity'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to VisualDensity.normal.
+  ///
+  /// Returns:
+  /// - A [VisualDensity] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [VisualDensity] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   VisualDensity visualDensity({
     String key = "visualDensity",
@@ -2198,6 +2856,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [ScrollViewKeyboardDismissBehavior] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ScrollViewKeyboardDismissBehavior],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'keyboardDismissBehavior'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to ScrollViewKeyboardDismissBehavior.manual.
+  ///
+  /// Returns:
+  /// - A [ScrollViewKeyboardDismissBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ScrollViewKeyboardDismissBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ScrollViewKeyboardDismissBehavior keyboardDismissBehavior({
     String key = "keyboardDismissBehavior",
@@ -2224,6 +2895,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [ScrollPhysics] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ScrollPhysics],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'physics'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [ScrollPhysics] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ScrollPhysics] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ScrollPhysics? scrollPhysics({
     String key = "physics",
@@ -2247,6 +2931,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [DragStartBehavior] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [DragStartBehavior],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'dragStartBehavior'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to DragStartBehavior.start.
+  ///
+  /// Returns:
+  /// - A [DragStartBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DragStartBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   DragStartBehavior dragStartBehavior({
     String key = "dragStartBehavior",
@@ -2272,6 +2969,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [HitTestBehavior] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [HitTestBehavior],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'hitTestBehavior'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to HitTestBehavior.deferToChild.
+  ///
+  /// Returns:
+  /// - A [HitTestBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [HitTestBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   HitTestBehavior hitTestBehavior({
     String key = "hitTestBehavior",
@@ -2297,6 +3007,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [RoundedRectangleBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderRadius': A double value.
+  /// - 'borderSide': A [BorderSide] value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns a [RoundedRectangleBorder] created from the map.
   @preferInline
   static ShapeBorder _roundedRectangleBorderFromMap(
     Map<String, dynamic> value,
@@ -2314,6 +3032,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [CircleBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderSide': A [BorderSide] value.
+  ///
+  /// - [value]: The JSON map to parse.
   @preferInline
   static ShapeBorder _circleBorderFromMap(
     Map<String, dynamic> value,
@@ -2324,6 +3048,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [StadiumBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderSide': A [BorderSide] value.
+  ///
+  /// - [value]: The JSON map to parse.
   @preferInline
   static ShapeBorder _stadiumBorderFromMap(
     Map<String, dynamic> value,
@@ -2334,6 +3064,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [BeveledRectangleBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderRadius': A double value.
+  /// - 'borderSide': A [BorderSide] value.
+  ///
   @preferInline
   static ShapeBorder _beveledRectangleBorderFromMap(
     Map<String, dynamic> value,
@@ -2351,6 +3087,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [ContinuousRectangleBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderRadius': A double value.
+  /// - 'borderSide': A [BorderSide] value.
+  ///
   @preferInline
   static ShapeBorder _continuousRectangleBorderFromMap(
     Map<String, dynamic> value,
@@ -2368,6 +3110,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Parses a [ShapeBorder] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'type': A string value representing the type of shape border.
+  /// - 'borderRadius': A double value.
+  /// - 'borderSide': A [BorderSide] value.
+  ///
   @preferInline
   static ShapeBorder _shapeBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
@@ -2376,6 +3125,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
         const RoundedRectangleBorder();
   }
 
+  /// Retrieves a [ShapeBorder] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ShapeBorder],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [ShapeBorder].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'shape'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [ShapeBorder] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ShapeBorder] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ShapeBorder? shapeBorder({
     String key = "shape",
@@ -2397,12 +3159,31 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [Border] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'borderSide': A [BorderSide] value.
+  ///
+  /// - [value]: The JSON map to parse.
   @preferInline
   Border _borderFromMap(Map<String, dynamic> value) {
     final data = DuitDataSource(value);
     return Border.fromBorderSide(data.borderSide());
   }
 
+  /// Retrieves a [Border] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [Border],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [Border].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'border'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [Border] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Border] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Border? border({
     String key = "shape",
@@ -2420,6 +3201,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [BorderRadius] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [BorderRadius],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [BorderRadius].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'borderRadius'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to BorderRadius.zero.
+  ///
+  /// Returns:
+  /// - A [BorderRadius] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [BorderRadius] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderRadius borderRadius({
     String key = "borderRadius",
@@ -2441,6 +3235,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [FloatingActionButtonLocation] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [FloatingActionButtonLocation],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'floatingActionButtonLocation'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [FloatingActionButtonLocation] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FloatingActionButtonLocation] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   FloatingActionButtonLocation? fabLocation({
     String key = "floatingActionButtonLocation",
@@ -2464,6 +3271,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// A list of widget states in order of priority for resolving widget state properties.
+  ///
+  /// This list defines the order in which widget states are checked when resolving widget state properties.
+  /// The states are ordered from the most specific to the least specific, ensuring that the most relevant
+  /// state is used when multiple states are present.
+  ///
   static const _statePriority = [
     WidgetState.disabled,
     WidgetState.error,
@@ -2474,6 +3287,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     WidgetState.dragged,
   ];
 
+  /// Retrieves a [WidgetStateProperty] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [WidgetStateProperty],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [WidgetStateProperty].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [WidgetStateProperty] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [WidgetStateProperty] or cannot be parsed.
   @preferInline
   WidgetStateProperty<T?>? widgetStateProperty<T>({
     required String key,
@@ -2501,6 +3326,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return null;
   }
 
+  /// Resolves a widget state value of type [T] from the given [states] and [data].
+  ///
+  /// This method iterates through the priority list of widget states and attempts to resolve
+  /// the value of type [T] for each state. It returns the first resolved value that is not null.
+  ///
+  /// - [states]: A set of widget states to check.
+  /// - [data]: The data source containing the widget state properties.
   @preferInline
   T? _resolveForState<T>(Set<WidgetState> states, DuitDataSource data) {
     for (final state in _statePriority) {
@@ -2512,6 +3344,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return null;
   }
 
+  /// Resolves a widget state value of type [T] from the given [data] and [state].
+  ///
+  /// This method attempts to resolve the value of type [T] for the given [state] using the [data] source.
+  /// It returns the resolved value if it is not null, otherwise returns null.
+  ///
+  /// - [data]: The data source containing the widget state properties.
   @preferInline
   T? _resolveWidgetStateValue<T>(DuitDataSource data, WidgetState state) {
     switch (T) {
@@ -2534,6 +3372,31 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Parses a [ButtonStyle] from a JSON map.
+  ///
+  /// The map should contain the following keys:
+  /// - 'textStyle': A [TextStyle] value.
+  /// - 'backgroundColor': A [Color] value.
+  /// - 'foregroundColor': A [Color] value.
+  /// - 'overlayColor': A [Color] value.
+  /// - 'shadowColor': A [Color] value.
+  /// - 'surfaceTintColor': A [Color] value.
+  /// - 'elevation': A double value.
+  /// - 'padding': A [EdgeInsetsGeometry] value.
+  /// - 'minimumSize': A [Size] value.
+  /// - 'maximumSize': A [Size] value.
+  /// - 'iconColor': A [Color] value.
+  /// - 'iconSize': A double value.
+  /// - 'side': A [BorderSide] value.
+  /// - 'shape': A [OutlinedBorder] value.
+  /// - 'visualDensity': A [VisualDensity] value.
+  /// - 'tapTargetSize': A [MaterialTapTargetSize] value.
+  /// - 'animationDuration': A [Duration] value.
+  /// - 'enableFeedback': A boolean value.
+  /// - 'alignment': A [AlignmentGeometry] value.
+  ///
+  /// - [value]: The JSON map to parse.
+  /// Returns a [ButtonStyle] created from the map.
   @preferInline
   ButtonStyle _buttonStyleFromMap(Map<String, dynamic> value) {
     final data = DuitDataSource(value);
@@ -2561,6 +3424,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     );
   }
 
+  /// Retrieves a [ButtonStyle] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ButtonStyle],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it attempts to parse it into a [ButtonStyle].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'style'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [ButtonStyle] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ButtonStyle] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ButtonStyle? buttonStyle({
     String key = "style",
@@ -2607,6 +3483,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return cachedChildren;
   }
 
+  /// Retrieves a [ThemeOverrideRule] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ThemeOverrideRule],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'overrideRule'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to ThemeOverrideRule.themeOverlay.
+  ///
+  /// Returns:
+  /// - A [ThemeOverrideRule] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ThemeOverrideRule] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ThemeOverrideRule themeOverrideRule({
     String key = "overrideRule",
@@ -2632,6 +3521,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Creates a deep copy of a list of dynamic values.
+  ///
+  /// This method recursively copies all nested objects, lists, and primitive values
+  /// to create a completely independent copy of the original list.
+  ///
+  /// Returns a new List<dynamic> that is a deep copy of the original list.
   @preferInline
   List<dynamic> _copyList(List<dynamic> source) {
     final List<dynamic> result = [];
@@ -2647,6 +3542,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return result;
   }
 
+  /// Creates a deep copy of a map of string keys to dynamic values.
+  ///
+  /// This method recursively copies all nested objects, lists, and primitive values
+  /// to create a completely independent copy of the original map.
+  ///
+  /// Returns a new Map<String, dynamic> that is a deep copy of the original map.
   @preferInline
   Map<String, dynamic> _copyMap(Map<String, dynamic> source) {
     final Map<String, dynamic> result = {};
@@ -2674,6 +3575,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   Map<String, dynamic> deepCopy() => _copyMap(json);
 
+  /// Retrieves an [AnimationInterval] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [AnimationInterval],
+  /// it is returned as is. If the value is a [Map<String, dynamic>] or [List<num>], it attempts to parse it into an [AnimationInterval].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'interval'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to AnimationInterval(0.0, 1.0).
+  ///
+  /// Returns:
+  /// - An [AnimationInterval] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [AnimationInterval] or cannot be parsed.
   @preferInline
   AnimationInterval animationInterval({
     String key = "interval",
@@ -2703,6 +3616,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [AnimationTrigger] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [AnimationTrigger],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'trigger'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to AnimationTrigger.onEnter.
+  ///
+  /// Returns:
+  /// - An [AnimationTrigger] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [AnimationTrigger] or cannot be parsed.
   @preferInline
   AnimationTrigger animationTrigger({
     String key = "trigger",
@@ -2728,6 +3653,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves an [AnimationMethod] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [AnimationMethod],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'method'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to AnimationMethod.forward.
+  ///
+  /// Returns:
+  /// - An [AnimationMethod] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [AnimationMethod] or cannot be parsed.
   @preferInline
   AnimationMethod animationMethod({
     String key = "method",
@@ -2753,6 +3690,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a [TweenType] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TweenType],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'type'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to TweenType.tween.
+  ///
+  /// Returns:
+  /// - A [TweenType] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TweenType] or cannot be parsed.
   @preferInline
   TweenType tweenType({
     String key = "type",
@@ -2776,6 +3725,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a list of [DuitTweenDescription] values from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [List<Map<String, dynamic>>],
+  /// it is returned as is. If the value is a [List<dynamic>], it attempts to parse it into a [List<DuitTweenDescription>].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'tweenDescriptions'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to [].
+  ///
+  /// Returns:
+  /// - A [List<DuitTweenDescription>] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [List<DuitTweenDescription>] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   List<DuitTweenDescription> tweens({
     String key = "tweenDescriptions",
@@ -2919,6 +3881,18 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return [];
   }
 
+  /// Retrieves a [CollapseMode] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [CollapseMode],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'collapseMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to CollapseMode.parallax.
+  ///
+  /// Returns:
+  /// - A [CollapseMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [CollapseMode] or cannot be parsed.
   @preferInline
   CollapseMode collapseMode({
     String key = "collapseMode",
@@ -2942,6 +3916,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  /// Retrieves a list of [StretchMode] values from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [List<StretchMode>],
+  /// it is returned as is. If the value is a [List<String>] or [List<int>], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'stretchMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to [StretchMode.zoomBackground].
+  ///
+  /// Returns:
+  /// - A [List<StretchMode>] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [List<StretchMode>] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   List<StretchMode> stretchModes({
     String key = "stretchMode",
