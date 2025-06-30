@@ -27,12 +27,13 @@ final class ViewAttribute {
     String id, {
     String? tag,
   }) {
-    final ignoreTheme = json["ignoreTheme"] ?? false;
+    final ds = DuitDataSource(json);
+    final ignoreTheme = ds.getBool("ignoreTheme");
     var value = json;
 
     if (!ignoreTheme) {
-      final themeKey = json["theme"] as String?;
-      final overrideRule = ThemeOverrideRule.fromString(json["overrideRule"]);
+      final themeKey = ds.tryGetString("theme");
+      final overrideRule = ds.themeOverrideRule();
 
       if (themeKey != null) {
         ThemeToken token;

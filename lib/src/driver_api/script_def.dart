@@ -16,12 +16,4 @@ final class ScriptDefinition {
     required this.functionName,
     required this.meta,
   });
-
-  factory ScriptDefinition.fromJson(Map<String, dynamic> json) {
-    return ScriptDefinition(
-      sourceCode: json["sourceCode"],
-      functionName: json["functionName"],
-      meta: json["meta"],
-    );
-  }
 }

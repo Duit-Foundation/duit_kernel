@@ -103,12 +103,12 @@ final class TransportAction extends ServerAction implements DependentAction {
         );
 
   factory TransportAction.fromJson(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+    final source = DuitDataSource(json);
 
     return TransportAction(
-      eventName: view.eventName,
-      dependsOn: view.dependsOn,
-      meta: view.meta,
+      eventName: source.getString(key: "event"),
+      dependsOn: source.getActionDependencies(),
+      meta: source.meta,
     );
   }
 }
@@ -131,11 +131,11 @@ final class ScriptAction extends ServerAction implements DependentAction {
         );
 
   factory ScriptAction.fromJson(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+    final source = DuitDataSource(json);
 
     return ScriptAction(
-      script: view.script!,
-      dependsOn: view.dependsOn,
+      script: source.script,
+      dependsOn: source.getActionDependencies(),
     );
   }
 }
