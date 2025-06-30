@@ -1125,3 +1125,26 @@ const _stretchModeIntLookupTable = <int, StretchMode>{
   1: StretchMode.blurBackground,
   2: StretchMode.fadeTitle,
 };
+
+/// Lookup table for [InputBorder] creation functions by [String] type key.
+///
+/// Maps string identifiers to functions that create [InputBorder] instances from maps.
+/// Supported values: "outline", "underline".
+const _inputBorderTypeStringLookupTable =
+    <String, InputBorder Function(Map<String, dynamic> value)>{
+  "outline": DuitDataSource._outlineInputBorderFromMap,
+  "underline": DuitDataSource._underlineInputBorderFromMap,
+};
+
+/// Lookup table for [ShapeBorder] creation functions by [String] type key.
+///
+/// Maps string identifiers to functions that create [ShapeBorder] instances from maps.
+/// Supported values: "roundedRectangleBorder", "circleBorder", "stadiumBorder", "beveledRectangleBorder", "continuousRectangleBorder".
+const _shapeBorderTypeStringLookupTable =
+    <String, ShapeBorder Function(Map<String, dynamic> value)>{
+  "RoundedRectangleBorder": DuitDataSource._roundedRectangleBorderFromMap,
+  "CircleBorder": DuitDataSource._circleBorderFromMap,
+  "StadiumBorder": DuitDataSource._stadiumBorderFromMap,
+  "BeveledRectangleBorder": DuitDataSource._beveledRectangleBorderFromMap,
+  "ContinuousRectangleBorder": DuitDataSource._continuousRectangleBorderFromMap,
+};

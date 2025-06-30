@@ -2070,27 +2070,32 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
-  //TODO: needs work
+  @preferInline
+  static InputBorder _outlineInputBorderFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return OutlineInputBorder(
+      borderSide: json.borderSide(key: "borderSide"),
+      gapPadding: json.getDouble(key: "gapPadding", defaultValue: 4.0),
+      borderRadius: BorderRadius.circular(
+        json.getDouble(key: "borderRadius", defaultValue: 4.0),
+      ),
+    );
+  }
+
+  @preferInline
+  static InputBorder _underlineInputBorderFromMap(Map<String, dynamic> value) {
+    final json = DuitDataSource(value);
+    return UnderlineInputBorder(
+      borderSide: json.borderSide(key: "borderSide"),
+    );
+  }
+
   @preferInline
   InputBorder _inputBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
     final type = json.getString(key: "type");
-    return switch (type) {
-      "outline" => OutlineInputBorder(
-          borderSide: json.borderSide(key: "borderSide"),
-          gapPadding: json.getDouble(key: "gapPadding", defaultValue: 4.0),
-          borderRadius: BorderRadius.circular(
-            json.getDouble(
-              key: "borderRadius",
-              defaultValue: 4.0,
-            ),
-          ),
-        ),
-      "underline" => UnderlineInputBorder(
-          borderSide: json.borderSide(key: "borderSide"),
-        ),
-      _ => const OutlineInputBorder(),
-    };
+    return _inputBorderTypeStringLookupTable[type]?.call(value) ??
+        const OutlineInputBorder();
   }
 
   @preferInline
@@ -2292,50 +2297,83 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
-  //TODO: needs work
   @preferInline
-  ShapeBorder _shapeBorderFromMap(Map<String, dynamic> value) {
+  static ShapeBorder _roundedRectangleBorderFromMap(
+    Map<String, dynamic> value,
+  ) {
+    final json = DuitDataSource(value);
+    return RoundedRectangleBorder(
+      borderRadius: json["borderRadius"] != null
+          ? BorderRadius.circular(
+              json.getDouble(
+                key: "borderRadius",
+              ),
+            )
+          : BorderRadius.zero,
+      side: json.borderSide(key: "borderSide"),
+    );
+  }
+
+  @preferInline
+  static ShapeBorder _circleBorderFromMap(
+    Map<String, dynamic> value,
+  ) {
+    final json = DuitDataSource(value);
+    return CircleBorder(
+      side: json.borderSide(key: "borderSide"),
+    );
+  }
+
+  @preferInline
+  static ShapeBorder _stadiumBorderFromMap(
+    Map<String, dynamic> value,
+  ) {
+    final json = DuitDataSource(value);
+    return StadiumBorder(
+      side: json.borderSide(key: "borderSide"),
+    );
+  }
+
+  @preferInline
+  static ShapeBorder _beveledRectangleBorderFromMap(
+    Map<String, dynamic> value,
+  ) {
+    final json = DuitDataSource(value);
+    return BeveledRectangleBorder(
+      borderRadius: json["borderRadius"] != null
+          ? BorderRadius.circular(
+              json.getDouble(
+                key: "borderRadius",
+              ),
+            )
+          : BorderRadius.zero,
+      side: json.borderSide(key: "borderSide"),
+    );
+  }
+
+  @preferInline
+  static ShapeBorder _continuousRectangleBorderFromMap(
+    Map<String, dynamic> value,
+  ) {
+    final json = DuitDataSource(value);
+    return ContinuousRectangleBorder(
+      borderRadius: json["borderRadius"] != null
+          ? BorderRadius.circular(
+              json.getDouble(
+                key: "borderRadius",
+              ),
+            )
+          : BorderRadius.zero,
+      side: json.borderSide(key: "borderSide"),
+    );
+  }
+
+  @preferInline
+  static ShapeBorder _shapeBorderFromMap(Map<String, dynamic> value) {
     final json = DuitDataSource(value);
     final type = json.getString(key: "type");
-    return switch (type) {
-      "RoundedRectangleBorder" => RoundedRectangleBorder(
-          borderRadius: json["borderRadius"] != null
-              ? BorderRadius.circular(
-                  json.getDouble(
-                    key: "borderRadius",
-                  ),
-                )
-              : BorderRadius.zero,
-          side: json.borderSide(key: "borderSide"),
-        ),
-      "CircleBorder" => CircleBorder(
-          side: json.borderSide(key: "borderSide"),
-        ),
-      "StadiumBorder" => StadiumBorder(
-          side: json.borderSide(key: "borderSide"),
-        ),
-      "BeveledRectangleBorder" => BeveledRectangleBorder(
-          borderRadius: json["borderRadius"] != null
-              ? BorderRadius.circular(
-                  json.getDouble(
-                    key: "borderRadius",
-                  ),
-                )
-              : BorderRadius.zero,
-          side: json.borderSide(key: "borderSide"),
-        ),
-      "ContinuousRectangleBorder" => ContinuousRectangleBorder(
-          borderRadius: json["borderRadius"] != null
-              ? BorderRadius.circular(
-                  json.getDouble(
-                    key: "borderRadius",
-                  ),
-                )
-              : BorderRadius.zero,
-          side: json.borderSide(key: "borderSide"),
-        ),
-      _ => const RoundedRectangleBorder(),
-    };
+    return _shapeBorderTypeStringLookupTable[type]?.call(value) ??
+        const RoundedRectangleBorder();
   }
 
   @preferInline
