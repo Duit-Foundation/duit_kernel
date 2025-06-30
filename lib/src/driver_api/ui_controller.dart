@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/action_api/command.dart';
 
 /// Base class for ViewController objects.
 ///
@@ -46,7 +47,7 @@ abstract interface class UIElementController {
   /// The [commandChannel] property represents a stream of animation commands
   /// that are sent to the controller. The commands are processed by the controller
   /// in order to perform the desired animation.
-  abstract StreamController<AnimationCommand> commandChannel;
+  abstract StreamController<RemoteCommand> commandChannel;
 
   /// Perform the related action.
   ///
@@ -87,30 +88,27 @@ abstract interface class UIElementController {
   /// RemoveListener the [ChangeNotifier].
   void removeListener(VoidCallback listener);
 
-  /// Listen for animation commands.
+  /// Listen for commands.
   ///
   /// This method allows you to register a callback function that will be
-  /// triggered whenever an [AnimationCommand] is received. The callback
-  /// function should be a [Future<void> Function(AnimationCommand command)]
+  /// triggered whenever an [RemoteCommand] is received. The callback
+  /// function should be a [Future<void> Function(RemoteCommand command)]
   /// and will be executed with the received command as its argument.
-  void listenCommand(Future<void> Function(AnimationCommand command) callback);
+  void listenCommand(Future<void> Function(RemoteCommand command) callback);
 
-  /// Emit an animation command.
+  /// Emit a command.
   ///
-  /// This method can be used to emit an animation command to any widgets that
+  /// This method can be used to emit a command to any widgets that
   /// are listening for commands. The command will be sent to all widgets that
   /// are listening.
   ///
-  /// The method takes a single parameter of type [AnimationCommand] which is
+  /// The method takes a single parameter of type [RemoteCommand] which is
   /// the command to be emitted.
-  FutureOr<void> emitCommand(AnimationCommand command);
+  FutureOr<void> emitCommand(RemoteCommand command);
 
   /// Remove the command listener.
   ///
   /// This method is used to remove the listener that was previously registered
   /// with the [listenCommand] method.
   void removeCommandListener();
-
-  /// Cast the controller to the specified type.
-  // UIElementController<R> cast<R>();
 }

@@ -47,14 +47,14 @@ void main() {
       test(
         "must apply provided theme for this widget type",
         () {
-          final res = ViewAttribute.createAttributes(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
               "theme": "text_1",
             },
-            null,
-            id: "id",
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);
@@ -65,7 +65,7 @@ void main() {
       test(
         "not must override original values",
         () {
-          final res = ViewAttribute.createAttributes(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
@@ -73,8 +73,8 @@ void main() {
               "overrideRule": "themeOverlay",
               "textAlign": "start",
             },
-            null,
-            id: "id",
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);
@@ -86,7 +86,7 @@ void main() {
       test(
         "must override original values",
         () {
-          final res = ViewAttribute.createAttributes(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
@@ -94,8 +94,8 @@ void main() {
               "overrideRule": "themePriority",
               "textAlign": "start",
             },
-            null,
-            id: "id",
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);

@@ -1,4 +1,5 @@
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/action_api/command.dart';
 
 /// The [ServerEvent] class represents an event that was sent by the server.
 ///
@@ -156,37 +157,13 @@ final class SequencedEventGroup extends ServerEvent {
         final source = DuitDataSource(model);
         final delay = source.duration(key: "delay");
 
-      return SequencedGroupMember(
+        return SequencedGroupMember(
           event: ServerEvent.parseEvent(source["event"]),
-        delay: delay,
-      );
+          delay: delay,
+        );
       },
     );
     return SequencedEventGroup(events: events.toList());
-  }
-}
-
-final class AnimationTriggerEvent extends ServerEvent {
-  final AnimationCommand command;
-
-  AnimationTriggerEvent({
-    required this.command,
-  }) : super(type: "animationTrigger");
-
-  factory AnimationTriggerEvent.fromJson(Map<String, dynamic> json) {
-    return AnimationTriggerEvent(
-      command: AnimationCommand(
-        method: switch (json["method"]) {
-          0 => AnimationMethod.forward,
-          1 => AnimationMethod.repeat,
-          2 => AnimationMethod.reverse,
-          3 => AnimationMethod.toggle,
-          Object() || null => AnimationMethod.forward,
-        },
-        controllerId: json["controllerId"],
-        animatedPropKey: json["animatedPropKey"],
-      ),
-    );
   }
 }
 
@@ -208,14 +185,12 @@ final class TimerEvent extends ServerEvent {
   }
 }
 
-final class ShowBottomSheetEvent extends ServerEvent {
-  final Map<String, dynamic> child;
-  final Map<String, dynamic>? configuration;
+final class CommandEvent extends ServerEvent {
+  final RemoteCommand command;
 
-  ShowBottomSheetEvent({
-    required this.child,
-    this.configuration,
-  }) : super(type: "bottomSheet");
+  const CommandEvent({
+    required this.command,
+  }) : super(type: "command");
 
   factory CommandEvent.fromJson(Map<String, dynamic> json) {
     final source = DuitDataSource(json);
