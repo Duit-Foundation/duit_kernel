@@ -1109,7 +1109,7 @@ const _collapseModeIntLookupTable = <int, CollapseMode>{
 /// Lookup table for [StretchMode] values by [String] type key.
 ///
 /// Maps string identifiers to [StretchMode] enum values for stretch behavior.
-/// Supported values: "zoomBackground", "fadeTitle".
+/// Supported values: "zoomBackground", "blurBackground", "fadeTitle".
 const _stretchModeStringLookupTable = <String, StretchMode>{
   "zoomBackground": StretchMode.zoomBackground,
   "blurBackground": StretchMode.blurBackground,
@@ -1119,7 +1119,7 @@ const _stretchModeStringLookupTable = <String, StretchMode>{
 /// Lookup table for [StretchMode] values by [int] type key.
 ///
 /// Maps integer identifiers to [StretchMode] enum values for stretch behavior.
-/// Supported values: 0 (zoomBackground), 1 (fadeTitle).
+/// Supported values: 0 (zoomBackground), 1 (blurBackground), 2 (fadeTitle).
 const _stretchModeIntLookupTable = <int, StretchMode>{
   0: StretchMode.zoomBackground,
   1: StretchMode.blurBackground,
