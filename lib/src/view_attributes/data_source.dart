@@ -885,10 +885,6 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }
 
   @preferInline
-  List<T> getList<T>(dynamic value) =>
-      value is List ? List.castFrom<dynamic, T>(value) : const [];
-
-  @preferInline
   Gradient? _gradientFromMap(Map<String, dynamic>? data) {
     if (data == null) return null;
 
@@ -2430,6 +2426,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
     }
   }
 
+  static const _statePriority = [
+    WidgetState.disabled,
+    WidgetState.error,
+    WidgetState.selected,
+    WidgetState.pressed,
+    WidgetState.hovered,
+    WidgetState.focused,
+    WidgetState.dragged,
+  ];
+
   @preferInline
   WidgetStateProperty<T?>? widgetStateProperty<T>({
     required String key,
@@ -2448,201 +2454,45 @@ extension type DuitDataSource(Map<String, dynamic> json)
     if (value is Map<String, dynamic>) {
       final data = DuitDataSource(value);
       return WidgetStateProperty.resolveWith(
-        (states) {
-          if (states.contains(WidgetState.disabled)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.disabled.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.disabled.name,
-                ),
-              Size => data.size(
-                  WidgetState.disabled.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.disabled.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.disabled.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.disabled.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.disabled.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.selected)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.selected.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.selected.name,
-                ),
-              Size => data.size(
-                  WidgetState.selected.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.selected.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.selected.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.selected.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.selected.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.error)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.error.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.error.name,
-                ),
-              Size => data.size(
-                  WidgetState.error.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.error.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.error.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.error.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.error.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.pressed)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.pressed.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.pressed.name,
-                ),
-              Size => data.size(
-                  WidgetState.pressed.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.pressed.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.pressed.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.pressed.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.pressed.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.hovered)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.hovered.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.hovered.name,
-                ),
-              Size => data.size(
-                  WidgetState.hovered.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.hovered.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.hovered.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.hovered.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.hovered.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.focused)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.focused.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.focused.name,
-                ),
-              Size => data.size(
-                  WidgetState.focused.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.focused.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.focused.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.focused.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.focused.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          if (states.contains(WidgetState.dragged)) {
-            return switch (T) {
-              Color => data.tryParseColor(
-                  key: WidgetState.dragged.name,
-                ),
-              EdgeInsetsGeometry => data.edgeInsets(
-                  key: WidgetState.dragged.name,
-                ),
-              Size => data.size(
-                  WidgetState.dragged.name,
-                ),
-              double => data.tryGetDouble(
-                  key: WidgetState.dragged.name,
-                ),
-              OutlinedBorder => data.shapeBorder(
-                  key: WidgetState.dragged.name,
-                ),
-              TextStyle => data.textStyle(
-                  key: WidgetState.dragged.name,
-                ),
-              BorderSide => data.borderSide(
-                  key: WidgetState.dragged.name,
-                ),
-              _ => null,
-            } as T?;
-          }
-
-          return null;
-        },
+        (states) => _resolveForState<T>(
+          states,
+          data,
+        ),
       );
-    } else {
-      return null;
+    }
+    return null;
+  }
+
+  @preferInline
+  T? _resolveForState<T>(Set<WidgetState> states, DuitDataSource data) {
+    for (final state in _statePriority) {
+      if (states.contains(state)) {
+        final result = _resolveWidgetStateValue<T>(data, state);
+        if (result != null) return result;
+      }
+    }
+    return null;
+  }
+
+  @preferInline
+  T? _resolveWidgetStateValue<T>(DuitDataSource data, WidgetState state) {
+    switch (T) {
+      case Color:
+        return data.parseColor(key: state.name) as T;
+      case EdgeInsetsGeometry:
+        return data.edgeInsets(key: state.name) as T;
+      case Size:
+        return data.size(state.name) as T;
+      case double:
+        return data.tryGetDouble(key: state.name) as T;
+      case OutlinedBorder:
+        return data.shapeBorder(key: state.name) as T;
+      case TextStyle:
+        return data.textStyle(key: state.name) as T;
+      case BorderSide:
+        return data.borderSide(key: state.name) as T;
+      default:
+        return null;
     }
   }
 
