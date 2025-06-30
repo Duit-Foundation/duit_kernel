@@ -103,7 +103,7 @@ base class DuitTweenDescription<T> {
 ///   trigger: AnimationTrigger.onTap,
 /// );
 /// ```
-final class TweenDescriptionGroup extends DuitTweenDescription<void> {
+final class TweenDescriptionGroup extends DuitTweenDescription<dynamic> {
   /// The collection of individual tween descriptions in this group.
   final Iterable<DuitTweenDescription> tweens;
 
