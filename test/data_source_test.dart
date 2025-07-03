@@ -5039,23 +5039,33 @@ void main() {
   group("stretchModes method", () {
     test("should parse and return the stretchModes from list of strings", () {
       final json = <String, dynamic>{
-        "stretchMode": ["zoomBackground", "blurBackground"],
+        "stretchModes": ["zoomBackground", "blurBackground"],
         "stretchMode2": ["fadeTitle"],
       };
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
-      expect(data["stretchMode"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchMode2"], [StretchMode.fadeTitle]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data.stretchModes(key: "stretchMode2"),
+        [StretchMode.fadeTitle],
+      );
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data["stretchMode2"],
+        [StretchMode.fadeTitle],
+      );
     });
 
     test("should parse and return the stretchModes from list of ints", () {
       final json = <String, dynamic>{
-        "stretchMode": [0, 1], // zoomBackground, blurBackground
+        "stretchModes": [0, 1], // zoomBackground, blurBackground
         "stretchMode2": [2], // fadeTitle
       };
 
@@ -5064,7 +5074,7 @@ void main() {
       expect(data.stretchModes(),
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
       expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
-      expect(data["stretchMode"],
+      expect(data["stretchModes"],
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
       expect(data["stretchMode2"], [StretchMode.fadeTitle]);
     });
@@ -5084,7 +5094,7 @@ void main() {
 
     test("should return the default value if the value is not a list", () {
       final json = <String, dynamic>{
-        "stretchMode": "not a list",
+        "stretchModes": "not a list",
       };
 
       final data = DuitDataSource(json);
@@ -5093,7 +5103,7 @@ void main() {
         data.stretchModes(defaultValue: [StretchMode.fadeTitle]),
         [StretchMode.fadeTitle],
       );
-      expect(data["stretchMode"], "not a list");
+      expect(data["stretchModes"], "not a list");
     });
 
     test("should return instance if the value is already an instance", () {
@@ -5102,13 +5112,13 @@ void main() {
         StretchMode.blurBackground
       ];
       final json = <String, dynamic>{
-        "stretchMode": stretchModes,
+        "stretchModes": stretchModes,
       };
 
       final data = DuitDataSource(json);
 
       expect(data.stretchModes(), stretchModes);
-      expect(data["stretchMode"], stretchModes);
+      expect(data["stretchModes"], stretchModes);
     });
 
     test("should use custom key for stretchModes", () {
@@ -5126,42 +5136,42 @@ void main() {
 
     test("should handle empty list of strings", () {
       final json = <String, dynamic>{
-        "stretchMode": <String>[],
+        "stretchModes": <String>[],
       };
 
       final data = DuitDataSource(json);
 
       expect(data.stretchModes(), [StretchMode.zoomBackground]);
-      expect(data["stretchMode"], [StretchMode.zoomBackground]);
+      expect(data["stretchModes"], [StretchMode.zoomBackground]);
     });
 
     test("should handle empty list of ints", () {
       final json = <String, dynamic>{
-        "stretchMode": <int>[],
+        "stretchModes": <int>[],
       };
 
       final data = DuitDataSource(json);
 
       expect(data.stretchModes(), [StretchMode.zoomBackground]);
-      expect(data["stretchMode"], [StretchMode.zoomBackground]);
+      expect(data["stretchModes"], [StretchMode.zoomBackground]);
     });
 
     test("should handle mixed valid and invalid string values", () {
       final json = <String, dynamic>{
-        "stretchMode": ["zoomBackground", "invalidMode", "blurBackground"],
+        "stretchModes": ["zoomBackground", "invalidMode", "blurBackground"],
       };
 
       final data = DuitDataSource(json);
 
       expect(data.stretchModes(),
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchMode"],
+      expect(data["stretchModes"],
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
     });
 
     test("should handle mixed valid and invalid int values", () {
       final json = <String, dynamic>{
-        "stretchMode": [
+        "stretchModes": [
           0,
           999,
           1
@@ -5172,7 +5182,7 @@ void main() {
 
       expect(data.stretchModes(),
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchMode"],
+      expect(data["stretchModes"],
           [StretchMode.zoomBackground, StretchMode.blurBackground]);
     });
   });

@@ -913,26 +913,26 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextStyle _textStyleFromMap(Map<String, dynamic> data) {
-    final value = DuitDataSource(data);
+    final source = DuitDataSource(Map<String, dynamic>.from(data));
     return TextStyle(
-      color: value.tryParseColor(key: "color"),
-      fontFamily: value.tryGetString("fontFamily"),
-      fontWeight: value.fontWeight(),
-      fontSize: value.tryGetDouble(key: "fontSize"),
-      fontStyle: value.fontStyle(),
-      overflow: value.textOverflow(),
-      textBaseline: value.textBaseline(),
-      height: value.tryGetDouble(key: "height"),
-      letterSpacing: value.tryGetDouble(key: "letterSpacing"),
-      wordSpacing: value.tryGetDouble(key: "wordSpacing"),
-      backgroundColor: value.tryParseColor(key: "backgroundColor"),
-      decoration: value.textDecoration(),
-      decorationColor: value.tryParseColor(key: "decorationColor"),
-      decorationStyle: value.textDecorationStyle(),
-      decorationThickness: value.tryGetDouble(key: "decorationThickness"),
-      debugLabel: value.tryGetString("debugLabel"),
-      package: value.tryGetString("package"),
-      leadingDistribution: value.textLeadingDistribution(),
+      color: source.tryParseColor(key: "color"),
+      fontFamily: source.tryGetString("fontFamily"),
+      fontWeight: source.fontWeight(),
+      fontSize: source.tryGetDouble(key: "fontSize"),
+      fontStyle: source.fontStyle(),
+      overflow: source.textOverflow(),
+      textBaseline: source.textBaseline(),
+      height: source.tryGetDouble(key: "height"),
+      letterSpacing: source.tryGetDouble(key: "letterSpacing"),
+      wordSpacing: source.tryGetDouble(key: "wordSpacing"),
+      backgroundColor: source.tryParseColor(key: "backgroundColor"),
+      decoration: source.textDecoration(),
+      decorationColor: source.tryParseColor(key: "decorationColor"),
+      decorationStyle: source.textDecorationStyle(),
+      decorationThickness: source.tryGetDouble(key: "decorationThickness"),
+      debugLabel: source.tryGetString("debugLabel"),
+      package: source.tryGetString("package"),
+      leadingDistribution: source.textLeadingDistribution(),
     );
   }
 
@@ -947,9 +947,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   Gradient? _gradientFromMap(Map<String, dynamic>? data) {
     if (data == null) return null;
 
-    final style = DuitDataSource(data);
+    final source = DuitDataSource(data);
 
-    final List? colors = style["colors"];
+    final List? colors = source["colors"];
     if (colors == null) return null;
 
     final List<Color> dColors = [];
@@ -958,13 +958,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
       dColors.add(_parseColor(color) ?? Colors.transparent);
     }
 
-    final angle = style.tryGetDouble(key: "rotationAngle");
+    final angle = source.tryGetDouble(key: "rotationAngle");
 
     return LinearGradient(
       colors: dColors,
-      stops: style["stops"],
-      begin: style.alignment(key: "begin", defaultValue: Alignment.centerLeft)!,
-      end: style.alignment(key: "end", defaultValue: Alignment.centerRight)!,
+      stops: source["stops"],
+      begin:
+          source.alignment(key: "begin", defaultValue: Alignment.centerLeft)!,
+      end: source.alignment(key: "end", defaultValue: Alignment.centerRight)!,
       transform: angle != null ? GradientRotation(angle) : null,
     );
   }
@@ -978,12 +979,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'spreadRadius': A spread radius value.
   @preferInline
   BoxShadow _boxShadowFromMap(json) {
-    final data = DuitDataSource(json);
+    final source = DuitDataSource(json);
     return BoxShadow(
-      color: data.parseColor(key: "color"),
-      offset: data.offset(defaultValue: Offset.zero)!,
-      blurRadius: data.getDouble(key: "blurRadius"),
-      spreadRadius: data.getDouble(key: "spreadRadius"),
+      color: source.parseColor(key: "color"),
+      offset: source.offset(defaultValue: Offset.zero)!,
+      blurRadius: source.getDouble(key: "blurRadius"),
+      spreadRadius: source.getDouble(key: "spreadRadius"),
     );
   }
 
@@ -994,10 +995,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'dy': A y-axis offset value.
   @preferInline
   Offset _offsetFromMap(Map<String, dynamic> map) {
-    final json = DuitDataSource(map);
+    final source = DuitDataSource(map);
     return Offset(
-      json.getDouble(key: "dx"),
-      json.getDouble(key: "dy"),
+      source.getDouble(key: "dx"),
+      source.getDouble(key: "dy"),
     );
   }
 
@@ -1080,25 +1081,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'boxShadow': A list of box shadow values.
   @preferInline
   Decoration _decorationFromMap(Map<String, dynamic> data) {
-    final value = DuitDataSource(Map<String, dynamic>.from(data));
+    final source = DuitDataSource(Map<String, dynamic>.from(data));
     return BoxDecoration(
-      color: value.tryParseColor(key: "color"),
-      borderRadius: value["borderRadius"] != null
+      color: source.tryParseColor(key: "color"),
+      borderRadius: source["borderRadius"] != null
           ? BorderRadius.circular(
-              value.getDouble(
+              source.getDouble(
                 key: "borderRadius",
               ),
             )
           : null,
-      border: value["borderRadius"] != null
+      border: source["borderRadius"] != null
           ? Border.fromBorderSide(
-              value.borderSide(
+              source.borderSide(
                 key: "border",
               ),
             )
           : null,
-      gradient: _gradientFromMap(value["gradient"]),
-      boxShadow: value.boxShadow(),
+      gradient: _gradientFromMap(source["gradient"]),
+      boxShadow: source.boxShadow(),
     );
   }
 
@@ -1275,22 +1276,22 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'semanticsLabel': A semantics label value.
   @preferInline
   TextSpan _textSpanFromMap(Map<String, dynamic> value) {
-    final span = DuitDataSource(value);
+    final source = DuitDataSource(value);
     final List? children = value['children'];
     final spanChildren = <InlineSpan>[];
 
     if (children != null) {
       for (final child in children) {
-        spanChildren.add(DuitDataSource(child).textSpan());
+        spanChildren.add(_textSpanFromMap(child));
       }
     }
 
     return TextSpan(
-      text: span.tryGetString("text"),
+      text: source.tryGetString("text"),
       children: spanChildren.isNotEmpty ? spanChildren : null,
-      style: span.textStyle(),
-      spellOut: span.tryGetBool("spellOut"),
-      semanticsLabel: span.tryGetString("semanticsLabel"),
+      style: source.textStyle(),
+      spellOut: source.tryGetBool("spellOut"),
+      semanticsLabel: source.tryGetString("semanticsLabel"),
     );
   }
 
@@ -1338,17 +1339,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextHeightBehavior? _parseTextHeightBehavior(Map<String, dynamic> data) {
-    final json = DuitDataSource(data);
+    final source = DuitDataSource(data);
     return TextHeightBehavior(
-      applyHeightToFirstAscent: json.getBool(
+      applyHeightToFirstAscent: source.getBool(
         "applyHeightToFirstAscent",
         defaultValue: true,
       ),
-      applyHeightToLastDescent: json.getBool(
+      applyHeightToLastDescent: source.getBool(
         "applyHeightToLastDescent",
         defaultValue: true,
       ),
-      leadingDistribution: json.textLeadingDistribution(
+      leadingDistribution: source.textLeadingDistribution(
         defaultValue: TextLeadingDistribution.proportional,
       )!,
     );
@@ -1394,9 +1395,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'textScaleFactor': A double value.
   @preferInline
   TextScaler _textScalerFromMap(Map<String, dynamic> data) {
-    final json = DuitDataSource(data);
+    final source = DuitDataSource(data);
     return TextScaler.linear(
-      json.getDouble(
+      source.getDouble(
         key: "textScaleFactor",
         defaultValue: 1.0,
       ),
@@ -1453,17 +1454,17 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   StrutStyle _strutStyleFromMap(Map<String, dynamic> data) {
-    final json = DuitDataSource(data);
+    final jsosource = DuitDataSource(data);
     return StrutStyle(
-      fontSize: json.tryGetDouble(key: "fontSize"),
-      height: json.tryGetDouble(key: "height"),
-      leading: json.tryGetDouble(key: "leading"),
-      fontWeight: json.fontWeight(),
-      fontFamily: json.tryGetString("fontFamily"),
-      fontStyle: json.fontStyle(),
-      forceStrutHeight: json.tryGetBool("forceStrutHeight"),
-      debugLabel: json.tryGetString("debugLabel"),
-      leadingDistribution: json.textLeadingDistribution(),
+      fontSize: jsosource.tryGetDouble(key: "fontSize"),
+      height: jsosource.tryGetDouble(key: "height"),
+      leading: jsosource.tryGetDouble(key: "leading"),
+      fontWeight: jsosource.fontWeight(),
+      fontFamily: jsosource.tryGetString("fontFamily"),
+      fontStyle: jsosource.fontStyle(),
+      forceStrutHeight: jsosource.tryGetBool("forceStrutHeight"),
+      debugLabel: jsosource.tryGetString("debugLabel"),
+      leadingDistribution: jsosource.textLeadingDistribution(),
     );
   }
 
@@ -1640,21 +1641,21 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'maxHeight': A double value.
   @preferInline
   BoxConstraints _boxConstraintsFromMap(Map<String, dynamic> data) {
-    final json = DuitDataSource(data);
+    final source = DuitDataSource(data);
     return BoxConstraints(
-      minWidth: json.getDouble(
+      minWidth: source.getDouble(
         key: "minWidth",
         defaultValue: 0.0,
       ),
-      maxWidth: json.getDouble(
+      maxWidth: source.getDouble(
         key: "maxWidth",
         defaultValue: double.infinity,
       ),
-      minHeight: json.getDouble(
+      minHeight: source.getDouble(
         key: "minHeight",
         defaultValue: 0.0,
       ),
-      maxHeight: json.getDouble(
+      maxHeight: source.getDouble(
         key: "maxHeight",
         defaultValue: double.infinity,
       ),
@@ -2263,11 +2264,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies a blur effect.
   @preferInline
   static ImageFilter _blurImageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(Map<String, dynamic>.from(value));
     return ImageFilter.blur(
-      sigmaX: json.getDouble(key: "sigmaX"),
-      sigmaY: json.getDouble(key: "sigmaY"),
-      tileMode: json.tileMode(),
+      sigmaX: source.getDouble(key: "sigmaX"),
+      sigmaY: source.getDouble(key: "sigmaY"),
+      tileMode: source.tileMode(),
     );
   }
 
@@ -2281,10 +2282,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies a dilation effect.
   @preferInline
   static ImageFilter _dilateImageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return ImageFilter.dilate(
-      radiusX: json.getDouble(key: "radiusX"),
-      radiusY: json.getDouble(key: "radiusY"),
+      radiusX: source.getDouble(key: "radiusX"),
+      radiusY: source.getDouble(key: "radiusY"),
     );
   }
 
@@ -2298,10 +2299,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies an erosion effect.
   @preferInline
   static ImageFilter _erodeImageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return ImageFilter.erode(
-      radiusX: json.getDouble(key: "radiusX"),
-      radiusY: json.getDouble(key: "radiusY"),
+      radiusX: source.getDouble(key: "radiusX"),
+      radiusY: source.getDouble(key: "radiusY"),
     );
   }
 
@@ -2315,10 +2316,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies a matrix transformation.
   @preferInline
   static ImageFilter _matrixImageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return ImageFilter.matrix(
       Float64List.fromList(value["matrix4"] as List<double>),
-      filterQuality: json.filterQuality(defaultValue: FilterQuality.medium),
+      filterQuality: source.filterQuality(defaultValue: FilterQuality.medium),
     );
   }
 
@@ -2335,10 +2336,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that combines two filters.
   @preferInline
   static ImageFilter _composeImageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return ImageFilter.compose(
-      outer: json.imageFilter(defaultValue: ImageFilter.blur())!,
-      inner: json.imageFilter(defaultValue: ImageFilter.blur())!,
+      outer: source.imageFilter(defaultValue: ImageFilter.blur())!,
+      inner: source.imageFilter(defaultValue: ImageFilter.blur())!,
     );
   }
 
@@ -2353,8 +2354,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] if the type is valid, otherwise `null`.
   @preferInline
   ImageFilter? _imageFilterFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
-    final fType = json["type"];
+    final fType = value["type"];
 
     switch (fType) {
       case String():
@@ -2525,42 +2525,42 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [InputDecoration] created from the map.
   @preferInline
   InputDecoration _inputDecorationFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return InputDecoration(
-      labelText: json.tryGetString("labelText"),
-      labelStyle: json.textStyle(key: "labelStyle"),
-      floatingLabelStyle: json.textStyle(key: "floatingLabelStyle"),
-      helperText: json.tryGetString("helperText"),
-      helperMaxLines: json.tryGetInt(key: "helperMaxLines"),
-      helperStyle: json.textStyle(key: "helperStyle"),
-      hintText: json.tryGetString("hintText"),
-      hintStyle: json.textStyle(key: "hintStyle"),
-      hintMaxLines: json.tryGetInt(key: "hintMaxLines"),
-      errorText: json.tryGetString("errorText"),
-      errorMaxLines: json.tryGetInt(key: "errorMaxLines"),
-      errorStyle: json.textStyle(key: "errorStyle"),
-      enabledBorder: json.inputBorder(key: "enabledBorder"),
-      border: json.inputBorder(key: "border"),
-      errorBorder: json.inputBorder(key: "errorBorder"),
-      focusedBorder: json.inputBorder(key: "focusedBorder"),
-      focusedErrorBorder: json.inputBorder(key: "focusedErrorBorder"),
-      enabled: json.getBool("enabled", defaultValue: true),
-      isCollapsed: json.tryGetBool("isCollapsed"),
-      isDense: json.tryGetBool("isDense"),
-      suffixText: json.tryGetString("suffixText"),
-      suffixStyle: json.textStyle(key: "suffixStyle"),
-      prefixText: json.tryGetString("prefixText"),
-      prefixStyle: json.textStyle(key: "prefixStyle"),
-      counterText: json.tryGetString("counterText"),
-      counterStyle: json.textStyle(key: "counterStyle"),
-      alignLabelWithHint: json.tryGetBool("alignLabelWithHint"),
-      filled: json.tryGetBool("filled"),
-      fillColor: json.tryParseColor(key: "fillColor"),
-      focusColor: json.tryParseColor(key: "focusColor"),
-      hoverColor: json.tryParseColor(key: "hoverColor"),
-      contentPadding: json.edgeInsets(key: "contentPadding"),
-      prefixIconColor: json.tryParseColor(key: "prefixIconColor"),
-      suffixIconColor: json.tryParseColor(key: "suffixIconColor"),
+      labelText: source.tryGetString("labelText"),
+      labelStyle: source.textStyle(key: "labelStyle"),
+      floatingLabelStyle: source.textStyle(key: "floatingLabelStyle"),
+      helperText: source.tryGetString("helperText"),
+      helperMaxLines: source.tryGetInt(key: "helperMaxLines"),
+      helperStyle: source.textStyle(key: "helperStyle"),
+      hintText: source.tryGetString("hintText"),
+      hintStyle: source.textStyle(key: "hintStyle"),
+      hintMaxLines: source.tryGetInt(key: "hintMaxLines"),
+      errorText: source.tryGetString("errorText"),
+      errorMaxLines: source.tryGetInt(key: "errorMaxLines"),
+      errorStyle: source.textStyle(key: "errorStyle"),
+      enabledBorder: source.inputBorder(key: "enabledBorder"),
+      border: source.inputBorder(key: "border"),
+      errorBorder: source.inputBorder(key: "errorBorder"),
+      focusedBorder: source.inputBorder(key: "focusedBorder"),
+      focusedErrorBorder: source.inputBorder(key: "focusedErrorBorder"),
+      enabled: source.getBool("enabled", defaultValue: true),
+      isCollapsed: source.tryGetBool("isCollapsed"),
+      isDense: source.tryGetBool("isDense"),
+      suffixText: source.tryGetString("suffixText"),
+      suffixStyle: source.textStyle(key: "suffixStyle"),
+      prefixText: source.tryGetString("prefixText"),
+      prefixStyle: source.textStyle(key: "prefixStyle"),
+      counterText: source.tryGetString("counterText"),
+      counterStyle: source.textStyle(key: "counterStyle"),
+      alignLabelWithHint: source.tryGetBool("alignLabelWithHint"),
+      filled: source.tryGetBool("filled"),
+      fillColor: source.tryParseColor(key: "fillColor"),
+      focusColor: source.tryParseColor(key: "focusColor"),
+      hoverColor: source.tryParseColor(key: "hoverColor"),
+      contentPadding: source.edgeInsets(key: "contentPadding"),
+      prefixIconColor: source.tryParseColor(key: "prefixIconColor"),
+      suffixIconColor: source.tryParseColor(key: "suffixIconColor"),
     );
   }
 
@@ -2575,14 +2575,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a [BorderSide] created from the map.
   @preferInline
   BorderSide _borderSideFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return BorderSide(
-      color: json.parseColor(key: "color"),
-      width: json.getDouble(
+      color: source.parseColor(key: "color"),
+      width: source.getDouble(
         key: "width",
         defaultValue: 1.0,
       ),
-      style: json.borderStyle(
+      style: source.borderStyle(
         key: "style",
         defaultValue: BorderStyle.solid,
       )!,
@@ -2670,12 +2670,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [OutlineInputBorder] created from the map.
   @preferInline
   static InputBorder _outlineInputBorderFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return OutlineInputBorder(
-      borderSide: json.borderSide(key: "borderSide"),
-      gapPadding: json.getDouble(key: "gapPadding", defaultValue: 4.0),
+      borderSide: source.borderSide(key: "borderSide"),
+      gapPadding: source.getDouble(key: "gapPadding", defaultValue: 4.0),
       borderRadius: BorderRadius.circular(
-        json.getDouble(key: "borderRadius", defaultValue: 4.0),
+        source.getDouble(key: "borderRadius", defaultValue: 4.0),
       ),
     );
   }
@@ -2688,9 +2688,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [value]: The JSON map to parse.
   @preferInline
   static InputBorder _underlineInputBorderFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return UnderlineInputBorder(
-      borderSide: json.borderSide(key: "borderSide"),
+      borderSide: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -2703,8 +2703,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'borderRadius': A double value.
   @preferInline
   InputBorder _inputBorderFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
-    final type = json.getString(key: "type");
+    final source = DuitDataSource(value);
+    final type = source.getString(key: "type");
     return _inputBorderTypeStringLookupTable[type]?.call(value) ??
         const OutlineInputBorder();
   }
@@ -2809,13 +2809,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [value]: The JSON map to parse.
   /// Returns a [VisualDensity] created from the map.
   VisualDensity _visualDensityFromMap(Map<String, dynamic> value) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return VisualDensity(
-      horizontal: json.getDouble(
+      horizontal: source.getDouble(
         key: "horizontal",
         defaultValue: 0.0,
       ),
-      vertical: json.getDouble(
+      vertical: source.getDouble(
         key: "vertical",
         defaultValue: 0.0,
       ),
@@ -3019,16 +3019,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
   static ShapeBorder _roundedRectangleBorderFromMap(
     Map<String, dynamic> value,
   ) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return RoundedRectangleBorder(
-      borderRadius: json["borderRadius"] != null
+      borderRadius: source["borderRadius"] != null
           ? BorderRadius.circular(
-              json.getDouble(
+              source.getDouble(
                 key: "borderRadius",
               ),
             )
           : BorderRadius.zero,
-      side: json.borderSide(key: "borderSide"),
+      side: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -3042,9 +3042,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   static ShapeBorder _circleBorderFromMap(
     Map<String, dynamic> value,
   ) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return CircleBorder(
-      side: json.borderSide(key: "borderSide"),
+      side: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -3058,9 +3058,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   static ShapeBorder _stadiumBorderFromMap(
     Map<String, dynamic> value,
   ) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return StadiumBorder(
-      side: json.borderSide(key: "borderSide"),
+      side: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -3074,16 +3074,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
   static ShapeBorder _beveledRectangleBorderFromMap(
     Map<String, dynamic> value,
   ) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return BeveledRectangleBorder(
-      borderRadius: json["borderRadius"] != null
+      borderRadius: source["borderRadius"] != null
           ? BorderRadius.circular(
-              json.getDouble(
+              source.getDouble(
                 key: "borderRadius",
               ),
             )
           : BorderRadius.zero,
-      side: json.borderSide(key: "borderSide"),
+      side: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -3097,16 +3097,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
   static ShapeBorder _continuousRectangleBorderFromMap(
     Map<String, dynamic> value,
   ) {
-    final json = DuitDataSource(value);
+    final source = DuitDataSource(value);
     return ContinuousRectangleBorder(
-      borderRadius: json["borderRadius"] != null
+      borderRadius: source["borderRadius"] != null
           ? BorderRadius.circular(
-              json.getDouble(
+              source.getDouble(
                 key: "borderRadius",
               ),
             )
           : BorderRadius.zero,
-      side: json.borderSide(key: "borderSide"),
+      side: source.borderSide(key: "borderSide"),
     );
   }
 
@@ -3467,6 +3467,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ///
   /// Returns the accumulated list of child objects (List<Map<String, dynamic>>)
   /// stored in the '_listContentBuffer'. If there are no child objects, returns an empty list.
+  @preferInline
   List<Map<String, dynamic>> childObjects({
     String key = "childObjects",
   }) {
@@ -3931,7 +3932,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   List<StretchMode> stretchModes({
-    String key = "stretchMode",
+    String key = "stretchModes",
     List<StretchMode> defaultValue = const [
       StretchMode.zoomBackground,
     ],

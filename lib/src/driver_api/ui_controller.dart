@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/action_api/command.dart';
 
 /// Base class for ViewController objects.
 ///
