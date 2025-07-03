@@ -1,4 +1,5 @@
 import 'package:duit_kernel/duit_kernel.dart';
+import 'package:duit_kernel/src/action_api/command.dart';
 
 /// The [ServerEvent] class represents an event that was sent by the server.
 ///
@@ -15,7 +16,7 @@ base class ServerEvent {
 
   final String type;
 
-  ServerEvent({
+  const ServerEvent({
     required this.type,
   });
 
@@ -45,13 +46,14 @@ final class UpdateEvent extends ServerEvent {
   /// The [json] parameter is a JSON object representing the update event.
   /// Returns an [UpdateEvent] object if the JSON object is valid, otherwise throws an exception.
   factory UpdateEvent.fromJson(Map<String, dynamic> json) {
-    return UpdateEvent(updates: json["updates"]);
+    return UpdateEvent(
+      updates: json["updates"] ?? const <String, dynamic>{},
+    );
   }
 }
 
 final class NavigationEvent extends ServerEvent {
   final String path;
-
   final Map<String, dynamic> extra;
 
   NavigationEvent({
@@ -60,9 +62,10 @@ final class NavigationEvent extends ServerEvent {
   }) : super(type: "navigation");
 
   factory NavigationEvent.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
     return NavigationEvent(
-      path: json["path"] ?? "",
-      extra: json["extra"] ?? {},
+      path: source.getString(key: "path"),
+      extra: source["extra"] ?? const <String, dynamic>{},
     );
   }
 }
@@ -76,14 +79,13 @@ final class OpenUrlEvent extends ServerEvent {
 
   factory OpenUrlEvent.fromJson(Map<String, dynamic> json) {
     return OpenUrlEvent(
-      url: json["url"] ?? "",
+      url: DuitDataSource(json).getString(key: "url"),
     );
   }
 }
 
 final class CustomEvent extends ServerEvent {
   final String key;
-
   final Map<String, dynamic> extra;
 
   CustomEvent({
@@ -92,9 +94,10 @@ final class CustomEvent extends ServerEvent {
   }) : super(type: "custom");
 
   factory CustomEvent.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
     return CustomEvent(
-      key: json["key"] ?? "",
-      extra: json["extra"] ?? {},
+      key: source.getString(key: "key"),
+      extra: source["extra"] ?? const <String, dynamic>{},
     );
   }
 }
@@ -124,10 +127,16 @@ final class CommonEventGroup extends ServerEvent {
   }) : super(type: "grouped");
 
   factory CommonEventGroup.fromJson(Map<String, dynamic> json) {
-    final list = List.from(json["events"] ?? []);
+    final list = List<Map<String, dynamic>>.from(json["events"] ?? []);
 
     final events = list.map(
-      (model) => GroupMember(event: ServerEvent.parseEvent(model)),
+      (model) {
+        return GroupMember(
+          event: ServerEvent.parseEvent(
+            model["event"],
+          ),
+        );
+      },
     );
     return CommonEventGroup(events: events.toList());
   }
@@ -141,41 +150,20 @@ final class SequencedEventGroup extends ServerEvent {
   }) : super(type: "sequenced");
 
   factory SequencedEventGroup.fromJson(Map<String, dynamic> json) {
-    final list = List.from(json["events"] ?? []);
+    final list = List<Map<String, dynamic>>.from(json["events"] ?? []);
 
-    final events = list.map((model) {
-      final delay = Duration(milliseconds: model["delay"] ?? 0);
+    final events = list.map(
+      (model) {
+        final source = DuitDataSource(model);
+        final delay = source.duration(key: "delay");
 
-      return SequencedGroupMember(
-        event: ServerEvent.parseEvent(model["event"]),
-        delay: delay,
-      );
-    });
-    return SequencedEventGroup(events: events.toList());
-  }
-}
-
-final class AnimationTriggerEvent extends ServerEvent {
-  final AnimationCommand command;
-
-  AnimationTriggerEvent({
-    required this.command,
-  }) : super(type: "animationTrigger");
-
-  factory AnimationTriggerEvent.fromJson(Map<String, dynamic> json) {
-    return AnimationTriggerEvent(
-      command: AnimationCommand(
-        method: switch (json["method"]) {
-          0 => AnimationMethod.forward,
-          1 => AnimationMethod.repeat,
-          2 => AnimationMethod.reverse,
-          3 => AnimationMethod.toggle,
-          Object() || null => AnimationMethod.forward,
-        },
-        controllerId: json["controllerId"],
-        animatedPropKey: json["animatedPropKey"],
-      ),
+        return SequencedGroupMember(
+          event: ServerEvent.parseEvent(source["event"]),
+          delay: delay,
+        );
+      },
     );
+    return SequencedEventGroup(events: events.toList());
   }
 }
 
@@ -189,9 +177,29 @@ final class TimerEvent extends ServerEvent {
   }) : super(type: "timer");
 
   factory TimerEvent.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
     return TimerEvent(
-      timerDelay: Duration(milliseconds: json["timerDelay"] ?? 0),
-      payload: ServerEvent.parseEvent(json["event"]),
+      timerDelay: source.duration(key: "timerDelay"),
+      payload: ServerEvent.parseEvent(source["event"]),
+    );
+  }
+}
+
+final class CommandEvent extends ServerEvent {
+  final RemoteCommand command;
+
+  const CommandEvent({
+    required this.command,
+  }) : super(type: "command");
+
+  factory CommandEvent.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return CommandEvent(
+      command: RemoteCommand(
+        controllerId: source.getString(key: "controllerId"),
+        type: source.getString(key: "type"),
+        payload: source["payload"] ?? const <String, dynamic>{},
+      ),
     );
   }
 }

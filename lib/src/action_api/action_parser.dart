@@ -9,12 +9,12 @@ final class DefaultActionParser implements Parser<ServerAction> {
 
   @override
   ServerAction parse(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+    final source = DuitDataSource(json);
 
-    return switch (view.executionType) {
-      0 => TransportAction.fromJson(json),
-      1 => LocalAction.fromJson(json),
-      2 => ScriptAction.fromJson(json),
+    return switch (source.executionType) {
+      0 => TransportAction.fromJson(source),
+      1 => LocalAction.fromJson(source),
+      2 => ScriptAction.fromJson(source),
       _ => UnknownAction(),
     };
   }

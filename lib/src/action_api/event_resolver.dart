@@ -79,7 +79,7 @@ final class DefaultEventResolver extends EventResolver {
             await resolveEvent(context, entry.event);
           }
           break;
-        case AnimationTriggerEvent():
+        case CommandEvent():
           final c = driver.getController(event.command.controllerId);
           await c?.emitCommand(event.command);
           break;
@@ -91,6 +91,8 @@ final class DefaultEventResolver extends EventResolver {
               await resolveEvent(context, evt.payload);
             },
           );
+          break;
+        default:
           break;
       }
     } catch (e, s) {

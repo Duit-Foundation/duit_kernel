@@ -108,10 +108,8 @@ sealed class DuitRegistry {
     String key, {
     required ModelFactory modelFactory,
     required BuildFactory buildFactory,
-    required AttributesFactory attributesFactory,
   }) {
     _customComponentRegistry[key] = (
-      attributesFactory: attributesFactory,
       modelFactory: modelFactory,
       buildFactory: buildFactory,
     );
@@ -146,21 +144,6 @@ sealed class DuitRegistry {
     } else {
       _logger.warn(
         "Not found build factory for specified tag - $tag",
-      );
-      return null;
-    }
-  }
-
-  /// Returns the attributes factory registered with the specified [tag].
-  ///
-  /// Returns `null` if the specified [tag] is not registered.
-  static AttributesFactory? getAttributesFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.attributesFactory;
-    if (factory != null) {
-      return factory;
-    } else {
-      _logger.warn(
-        "Not found attributes factory for specified tag - $tag",
       );
       return null;
     }

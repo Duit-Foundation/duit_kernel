@@ -5,7 +5,6 @@ import "misc.dart";
 
 void main() {
   setUpAll(() async {
-    ViewAttribute.attributeParser = TestAttrParser();
 
     await DuitRegistry.configure(
       themeLoader: const StaticThemeLoader(
@@ -47,13 +46,14 @@ void main() {
       test(
         "must apply provided theme for this widget type",
         () {
-          final res = ViewAttribute.createAttributes<Map<String, dynamic>>(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
               "theme": "text_1",
             },
-            null,
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);
@@ -64,7 +64,7 @@ void main() {
       test(
         "not must override original values",
         () {
-          final res = ViewAttribute.createAttributes<Map<String, dynamic>>(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
@@ -72,7 +72,8 @@ void main() {
               "overrideRule": "themeOverlay",
               "textAlign": "start",
             },
-            null,
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);
@@ -84,7 +85,7 @@ void main() {
       test(
         "must override original values",
         () {
-          final res = ViewAttribute.createAttributes<Map<String, dynamic>>(
+          final res = ViewAttribute.from(
             "Text",
             {
               "data": "Hi!",
@@ -92,7 +93,8 @@ void main() {
               "overrideRule": "themePriority",
               "textAlign": "start",
             },
-            null,
+            "id",
+            tag: null,
           );
 
           expect(res, isNotNull);

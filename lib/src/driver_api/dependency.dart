@@ -12,12 +12,4 @@ final class ActionDependency {
     required this.target,
     required this.id,
   });
-
-  /// Creates an instance of [ActionDependency] from a JSON map.
-  factory ActionDependency.fromJson(Map<String, dynamic> json) {
-    return ActionDependency(
-      target: json["target"],
-      id: json["id"],
-    );
-  }
 }

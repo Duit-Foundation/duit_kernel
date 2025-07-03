@@ -21,8 +21,8 @@ final class DefaultEventParser implements Parser<ServerEvent> {
       "custom" => CustomEvent.fromJson(json),
       "sequenced" => SequencedEventGroup.fromJson(json),
       "grouped" => CommonEventGroup.fromJson(json),
-      "animationTrigger" => AnimationTriggerEvent.fromJson(json),
       "timer" => TimerEvent.fromJson(json),
+      "command" => CommandEvent.fromJson(json),
       String() || Object() || null => NullEvent(),
     };
   }
