@@ -198,7 +198,7 @@ final class CommandEvent extends ServerEvent {
       command: RemoteCommand(
         controllerId: source.getString(key: "controllerId"),
         type: source.getString(key: "type"),
-        payload: source["payload"] ?? const <String, dynamic>{},
+        commandData: source["commandData"] ?? <String, dynamic>{},
       ),
     );
   }

@@ -37,4 +37,12 @@ abstract base class ElementTreeEntry {
   });
 
   Widget renderView();
+
+  // set viewController(UIElementController viewController) {
+  //   this.viewController = viewController;
+  // }
+
+  // set attributes(ViewAttribute attributes) {
+  //   this.attributes = attributes;
+  // }
 }

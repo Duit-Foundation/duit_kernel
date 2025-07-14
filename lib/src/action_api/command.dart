@@ -4,11 +4,11 @@
 base class RemoteCommand {
   final String controllerId;
   final String type;
-  final Map<String, dynamic> payload;
+  final Map<String, dynamic> commandData;
 
   const RemoteCommand({
     required this.controllerId,
     required this.type,
-    required this.payload,
+    required this.commandData,
   });
 }
