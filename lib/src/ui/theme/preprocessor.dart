@@ -1,13 +1,13 @@
 import 'package:duit_kernel/src/ui/theme/index.dart';
 
 /// Function for custom tokenization of themes.
-typedef CustomTokenizer = ThemeToken? Function(
+typedef TokenizationCallback = ThemeToken? Function(
   String type,
   Map<String, dynamic> themeData,
 );
 
-final class ThemePreprocessor {
-  final CustomTokenizer? customWidgetTokenizer, overrideWidgetTokenizer;
+abstract class ThemePreprocessor {
+  final TokenizationCallback? customWidgetTokenizer, overrideWidgetTokenizer;
 
   const ThemePreprocessor({
     this.customWidgetTokenizer,
@@ -15,83 +15,10 @@ final class ThemePreprocessor {
   });
 
   ///Creates token for default cases
-  ThemeToken _createToken(
+  ThemeToken createToken(
     String widgetType,
     Map<String, dynamic> themeData,
-  ) {
-    return switch (widgetType) {
-      "Text" => TextThemeToken(
-          themeData,
-        ),
-      "Image" => ImageThemeToken(
-          themeData,
-        ),
-      "Align" ||
-      "BackdropFilter" ||
-      "ColoredBox" ||
-      "ConstrainedBox" ||
-      "DecoratedBox" ||
-      "Expanded" ||
-      "FittedBox" ||
-      "Row" ||
-      "Column" ||
-      "SizedBox" ||
-      "Container" ||
-      "OverflowBox" ||
-      "Padding" ||
-      "Positioned" ||
-      "Opacity" ||
-      "RotatedBox" ||
-      "Stack" ||
-      "Wrap" ||
-      "Transform" ||
-      "Card" =>
-        AnimatedPropOwnerThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "AnimatedOpacity" => ImplicitAnimatableThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "GestureDetector" || "InkWell" => ExcludeGestureCallbacksThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "AppBar" || "Scaffold" => ExcludeChildThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "GridView" || "ListView" => DynamicChildHolderThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "ElevatedButton" ||
-      "Center" ||
-      "IgnorePointer" ||
-      "RepaintBoundary" ||
-      "SingleChildScrollView" =>
-        DefaultThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "Checkbox" || "Switch" || "TextField" => AttendedWidgetThemeToken(
-          themeData,
-          widgetType,
-        ),
-      "RadioGroupContext" => RadioGroupContextThemeToken(
-          themeData,
-        ),
-      "Radio" => RadioThemeToken(
-          themeData,
-        ),
-      "Slider" => SliderThemeToken(
-          themeData,
-        ),
-      _ => customWidgetTokenizer?.call(widgetType, themeData) ??
-          const UnknownThemeToken(),
-    };
-  }
+  );
 
   DuitTheme tokenize(Map<String, dynamic> theme) {
     final errors = <String>{};
@@ -113,13 +40,13 @@ final class ThemePreprocessor {
         if (overridedToken != null) {
           token = overridedToken;
         } else {
-          token = _createToken(
+          token = createToken(
             widgetType,
             themeData,
           );
         }
       } else {
-        token = _createToken(
+        token = createToken(
           widgetType,
           themeData,
         );

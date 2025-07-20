@@ -10,38 +10,20 @@ sealed class DuitRegistry {
   static final Map<String, FactoryRecord> _customComponentRegistry = {};
   static DebugLogger _logger = DefaultLogger.instance;
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
-  static late final ResourceLoader<DuitTheme> _themeLoader;
   static DuitTheme _theme = const DuitTheme({});
 
-  static FutureOr<void> configure({
+  static FutureOr<void> initialize({
     DebugLogger? logger,
-    ResourceLoader<DuitTheme>? themeLoader,
+    DuitTheme? theme,
     ComponentRegistry? componentRegistry,
   }) async {
     _logger = logger ?? _logger;
     _componentRegistry = componentRegistry ?? _componentRegistry;
-
+    _theme = theme ?? _theme;
     await _componentRegistry.init();
-
-    if (themeLoader != null) {
-      _themeLoader = themeLoader;
-    }
   }
 
   static DuitTheme get theme => _theme;
-
-  static Future<void> initTheme() async {
-    try {
-      _theme = await _themeLoader.load();
-    } catch (e, s) {
-      _logger.error(
-        "Theme initialization failed",
-        error: e,
-        stackTrace: s,
-      );
-      rethrow;
-    }
-  }
 
   /// Registers a list of component descriptions.
   static FutureOr<void> registerComponents(
