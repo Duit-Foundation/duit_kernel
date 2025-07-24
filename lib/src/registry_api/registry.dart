@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:duit_kernel/src/registry_api/components/index.dart';
-import 'package:duit_kernel/src/registry_api/factory_record.dart';
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static final Map<String, FactoryRecord> _customComponentRegistry = {};
+  static final Map<String, BuildFactory> _customComponentRegistry = {};
   static DebugLogger _logger = DefaultLogger.instance;
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
@@ -88,39 +87,35 @@ sealed class DuitRegistry {
   /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
   static void register(
     String key, {
-    required ModelFactory modelFactory,
     required BuildFactory buildFactory,
   }) {
-    _customComponentRegistry[key] = (
-      modelFactory: modelFactory,
-      buildFactory: buildFactory,
-    );
+    _customComponentRegistry[key] = buildFactory;
 
     _logger.info(
       "Custom widget $key registered successfull",
     );
   }
 
-  /// Returns the model factory registered with the specified [tag].
-  ///
-  /// Returns `null` if the specified [tag] is not registered.
-  static ModelFactory? getModelFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.modelFactory;
-    if (factory != null) {
-      return factory;
-    } else {
-      _logger.warn(
-        "Not found model factory for specified tag - $tag",
-      );
-      return null;
-    }
-  }
+  // /// Returns the model factory registered with the specified [tag].
+  // ///
+  // /// Returns `null` if the specified [tag] is not registered.
+  // static ModelFactory? getModelFactory(String tag) {
+  //   final factory = _customComponentRegistry[tag]?.modelFactory;
+  //   if (factory != null) {
+  //     return factory;
+  //   } else {
+  //     _logger.warn(
+  //       "Not found model factory for specified tag - $tag",
+  //     );
+  //     return null;
+  //   }
+  // }
 
   /// Returns the build factory registered with the specified [tag].
   ///
   /// Returns `null` if the specified [tag] is not registered.
   static BuildFactory? getBuildFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.buildFactory;
+    final factory = _customComponentRegistry[tag];
     if (factory != null) {
       return factory;
     } else {

@@ -22,27 +22,13 @@ import 'package:flutter/widgets.dart';
 /// Methods:
 /// - [renderView]: Abstract method that must be implemented to render the element as a widget.
 abstract base class ElementTreeEntry {
-  /// The type of the DUIT element.
-  final String type, id;
-  final bool controlled;
-  final String? tag;
-  abstract UIElementController? viewController;
-  abstract ViewAttribute? attributes;
+  UIElementController get viewController;
 
-  ElementTreeEntry({
-    required this.type,
-    required this.id,
-    required this.controlled,
-    this.tag,
-  });
+  ViewAttribute get attributes;
+
+  List<ElementTreeEntry> get children;
+
+  ElementTreeEntry? get child;
 
   Widget renderView();
-
-  // set viewController(UIElementController viewController) {
-  //   this.viewController = viewController;
-  // }
-
-  // set attributes(ViewAttribute attributes) {
-  //   this.attributes = attributes;
-  // }
 }
