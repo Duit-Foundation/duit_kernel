@@ -96,20 +96,6 @@ sealed class DuitRegistry {
     );
   }
 
-  // /// Returns the model factory registered with the specified [tag].
-  // ///
-  // /// Returns `null` if the specified [tag] is not registered.
-  // static ModelFactory? getModelFactory(String tag) {
-  //   final factory = _customComponentRegistry[tag]?.modelFactory;
-  //   if (factory != null) {
-  //     return factory;
-  //   } else {
-  //     _logger.warn(
-  //       "Not found model factory for specified tag - $tag",
-  //     );
-  //     return null;
-  //   }
-  // }
 
   /// Returns the build factory registered with the specified [tag].
   ///
