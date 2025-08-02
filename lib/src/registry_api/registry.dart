@@ -76,15 +76,7 @@ sealed class DuitRegistry {
     }
   }
 
-  /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
-  ///
-  /// - The [key] is a unique identifier for the DUIT element.
-  ///
-  /// - The [modelFactory] is a function that maps the DUIT element to a [ElementTreeEntry].
-  ///
-  /// - The [buildFactory] is a function that returns the [Widget] representation of the [ElementTreeEntry].
-  ///
-  /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
+  /// Registers a build factory for a custom Duit element.
   static void register(
     String key, {
     required BuildFactory buildFactory,
@@ -95,7 +87,6 @@ sealed class DuitRegistry {
       "Custom widget $key registered successfull",
     );
   }
-
 
   /// Returns the build factory registered with the specified [tag].
   ///
