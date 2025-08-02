@@ -3745,10 +3745,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }) {
     final value = json[key];
 
-    if (value is List<Map<String, dynamic>>) {
+    if (value is List) {
       final list = <DuitTweenDescription>[];
 
       for (final tweenDescription in value) {
+        if (tweenDescription is! Map<String, dynamic>) continue;
+
         final tweenData = DuitDataSource(tweenDescription);
         final tweenType = tweenData.tweenType();
 
