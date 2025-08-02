@@ -19,11 +19,17 @@ const _textAlignIntLookupTable = <int, TextAlign>{
 /// Supported values: "left", "right", "center", "justify", "start", "end".
 const _textAlignStringLookupTable = <String, TextAlign>{
   "left": TextAlign.left,
+  "TextAlign.left": TextAlign.left,
   "right": TextAlign.right,
+  "TextAlign.right": TextAlign.right,
   "center": TextAlign.center,
+  "TextAlign.center": TextAlign.center,
   "justify": TextAlign.justify,
+  "TextAlign.justify": TextAlign.justify,
   "start": TextAlign.start,
+  "TextAlign.start": TextAlign.start,
   "end": TextAlign.end,
+  "TextAlign.end": TextAlign.end,
 };
 
 /// Lookup table for [TextDirection] values by [String] type key.
@@ -32,7 +38,9 @@ const _textAlignStringLookupTable = <String, TextAlign>{
 /// Supported values: "ltr" (left-to-right), "rtl" (right-to-left).
 const _textDirectionStringLookupTable = <String, TextDirection>{
   "ltr": TextDirection.ltr,
+  "TextDirection.ltr": TextDirection.ltr,
   "rtl": TextDirection.rtl,
+  "TextDirection.rtl": TextDirection.rtl,
 };
 
 /// Lookup table for [TextDirection] values by [int] type key.
@@ -77,9 +85,13 @@ const _textOverflowIntLookupTable = <int, TextOverflow>{
 /// Supported values: "clip", "ellipsis", "fade", "visible".
 const _textOverflowStringLookupTable = <String, TextOverflow>{
   "clip": TextOverflow.clip,
+  "TextOverflow.clip": TextOverflow.clip,
   "ellipsis": TextOverflow.ellipsis,
+  "TextOverflow.ellipsis": TextOverflow.ellipsis,
   "fade": TextOverflow.fade,
+  "TextOverflow.fade": TextOverflow.fade,
   "visible": TextOverflow.visible,
+  "TextOverflow.visible": TextOverflow.visible,
 };
 
 /// Lookup table for [Clip] values by [String] type key.
@@ -88,9 +100,13 @@ const _textOverflowStringLookupTable = <String, TextOverflow>{
 /// Supported values: "hardEdge", "antiAlias", "antiAliasWithSaveLayer", "none".
 const _clipStringLookupTable = <String, Clip>{
   "hardEdge": Clip.hardEdge,
+  "Clip.hardEdge": Clip.hardEdge,
   "antiAlias": Clip.antiAlias,
+  "Clip.antiAlias": Clip.antiAlias,
   "antiAliasWithSaveLayer": Clip.antiAliasWithSaveLayer,
+  "Clip.antiAliasWithSaveLayer": Clip.antiAliasWithSaveLayer,
   "none": Clip.none,
+  "Clip.none": Clip.none,
 };
 
 /// Lookup table for [Clip] values by [int] type key.
@@ -153,41 +169,77 @@ const _curveIntLookupTable = <int, Curve>{
 /// Supported values: "linear", "fastEaseInToSlowEaseOut", "bounceIn", etc.
 const _curveStringLookupTable = <String, Curve>{
   "linear": Curves.linear,
+  "Curves.linear": Curves.linear,
   "fastEaseInToSlowEaseOut": Curves.fastEaseInToSlowEaseOut,
+  "Curves.fastEaseInToSlowEaseOut": Curves.fastEaseInToSlowEaseOut,
   "bounceIn": Curves.bounceIn,
+  "Curves.bounceIn": Curves.bounceIn,
   "bounceInOut": Curves.bounceInOut,
+  "Curves.bounceInOut": Curves.bounceInOut,
   "bounceOut": Curves.bounceOut,
+  "Curves.bounceOut": Curves.bounceOut,
   "decelerate": Curves.decelerate,
+  "Curves.decelerate": Curves.decelerate,
   "ease": Curves.ease,
+  "Curves.ease": Curves.ease,
   "easeIn": Curves.easeIn,
+  "Curves.easeIn": Curves.easeIn,
   "easeInBack": Curves.easeInBack,
+  "Curves.easeInBack": Curves.easeInBack,
   "easeInCirc": Curves.easeInCirc,
+  "Curves.easeInCirc": Curves.easeInCirc,
   "easeInSine": Curves.easeInSine,
+  "Curves.easeInSine": Curves.easeInSine,
   "easeInCubic": Curves.easeInCubic,
+  "Curves.easeInCubic": Curves.easeInCubic,
   "easeInExpo": Curves.easeInExpo,
+  "Curves.easeInExpo": Curves.easeInExpo,
   "easeInOutCubicEmphasized": Curves.easeInOutCubicEmphasized,
+  "Curves.easeInOutCubicEmphasized": Curves.easeInOutCubicEmphasized,
   "easeInOutBack": Curves.easeInOutBack,
+  "Curves.easeInOutBack": Curves.easeInOutBack,
   "easeInOutCirc": Curves.easeInOutCirc,
+  "Curves.easeInOutCirc": Curves.easeInOutCirc,
   "easeInOutExpo": Curves.easeInOutExpo,
+  "Curves.easeInOutExpo": Curves.easeInOutExpo,
   "easeInOutQuad": Curves.easeInOutQuad,
+  "Curves.easeInOutQuad": Curves.easeInOutQuad,
   "easeInOutQuart": Curves.easeInOutQuart,
+  "Curves.easeInOutQuart": Curves.easeInOutQuart,
   "easeInOutQuint": Curves.easeInOutQuint,
+  "Curves.easeInOutQuint": Curves.easeInOutQuint,
   "easeInOutSine": Curves.easeInOutSine,
+  "Curves.easeInOutSine": Curves.easeInOutSine,
   "easeInToLinear": Curves.easeInToLinear,
+  "Curves.easeInToLinear": Curves.easeInToLinear,
   "easeOutSine": Curves.easeOutSine,
+  "Curves.easeOutSine": Curves.easeOutSine,
   "easeOutBack": Curves.easeOutBack,
+  "Curves.easeOutBack": Curves.easeOutBack,
   "easeOutCirc": Curves.easeOutCirc,
+  "Curves.easeOutCirc": Curves.easeOutCirc,
   "easeOutCubic": Curves.easeOutCubic,
+  "Curves.easeOutCubic": Curves.easeOutCubic,
   "easeOutExpo": Curves.easeOutExpo,
+  "Curves.easeOutExpo": Curves.easeOutExpo,
   "easeOutQuad": Curves.easeOutQuad,
+  "Curves.easeOutQuad": Curves.easeOutQuad,
   "easeOutQuart": Curves.easeOutQuart,
+  "Curves.easeOutQuart": Curves.easeOutQuart,
   "easeOutQuint": Curves.easeOutQuint,
+  "Curves.easeOutQuint": Curves.easeOutQuint,
   "linearToEaseOut": Curves.linearToEaseOut,
+  "Curves.linearToEaseOut": Curves.linearToEaseOut,
   "slowMiddle": Curves.slowMiddle,
+  "Curves.slowMiddle": Curves.slowMiddle,
   "fastOutSlowIn": Curves.fastOutSlowIn,
+  "Curves.fastOutSlowIn": Curves.fastOutSlowIn,
   "elasticIn": Curves.elasticIn,
+  "Curves.elasticIn": Curves.elasticIn,
   "elasticInOut": Curves.elasticInOut,
+  "Curves.elasticInOut": Curves.elasticInOut,
   "elasticOut": Curves.elasticOut,
+  "Curves.elasticOut": Curves.elasticOut,
 };
 
 /// Lookup table for [FontStyle] values by [int] type key.
@@ -205,7 +257,9 @@ const _fontStyleIntLookupTable = <int, FontStyle>{
 /// Supported values: "normal", "italic".
 const _fontStyleStringLookupTable = <String, FontStyle>{
   "normal": FontStyle.normal,
+  "FontStyle.normal": FontStyle.normal,
   "italic": FontStyle.italic,
+  "FontStyle.italic": FontStyle.italic,
 };
 
 /// Lookup table for [TextBaseline] values by [String] type key.
@@ -214,7 +268,9 @@ const _fontStyleStringLookupTable = <String, FontStyle>{
 /// Supported values: "alphabetic", "ideographic".
 const _textBaselineStringLookupTable = <String, TextBaseline>{
   "alphabetic": TextBaseline.alphabetic,
+  "TextBaseline.alphabetic": TextBaseline.alphabetic,
   "ideographic": TextBaseline.ideographic,
+  "TextBaseline.ideographic": TextBaseline.ideographic,
 };
 
 /// Lookup table for [TextBaseline] values by [int] type key.
@@ -232,7 +288,9 @@ const _textBaselineIntLookupTable = <int, TextBaseline>{
 /// Supported values: "parent", "longestLine".
 const _textWidthBasisStringLookupTable = <String, TextWidthBasis>{
   "parent": TextWidthBasis.parent,
+  "TextWidthBasis.parent": TextWidthBasis.parent,
   "longestLine": TextWidthBasis.longestLine,
+  "TextWidthBasis.longestLine": TextWidthBasis.longestLine,
 };
 
 /// Lookup table for [TextWidthBasis] values by [int] type key.
@@ -250,9 +308,13 @@ const _textWidthBasisIntLookupTable = <int, TextWidthBasis>{
 /// Supported values: "none", "underline", "overline", "lineThrough".
 const _textDecorationStringLookupTable = <String, TextDecoration>{
   "none": TextDecoration.none,
+  "TextDecoration.none": TextDecoration.none,
   "underline": TextDecoration.underline,
+  "TextDecoration.underline": TextDecoration.underline,
   "overline": TextDecoration.overline,
+  "TextDecoration.overline": TextDecoration.overline,
   "lineThrough": TextDecoration.lineThrough,
+  "TextDecoration.lineThrough": TextDecoration.lineThrough,
 };
 
 /// Lookup table for [TextDecoration] values by [int] type key.
@@ -272,10 +334,15 @@ const _textDecorationIntLookupTable = <int, TextDecoration>{
 /// Supported values: "solid", "double", "dotted", "dashed", "wavy".
 const _textDecorationStyleStringLookupTable = <String, TextDecorationStyle>{
   "solid": TextDecorationStyle.solid,
+  "TextDecorationStyle.solid": TextDecorationStyle.solid,
   "double": TextDecorationStyle.double,
+  "TextDecorationStyle.double": TextDecorationStyle.double,
   "dotted": TextDecorationStyle.dotted,
+  "TextDecorationStyle.dotted": TextDecorationStyle.dotted,
   "dashed": TextDecorationStyle.dashed,
+  "TextDecorationStyle.dashed": TextDecorationStyle.dashed,
   "wavy": TextDecorationStyle.wavy,
+  "TextDecorationStyle.wavy": TextDecorationStyle.wavy,
 };
 
 /// Lookup table for [TextDecorationStyle] values by [int] type key.
@@ -296,7 +363,9 @@ const _textDecorationStyleIntLookupTable = <int, TextDecorationStyle>{
 /// Supported values: "proportional", "even".
 const _leadingDistributionStringLookupTable = <String, TextLeadingDistribution>{
   "proportional": TextLeadingDistribution.proportional,
+  "TextLeadingDistribution.proportional": TextLeadingDistribution.proportional,
   "even": TextLeadingDistribution.even,
+  "TextLeadingDistribution.even": TextLeadingDistribution.even,
 };
 
 /// Lookup table for [TextLeadingDistribution] values by [int] type key.
@@ -314,7 +383,9 @@ const _leadingDistributionIntLookupTable = <int, TextLeadingDistribution>{
 /// Supported values: "vertical", "horizontal".
 const _axisStringLookupTable = <String, Axis>{
   "vertical": Axis.vertical,
+  "Axis.vertical": Axis.vertical,
   "horizontal": Axis.horizontal,
+  "Axis.horizontal": Axis.horizontal,
 };
 
 /// Lookup table for [Axis] values by [int] type key.
@@ -342,8 +413,11 @@ const _wrapCrossAlignmentIntLookupTable = <int, WrapCrossAlignment>{
 /// Supported values: "start", "end", "center".
 const _wrapCrossAlignmentStringLookupTable = <String, WrapCrossAlignment>{
   "start": WrapCrossAlignment.start,
+  "WrapCrossAlignment.start": WrapCrossAlignment.start,
   "end": WrapCrossAlignment.end,
+  "WrapCrossAlignment.end": WrapCrossAlignment.end,
   "center": WrapCrossAlignment.center,
+  "WrapCrossAlignment.center": WrapCrossAlignment.center,
 };
 
 /// Lookup table for [WrapAlignment] values by [int] type key.
@@ -365,11 +439,17 @@ const _wrapAlignmentIntLookupTable = <int, WrapAlignment>{
 /// Supported values: "start", "end", "center", "spaceBetween", "spaceAround", "spaceEvenly".
 const _wrapAlignmentStringLookupTable = <String, WrapAlignment>{
   "start": WrapAlignment.start,
+  "WrapAlignment.start": WrapAlignment.start,
   "end": WrapAlignment.end,
+  "WrapAlignment.end": WrapAlignment.end,
   "center": WrapAlignment.center,
+  "WrapAlignment.center": WrapAlignment.center,
   "spaceBetween": WrapAlignment.spaceBetween,
+  "WrapAlignment.spaceBetween": WrapAlignment.spaceBetween,
   "spaceAround": WrapAlignment.spaceAround,
+  "WrapAlignment.spaceAround": WrapAlignment.spaceAround,
   "spaceEvenly": WrapAlignment.spaceEvenly,
+  "WrapAlignment.spaceEvenly": WrapAlignment.spaceEvenly,
 };
 
 /// Lookup table for [StackFit] values by [int] type key.
@@ -388,8 +468,11 @@ const _stackFitIntLookupTable = <int, StackFit>{
 /// Supported values: "expand", "passthrough", "loose".
 const _stackFitStringLookupTable = <String, StackFit>{
   "expand": StackFit.expand,
+  "StackFit.expand": StackFit.expand,
   "passthrough": StackFit.passthrough,
+  "StackFit.passthrough": StackFit.passthrough,
   "loose": StackFit.loose,
+  "StackFit.loose": StackFit.loose,
 };
 
 /// Lookup table for [OverflowBoxFit] values by [int] type key.
@@ -407,7 +490,9 @@ const _overflowBoxFitIntLookupTable = <int, OverflowBoxFit>{
 /// Supported values: "max", "deferToChild".
 const _overflowBoxFitStringLookupTable = <String, OverflowBoxFit>{
   "max": OverflowBoxFit.max,
+  "OverflowBoxFit.max": OverflowBoxFit.max,
   "deferToChild": OverflowBoxFit.deferToChild,
+  "OverflowBoxFit.deferToChild": OverflowBoxFit.deferToChild,
 };
 
 /// Lookup table for [Alignment] values by [int] type key.
@@ -432,14 +517,23 @@ const _alignmentIntLookupTable = <int, Alignment>{
 /// Supported values: "topCenter", "topLeft", "topRight", "centerLeft", "center", "centerRight", "bottomLeft", "bottomCenter", "bottomRight".
 const _alignmentStringLookupTable = <String, Alignment>{
   "topCenter": Alignment.topCenter,
+  "Alignment.topCenter": Alignment.topCenter,
   "topLeft": Alignment.topLeft,
+  "Alignment.topLeft": Alignment.topLeft,
   "topRight": Alignment.topRight,
+  "Alignment.topRight": Alignment.topRight,
   "centerLeft": Alignment.centerLeft,
+  "Alignment.centerLeft": Alignment.centerLeft,
   "center": Alignment.center,
+  "Alignment.center": Alignment.center,
   "centerRight": Alignment.centerRight,
+  "Alignment.centerRight": Alignment.centerRight,
   "bottomLeft": Alignment.bottomLeft,
+  "Alignment.bottomLeft": Alignment.bottomLeft,
   "bottomCenter": Alignment.bottomCenter,
+  "Alignment.bottomCenter": Alignment.bottomCenter,
   "bottomRight": Alignment.bottomRight,
+  "Alignment.bottomRight": Alignment.bottomRight,
 };
 
 /// Lookup table for [AlignmentDirectional] values by [int] type key.
@@ -464,14 +558,23 @@ const _alignmentDirectionalIntLookupTable = <int, AlignmentDirectional>{
 /// Supported values: "topStart", "topCenter", "topEnd", "bottomCenter", "bottomEnd", "bottomStart", "center", "centerStart", "centerEnd".
 const _alignmentDirectionalStringLookupTable = <String, AlignmentDirectional>{
   "topStart": AlignmentDirectional.topStart,
+  "AlignmentDirectional.topStart": AlignmentDirectional.topStart,
   "topCenter": AlignmentDirectional.topCenter,
+  "AlignmentDirectional.topCenter": AlignmentDirectional.topCenter,
   "topEnd": AlignmentDirectional.topEnd,
+  "AlignmentDirectional.topEnd": AlignmentDirectional.topEnd,
   "bottomCenter": AlignmentDirectional.bottomCenter,
+  "AlignmentDirectional.bottomCenter": AlignmentDirectional.bottomCenter,
   "bottomEnd": AlignmentDirectional.bottomEnd,
+  "AlignmentDirectional.bottomEnd": AlignmentDirectional.bottomEnd,
   "bottomStart": AlignmentDirectional.bottomStart,
+  "AlignmentDirectional.bottomStart": AlignmentDirectional.bottomStart,
   "center": AlignmentDirectional.center,
+  "AlignmentDirectional.center": AlignmentDirectional.center,
   "centerStart": AlignmentDirectional.centerStart,
+  "AlignmentDirectional.centerStart": AlignmentDirectional.centerStart,
   "centerEnd": AlignmentDirectional.centerEnd,
+  "AlignmentDirectional.centerEnd": AlignmentDirectional.centerEnd,
 };
 
 /// Lookup table for [MainAxisAlignment] values by [int] type key.
@@ -493,11 +596,17 @@ const _mainAxisAlignmentIntLookupTable = <int, MainAxisAlignment>{
 /// Supported values: "start", "end", "center", "spaceBetween", "spaceAround", "spaceEvenly".
 const _mainAxisAlignmentStringLookupTable = <String, MainAxisAlignment>{
   "start": MainAxisAlignment.start,
+  "MainAxisAlignment.start": MainAxisAlignment.start,
   "end": MainAxisAlignment.end,
+  "MainAxisAlignment.end": MainAxisAlignment.end,
   "center": MainAxisAlignment.center,
+  "MainAxisAlignment.center": MainAxisAlignment.center,
   "spaceBetween": MainAxisAlignment.spaceBetween,
+  "MainAxisAlignment.spaceBetween": MainAxisAlignment.spaceBetween,
   "spaceAround": MainAxisAlignment.spaceAround,
+  "MainAxisAlignment.spaceAround": MainAxisAlignment.spaceAround,
   "spaceEvenly": MainAxisAlignment.spaceEvenly,
+  "MainAxisAlignment.spaceEvenly": MainAxisAlignment.spaceEvenly,
 };
 
 /// Lookup table for [CrossAxisAlignment] values by [int] type key.
@@ -518,10 +627,15 @@ const _crossAxisAlignmentIntLookupTable = <int, CrossAxisAlignment>{
 /// Supported values: "start", "end", "center", "stretch", "baseline".
 const _crossAxisAlignmentStringLookupTable = <String, CrossAxisAlignment>{
   "start": CrossAxisAlignment.start,
+  "CrossAxisAlignment.start": CrossAxisAlignment.start,
   "end": CrossAxisAlignment.end,
+  "CrossAxisAlignment.end": CrossAxisAlignment.end,
   "center": CrossAxisAlignment.center,
+  "CrossAxisAlignment.center": CrossAxisAlignment.center,
   "stretch": CrossAxisAlignment.stretch,
+  "CrossAxisAlignment.stretch": CrossAxisAlignment.stretch,
   "baseline": CrossAxisAlignment.baseline,
+  "CrossAxisAlignment.baseline": CrossAxisAlignment.baseline,
 };
 
 /// Lookup table for [MainAxisSize] values by [int] type key.
@@ -539,7 +653,9 @@ const _mainAxisSizeIntLookupTable = <int, MainAxisSize>{
 /// Supported values: "min", "max".
 const _mainAxisSizeStringLookupTable = <String, MainAxisSize>{
   "min": MainAxisSize.min,
+  "MainAxisSize.min": MainAxisSize.min,
   "max": MainAxisSize.max,
+  "MainAxisSize.max": MainAxisSize.max,
 };
 
 /// Lookup table for [SliderInteraction] values by [int] type key.
@@ -559,9 +675,13 @@ const _sliderInteractionIntLookupTable = <int, SliderInteraction>{
 /// Supported values: "tapOnly", "tapAndSlide", "slideOnly", "slideThumb".
 const _sliderInteractionStringLookupTable = <String, SliderInteraction>{
   "tapOnly": SliderInteraction.tapOnly,
+  "SliderInteraction.tapOnly": SliderInteraction.tapOnly,
   "tapAndSlide": SliderInteraction.tapAndSlide,
+  "SliderInteraction.tapAndSlide": SliderInteraction.tapAndSlide,
   "slideOnly": SliderInteraction.slideOnly,
+  "SliderInteraction.slideOnly": SliderInteraction.slideOnly,
   "slideThumb": SliderInteraction.slideThumb,
+  "SliderInteraction.slideThumb": SliderInteraction.slideThumb,
 };
 
 /// Lookup table for [MaterialTapTargetSize] values by [int] type key.
@@ -579,7 +699,9 @@ const _materialTapTargetSizeIntLookupTable = <int, MaterialTapTargetSize>{
 /// Supported values: "shrinkWrap", "padded".
 const _materialTapTargetSizeStringLookupTable = <String, MaterialTapTargetSize>{
   "shrinkWrap": MaterialTapTargetSize.shrinkWrap,
+  "MaterialTapTargetSize.shrinkWrap": MaterialTapTargetSize.shrinkWrap,
   "padded": MaterialTapTargetSize.padded,
+  "MaterialTapTargetSize.padded": MaterialTapTargetSize.padded,
 };
 
 /// Lookup table for [FilterQuality] values by [int] type key.
@@ -599,9 +721,13 @@ const _filterQualityIntLookupTable = <int, FilterQuality>{
 /// Supported values: "none", "low", "medium", "high".
 const _filterQualityStringLookupTable = <String, FilterQuality>{
   "none": FilterQuality.none,
+  "FilterQuality.none": FilterQuality.none,
   "low": FilterQuality.low,
+  "FilterQuality.low": FilterQuality.low,
   "medium": FilterQuality.medium,
+  "FilterQuality.medium": FilterQuality.medium,
   "high": FilterQuality.high,
+  "FilterQuality.high": FilterQuality.high,
 };
 
 /// Lookup table for [ImageRepeat] values by [int] type key.
@@ -621,9 +747,13 @@ const _imageRepeatIntLookupTable = <int, ImageRepeat>{
 /// Supported values: "repeat", "repeatX", "repeatY", "noRepeat".
 const _imageRepeatStringLookupTable = <String, ImageRepeat>{
   "repeat": ImageRepeat.repeat,
+  "ImageRepeat.repeat": ImageRepeat.repeat,
   "repeatX": ImageRepeat.repeatX,
+  "ImageRepeat.repeatX": ImageRepeat.repeatX,
   "repeatY": ImageRepeat.repeatY,
+  "ImageRepeat.repeatY": ImageRepeat.repeatY,
   "noRepeat": ImageRepeat.noRepeat,
+  "ImageRepeat.noRepeat": ImageRepeat.noRepeat,
 };
 
 /// Lookup table for [BoxFit] values by [int] type key.
@@ -646,12 +776,19 @@ const _boxFitIntLookupTable = <int, BoxFit>{
 /// Supported values: "fill", "contain", "cover", "fitHeight", "fitWidth", "none", "scaleDown".
 const _boxFitStringLookupTable = <String, BoxFit>{
   "fill": BoxFit.fill,
+  "BoxFit.fill": BoxFit.fill,
   "contain": BoxFit.contain,
+  "BoxFit.contain": BoxFit.contain,
   "cover": BoxFit.cover,
+  "BoxFit.cover": BoxFit.cover,
   "fitHeight": BoxFit.fitHeight,
+  "BoxFit.fitHeight": BoxFit.fitHeight,
   "fitWidth": BoxFit.fitWidth,
+  "BoxFit.fitWidth": BoxFit.fitWidth,
   "none": BoxFit.none,
+  "BoxFit.none": BoxFit.none,
   "scaleDown": BoxFit.scaleDown,
+  "BoxFit.scaleDown": BoxFit.scaleDown,
 };
 
 /// Lookup table for [BlendMode] values by [String] type key.
@@ -660,34 +797,63 @@ const _boxFitStringLookupTable = <String, BoxFit>{
 /// Supported values: "clear", "src", "dst", "srcOver", "dstOver", "srcIn", "dstIn", "srcOut", "dstOut", "srcATop", "dstATop", "xor", "plus", "modulate", "screen", "overlay", "darken", "lighten", "colorDodge", "colorBurn", "hardLight", "softLight", "difference", "exclusion", "multiply", "hue", "saturation", "color", "luminosity".
 const _blendModeStringLookupTable = <String, BlendMode>{
   "clear": BlendMode.clear,
+  "BlendMode.clear": BlendMode.clear,
   "src": BlendMode.src,
+  "BlendMode.src": BlendMode.src,
   "dst": BlendMode.dst,
+  "BlendMode.dst": BlendMode.dst,
   "srcOver": BlendMode.srcOver,
+  "BlendMode.srcOver": BlendMode.srcOver,
   "dstOver": BlendMode.dstOver,
+  "BlendMode.dstOver": BlendMode.dstOver,
   "srcIn": BlendMode.srcIn,
+  "BlendMode.srcIn": BlendMode.srcIn,
   "dstIn": BlendMode.dstIn,
+  "BlendMode.dstIn": BlendMode.dstIn,
   "srcOut": BlendMode.srcOut,
+  "BlendMode.srcOut": BlendMode.srcOut,
   "dstOut": BlendMode.dstOut,
+  "BlendMode.dstOut": BlendMode.dstOut,
   "srcATop": BlendMode.srcATop,
+  "BlendMode.srcATop": BlendMode.srcATop,
   "dstATop": BlendMode.dstATop,
+  "BlendMode.dstATop": BlendMode.dstATop,
   "xor": BlendMode.xor,
+  "BlendMode.xor": BlendMode.xor,
   "plus": BlendMode.plus,
+  "BlendMode.plus": BlendMode.plus,
   "modulate": BlendMode.modulate,
+  "BlendMode.modulate": BlendMode.modulate,
   "screen": BlendMode.screen,
+  "BlendMode.screen": BlendMode.screen,
   "overlay": BlendMode.overlay,
+  "BlendMode.overlay": BlendMode.overlay,
   "darken": BlendMode.darken,
+  "BlendMode.darken": BlendMode.darken,
   "lighten": BlendMode.lighten,
+  "BlendMode.lighten": BlendMode.lighten,
   "colorDodge": BlendMode.colorDodge,
+  "BlendMode.colorDodge": BlendMode.colorDodge,
   "colorBurn": BlendMode.colorBurn,
+  "BlendMode.colorBurn": BlendMode.colorBurn,
   "hardLight": BlendMode.hardLight,
+  "BlendMode.hardLight": BlendMode.hardLight,
   "softLight": BlendMode.softLight,
+  "BlendMode.softLight": BlendMode.softLight,
   "difference": BlendMode.difference,
+  "BlendMode.difference": BlendMode.difference,
   "exclusion": BlendMode.exclusion,
+  "BlendMode.exclusion": BlendMode.exclusion,
   "multiply": BlendMode.multiply,
+  "BlendMode.multiply": BlendMode.multiply,
   "hue": BlendMode.hue,
+  "BlendMode.hue": BlendMode.hue,
   "saturation": BlendMode.saturation,
+  "BlendMode.saturation": BlendMode.saturation,
   "color": BlendMode.color,
+  "BlendMode.color": BlendMode.color,
   "luminosity": BlendMode.luminosity,
+  "BlendMode.luminosity": BlendMode.luminosity,
 };
 
 /// Lookup table for [BlendMode] values by [int] type key.
@@ -741,7 +907,9 @@ const _verticalDirectionIntLookupTable = <int, VerticalDirection>{
 /// Supported values: "up", "down".
 const _verticalDirectionStringLookupTable = <String, VerticalDirection>{
   "up": VerticalDirection.up,
+  "VerticalDirection.up": VerticalDirection.up,
   "down": VerticalDirection.down,
+  "VerticalDirection.down": VerticalDirection.down,
 };
 
 /// Lookup table for [BoxShape] values by [int] type key.
@@ -759,7 +927,9 @@ const _boxShapeIntLookupTable = <int, BoxShape>{
 /// Supported values: "circle", "rectangle".
 const _boxShapeStringLookupTable = <String, BoxShape>{
   "circle": BoxShape.circle,
+  "BoxShape.circle": BoxShape.circle,
   "rectangle": BoxShape.rectangle,
+  "BoxShape.rectangle": BoxShape.rectangle,
 };
 
 /// Lookup table for [BorderStyle] values by [int] type key.
@@ -777,7 +947,9 @@ const _borderStyleIntLookupTable = <int, BorderStyle>{
 /// Supported values: "solid", "none".
 const _borderStyleStringLookupTable = <String, BorderStyle>{
   "solid": BorderStyle.solid,
+  "BorderStyle.solid": BorderStyle.solid,
   "none": BorderStyle.none,
+  "BorderStyle.none": BorderStyle.none,
 };
 
 /// Lookup table for [TextInputType] values by [int] type key.
@@ -803,15 +975,25 @@ const _textInputTypeIntLookupTable = <int, TextInputType>{
 /// Supported values: "text", "name", "none", "url", "emailAddress", "datetime", "streetAddress", "number", "phone", "multiline".
 const _textInputTypeStringLookupTable = <String, TextInputType>{
   "text": TextInputType.text,
+  "TextInputType.text": TextInputType.text,
   "name": TextInputType.name,
+  "TextInputType.name": TextInputType.name,
   "none": TextInputType.none,
+  "TextInputType.none": TextInputType.none,
   "url": TextInputType.url,
+  "TextInputType.url": TextInputType.url,
   "emailAddress": TextInputType.emailAddress,
+  "TextInputType.emailAddress": TextInputType.emailAddress,
   "datetime": TextInputType.datetime,
+  "TextInputType.datetime": TextInputType.datetime,
   "streetAddress": TextInputType.streetAddress,
+  "TextInputType.streetAddress": TextInputType.streetAddress,
   "number": TextInputType.number,
+  "TextInputType.number": TextInputType.number,
   "phone": TextInputType.phone,
+  "TextInputType.phone": TextInputType.phone,
   "multiline": TextInputType.multiline,
+  "TextInputType.multiline": TextInputType.multiline,
 };
 
 /// Lookup table for [ScrollViewKeyboardDismissBehavior] values by [int] type key.
@@ -831,7 +1013,11 @@ const _keyboardDismissBehaviorIntLookupTable =
 const _keyboardDismissBehaviorStringLookupTable =
     <String, ScrollViewKeyboardDismissBehavior>{
   "manual": ScrollViewKeyboardDismissBehavior.manual,
+  "ScrollViewKeyboardDismissBehavior.manual":
+      ScrollViewKeyboardDismissBehavior.manual,
   "onDrag": ScrollViewKeyboardDismissBehavior.onDrag,
+  "ScrollViewKeyboardDismissBehavior.onDrag":
+      ScrollViewKeyboardDismissBehavior.onDrag,
 };
 
 /// Lookup table for [ScrollPhysics] values by [int] type key.
@@ -852,10 +1038,15 @@ const _scrollPhysicsIntLookupTable = <int, ScrollPhysics>{
 /// Supported values: "alwaysScrollableScrollPhysics", "bouncingScrollPhysics", "clampingScrollPhysics", "fixedExtentScrollPhysics", "neverScrollableScrollPhysics".
 const _scrollPhysicsStringLookupTable = <String, ScrollPhysics>{
   "alwaysScrollableScrollPhysics": AlwaysScrollableScrollPhysics(),
+  "AlwaysScrollableScrollPhysics": AlwaysScrollableScrollPhysics(),
   "bouncingScrollPhysics": BouncingScrollPhysics(),
+  "BouncingScrollPhysics": BouncingScrollPhysics(),
   "clampingScrollPhysics": ClampingScrollPhysics(),
+  "ClampingScrollPhysics": ClampingScrollPhysics(),
   "fixedExtentScrollPhysics": FixedExtentScrollPhysics(),
+  "FixedExtentScrollPhysics": FixedExtentScrollPhysics(),
   "neverScrollableScrollPhysics": NeverScrollableScrollPhysics(),
+  "NeverScrollableScrollPhysics": NeverScrollableScrollPhysics(),
 };
 
 /// Lookup table for [DragStartBehavior] values by [int] type key.
@@ -873,7 +1064,9 @@ const _dragStartBehaviorIntLookupTable = <int, DragStartBehavior>{
 /// Supported values: "start", "down".
 const _dragStartBehaviorStringLookupTable = <String, DragStartBehavior>{
   "start": DragStartBehavior.start,
+  "DragStartBehavior.start": DragStartBehavior.start,
   "down": DragStartBehavior.down,
+  "DragStartBehavior.down": DragStartBehavior.down,
 };
 
 /// Lookup table for [HitTestBehavior] values by [int] type key.
@@ -892,8 +1085,11 @@ const _hitTestBehaviorIntLookupTable = <int, HitTestBehavior>{
 /// Supported values: "deferToChild", "opaque", "translucent".
 const _hitTestBehaviorStringLookupTable = <String, HitTestBehavior>{
   "deferToChild": HitTestBehavior.deferToChild,
+  "HitTestBehavior.deferToChild": HitTestBehavior.deferToChild,
   "opaque": HitTestBehavior.opaque,
+  "HitTestBehavior.opaque": HitTestBehavior.opaque,
   "translucent": HitTestBehavior.translucent,
+  "HitTestBehavior.translucent": HitTestBehavior.translucent,
 };
 
 /// Lookup table for [FloatingActionButtonLocation] values by [String] type key.
@@ -902,23 +1098,58 @@ const _hitTestBehaviorStringLookupTable = <String, HitTestBehavior>{
 /// Supported values: "centerDocked", "centerFloat", "centerTop", "endDocked", "endFloat", "endTop", "startDocked", "startFloat", "startTop", "miniCenterDocked", "miniCenterFloat", "miniCenterTop", "miniEndDocked", "miniEndFloat", "miniEndTop", "miniStartDocked", "miniStartFloat", "miniStartTop".
 const _fabLocationStringLookupTable = <String, FloatingActionButtonLocation>{
   "centerDocked": FloatingActionButtonLocation.centerDocked,
+  "FloatingActionButtonLocation.centerDocked":
+      FloatingActionButtonLocation.centerDocked,
   "centerFloat": FloatingActionButtonLocation.centerFloat,
+  "FloatingActionButtonLocation.centerFloat":
+      FloatingActionButtonLocation.centerFloat,
   "centerTop": FloatingActionButtonLocation.centerTop,
+  "FloatingActionButtonLocation.centerTop":
+      FloatingActionButtonLocation.centerTop,
   "endDocked": FloatingActionButtonLocation.endDocked,
+  "FloatingActionButtonLocation.endDocked":
+      FloatingActionButtonLocation.endDocked,
   "endFloat": FloatingActionButtonLocation.endFloat,
+  "FloatingActionButtonLocation.endFloat":
+      FloatingActionButtonLocation.endFloat,
   "endTop": FloatingActionButtonLocation.endTop,
+  "FloatingActionButtonLocation.endTop": FloatingActionButtonLocation.endTop,
   "startDocked": FloatingActionButtonLocation.startDocked,
+  "FloatingActionButtonLocation.startDocked":
+      FloatingActionButtonLocation.startDocked,
   "startFloat": FloatingActionButtonLocation.startFloat,
+  "FloatingActionButtonLocation.startFloat":
+      FloatingActionButtonLocation.startFloat,
   "startTop": FloatingActionButtonLocation.startTop,
+  "FloatingActionButtonLocation.startTop":
+      FloatingActionButtonLocation.startTop,
   "miniCenterDocked": FloatingActionButtonLocation.miniCenterDocked,
+  "FloatingActionButtonLocation.miniCenterDocked":
+      FloatingActionButtonLocation.miniCenterDocked,
   "miniCenterFloat": FloatingActionButtonLocation.miniCenterFloat,
+  "FloatingActionButtonLocation.miniCenterFloat":
+      FloatingActionButtonLocation.miniCenterFloat,
   "miniCenterTop": FloatingActionButtonLocation.miniCenterTop,
+  "FloatingActionButtonLocation.miniCenterTop":
+      FloatingActionButtonLocation.miniCenterTop,
   "miniEndDocked": FloatingActionButtonLocation.miniEndDocked,
+  "FloatingActionButtonLocation.miniEndDocked":
+      FloatingActionButtonLocation.miniEndDocked,
   "miniEndFloat": FloatingActionButtonLocation.miniEndFloat,
+  "FloatingActionButtonLocation.miniEndFloat":
+      FloatingActionButtonLocation.miniEndFloat,
   "miniEndTop": FloatingActionButtonLocation.miniEndTop,
+  "FloatingActionButtonLocation.miniEndTop":
+      FloatingActionButtonLocation.miniEndTop,
   "miniStartDocked": FloatingActionButtonLocation.miniStartDocked,
+  "FloatingActionButtonLocation.miniStartDocked":
+      FloatingActionButtonLocation.miniStartDocked,
   "miniStartFloat": FloatingActionButtonLocation.miniStartFloat,
+  "FloatingActionButtonLocation.miniStartFloat":
+      FloatingActionButtonLocation.miniStartFloat,
   "miniStartTop": FloatingActionButtonLocation.miniStartTop,
+  "FloatingActionButtonLocation.miniStartTop":
+      FloatingActionButtonLocation.miniStartTop,
 };
 
 /// Lookup table for [FloatingActionButtonLocation] values by [int] type key.
@@ -952,9 +1183,13 @@ const _fabLocationIntLookupTable = <int, FloatingActionButtonLocation>{
 /// Supported values: "clamp", "mirror", "repeated", "decal".
 const _tileModeStringLookupTable = <String, TileMode>{
   "clamp": TileMode.clamp,
+  "TileMode.clamp": TileMode.clamp,
   "mirror": TileMode.mirror,
+  "TileMode.mirror": TileMode.mirror,
   "repeated": TileMode.repeated,
+  "TileMode.repeated": TileMode.repeated,
   "decal": TileMode.decal,
+  "TileMode.decal": TileMode.decal,
 };
 
 /// Lookup table for [TileMode] values by [int] type key.
@@ -974,7 +1209,9 @@ const _tileModeIntLookupTable = <int, TileMode>{
 /// Supported values: "themeOverlay", "themePriority".
 const _themeOverrideRuleStringLookupTable = <String, ThemeOverrideRule>{
   "themeOverlay": ThemeOverrideRule.themeOverlay,
+  "ThemeOverrideRule.themeOverlay": ThemeOverrideRule.themeOverlay,
   "themePriority": ThemeOverrideRule.themePriority,
+  "ThemeOverrideRule.themePriority": ThemeOverrideRule.themePriority,
 };
 
 /// Lookup table for [ThemeOverrideRule] values by [int] type key.
@@ -993,10 +1230,15 @@ const _themeOverrideRuleIntLookupTable = <int, ThemeOverrideRule>{
 const _imageFilterTypeStringLookupTable =
     <String, ImageFilter Function(Map<String, dynamic> value)>{
   "blur": DuitDataSource._blurImageFilterFromMap,
+  "ImageFilter.blur": DuitDataSource._blurImageFilterFromMap,
   "compose": DuitDataSource._composeImageFilterFromMap,
+  "ImageFilter.compose": DuitDataSource._composeImageFilterFromMap,
   "dilate": DuitDataSource._dilateImageFilterFromMap,
+  "ImageFilter.dilate": DuitDataSource._dilateImageFilterFromMap,
   "erode": DuitDataSource._erodeImageFilterFromMap,
+  "ImageFilter.erode": DuitDataSource._erodeImageFilterFromMap,
   "matrix": DuitDataSource._matrixImageFilterFromMap,
+  "ImageFilter.matrix": DuitDataSource._matrixImageFilterFromMap,
 };
 
 /// Lookup table for integer-based image filter types.
@@ -1018,7 +1260,9 @@ const _imageFilterTypeIntLookupTable =
 /// Supported values: "onEnter", "onAction".
 const _animationTriggerStringLookupTable = <String, AnimationTrigger>{
   "onEnter": AnimationTrigger.onEnter,
+  "AnimationTrigger.onEnter": AnimationTrigger.onEnter,
   "onAction": AnimationTrigger.onAction,
+  "AnimationTrigger.onAction": AnimationTrigger.onAction,
 };
 
 /// Lookup table for [AnimationTrigger] values by [int] type key.
@@ -1036,9 +1280,13 @@ const _animationTriggerIntLookupTable = <int, AnimationTrigger>{
 /// Supported values: "forward", "repeat", "reverse", "toggle".
 const _animationMethodStringLookupTable = <String, AnimationMethod>{
   "forward": AnimationMethod.forward,
+  "AnimationMethod.forward": AnimationMethod.forward,
   "repeat": AnimationMethod.repeat,
+  "AnimationMethod.repeat": AnimationMethod.repeat,
   "reverse": AnimationMethod.reverse,
+  "AnimationMethod.reverse": AnimationMethod.reverse,
   "toggle": AnimationMethod.toggle,
+  "AnimationMethod.toggle": AnimationMethod.toggle,
 };
 
 /// Lookup table for [AnimationMethod] values by [int] type key.
@@ -1058,15 +1306,25 @@ const _animationMethodIntLookupTable = <int, AnimationMethod>{
 /// Supported values: "tween", "group", "colorTween", "textStyleTween", "decorationTween", "alignmentTween", "sizeTween", "edgeInsetsTween", "boxConstraintsTween", "borderTween".
 const _tweenTypeStringLookupTable = <String, TweenType>{
   "tween": TweenType.tween,
+  "TweenType.tween": TweenType.tween,
   "group": TweenType.group,
+  "TweenType.group": TweenType.group,
   "colorTween": TweenType.colorTween,
+  "TweenType.colorTween": TweenType.colorTween,
   "textStyleTween": TweenType.textStyleTween,
+  "TweenType.textStyleTween": TweenType.textStyleTween,
   "decorationTween": TweenType.decorationTween,
+  "TweenType.decorationTween": TweenType.decorationTween,
   "alignmentTween": TweenType.alignmentTween,
+  "TweenType.alignmentTween": TweenType.alignmentTween,
   "sizeTween": TweenType.sizeTween,
+  "TweenType.sizeTween": TweenType.sizeTween,
   "edgeInsetsTween": TweenType.edgeInsetsTween,
+  "TweenType.edgeInsetsTween": TweenType.edgeInsetsTween,
   "boxConstraintsTween": TweenType.boxConstraintsTween,
+  "TweenType.boxConstraintsTween": TweenType.boxConstraintsTween,
   "borderTween": TweenType.borderTween,
+  "TweenType.borderTween": TweenType.borderTween,
 };
 
 /// Lookup table for [TweenType] values by [int] type key.
@@ -1092,8 +1350,11 @@ const _tweenTypeIntLookupTable = <int, TweenType>{
 /// Supported values: "parallax", "pin", "none".
 const _collapseModeStringLookupTable = <String, CollapseMode>{
   "parallax": CollapseMode.parallax,
+  "CollapseMode.parallax": CollapseMode.parallax,
   "pin": CollapseMode.pin,
+  "CollapseMode.pin": CollapseMode.pin,
   "none": CollapseMode.none,
+  "CollapseMode.none": CollapseMode.none,
 };
 
 /// Lookup table for [CollapseMode] values by [int] type key.
@@ -1112,8 +1373,11 @@ const _collapseModeIntLookupTable = <int, CollapseMode>{
 /// Supported values: "zoomBackground", "blurBackground", "fadeTitle".
 const _stretchModeStringLookupTable = <String, StretchMode>{
   "zoomBackground": StretchMode.zoomBackground,
+  "StretchMode.zoomBackground": StretchMode.zoomBackground,
   "blurBackground": StretchMode.blurBackground,
+  "StretchMode.blurBackground": StretchMode.blurBackground,
   "fadeTitle": StretchMode.fadeTitle,
+  "StretchMode.fadeTitle": StretchMode.fadeTitle,
 };
 
 /// Lookup table for [StretchMode] values by [int] type key.
@@ -1133,7 +1397,9 @@ const _stretchModeIntLookupTable = <int, StretchMode>{
 const _inputBorderTypeStringLookupTable =
     <String, InputBorder Function(Map<String, dynamic> value)>{
   "outline": DuitDataSource._outlineInputBorderFromMap,
+  "InputBorder.outline": DuitDataSource._outlineInputBorderFromMap,
   "underline": DuitDataSource._underlineInputBorderFromMap,
+  "InputBorder.underline": DuitDataSource._underlineInputBorderFromMap,
 };
 
 /// Lookup table for [ShapeBorder] creation functions by [String] type key.
