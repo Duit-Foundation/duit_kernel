@@ -3,9 +3,11 @@ import 'dart:convert' as conv;
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
 
-String jsonEncode(Object? object) {
+String duitJsonEncode(Object? object) {
   return switch (object) {
+    //Add serializable values here to provide custom encoding
     TextInputType() => object.toJson()['name'],
+    //Rest types are encoded using the default jsonEncode
     _ => conv.jsonEncode(object, toEncodable: (nonEncodable) {
         return switch (nonEncodable) {
           Duration() => _encodeDuration(nonEncodable),
@@ -240,8 +242,6 @@ Map _encodeShapeBorder(ShapeBorder shapeBorder) {
     if (radius != null) "borderRadius": radius,
   };
 }
-
-//NOTE: extend to support all types of radii and sides
 
 /// Encodes a [Radius] object to a [double] value.
 ///
