@@ -126,7 +126,7 @@ void main() {
         const color = Colors.transparent;
         final result = duitJsonEncode(color);
 
-        expect(result, '"#0"');
+        expect(result, '"#00000000"');
       });
 
       test('should encode custom color', () {
@@ -301,7 +301,7 @@ void main() {
         expect(decoded['borderSide'],
             {'color': '#ff2196f3', 'width': 2.0, 'style': 'BorderStyle.solid'});
         expect(decoded['gapPadding'], 4.0);
-        expect(decoded['borderRadius'], 'Radius.circular(8.0)');
+        expect(decoded['borderRadius'], 8.0);
       });
 
       test('should encode UnderlineInputBorder', () {
