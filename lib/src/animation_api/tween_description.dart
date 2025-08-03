@@ -25,28 +25,28 @@ base class DuitTweenDescription<T> {
   /// The key identifier for the animated property in the UI component.
   /// This key is used to map the animation to the correct property.
   final String animatedPropKey;
-  
+
   /// The duration of the animation.
   final Duration duration;
-  
+
   /// The starting value for the animation.
   final T begin;
-  
+
   /// The ending value for the animation.
   final T end;
-  
+
   /// The curve that defines the animation's easing function.
   final Curve curve;
-  
+
   /// The trigger that initiates the animation.
   final AnimationTrigger trigger;
-  
+
   /// The method that controls how the animation plays.
   final AnimationMethod method;
-  
+
   /// Whether the animation should reverse direction when repeating.
   final bool reverseOnRepeat;
-  
+
   /// Optional interval configuration for controlling animation timing.
   final AnimationInterval? interval;
 
@@ -64,6 +64,19 @@ base class DuitTweenDescription<T> {
     required this.reverseOnRepeat,
     this.interval,
   });
+
+  @mustCallSuper
+  Map<String, dynamic> toJson() => {
+        "animatedPropKey": animatedPropKey,
+        "duration": duration,
+        "begin": begin,
+        "end": end,
+        "curve": curve,
+        "trigger": trigger,
+        "method": method,
+        "reverseOnRepeat": reverseOnRepeat,
+        if (interval != null) "interval": interval,
+      };
 }
 
 /// A group of tween descriptions that can be executed together.
@@ -128,6 +141,15 @@ final class TweenDescriptionGroup extends DuitTweenDescription<dynamic> {
           begin: null,
           curve: Curves.linear,
         );
+
+  @override
+  Map<String, dynamic> toJson() {
+    final json = super.toJson();
+    json["type"] = "tweenGroup";
+    json["groupId"] = groupId;
+    json["tweens"] = tweens.map((tween) => tween.toJson()).toList();
+    return json;
+  }
 }
 
 /// Description for a standard [Tween] animation that animates between double values.
@@ -194,6 +216,10 @@ final class ColorTweenDescription extends DuitTweenDescription<Color> {
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.colorTween;
 }
 
 /// Description for a [TextStyleTween] animation that animates between TextStyle values.
@@ -227,6 +253,10 @@ final class TextStyleTweenDescription extends DuitTweenDescription<TextStyle> {
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.textStyleTween;
 }
 
 /// Description for a [DecorationTween] animation that animates between Decoration values.
@@ -268,6 +298,10 @@ final class DecorationTweenDescription
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.decorationTween;
 }
 
 /// Description for an [AlignmentTween] animation that animates between AlignmentGeometry values.
@@ -302,6 +336,10 @@ final class AlignmentTweenDescription
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.alignmentTween;
 }
 
 /// Description for an [EdgeInsetsTween] animation that animates between EdgeInsetsGeometry values.
@@ -335,6 +373,10 @@ final class EdgeInsetsTweenDescription
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.edgeInsetsTween;
 }
 
 /// Description for a [BoxConstraintsTween] animation that animates between BoxConstraints values.
@@ -369,6 +411,10 @@ final class BoxConstraintsTweenDescription
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.boxConstraintsTween;
 }
 
 /// Description for a [SizeTween] animation that animates between Size values.
@@ -401,6 +447,10 @@ final class SizeTweenDescription extends DuitTweenDescription<Size> {
     required super.reverseOnRepeat,
     super.interval,
   });
+
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.sizeTween;
 }
 
 /// Description for a [BorderTween] animation that animates between Border values.
@@ -434,5 +484,8 @@ final class BorderTweenDescription extends DuitTweenDescription<Border> {
     required super.reverseOnRepeat,
     super.interval,
   });
-}
 
+  @override
+  Map<String, dynamic> toJson() =>
+      super.toJson()..["type"] = TweenType.borderTween;
+}
