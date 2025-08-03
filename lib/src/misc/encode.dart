@@ -3,6 +3,83 @@ import 'dart:convert' as conv;
 import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
 
+/// Converts any object to a JSON string representation with custom encoding support.
+///
+/// This function provides a comprehensive JSON serialization mechanism that extends
+/// the standard `jsonEncode` functionality with custom encoding for Flutter-specific
+/// objects and Duit framework types. It handles both simple serializable objects
+/// and complex Flutter widgets, styles, and properties that require special encoding.
+///
+/// The function uses a two-tier approach:
+/// 1. **Direct serialization**: For objects that implement custom serialization
+///    (like `TextInputType` with `toJson()` method)
+/// 2. **Custom encoding**: For Flutter objects that need special handling through
+///    the `toEncodable` callback
+///
+/// **Supported Flutter/Duit types:**
+/// - `Duration` → milliseconds as integer
+/// - `Size` → [width, height] as list of doubles
+/// - `EdgeInsets` → [left, top, right, bottom] as list of doubles
+/// - `TextStyle` → map with non-null properties
+/// - `Color` → hex string with alpha channel
+/// - `LinearGradient` → map with colors, stops, begin, end, and transform
+/// - `BoxShadow` → map with color, offset, blurRadius, spreadRadius
+/// - `Offset` → map with dx, dy coordinates
+/// - `BoxDecoration` → map with color, borderRadius, border, gradient, boxShadow
+/// - `BorderRadius` → circular radius as double
+/// - `Border` → map with side properties
+/// - `InputBorder` → map with type, borderSide, and optional properties
+/// - `InputDecoration` → map with all non-null decoration properties
+/// - `VisualDensity` → map with horizontal and vertical values
+/// - `ScrollPhysics` → runtime type name as string
+/// - `ShapeBorder` → map with type, side, and borderRadius
+/// - `WidgetStateProperty` → map with resolved state values
+/// - `ButtonStyle` → map with all non-null style properties
+/// - `AnimationInterval` → map with begin and end values
+/// - `DuitTweenDescription` → JSON representation via toJson()
+/// - `Curve` → predefined string mapping
+///
+/// **Parameters:**
+/// - [object]: The object to encode. Can be any type including null.
+///
+/// **Returns:**
+/// A JSON string representation of the object. For unsupported types,
+/// falls back to the object's `toString()` method.
+///
+/// **Throws:**
+/// - `JsonUnsupportedObjectError`: When the object cannot be serialized
+///   and doesn't have a meaningful `toString()` representation
+///
+/// **Example usage:**
+///
+/// ```dart
+/// // Simple object
+/// String json = duitJsonEncode({'key': 'value'});
+/// // Result: '{"key":"value"}'
+///
+/// // Flutter Color
+/// String colorJson = duitJsonEncode(Colors.blue);
+/// // Result: '"#FF2196F3"'
+///
+/// // TextStyle
+/// String styleJson = duitJsonEncode(TextStyle(
+///   color: Colors.red,
+///   fontSize: 16.0,
+///   fontWeight: FontWeight.bold,
+/// ));
+/// // Result: '{"color":"#FFFF0000","fontSize":16.0,"fontWeight":700}'
+///
+/// // Duration
+/// String durationJson = duitJsonEncode(Duration(seconds: 5));
+/// // Result: '5000'
+///
+/// // Complex widget state property
+/// String stateJson = duitJsonEncode(WidgetStateProperty.resolve({
+///   WidgetState.pressed: Colors.red,
+///   WidgetState.hovered: Colors.blue,
+/// }));
+/// // Result: '{"pressed":"#FFFF0000","hovered":"#FF0000FF"}'
+/// ```
 String duitJsonEncode(Object? object) {
   return switch (object) {
     //Add serializable values here to provide custom encoding
@@ -38,12 +115,15 @@ String duitJsonEncode(Object? object) {
   };
 }
 
+/// Encodes a [Duration] object to milliseconds as an integer.
 @preferInline
 int _encodeDuration(Duration duration) => duration.inMilliseconds;
 
+/// Encodes a [Size] object to a list of doubles [width, height].
 @preferInline
 List<double> _encodeSize(Size size) => [size.width, size.height];
 
+/// Encodes [EdgeInsets] to a list of doubles [left, top, right, bottom].
 @preferInline
 List<double> _encodeEdgeInsets(EdgeInsets edgeInsets) => [
       edgeInsets.left,
@@ -52,6 +132,7 @@ List<double> _encodeEdgeInsets(EdgeInsets edgeInsets) => [
       edgeInsets.bottom,
     ];
 
+/// Encodes a [TextStyle] object to a map containing only non-null properties.
 @preferInline
 Map _encodeTextStyle(TextStyle textStyle) => {
       if (textStyle.color != null) 'color': textStyle.color,
@@ -80,9 +161,11 @@ Map _encodeTextStyle(TextStyle textStyle) => {
         'leadingDistribution': textStyle.leadingDistribution,
     };
 
+/// Encodes a [Color] object to a hex string with alpha channel.
 @preferInline
 String _encodeColor(Color color) => "#${color.value.toRadixString(16).padLeft(8, '0')}";
 
+/// Encodes a [LinearGradient] object to a map with colors, stops, begin, end, and transform.
 @preferInline
 Map _encodeGradient(LinearGradient gradient) => {
       'colors': gradient.colors,
@@ -95,6 +178,7 @@ Map _encodeGradient(LinearGradient gradient) => {
             : gradient.transform.toString(),
     };
 
+/// Encodes a [BoxShadow] object to a map with color, offset, blurRadius, and spreadRadius.
 @preferInline
 Map _encodeBoxShadow(BoxShadow boxShadow) => {
       'color': boxShadow.color,
@@ -103,12 +187,14 @@ Map _encodeBoxShadow(BoxShadow boxShadow) => {
       'spreadRadius': boxShadow.spreadRadius,
     };
 
+/// Encodes an [Offset] object to a map with dx and dy coordinates.
 @preferInline
 Map _encodeOffset(Offset offset) => {
       "dx": offset.dx,
       "dy": offset.dy,
     };
 
+/// Encodes a [BoxDecoration] object to a map with non-null decoration properties.
 @preferInline
 Map _encodeDecoration(BoxDecoration decoration) => {
       if (decoration.color != null) 'color': decoration.color,
@@ -119,6 +205,7 @@ Map _encodeDecoration(BoxDecoration decoration) => {
       if (decoration.boxShadow != null) 'boxShadow': decoration.boxShadow,
     };
 
+/// Encodes a [Border] object to a map with side properties.
 @preferInline
 Map _encodeBorder(Border border) => {
       "side": {
@@ -128,6 +215,7 @@ Map _encodeBorder(Border border) => {
       }
     };
 
+/// Encodes an [InputBorder] object to a map with type, borderSide, and optional properties.
 Map _encodeInputBorder(InputBorder inputBorder) => {
       "type": switch (inputBorder) {
         OutlineInputBorder() => "outline",
@@ -145,6 +233,7 @@ Map _encodeInputBorder(InputBorder inputBorder) => {
       },
     };
 
+/// Encodes an [InputDecoration] object to a map with all non-null decoration properties.
 @preferInline
 Map _encodeInputDecoration(InputDecoration inputDecoration) => {
       if (inputDecoration.labelText != null)
@@ -196,16 +285,19 @@ Map _encodeInputDecoration(InputDecoration inputDecoration) => {
         "suffixIconColor": inputDecoration.suffixIconColor,
     };
 
+/// Encodes a [VisualDensity] object to a map with horizontal and vertical values.
 @preferInline
 Map _encodeVisualDensity(VisualDensity visualDensity) => {
       "horizontal": visualDensity.horizontal,
       "vertical": visualDensity.vertical,
     };
 
+/// Encodes a [ScrollPhysics] object to its runtime type name as a string.
 @preferInline
 String _encodeScrollPhysics(ScrollPhysics scrollPhysics) =>
     scrollPhysics.runtimeType.toString();
 
+/// Extracts the side property from a [ShapeBorder] object.
 @preferInline
 BorderSide? _getSide(ShapeBorder shapeBorder) => switch (shapeBorder) {
       RoundedRectangleBorder() => shapeBorder.side,
@@ -216,6 +308,7 @@ BorderSide? _getSide(ShapeBorder shapeBorder) => switch (shapeBorder) {
       _ => null,
     };
 
+/// Extracts the border radius from a [ShapeBorder] object.
 @preferInline
 BorderRadius? _getBorderRadius(ShapeBorder shapeBorder) =>
     switch (shapeBorder) {
@@ -225,6 +318,7 @@ BorderRadius? _getBorderRadius(ShapeBorder shapeBorder) =>
       _ => null,
     };
 
+/// Encodes a [BorderSide] object to a map with color, width, and style.
 @preferInline
 Map _encodeBorderSide(BorderSide borderSide) => {
       "color": borderSide.color,
@@ -232,6 +326,7 @@ Map _encodeBorderSide(BorderSide borderSide) => {
       "style": borderSide.style,
     };
 
+/// Encodes a [ShapeBorder] object to a map with type, side, and borderRadius.
 @preferInline
 Map _encodeShapeBorder(ShapeBorder shapeBorder) {
   final radius = _getBorderRadius(shapeBorder);
@@ -252,6 +347,7 @@ Map _encodeShapeBorder(ShapeBorder shapeBorder) {
 @preferInline
 double _encodeRadius(BorderRadius radius) => radius.bottomLeft.x;
 
+/// Encodes a [WidgetStateProperty] object to a map with resolved state values.
 @preferInline
 Map _encodeWidgetStateProperty(WidgetStateProperty widgetStateProperty) {
   final disabled = widgetStateProperty.resolve({WidgetState.disabled});
@@ -272,6 +368,7 @@ Map _encodeWidgetStateProperty(WidgetStateProperty widgetStateProperty) {
   };
 }
 
+/// Encodes a [ButtonStyle] object to a map with all non-null style properties.
 @preferInline
 Map _encodeButtonStyle(ButtonStyle buttonStyle) => {
       if (buttonStyle.textStyle != null) "textStyle": buttonStyle.textStyle,
@@ -306,16 +403,19 @@ Map _encodeButtonStyle(ButtonStyle buttonStyle) => {
       if (buttonStyle.alignment != null) "alignment": buttonStyle.alignment,
     };
 
+/// Encodes an [AnimationInterval] object to a map with begin and end values.
 @preferInline
 Map _encodeAnimationInterval(AnimationInterval animationInterval) => {
       "begin": animationInterval.begin,
       "end": animationInterval.end,
     };
 
+/// Encodes a [DuitTweenDescription] object using its toJson() method.
 @preferInline
 Map _encodeTweenDescription(DuitTweenDescription tweenDescription) =>
     tweenDescription.toJson();
 
+/// Maps Flutter [Curve] objects to their string representations.
 const _curveToStringMap = <Curve, String>{
   Curves.linear: 'linear',
   Curves.fastEaseInToSlowEaseOut: 'fastEaseInToSlowEaseOut',
@@ -355,5 +455,6 @@ const _curveToStringMap = <Curve, String>{
   Curves.elasticOut: 'elasticOut',
 };
 
+/// Encodes a [Curve] object to its string representation, defaulting to 'linear'.
 @preferInline
 String _encodeCurve(Curve curve) => _curveToStringMap[curve] ?? "linear";
