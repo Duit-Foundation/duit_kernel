@@ -1,6 +1,6 @@
 import 'dart:convert' as conv;
 
-import 'package:duit_kernel/src/misc/annotations.dart';
+import 'package:duit_kernel/duit_kernel.dart';
 import 'package:flutter/material.dart';
 
 String jsonEncode(Object? object) {
@@ -11,6 +11,7 @@ String jsonEncode(Object? object) {
           Duration() => _encodeDuration(nonEncodable),
           Size() => _encodeSize(nonEncodable),
           EdgeInsets() => _encodeEdgeInsets(nonEncodable),
+          DuitTweenDescription() => _encodeTweenDescription(nonEncodable),
           TextStyle() => _encodeTextStyle(nonEncodable),
           Color() => _encodeColor(nonEncodable),
           LinearGradient() => _encodeGradient(nonEncodable),
@@ -25,6 +26,10 @@ String jsonEncode(Object? object) {
           VisualDensity() => _encodeVisualDensity(nonEncodable),
           ScrollPhysics() => _encodeScrollPhysics(nonEncodable),
           ShapeBorder() => _encodeShapeBorder(nonEncodable),
+          WidgetStateProperty() => _encodeWidgetStateProperty(nonEncodable),
+          ButtonStyle() => _encodeButtonStyle(nonEncodable),
+          AnimationInterval() => _encodeAnimationInterval(nonEncodable),
+          Curve() => _encodeCurve(nonEncodable),
           _ => nonEncodable.toString(),
         };
       }),
@@ -246,4 +251,108 @@ Map _encodeShapeBorder(ShapeBorder shapeBorder) {
 @preferInline
 double _encodeRadius(BorderRadius radius) => radius.bottomLeft.x;
 
-//NOTE: остановился на widgetStateProperty
+@preferInline
+Map _encodeWidgetStateProperty(WidgetStateProperty widgetStateProperty) {
+  final disabled = widgetStateProperty.resolve({WidgetState.disabled});
+  final error = widgetStateProperty.resolve({WidgetState.error});
+  final selected = widgetStateProperty.resolve({WidgetState.selected});
+  final pressed = widgetStateProperty.resolve({WidgetState.pressed});
+  final hovered = widgetStateProperty.resolve({WidgetState.hovered});
+  final focused = widgetStateProperty.resolve({WidgetState.focused});
+  final dragged = widgetStateProperty.resolve({WidgetState.dragged});
+  return {
+    if (disabled != null) "disabled": disabled,
+    if (error != null) "error": error,
+    if (selected != null) "selected": selected,
+    if (pressed != null) "pressed": pressed,
+    if (hovered != null) "hovered": hovered,
+    if (focused != null) "focused": focused,
+    if (dragged != null) "dragged": dragged,
+  };
+}
+
+@preferInline
+Map _encodeButtonStyle(ButtonStyle buttonStyle) => {
+      if (buttonStyle.textStyle != null) "textStyle": buttonStyle.textStyle,
+      if (buttonStyle.backgroundColor != null)
+        "backgroundColor": buttonStyle.backgroundColor,
+      if (buttonStyle.foregroundColor != null)
+        "foregroundColor": buttonStyle.foregroundColor,
+      if (buttonStyle.overlayColor != null)
+        "overlayColor": buttonStyle.overlayColor,
+      if (buttonStyle.shadowColor != null)
+        "shadowColor": buttonStyle.shadowColor,
+      if (buttonStyle.surfaceTintColor != null)
+        "surfaceTintColor": buttonStyle.surfaceTintColor,
+      if (buttonStyle.elevation != null) "elevation": buttonStyle.elevation,
+      if (buttonStyle.padding != null) "padding": buttonStyle.padding,
+      if (buttonStyle.minimumSize != null)
+        "minimumSize": buttonStyle.minimumSize,
+      if (buttonStyle.maximumSize != null)
+        "maximumSize": buttonStyle.maximumSize,
+      if (buttonStyle.iconColor != null) "iconColor": buttonStyle.iconColor,
+      if (buttonStyle.iconSize != null) "iconSize": buttonStyle.iconSize,
+      if (buttonStyle.side != null) "side": buttonStyle.side,
+      if (buttonStyle.shape != null) "shape": buttonStyle.shape,
+      if (buttonStyle.visualDensity != null)
+        "visualDensity": buttonStyle.visualDensity,
+      if (buttonStyle.tapTargetSize != null)
+        "tapTargetSize": buttonStyle.tapTargetSize,
+      if (buttonStyle.animationDuration != null)
+        "animationDuration": buttonStyle.animationDuration,
+      if (buttonStyle.enableFeedback != null)
+        "enableFeedback": buttonStyle.enableFeedback,
+      if (buttonStyle.alignment != null) "alignment": buttonStyle.alignment,
+    };
+
+@preferInline
+Map _encodeAnimationInterval(AnimationInterval animationInterval) => {
+      "begin": animationInterval.begin,
+      "end": animationInterval.end,
+    };
+
+@preferInline
+Map _encodeTweenDescription(DuitTweenDescription tweenDescription) =>
+    tweenDescription.toJson();
+
+const _curveToStringMap = <Curve, String>{
+  Curves.linear: 'linear',
+  Curves.fastEaseInToSlowEaseOut: 'fastEaseInToSlowEaseOut',
+  Curves.bounceIn: 'bounceIn',
+  Curves.bounceInOut: 'bounceInOut',
+  Curves.bounceOut: 'bounceOut',
+  Curves.decelerate: 'decelerate',
+  Curves.ease: 'ease',
+  Curves.easeIn: 'easeIn',
+  Curves.easeInBack: 'easeInBack',
+  Curves.easeInCirc: 'easeInCirc',
+  Curves.easeInSine: 'easeInSine',
+  Curves.easeInCubic: 'easeInCubic',
+  Curves.easeInExpo: 'easeInExpo',
+  Curves.easeInOutCubicEmphasized: 'easeInOutCubicEmphasized',
+  Curves.easeInOutBack: 'easeInOutBack',
+  Curves.easeInOutCirc: 'easeInOutCirc',
+  Curves.easeInOutExpo: 'easeInOutExpo',
+  Curves.easeInOutQuad: 'easeInOutQuad',
+  Curves.easeInOutQuart: 'easeInOutQuart',
+  Curves.easeInOutQuint: 'easeInOutQuint',
+  Curves.easeInOutSine: 'easeInOutSine',
+  Curves.easeInToLinear: 'easeInToLinear',
+  Curves.easeOutSine: 'easeOutSine',
+  Curves.easeOutBack: 'easeOutBack',
+  Curves.easeOutCirc: 'easeOutCirc',
+  Curves.easeOutCubic: 'easeOutCubic',
+  Curves.easeOutExpo: 'easeOutExpo',
+  Curves.easeOutQuad: 'easeOutQuad',
+  Curves.easeOutQuart: 'easeOutQuart',
+  Curves.easeOutQuint: 'easeOutQuint',
+  Curves.linearToEaseOut: 'linearToEaseOut',
+  Curves.slowMiddle: 'slowMiddle',
+  Curves.fastOutSlowIn: 'fastOutSlowIn',
+  Curves.elasticIn: 'elasticIn',
+  Curves.elasticInOut: 'elasticInOut',
+  Curves.elasticOut: 'elasticOut',
+};
+
+@preferInline
+String _encodeCurve(Curve curve) => _curveToStringMap[curve] ?? "linear";
