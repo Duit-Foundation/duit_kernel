@@ -83,35 +83,38 @@ import 'package:flutter/material.dart';
 String duitJsonEncode(Object? object) {
   return switch (object) {
     //Add serializable values here to provide custom encoding
-    TextInputType() => object.toJson()['name'],
+    TextInputType() => object.toJson()['name'] ?? "text",
     //Rest types are encoded using the default jsonEncode
-    _ => conv.jsonEncode(object, toEncodable: (nonEncodable) {
-        return switch (nonEncodable) {
-          Duration() => _encodeDuration(nonEncodable),
-          Size() => _encodeSize(nonEncodable),
-          EdgeInsets() => _encodeEdgeInsets(nonEncodable),
-          DuitTweenDescription() => _encodeTweenDescription(nonEncodable),
-          TextStyle() => _encodeTextStyle(nonEncodable),
-          Color() => _encodeColor(nonEncodable),
-          LinearGradient() => _encodeGradient(nonEncodable),
-          BoxShadow() => _encodeBoxShadow(nonEncodable),
-          Offset() => _encodeOffset(nonEncodable),
-          BoxDecoration() => _encodeDecoration(nonEncodable),
-          BorderRadius() => _encodeRadius(nonEncodable),
-          Border() => _encodeBorder(nonEncodable),
-          BorderSide() => _encodeBorderSide(nonEncodable),
-          InputBorder() => _encodeInputBorder(nonEncodable),
-          InputDecoration() => _encodeInputDecoration(nonEncodable),
-          VisualDensity() => _encodeVisualDensity(nonEncodable),
-          ScrollPhysics() => _encodeScrollPhysics(nonEncodable),
-          ShapeBorder() => _encodeShapeBorder(nonEncodable),
-          WidgetStateProperty() => _encodeWidgetStateProperty(nonEncodable),
-          ButtonStyle() => _encodeButtonStyle(nonEncodable),
-          AnimationInterval() => _encodeAnimationInterval(nonEncodable),
-          Curve() => _encodeCurve(nonEncodable),
-          _ => nonEncodable.toString(),
-        };
-      }),
+    _ => conv.jsonEncode(
+        object,
+        toEncodable: (nonEncodable) {
+          return switch (nonEncodable) {
+            Duration() => _encodeDuration(nonEncodable),
+            Size() => _encodeSize(nonEncodable),
+            EdgeInsets() => _encodeEdgeInsets(nonEncodable),
+            DuitTweenDescription() => _encodeTweenDescription(nonEncodable),
+            TextStyle() => _encodeTextStyle(nonEncodable),
+            Color() => _encodeColor(nonEncodable),
+            LinearGradient() => _encodeGradient(nonEncodable),
+            BoxShadow() => _encodeBoxShadow(nonEncodable),
+            Offset() => _encodeOffset(nonEncodable),
+            BoxDecoration() => _encodeDecoration(nonEncodable),
+            BorderRadius() => _encodeRadius(nonEncodable),
+            Border() => _encodeBorder(nonEncodable),
+            BorderSide() => _encodeBorderSide(nonEncodable),
+            InputBorder() => _encodeInputBorder(nonEncodable),
+            InputDecoration() => _encodeInputDecoration(nonEncodable),
+            VisualDensity() => _encodeVisualDensity(nonEncodable),
+            ScrollPhysics() => _encodeScrollPhysics(nonEncodable),
+            ShapeBorder() => _encodeShapeBorder(nonEncodable),
+            WidgetStateProperty() => _encodeWidgetStateProperty(nonEncodable),
+            ButtonStyle() => _encodeButtonStyle(nonEncodable),
+            AnimationInterval() => _encodeAnimationInterval(nonEncodable),
+            Curve() => _encodeCurve(nonEncodable),
+            _ => nonEncodable.toString(), //fallback to toString
+          };
+        },
+      ),
   };
 }
 
@@ -163,7 +166,8 @@ Map _encodeTextStyle(TextStyle textStyle) => {
 
 /// Encodes a [Color] object to a hex string with alpha channel.
 @preferInline
-String _encodeColor(Color color) => "#${color.value.toRadixString(16).padLeft(8, '0')}";
+String _encodeColor(Color color) =>
+    "#${color.value.toRadixString(16).padLeft(8, '0')}";
 
 /// Encodes a [LinearGradient] object to a map with colors, stops, begin, end, and transform.
 @preferInline
