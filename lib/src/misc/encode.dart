@@ -42,10 +42,10 @@ String duitJsonEncode(Object? object) {
 int _encodeDuration(Duration duration) => duration.inMilliseconds;
 
 @preferInline
-List _encodeSize(Size size) => [size.width, size.height];
+List<double> _encodeSize(Size size) => [size.width, size.height];
 
 @preferInline
-List _encodeEdgeInsets(EdgeInsets edgeInsets) => [
+List<double> _encodeEdgeInsets(EdgeInsets edgeInsets) => [
       edgeInsets.left,
       edgeInsets.top,
       edgeInsets.right,
@@ -81,7 +81,7 @@ Map _encodeTextStyle(TextStyle textStyle) => {
     };
 
 @preferInline
-String _encodeColor(Color color) => "#${color.value.toRadixString(16)}";
+String _encodeColor(Color color) => "#${color.value.toRadixString(16).padLeft(8, '0')}";
 
 @preferInline
 Map _encodeGradient(LinearGradient gradient) => {
@@ -90,7 +90,9 @@ Map _encodeGradient(LinearGradient gradient) => {
       'begin': gradient.begin,
       'end': gradient.end,
       if (gradient.transform != null)
-        'transform': (gradient.transform as GradientRotation).radians,
+        'transform': gradient.transform is GradientRotation
+            ? (gradient.transform as GradientRotation).radians
+            : gradient.transform.toString(),
     };
 
 @preferInline
@@ -137,11 +139,10 @@ Map _encodeInputBorder(InputBorder inputBorder) => {
         "width": inputBorder.borderSide.width,
         "style": inputBorder.borderSide.style,
       },
-      if (inputBorder is OutlineInputBorder)
+      if (inputBorder is OutlineInputBorder) ...{
         "gapPadding": inputBorder.gapPadding,
-      if (inputBorder is OutlineInputBorder)
-        //Circular border radius, use any value for now
-        "borderRadius": inputBorder.borderRadius.resolve(null).bottomLeft,
+        "borderRadius": inputBorder.borderRadius,
+      },
     };
 
 @preferInline
