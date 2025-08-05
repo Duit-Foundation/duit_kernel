@@ -16,7 +16,7 @@ part 'lookup.dart';
 /// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
 /// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
 @preferInline
-Color _colorFromHexString(String color, Color defaultValue) {
+Color? _colorFromHexString(String color) {
   final isHexColor = color.startsWith("#");
   if (isHexColor) {
     final buffer = StringBuffer();
@@ -24,7 +24,7 @@ Color _colorFromHexString(String color, Color defaultValue) {
     buffer.write(color.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
-  return defaultValue;
+  return null;
 }
 
 /// Converts a list of 3 or 4 elements to a [Color].
@@ -38,7 +38,7 @@ Color _colorFromHexString(String color, Color defaultValue) {
 /// or if any of the elements are not valid integers between 0 and 255, this
 /// function returns `null`.
 @preferInline
-Color _colorFromList(List<num> color, Color defaultValue) {
+Color? _colorFromList(List<num> color) {
   return switch (color.length) {
     4 => Color.fromRGBO(
         color[0].toInt(),
@@ -52,7 +52,7 @@ Color _colorFromList(List<num> color, Color defaultValue) {
         color[2].toInt(),
         1.0,
       ),
-    _ => defaultValue,
+    _ => null,
   };
 }
 
@@ -65,10 +65,10 @@ Color _colorFromList(List<num> color, Color defaultValue) {
 /// If the JSON value is not a valid color (i.e. it is not a string or a list
 /// of 3 or 4 elements), this function returns `null`.
 @preferInline
-Color _parseColor(color, Color defaultValue) => switch (color) {
-      String() => _colorFromHexString(color, defaultValue),
-      List<num>() => _colorFromList(color, defaultValue),
-      _ => defaultValue,
+Color? _parseColor(color) => switch (color) {
+      String() => _colorFromHexString(color),
+      List<num>() => _colorFromList(color),
+      _ => null,
     };
 
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
@@ -217,8 +217,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
     if (value == null) return defaultValue;
 
     return json[key] = switch (value) {
-      String() => _colorFromHexString(value, defaultValue),
-      List<num>() => _colorFromList(value, defaultValue),
+      String() => _colorFromHexString(value) ?? defaultValue,
+      List<num>() => _colorFromList(value) ?? defaultValue,
       _ => defaultValue,
     };
   }
@@ -238,7 +238,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   Color? tryParseColor({
     String key = "color",
-    Color defaultValue = Colors.transparent,
+    Color? defaultValue,
   }) {
     final value = json[key];
 
@@ -248,9 +248,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _colorFromHexString(value, defaultValue);
+        return _colorFromHexString(value);
       case List<num>():
-        return json[key] = _colorFromList(value, defaultValue);
+        return json[key] = _colorFromList(value);
       default:
         return defaultValue;
     }
@@ -933,7 +933,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final List<Color> dColors = [];
 
     for (var color in colors) {
-      dColors.add(_parseColor(color, Colors.transparent));
+      dColors.add(_parseColor(color) ?? Colors.transparent);
     }
 
     final angle = source.tryGetDouble(key: "rotationAngle");

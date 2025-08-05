@@ -506,8 +506,8 @@ void main() {
 
       expect(data.tryParseColor(key: "color"), const Color(0xFFFF0000));
       expect(data.tryParseColor(key: "color2"), const Color(0xFFFF0000));
-      expect(data.tryParseColor(key: "color3"), Colors.transparent);
-      expect(data.tryParseColor(key: "color4"), Colors.transparent);
+      expect(data.tryParseColor(key: "color3"), null);
+      expect(data.tryParseColor(key: "color4"), null);
     });
   });
 
