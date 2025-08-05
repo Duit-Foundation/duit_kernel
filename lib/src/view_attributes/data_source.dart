@@ -16,7 +16,7 @@ part 'lookup.dart';
 /// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
 /// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
 @preferInline
-Color? _colorFromHexString(String color) {
+Color _colorFromHexString(String color, Color defaultValue) {
   final isHexColor = color.startsWith("#");
   if (isHexColor) {
     final buffer = StringBuffer();
@@ -24,7 +24,7 @@ Color? _colorFromHexString(String color) {
     buffer.write(color.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
-  return null;
+  return defaultValue;
 }
 
 /// Converts a list of 3 or 4 elements to a [Color].
@@ -38,7 +38,7 @@ Color? _colorFromHexString(String color) {
 /// or if any of the elements are not valid integers between 0 and 255, this
 /// function returns `null`.
 @preferInline
-Color? _colorFromList(List<num> color) {
+Color _colorFromList(List<num> color, Color defaultValue) {
   return switch (color.length) {
     4 => Color.fromRGBO(
         color[0].toInt(),
@@ -52,7 +52,7 @@ Color? _colorFromList(List<num> color) {
         color[2].toInt(),
         1.0,
       ),
-    _ => null,
+    _ => defaultValue,
   };
 }
 
@@ -65,10 +65,10 @@ Color? _colorFromList(List<num> color) {
 /// If the JSON value is not a valid color (i.e. it is not a string or a list
 /// of 3 or 4 elements), this function returns `null`.
 @preferInline
-Color? _parseColor(color) => switch (color) {
-      String() => _colorFromHexString(color),
-      List<num>() => _colorFromList(color),
-      _ => null,
+Color _parseColor(color, Color defaultValue) => switch (color) {
+      String() => _colorFromHexString(color, defaultValue),
+      List<num>() => _colorFromList(color, defaultValue),
+      _ => defaultValue,
     };
 
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
@@ -214,13 +214,11 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Color) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     return json[key] = switch (value) {
-      String() => _colorFromHexString(value) ?? defaultValue,
-      List<num>() => _colorFromList(value) ?? defaultValue,
+      String() => _colorFromHexString(value, defaultValue),
+      List<num>() => _colorFromList(value, defaultValue),
       _ => defaultValue,
     };
   }
@@ -240,21 +238,19 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   Color? tryParseColor({
     String key = "color",
-    Color? defaultValue,
+    Color defaultValue = Colors.transparent,
   }) {
     final value = json[key];
 
     if (value is Color) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _colorFromHexString(value);
+        return json[key] = _colorFromHexString(value, defaultValue);
       case List<num>():
-        return json[key] = _colorFromList(value);
+        return json[key] = _colorFromList(value, defaultValue);
       default:
         return defaultValue;
     }
@@ -502,9 +498,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextAlign) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -572,9 +566,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextOverflow) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -607,9 +599,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Clip) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -676,9 +666,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Size) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -732,9 +720,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is EdgeInsets) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case List<num>():
@@ -767,9 +753,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Curve) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -809,9 +793,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextBaseline) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -843,9 +825,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextWidthBasis) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -878,9 +858,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -955,7 +933,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final List<Color> dColors = [];
 
     for (var color in colors) {
-      dColors.add(_parseColor(color) ?? Colors.transparent);
+      dColors.add(_parseColor(color, Colors.transparent));
     }
 
     final angle = source.tryGetDouble(key: "rotationAngle");
@@ -1024,9 +1002,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Offset) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1059,9 +1035,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is List<BoxShadow>) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case List():
@@ -1125,9 +1099,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Decoration) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1159,9 +1131,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextDecoration) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1195,9 +1165,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextDecorationStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case int():
@@ -1231,9 +1199,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FontWeight) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case int():
@@ -1252,9 +1218,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FontStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1319,9 +1283,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       return value;
     }
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1377,9 +1339,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextHeightBehavior) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1426,9 +1386,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextScaler) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1490,9 +1448,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is StrutStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1524,9 +1480,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextLeadingDistribution) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1559,15 +1513,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Axis) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _axisStringLookupTable[value] ?? defaultValue;
+        return json[key] = _axisStringLookupTable[value]!;
       case int():
-        return json[key] = _axisIntLookupTable[value] ?? defaultValue;
+        return json[key] = _axisIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -1595,9 +1547,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is WrapCrossAlignment) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1618,9 +1568,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is WrapAlignment) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1683,9 +1631,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BoxConstraints) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1716,9 +1662,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is StackFit) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1751,9 +1695,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is OverflowBoxFit) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1787,9 +1729,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is Alignment) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1828,9 +1768,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is AlignmentDirectional) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1869,9 +1807,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is MainAxisAlignment) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1905,9 +1841,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is CrossAxisAlignment) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1941,9 +1875,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is MainAxisSize) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -1977,9 +1909,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is SliderInteraction) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2013,9 +1943,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is MaterialTapTargetSize) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2049,16 +1977,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FilterQuality) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _filterQualityStringLookupTable[value] ?? defaultValue;
+        return json[key] = _filterQualityStringLookupTable[value]!;
       case int():
-        return json[key] = _filterQualityIntLookupTable[value] ?? defaultValue;
+        return json[key] = _filterQualityIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2086,15 +2011,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ImageRepeat) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _imageRepeatStringLookupTable[value] ?? defaultValue;
+        return json[key] = _imageRepeatStringLookupTable[value]!;
       case int():
-        return json[key] = _imageRepeatIntLookupTable[value] ?? defaultValue;
+        return json[key] = _imageRepeatIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2170,9 +2093,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BoxFit) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2205,15 +2126,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BlendMode) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _blendModeStringLookupTable[value] ?? defaultValue;
+        return json[key] = _blendModeStringLookupTable[value]!;
       case int():
-        return json[key] = _blendModeIntLookupTable[value] ?? defaultValue;
+        return json[key] = _blendModeIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2239,15 +2158,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TileMode) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _tileModeStringLookupTable[value] ?? defaultValue;
+        return json[key] = _tileModeStringLookupTable[value]!;
       case int():
-        return json[key] = _tileModeIntLookupTable[value] ?? defaultValue;
+        return json[key] = _tileModeIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2403,9 +2320,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ImageFilter) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -2431,17 +2346,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is VerticalDirection) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _verticalDirectionStringLookupTable[value] ?? defaultValue;
+        return json[key] = _verticalDirectionStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _verticalDirectionIntLookupTable[value] ?? defaultValue;
+        return json[key] = _verticalDirectionIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2469,15 +2380,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BoxShape) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _boxShapeStringLookupTable[value] ?? defaultValue;
+        return json[key] = _boxShapeStringLookupTable[value]!;
       case int():
-        return json[key] = _boxShapeIntLookupTable[value] ?? defaultValue;
+        return json[key] = _boxShapeIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2611,9 +2520,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BorderStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2647,9 +2554,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BorderSide) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -2731,9 +2636,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is InputBorder) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -2765,9 +2668,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is InputDecoration) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -2786,9 +2687,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TextInputType) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2844,9 +2743,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is VisualDensity) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -2879,17 +2776,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ScrollViewKeyboardDismissBehavior) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _keyboardDismissBehaviorStringLookupTable[value] ?? defaultValue;
+        return json[key] = _keyboardDismissBehaviorStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _keyboardDismissBehaviorIntLookupTable[value] ?? defaultValue;
+        return json[key] = _keyboardDismissBehaviorIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2917,9 +2810,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ScrollPhysics) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -2953,17 +2844,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is DragStartBehavior) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _dragStartBehaviorStringLookupTable[value] ?? defaultValue;
+        return json[key] = _dragStartBehaviorStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _dragStartBehaviorIntLookupTable[value] ?? defaultValue;
+        return json[key] = _dragStartBehaviorIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -2991,17 +2878,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is HitTestBehavior) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _hitTestBehaviorStringLookupTable[value] ?? defaultValue;
+        return json[key] = _hitTestBehaviorStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _hitTestBehaviorIntLookupTable[value] ?? defaultValue;
+        return json[key] = _hitTestBehaviorIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -3147,9 +3030,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ShapeBorder) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -3223,9 +3104,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is BorderRadius) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     return BorderRadius.only(
       topLeft: Radius.circular(value['topLeft']?['radius'] ?? 0.0),
@@ -3257,9 +3136,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is FloatingActionButtonLocation) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -3306,9 +3183,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   }) {
     final value = json[key];
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     if (value is WidgetStateProperty<T>) {
       return value;
@@ -3446,9 +3321,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ButtonStyle) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -3506,9 +3379,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ThemeOverrideRule) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -3597,9 +3468,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is AnimationInterval) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case Map<String, dynamic>():
@@ -3638,17 +3507,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is AnimationTrigger) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _animationTriggerStringLookupTable[value] ?? defaultValue;
+        return json[key] = _animationTriggerStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _animationTriggerIntLookupTable[value] ?? defaultValue;
+        return json[key] = _animationTriggerIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -3675,17 +3540,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is AnimationMethod) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] =
-            _animationMethodStringLookupTable[value] ?? defaultValue;
+        return json[key] = _animationMethodStringLookupTable[value]!;
       case int():
-        return json[key] =
-            _animationMethodIntLookupTable[value] ?? defaultValue;
+        return json[key] = _animationMethodIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -3712,15 +3573,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is TweenType) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
-        return json[key] = _tweenTypeStringLookupTable[value] ?? defaultValue;
+        return json[key] = _tweenTypeStringLookupTable[value]!;
       case int():
-        return json[key] = _tweenTypeIntLookupTable[value] ?? defaultValue;
+        return json[key] = _tweenTypeIntLookupTable[value]!;
       default:
         return defaultValue;
     }
@@ -3905,9 +3764,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is CollapseMode) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
@@ -3943,9 +3800,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is List<StretchMode>) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     if (value is List<String>) {
       final list = <StretchMode>[];
@@ -3995,9 +3850,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value is ExecutionModifier) return value;
 
-    if (value == null) {
-      return defaultValue;
-    }
+    if (value == null) return defaultValue;
 
     switch (value) {
       case String():
