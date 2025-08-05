@@ -26,10 +26,13 @@ base class ServerAction {
   /// 2 - script
   final int executionType;
 
+  final ExecutionOptions? executionOptions;
+
   ServerAction({
     required this.eventName,
     required this.executionType,
     this.dependsOn = const [],
+    this.executionOptions,
   });
 
   static ServerAction parse(Map<String, dynamic> json) =>
@@ -58,14 +61,17 @@ final class LocalAction extends ServerAction {
 
   LocalAction({
     required this.event,
+    super.executionOptions,
   }) : super(
           eventName: "local_exec",
           executionType: 1,
         );
 
   factory LocalAction.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
     return LocalAction(
       event: ServerEvent.parseEvent(json["payload"]),
+      executionOptions: source.executionOptions(),
     );
   }
 }
@@ -98,6 +104,7 @@ final class TransportAction extends ServerAction implements DependentAction {
     required super.eventName,
     required super.dependsOn,
     this.meta,
+    super.executionOptions,
   }) : super(
           executionType: 0,
         );
@@ -109,6 +116,7 @@ final class TransportAction extends ServerAction implements DependentAction {
       eventName: source.getString(key: "event"),
       dependsOn: source.getActionDependencies(),
       meta: source.meta,
+      executionOptions: source.executionOptions(),
     );
   }
 }
@@ -125,6 +133,7 @@ final class ScriptAction extends ServerAction implements DependentAction {
   ScriptAction({
     required this.script,
     required super.dependsOn,
+    super.executionOptions,
   }) : super(
           eventName: "script",
           executionType: 2,
@@ -136,6 +145,7 @@ final class ScriptAction extends ServerAction implements DependentAction {
     return ScriptAction(
       script: source.script,
       dependsOn: source.getActionDependencies(),
+      executionOptions: source.executionOptions(),
     );
   }
 }

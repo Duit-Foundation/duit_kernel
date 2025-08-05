@@ -3973,4 +3973,93 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     return defaultValue;
   }
+
+  /// Retrieves a [ExecutionModifier] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ExecutionModifier],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'executionModifier'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to ExecutionModifier.throttle.
+  ///
+  /// Returns:
+  /// - A [ExecutionModifier] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ExecutionModifier] or cannot be parsed.
+  @preferInline
+  ExecutionModifier _executionModifier({
+    String key = "modifier",
+    ExecutionModifier defaultValue = ExecutionModifier.debounce,
+  }) {
+    final value = json[key];
+
+    if (value is ExecutionModifier) return value;
+
+    if (value == null) {
+      return defaultValue;
+    }
+
+    switch (value) {
+      case String():
+        return json[key] = _executionModifierStringLookupTable[value]!;
+      case int():
+        return json[key] = _executionModifierIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves an [ExecutionOptions] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ExecutionOptions],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'options'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [ExecutionOptions] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ExecutionOptions] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  ExecutionOptions _executionOptionsFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return ExecutionOptions(
+      modifier: source._executionModifier(),
+      duration: source.duration(),
+    );
+  }
+
+  /// Retrieves an [ExecutionOptions] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [ExecutionOptions],
+  /// it is returned as is. If the value is a [Map<String, dynamic>], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'options'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - An [ExecutionOptions] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ExecutionOptions] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  ExecutionOptions? executionOptions({
+    String key = "options",
+    ExecutionOptions? defaultValue,
+  }) {
+    final value = json[key];
+
+    if (value is ExecutionOptions) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = _executionOptionsFromMap(value);
+      default:
+        return defaultValue;
+    }
+  }
 }

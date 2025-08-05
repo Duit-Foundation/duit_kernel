@@ -6,3 +6,4 @@ export 'external_event_handler.dart';
 export 'event_parser.dart';
 export 'action_parser.dart';
 export 'command.dart';
+export 'execution_options.dart';
