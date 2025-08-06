@@ -1414,3 +1414,21 @@ const _shapeBorderTypeStringLookupTable =
   "BeveledRectangleBorder": DuitDataSource._beveledRectangleBorderFromMap,
   "ContinuousRectangleBorder": DuitDataSource._continuousRectangleBorderFromMap,
 };
+
+/// Lookup table for [ExecutionModifier] values by [String] type key.
+///
+/// Maps string identifiers to [ExecutionModifier] enum values for execution modifiers.
+/// Supported values: "throttle", "debounce".
+const _executionModifierStringLookupTable = <String, ExecutionModifier>{
+  "throttle": ExecutionModifier.throttle,
+  "debounce": ExecutionModifier.debounce,
+};
+
+/// Lookup table for [ExecutionModifier] values by [int] type key.
+///
+/// Maps integer identifiers to [ExecutionModifier] enum values for execution modifiers.
+/// Supported values: 0 (throttle), 1 (debounce).
+const _executionModifierIntLookupTable = <int, ExecutionModifier>{
+  0: ExecutionModifier.throttle,
+  1: ExecutionModifier.debounce,
+};

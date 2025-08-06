@@ -6082,4 +6082,148 @@ void main() {
       expect(prop!.resolve({WidgetState.focused}), Colors.transparent);
     });
   });
+
+  group("executionOptions method", () {
+    test(
+        "should parse and return ExecutionOptions from Map with throttle modifier",
+        () {
+      final json = <String, dynamic>{
+        "options": <String, dynamic>{
+          "modifier": "throttle",
+          "duration": 1000,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final result = data.executionOptions();
+
+      expect(result, isA<ExecutionOptions>());
+      expect(result!.modifier, ExecutionModifier.throttle);
+      expect(result.duration, const Duration(milliseconds: 1000));
+      expect(data["options"], isA<ExecutionOptions>());
+    });
+
+    test("should parse and return ExecutionOptions with debounce modifier", () {
+      final json = <String, dynamic>{
+        "options": <String, dynamic>{
+          "modifier": "debounce",
+          "duration": 500,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final result = data.executionOptions();
+
+      expect(result, isA<ExecutionOptions>());
+      expect(result!.modifier, ExecutionModifier.debounce);
+      expect(result.duration, const Duration(milliseconds: 500));
+      expect(data["options"], isA<ExecutionOptions>());
+    });
+
+    test("should parse and return ExecutionOptions with int modifier values",
+        () {
+      final json = <String, dynamic>{
+        "options": <String, dynamic>{
+          "modifier": 0, // throttle
+          "duration": 750,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final result = data.executionOptions();
+
+      expect(result, isA<ExecutionOptions>());
+      expect(result!.modifier, ExecutionModifier.throttle);
+      expect(result.duration, const Duration(milliseconds: 750));
+      expect(data["options"], isA<ExecutionOptions>());
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.executionOptions(), null);
+      expect(
+        data.executionOptions(
+          defaultValue: const ExecutionOptions(
+            modifier: ExecutionModifier.throttle,
+            duration: Duration(milliseconds: 1000),
+          ),
+        ),
+        isA<ExecutionOptions>(),
+      );
+      expect(data["options"], null);
+    });
+
+    test("should return the default value if the value is not a Map", () {
+      final json = <String, dynamic>{
+        "options": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.executionOptions(), null);
+      expect(
+        data.executionOptions(
+          defaultValue: const ExecutionOptions(
+            modifier: ExecutionModifier.debounce,
+            duration: Duration(milliseconds: 500),
+          ),
+        ),
+        isA<ExecutionOptions>(),
+      );
+      expect(data["options"], "invalid");
+    });
+
+    test("should return instance if the value is already an instance", () {
+      const existingOptions = ExecutionOptions(
+        modifier: ExecutionModifier.throttle,
+        duration: Duration(milliseconds: 1000),
+      );
+
+      final json = <String, dynamic>{
+        "options": existingOptions,
+      };
+
+      final data = DuitDataSource(json);
+      final result = data.executionOptions();
+
+      expect(result, existingOptions);
+      expect(data["options"], existingOptions);
+    });
+
+    test("should use custom key parameter", () {
+      final json = <String, dynamic>{
+        "customKey": <String, dynamic>{
+          "modifier": "debounce",
+          "duration": 300,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final result = data.executionOptions(key: "customKey");
+
+      expect(result, isA<ExecutionOptions>());
+      expect(result!.modifier, ExecutionModifier.debounce);
+      expect(result.duration, const Duration(milliseconds: 300));
+      expect(data["customKey"], isA<ExecutionOptions>());
+    });
+
+    test("should handle invalid modifier values with error", () {
+      final json = <String, dynamic>{
+        "options": <String, dynamic>{
+          "modifier": "invalid_modifier",
+          "duration": 1000,
+        },
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.executionOptions(),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
 }
