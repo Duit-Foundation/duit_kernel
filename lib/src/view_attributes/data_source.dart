@@ -38,18 +38,19 @@ Color? _colorFromHexString(String color) {
 /// or if any of the elements are not valid integers between 0 and 255, this
 /// function returns `null`.
 @preferInline
-Color? _colorFromList(List<num> color) {
-  return switch (color.length) {
+Color? _colorFromList(List color) {
+  final colorData = color.map((e) => e as num).toList();
+  return switch (colorData.length) {
     4 => Color.fromRGBO(
-        color[0].toInt(),
-        color[1].toInt(),
-        color[2].toInt(),
-        color[3].toDouble(),
+        colorData[0].toInt(),
+        colorData[1].toInt(),
+        colorData[2].toInt(),
+        colorData[3].toDouble(),
       ),
     3 => Color.fromRGBO(
-        color[0].toInt(),
-        color[1].toInt(),
-        color[2].toInt(),
+        colorData[0].toInt(),
+        colorData[1].toInt(),
+        colorData[2].toInt(),
         1.0,
       ),
     _ => null,
@@ -67,7 +68,7 @@ Color? _colorFromList(List<num> color) {
 @preferInline
 Color? _parseColor(color) => switch (color) {
       String() => _colorFromHexString(color),
-      List<num>() => _colorFromList(color),
+      List() => _colorFromList(color),
       _ => null,
     };
 
@@ -218,7 +219,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     return json[key] = switch (value) {
       String() => _colorFromHexString(value) ?? defaultValue,
-      List<num>() => _colorFromList(value) ?? defaultValue,
+      List() => _colorFromList(value) ?? defaultValue,
       _ => defaultValue,
     };
   }
@@ -249,7 +250,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     switch (value) {
       case String():
         return _colorFromHexString(value);
-      case List<num>():
+      case List():
         return json[key] = _colorFromList(value);
       default:
         return defaultValue;
