@@ -4,6 +4,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 /// in the [DuitRegistry] under the key corresponding to the [tag] property
 final class ComponentDescription {
   final String tag;
+
   /// Immutable base layout of the component. Do not mutate.
   final Map<String, dynamic> _data;
 

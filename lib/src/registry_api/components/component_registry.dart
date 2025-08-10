@@ -2,19 +2,6 @@ import 'dart:async';
 
 import 'package:duit_kernel/duit_kernel.dart';
 
-extension type _ComponentJsonView(Map<String, dynamic> json) {
-  bool get controlled => json["controlled"] ?? false;
-
-  Map<String, dynamic> get attributes {
-    final hasProperty = json.containsKey("attributes");
-    if (hasProperty) {
-      return (json["attributes"] as Map).cast<String, dynamic>();
-    } else {
-      return const <String, dynamic>{};
-    }
-  }
-}
-
 /// [ComponentRegistry] is a low level registry for components.
 /// It is supposed to be used in [DuitRegistry] or other registries.
 ///
