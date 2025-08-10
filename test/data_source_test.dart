@@ -5259,8 +5259,8 @@ void main() {
       expect(action.dependsOn.first.target, "t1");
       expect(action.dependsOn.first.id, "id1");
       expect((action as ScriptAction).script.sourceCode, "print('hi')");
-      expect((action as ScriptAction).script.functionName, "main");
-      expect((action as ScriptAction).script.meta, {"info": "metaInfo"});
+      expect((action).script.functionName, "main");
+      expect((action).script.meta, {"info": "metaInfo"});
     });
 
     test("getAction should parse UnknownAction for invalid executionType", () {

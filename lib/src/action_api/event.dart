@@ -1,5 +1,4 @@
 import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/action_api/command.dart';
 
 /// The [ServerEvent] class represents an event that was sent by the server.
 ///
