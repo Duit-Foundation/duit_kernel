@@ -37,15 +37,37 @@ class RemoveOp extends PatchOp {
 }
 
 /// Convenience factory for creating patch operations.
-class PatchOps {
-  static AddOp add({required List<Object> path, Object? value}) =>
-      AddOp(path: path, value: value);
-  static ReplaceOp replace({required List<Object> path, Object? value}) =>
-      ReplaceOp(path: path, value: value);
-  static RemoveOp remove({required List<Object> path}) => RemoveOp(path: path);
+sealed class PatchOps {
+  /// Add operation.
+  static AddOp add({
+    required List<Object> path,
+    Object? value,
+  }) =>
+      AddOp(
+        path: path,
+        value: value,
+      );
+
+  /// Replace operation.
+  static ReplaceOp replace({
+    required List<Object> path,
+    Object? value,
+  }) =>
+      ReplaceOp(
+        path: path,
+        value: value,
+      );
+
+  /// Remove operation.
+  static RemoveOp remove({
+    required List<Object> path,
+  }) =>
+      RemoveOp(
+        path: path,
+      );
 }
 
-/// A minimal JSON Patch applier with support for add/replace/remove operations
+/// A minimal JSON Patch (https://datatracker.ietf.org/doc/html/rfc6902) applier with support for add/replace/remove operations
 /// and path-copy semantics.
 ///
 /// - Path-copy: only nodes along the modified path are shallow-copied; all
