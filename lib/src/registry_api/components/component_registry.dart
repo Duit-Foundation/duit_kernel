@@ -13,22 +13,6 @@ extension type _ComponentJsonView(Map<String, dynamic> json) {
       return const <String, dynamic>{};
     }
   }
-
-  Set<RefWithTarget> get refs {
-    final attrs = attributes;
-    if (attributes.containsKey("refs")) {
-      return (attrs["refs"] as Iterable)
-          .map(
-            (el) => RefWithTarget(
-              ref: ValueReference.fromJson(el),
-              target: attrs,
-            ),
-          )
-          .toSet();
-    } else {
-      return const <RefWithTarget>{};
-    }
-  }
 }
 
 /// [ComponentRegistry] is a low level registry for components.
@@ -56,46 +40,4 @@ abstract base class ComponentRegistry {
   ComponentDescription? getComponentDescription(
     String tag,
   );
-
-  /// Recursive method for creating [RefWithTarget] from the given object.
-  ///
-  /// Recursively traverses the given object and its children, collecting refs
-  /// in the [container] set.
-  ///
-  /// If the object or any of its children are controlled widgets, their widget
-  /// id is replaced with a new generated one.
-  ///
-  /// This method is usually called from [prepareComponent].
-  FutureOr<void> prepareRefs(
-    Map<String, dynamic> obj,
-    Set<RefWithTarget> container,
-  ) async {
-    final view = _ComponentJsonView(obj);
-    if (view.controlled) {
-      _replaceControlledWidgetId(obj);
-    }
-
-    container.addAll(view.refs);
-
-    if (obj['children'] != null) {
-      final children = List.from(
-        obj['children'],
-        growable: false,
-      );
-      for (final child in children) {
-        await prepareRefs(child, container);
-      }
-    }
-
-    if (obj['child'] != null) {
-      await prepareRefs(obj['child'], container);
-    }
-  }
-
-  void _replaceControlledWidgetId(Map<String, dynamic> map) {
-    final type = map["type"];
-    final timestamp = DateTime.now().microsecondsSinceEpoch;
-    final id = "${type}_$timestamp";
-    map["id"] = id;
-  }
 }
