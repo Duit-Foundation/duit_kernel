@@ -7,6 +7,7 @@ import 'package:duit_kernel/src/registry_api/components/index.dart';
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
   static final Map<String, BuildFactory> _customComponentRegistry = {};
+  static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
   static DebugLogger _logger = DefaultLogger.instance;
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
@@ -99,6 +100,23 @@ sealed class DuitRegistry {
       _logger.warn(
         "Not found build factory for specified tag - $tag",
       );
+      return null;
+    }
+  }
+
+  static void registerFragment(
+    String key,
+    Map<String, dynamic> fragment,
+  ) {
+    _fragmentRegistry[key] = fragment;
+  }
+
+  static Map<String, dynamic>? getFragment(String key) {
+    final fragment = _fragmentRegistry[key];
+    if (fragment != null) {
+      return fragment;
+    } else {
+      _logger.warn("Not found fragment for specified key - $key");
       return null;
     }
   }
