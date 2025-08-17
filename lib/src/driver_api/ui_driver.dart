@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 abstract interface class UIDriver implements WidgetDisplayStateNotifier {
+
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -19,13 +20,8 @@ abstract interface class UIDriver implements WidgetDisplayStateNotifier {
   abstract BuildContext buildContext;
 
   /// The stream controller for the UI driver.
-  @protected
-  @Deprecated("Use eventStreamController instead")
-  abstract StreamController<ElementTree?> streamController;
-
-  /// The stream controller for the UI driver.
-  @protected
-  abstract StreamController<UIDriverEvent> eventStreamController;
+  // @protected
+  // abstract StreamController<UIDriverEvent> eventStreamController;
 
   /// The script runner used by the UI driver.
   abstract ScriptRunner? scriptRunner;
@@ -104,9 +100,6 @@ abstract interface class UIDriver implements WidgetDisplayStateNotifier {
   void dispose();
 
   /// Returns the stream of UI abstract trees.
-  @Deprecated("Use eventStream instead")
-  Stream<ElementTree?> get stream;
-
   Stream<UIDriverEvent> get eventStream;
 
   /// Set the BuildContext.
