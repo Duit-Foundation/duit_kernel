@@ -9,69 +9,6 @@ import 'package:flutter/rendering.dart';
 
 part 'lookup.dart';
 
-/// Converts a given hex color string to a [Color].
-///
-/// The provided [color] must be a valid hex color string, optionally prefixed with a '#'.
-/// If the [color] is `null`, or if it's not a valid hex color string, this function returns `null`.
-/// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
-/// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
-@preferInline
-Color? _colorFromHexString(String color) {
-  final isHexColor = color.startsWith("#");
-  if (isHexColor) {
-    final buffer = StringBuffer();
-    if (color.length == 6 || color.length == 7) buffer.write('ff');
-    buffer.write(color.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
-  return null;
-}
-
-/// Converts a list of 3 or 4 elements to a [Color].
-///
-/// The list must contain 3 or 4 elements, each of which must be a valid
-/// [int] value between 0 and 255. If the list has 3 elements, the opacity
-/// is assumed to be 1.0. If the list has 4 elements, the first element is
-/// assumed to be the opacity, and the remaining 3 elements are the color.
-///
-/// If the list is `null`, or if it does not contain exactly 3 or 4 elements,
-/// or if any of the elements are not valid integers between 0 and 255, this
-/// function returns `null`.
-@preferInline
-Color? _colorFromList(List color) {
-  final colorData = color.map((e) => e as num).toList();
-  return switch (colorData.length) {
-    4 => Color.fromRGBO(
-        colorData[0].toInt(),
-        colorData[1].toInt(),
-        colorData[2].toInt(),
-        colorData[3].toDouble(),
-      ),
-    3 => Color.fromRGBO(
-        colorData[0].toInt(),
-        colorData[1].toInt(),
-        colorData[2].toInt(),
-        1.0,
-      ),
-    _ => null,
-  };
-}
-
-/// Converts a JSON value to a [Color].
-///
-/// The JSON value must be either a string (which is interpreted as a
-/// hexadecimal color string) or a list of 3 or 4 elements (which is
-/// interpreted as a color with optional opacity).
-///
-/// If the JSON value is not a valid color (i.e. it is not a string or a list
-/// of 3 or 4 elements), this function returns `null`.
-@preferInline
-Color? _parseColor(color) => switch (color) {
-      String() => _colorFromHexString(color),
-      List() => _colorFromList(color),
-      _ => null,
-    };
-
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
 ///
 /// This extension type wraps a [Map<String, dynamic>] and provides methods to safely
@@ -193,6 +130,69 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final value = json["affectedProperties"];
     return value is Iterable ? Set<String>.from(value) : null;
   }
+
+  /// Converts a given hex color string to a [Color].
+  ///
+  /// The provided [color] must be a valid hex color string, optionally prefixed with a '#'.
+  /// If the [color] is `null`, or if it's not a valid hex color string, this function returns `null`.
+  /// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
+  /// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
+  @preferInline
+  Color? _colorFromHexString(String color) {
+    final isHexColor = color.startsWith("#");
+    if (isHexColor) {
+      final buffer = StringBuffer();
+      if (color.length == 6 || color.length == 7) buffer.write('ff');
+      buffer.write(color.replaceFirst('#', ''));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    }
+    return null;
+  }
+
+  /// Converts a list of 3 or 4 elements to a [Color].
+  ///
+  /// The list must contain 3 or 4 elements, each of which must be a valid
+  /// [int] value between 0 and 255. If the list has 3 elements, the opacity
+  /// is assumed to be 1.0. If the list has 4 elements, the first element is
+  /// assumed to be the opacity, and the remaining 3 elements are the color.
+  ///
+  /// If the list is `null`, or if it does not contain exactly 3 or 4 elements,
+  /// or if any of the elements are not valid integers between 0 and 255, this
+  /// function returns `null`.
+  @preferInline
+  Color? _colorFromList(List color) {
+    final colorData = color.map((e) => e as num).toList();
+    return switch (colorData.length) {
+      4 => Color.fromRGBO(
+          colorData[0].toInt(),
+          colorData[1].toInt(),
+          colorData[2].toInt(),
+          colorData[3].toDouble(),
+        ),
+      3 => Color.fromRGBO(
+          colorData[0].toInt(),
+          colorData[1].toInt(),
+          colorData[2].toInt(),
+          1.0,
+        ),
+      _ => null,
+    };
+  }
+
+  /// Converts a JSON value to a [Color].
+  ///
+  /// The JSON value must be either a string (which is interpreted as a
+  /// hexadecimal color string) or a list of 3 or 4 elements (which is
+  /// interpreted as a color with optional opacity).
+  ///
+  /// If the JSON value is not a valid color (i.e. it is not a string or a list
+  /// of 3 or 4 elements), this function returns `null`.
+  @preferInline
+  Color? _parseColor(color) => switch (color) {
+        String() => _colorFromHexString(color),
+        List() => _colorFromList(color),
+        _ => null,
+      };
 
   /// Retrieves a color value from the JSON map associated with the given [key].
   ///
@@ -2496,6 +2496,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
         key: "style",
         defaultValue: BorderStyle.solid,
       )!,
+      strokeAlign: source.getDouble(
+        key: "strokeAlign",
+        defaultValue: BorderSide.strokeAlignOutside,
+      ),
     );
   }
 
@@ -2905,13 +2909,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return RoundedRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -2960,13 +2958,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return BeveledRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -2983,13 +2975,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return ContinuousRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -3107,12 +3093,80 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value == null) return defaultValue;
 
-    return BorderRadius.only(
-      topLeft: Radius.circular(value['topLeft']?['radius'] ?? 0.0),
-      topRight: Radius.circular(value['topRight']?['radius'] ?? 0.0),
-      bottomLeft: Radius.circular(value['bottomLeft']?['radius'] ?? 0.0),
-      bottomRight: Radius.circular(value['bottomRight']?['radius'] ?? 0.0),
-    );
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = _borderRadiusFromMap(value);
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  BorderRadius _borderRadiusFromMap(Map<String, dynamic> value) {
+    switch (value) {
+      case {
+          "topLeft": DuitDataSource? topLeft,
+          "topRight": DuitDataSource? topRight,
+          "bottomLeft": DuitDataSource? bottomLeft,
+          "bottomRight": DuitDataSource? bottomRight,
+        }:
+        return BorderRadius.only(
+          topLeft: topLeft != null ? topLeft.radius() : Radius.zero,
+          topRight: topRight != null ? topRight.radius() : Radius.zero,
+          bottomLeft: bottomLeft != null ? bottomLeft.radius() : Radius.zero,
+          bottomRight: bottomRight != null ? bottomRight.radius() : Radius.zero,
+        );
+      case {
+          "top": DuitDataSource? top,
+          "bottom": DuitDataSource? bottom,
+        }:
+        return BorderRadius.vertical(
+          top: top != null ? top.radius() : Radius.zero,
+          bottom: bottom != null ? bottom.radius() : Radius.zero,
+        );
+      case {
+          "left": DuitDataSource? left,
+          "right": DuitDataSource? right,
+        }:
+        return BorderRadius.horizontal(
+          left: left != null ? left.radius() : Radius.zero,
+          right: right != null ? right.radius() : Radius.zero,
+        );
+      case {
+          "radius": DuitDataSource? radius,
+        }:
+        return BorderRadius.all(
+          radius != null ? radius.radius() : Radius.zero,
+        );
+      default:
+        return BorderRadius.zero;
+    }
+  }
+
+  @preferInline
+  Radius radius({
+    String key = "radius",
+    Radius defaultValue = Radius.zero,
+  }) {
+    final value = json[key];
+
+    if (value is Radius) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case List<num>():
+        return json[key] = Radius.elliptical(
+          value[0].toDouble(),
+          value[1].toDouble(),
+        );
+      case num():
+        return json[key] = Radius.circular(
+          value.toDouble(),
+        );
+      default:
+        return defaultValue;
+    }
   }
 
   /// Retrieves a [FloatingActionButtonLocation] value from the JSON map for the given [key].
