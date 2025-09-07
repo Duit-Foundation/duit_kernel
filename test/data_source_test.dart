@@ -3408,50 +3408,33 @@ void main() {
 
         final data = DuitDataSource(json);
 
+        final border = data.inputBorder() as OutlineInputBorder;
+        expect(border, isA<OutlineInputBorder>());
+        expect(border.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(border.borderSide.width, 2.0);
+        expect(border.borderSide.style, BorderStyle.solid);
+        expect(border.gapPadding, 4.0);
+        expect(border.borderRadius, BorderRadius.circular(4.0));
+        final cachedBorder = data["border"] as OutlineInputBorder;
+        expect(cachedBorder, isA<OutlineInputBorder>());
+        expect(cachedBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(cachedBorder.borderSide.width, 2.0);
+        expect(cachedBorder.borderSide.style, BorderStyle.solid);
+        expect(cachedBorder.gapPadding, 4.0);
+        expect(cachedBorder.borderRadius, BorderRadius.circular(4.0));
+        final underlineBorder =
+            data.inputBorder(key: "border2") as UnderlineInputBorder;
+        expect(underlineBorder, isA<UnderlineInputBorder>());
         expect(
-          data.inputBorder(),
-          OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-            gapPadding: 4.0,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-        );
-        expect(
-          data["border"],
-          OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-            gapPadding: 4.0,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-        );
-        expect(
-          data.inputBorder(key: "border2"),
-          const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-        );
-        expect(
-          data["border2"],
-          const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-        );
+            underlineBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(underlineBorder.borderSide.width, 2.0);
+        expect(underlineBorder.borderSide.style, BorderStyle.solid);
+        final cachedUnderlineBorder = data["border2"] as UnderlineInputBorder;
+        expect(cachedUnderlineBorder, isA<UnderlineInputBorder>());
+        expect(cachedUnderlineBorder.borderSide.color,
+            const Color.fromRGBO(0, 0, 0, 1));
+        expect(cachedUnderlineBorder.borderSide.width, 2.0);
+        expect(cachedUnderlineBorder.borderSide.style, BorderStyle.solid);
       });
 
       test("should return null if the value is null", () {

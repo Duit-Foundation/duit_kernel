@@ -2584,9 +2584,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return OutlineInputBorder(
       borderSide: source.borderSide(key: "borderSide"),
       gapPadding: source.getDouble(key: "gapPadding", defaultValue: 4.0),
-      borderRadius: BorderRadius.circular(
-        source.getDouble(key: "borderRadius", defaultValue: 4.0),
-      ),
+      borderRadius: source.borderRadius(),
     );
   }
 
@@ -2601,6 +2599,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final source = DuitDataSource(value);
     return UnderlineInputBorder(
       borderSide: source.borderSide(key: "borderSide"),
+      borderRadius: source.borderRadius(),
     );
   }
 
@@ -3096,6 +3095,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
     switch (value) {
       case Map<String, dynamic>():
         return json[key] = _borderRadiusFromMap(value);
+      case num():
+        return json[key] = BorderRadius.circular(value.toDouble());
       default:
         return defaultValue;
     }
