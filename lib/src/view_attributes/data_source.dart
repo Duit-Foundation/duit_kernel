@@ -1,76 +1,13 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'dart:ui';
+import "dart:convert";
+import "dart:typed_data";
+import "dart:ui";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/gestures.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
 
-part 'lookup.dart';
-
-/// Converts a given hex color string to a [Color].
-///
-/// The provided [color] must be a valid hex color string, optionally prefixed with a '#'.
-/// If the [color] is `null`, or if it's not a valid hex color string, this function returns `null`.
-/// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
-/// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
-@preferInline
-Color? _colorFromHexString(String color) {
-  final isHexColor = color.startsWith("#");
-  if (isHexColor) {
-    final buffer = StringBuffer();
-    if (color.length == 6 || color.length == 7) buffer.write('ff');
-    buffer.write(color.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
-  return null;
-}
-
-/// Converts a list of 3 or 4 elements to a [Color].
-///
-/// The list must contain 3 or 4 elements, each of which must be a valid
-/// [int] value between 0 and 255. If the list has 3 elements, the opacity
-/// is assumed to be 1.0. If the list has 4 elements, the first element is
-/// assumed to be the opacity, and the remaining 3 elements are the color.
-///
-/// If the list is `null`, or if it does not contain exactly 3 or 4 elements,
-/// or if any of the elements are not valid integers between 0 and 255, this
-/// function returns `null`.
-@preferInline
-Color? _colorFromList(List color) {
-  final colorData = color.map((e) => e as num).toList();
-  return switch (colorData.length) {
-    4 => Color.fromRGBO(
-        colorData[0].toInt(),
-        colorData[1].toInt(),
-        colorData[2].toInt(),
-        colorData[3].toDouble(),
-      ),
-    3 => Color.fromRGBO(
-        colorData[0].toInt(),
-        colorData[1].toInt(),
-        colorData[2].toInt(),
-        1.0,
-      ),
-    _ => null,
-  };
-}
-
-/// Converts a JSON value to a [Color].
-///
-/// The JSON value must be either a string (which is interpreted as a
-/// hexadecimal color string) or a list of 3 or 4 elements (which is
-/// interpreted as a color with optional opacity).
-///
-/// If the JSON value is not a valid color (i.e. it is not a string or a list
-/// of 3 or 4 elements), this function returns `null`.
-@preferInline
-Color? _parseColor(color) => switch (color) {
-      String() => _colorFromHexString(color),
-      List() => _colorFromList(color),
-      _ => null,
-    };
+part "lookup.dart";
 
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
 ///
@@ -193,6 +130,69 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final value = json["affectedProperties"];
     return value is Iterable ? Set<String>.from(value) : null;
   }
+
+  /// Converts a given hex color string to a [Color].
+  ///
+  /// The provided [color] must be a valid hex color string, optionally prefixed with a '#'.
+  /// If the [color] is `null`, or if it's not a valid hex color string, this function returns `null`.
+  /// The hex color string can be 6 or 7 characters long. If the length is 6, the opacity is assumed to be 0xFF.
+  /// If the length is 7, the first character is assumed to be the opacity, and the remaining 6 characters are the color.
+  @preferInline
+  Color? _colorFromHexString(String color) {
+    final isHexColor = color.startsWith("#");
+    if (isHexColor) {
+      final buffer = StringBuffer();
+      if (color.length == 6 || color.length == 7) buffer.write("ff");
+      buffer.write(color.replaceFirst("#", ""));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    }
+    return null;
+  }
+
+  /// Converts a list of 3 or 4 elements to a [Color].
+  ///
+  /// The list must contain 3 or 4 elements, each of which must be a valid
+  /// [int] value between 0 and 255. If the list has 3 elements, the opacity
+  /// is assumed to be 1.0. If the list has 4 elements, the first element is
+  /// assumed to be the opacity, and the remaining 3 elements are the color.
+  ///
+  /// If the list is `null`, or if it does not contain exactly 3 or 4 elements,
+  /// or if any of the elements are not valid integers between 0 and 255, this
+  /// function returns `null`.
+  @preferInline
+  Color? _colorFromList(List color) {
+    final colorData = color.map((e) => e as num).toList();
+    return switch (colorData.length) {
+      4 => Color.fromRGBO(
+          colorData[0].toInt(),
+          colorData[1].toInt(),
+          colorData[2].toInt(),
+          colorData[3].toDouble(),
+        ),
+      3 => Color.fromRGBO(
+          colorData[0].toInt(),
+          colorData[1].toInt(),
+          colorData[2].toInt(),
+          1.0,
+        ),
+      _ => null,
+    };
+  }
+
+  /// Converts a JSON value to a [Color].
+  ///
+  /// The JSON value must be either a string (which is interpreted as a
+  /// hexadecimal color string) or a list of 3 or 4 elements (which is
+  /// interpreted as a color with optional opacity).
+  ///
+  /// If the JSON value is not a valid color (i.e. it is not a string or a list
+  /// of 3 or 4 elements), this function returns `null`.
+  @preferInline
+  Color? _parseColor(color) => switch (color) {
+        String() => _colorFromHexString(color),
+        List() => _colorFromList(color),
+        _ => null,
+      };
 
   /// Retrieves a color value from the JSON map associated with the given [key].
   ///
@@ -620,16 +620,31 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [map]: The map containing width and height values.
   /// Returns a [Size] object with the specified dimensions.
   @preferInline
-  Size _sizeFromMap(DuitDataSource map) => Size(
-        map.getDouble(
-          key: "width",
-          defaultValue: double.infinity,
-        ),
-        map.getDouble(
-          key: "height",
-          defaultValue: double.infinity,
-        ),
-      );
+  Size _sizeFromMap(Map<String, dynamic> map) {
+    switch (map) {
+      case {
+          "width": num width,
+          "height": num height,
+        }:
+        return Size(
+          width.toDouble(),
+          height.toDouble(),
+        );
+      case {
+          "value": num value,
+          "mainAxis": dynamic _,
+        }:
+        final axis = DuitDataSource(map).axis(key: "mainAxis");
+
+        if (axis == Axis.horizontal) {
+          return Size.fromWidth(value.toDouble());
+        } else {
+          return Size.fromHeight(value.toDouble());
+        }
+      default:
+        return Size.zero;
+    }
+  }
 
   /// Creates a [Size] object from a list of numeric values.
   ///
@@ -671,7 +686,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _sizeFromMap(DuitDataSource(value));
+        return json[key] = _sizeFromMap(value);
       case List<num>():
         return json[key] = _sizeFromList(value);
       case double():
@@ -892,7 +907,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextStyle _textStyleFromMap(Map<String, dynamic> data) {
-    final source = DuitDataSource(Map<String, dynamic>.from(data));
+    final source = DuitDataSource(data);
     return TextStyle(
       color: source.tryParseColor(key: "color"),
       fontFamily: source.tryGetString("fontFamily"),
@@ -931,7 +946,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final List? colors = source["colors"];
     if (colors == null) return null;
 
-    final List<Color> dColors = [];
+    final dColors = <Color>[];
 
     for (var color in colors) {
       dColors.add(_parseColor(color) ?? Colors.transparent);
@@ -1056,7 +1071,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'boxShadow': A list of box shadow values.
   @preferInline
   Decoration _decorationFromMap(Map<String, dynamic> data) {
-    final source = DuitDataSource(Map<String, dynamic>.from(data));
+    final source = DuitDataSource(data);
     return BoxDecoration(
       color: source.tryParseColor(key: "color"),
       borderRadius: source["borderRadius"] != null
@@ -1242,7 +1257,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   TextSpan _textSpanFromMap(Map<String, dynamic> value) {
     final source = DuitDataSource(value);
-    final List? children = value['children'];
+    final List? children = value["children"];
     final spanChildren = <InlineSpan>[];
 
     if (children != null) {
@@ -2182,7 +2197,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies a blur effect.
   @preferInline
   static ImageFilter _blurImageFilterFromMap(Map<String, dynamic> value) {
-    final source = DuitDataSource(Map<String, dynamic>.from(value));
+    final source = DuitDataSource(value);
     return ImageFilter.blur(
       sigmaX: source.getDouble(key: "sigmaX"),
       sigmaY: source.getDouble(key: "sigmaY"),
@@ -2496,6 +2511,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
         key: "style",
         defaultValue: BorderStyle.solid,
       )!,
+      strokeAlign: source.getDouble(
+        key: "strokeAlign",
+        defaultValue: BorderSide.strokeAlignOutside,
+      ),
     );
   }
 
@@ -2580,9 +2599,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return OutlineInputBorder(
       borderSide: source.borderSide(key: "borderSide"),
       gapPadding: source.getDouble(key: "gapPadding", defaultValue: 4.0),
-      borderRadius: BorderRadius.circular(
-        source.getDouble(key: "borderRadius", defaultValue: 4.0),
-      ),
+      borderRadius: source.borderRadius(),
     );
   }
 
@@ -2597,6 +2614,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final source = DuitDataSource(value);
     return UnderlineInputBorder(
       borderSide: source.borderSide(key: "borderSide"),
+      borderRadius: source.borderRadius(),
     );
   }
 
@@ -2905,13 +2923,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return RoundedRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -2960,13 +2972,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return BeveledRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -2983,13 +2989,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   ) {
     final source = DuitDataSource(value);
     return ContinuousRectangleBorder(
-      borderRadius: source["borderRadius"] != null
-          ? BorderRadius.circular(
-              source.getDouble(
-                key: "borderRadius",
-              ),
-            )
-          : BorderRadius.zero,
+      borderRadius: source.borderRadius(),
       side: source.borderSide(key: "borderSide"),
     );
   }
@@ -3107,12 +3107,82 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     if (value == null) return defaultValue;
 
-    return BorderRadius.only(
-      topLeft: Radius.circular(value['topLeft']?['radius'] ?? 0.0),
-      topRight: Radius.circular(value['topRight']?['radius'] ?? 0.0),
-      bottomLeft: Radius.circular(value['bottomLeft']?['radius'] ?? 0.0),
-      bottomRight: Radius.circular(value['bottomRight']?['radius'] ?? 0.0),
-    );
+    switch (value) {
+      case Map<String, dynamic>():
+        return json[key] = _borderRadiusFromMap(value);
+      case num():
+        return json[key] = BorderRadius.circular(value.toDouble());
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  BorderRadius _borderRadiusFromMap(Map<String, dynamic> value) {
+    switch (value) {
+      case {
+          "topLeft": DuitDataSource? topLeft,
+          "topRight": DuitDataSource? topRight,
+          "bottomLeft": DuitDataSource? bottomLeft,
+          "bottomRight": DuitDataSource? bottomRight,
+        }:
+        return BorderRadius.only(
+          topLeft: topLeft != null ? topLeft.radius() : Radius.zero,
+          topRight: topRight != null ? topRight.radius() : Radius.zero,
+          bottomLeft: bottomLeft != null ? bottomLeft.radius() : Radius.zero,
+          bottomRight: bottomRight != null ? bottomRight.radius() : Radius.zero,
+        );
+      case {
+          "top": DuitDataSource? top,
+          "bottom": DuitDataSource? bottom,
+        }:
+        return BorderRadius.vertical(
+          top: top != null ? top.radius() : Radius.zero,
+          bottom: bottom != null ? bottom.radius() : Radius.zero,
+        );
+      case {
+          "left": DuitDataSource? left,
+          "right": DuitDataSource? right,
+        }:
+        return BorderRadius.horizontal(
+          left: left != null ? left.radius() : Radius.zero,
+          right: right != null ? right.radius() : Radius.zero,
+        );
+      case {
+          "radius": DuitDataSource? radius,
+        }:
+        return BorderRadius.all(
+          radius != null ? radius.radius() : Radius.zero,
+        );
+      default:
+        return BorderRadius.zero;
+    }
+  }
+
+  @preferInline
+  Radius radius({
+    String key = "radius",
+    Radius defaultValue = Radius.zero,
+  }) {
+    final value = json[key];
+
+    if (value is Radius) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case List<num>():
+        return json[key] = Radius.elliptical(
+          value[0].toDouble(),
+          value[1].toDouble(),
+        );
+      case num():
+        return json[key] = Radius.circular(
+          value.toDouble(),
+        );
+      default:
+        return defaultValue;
+    }
   }
 
   /// Retrieves a [FloatingActionButtonLocation] value from the JSON map for the given [key].
@@ -3402,7 +3472,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a new List<dynamic> that is a deep copy of the original list.
   @preferInline
   List<dynamic> _copyList(List<dynamic> source) {
-    final List<dynamic> result = [];
+    final result = [];
     for (final item in source) {
       if (item is Map<String, dynamic>) {
         result.add(_copyMap(item));
@@ -3423,7 +3493,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a new Map<String, dynamic> that is a deep copy of the original map.
   @preferInline
   Map<String, dynamic> _copyMap(Map<String, dynamic> source) {
-    final Map<String, dynamic> result = {};
+    final result = <String, dynamic>{};
     for (final entry in source.entries) {
       final key = entry.key;
       final value = entry.value;
@@ -3641,9 +3711,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.textStyle(
-                  key: "begin", defaultValue: const TextStyle())!,
+                key: "begin",
+                defaultValue: const TextStyle(),
+              )!,
               end: tweenData.textStyle(
-                  key: "end", defaultValue: const TextStyle())!,
+                key: "end",
+                defaultValue: const TextStyle(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3654,9 +3728,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.decoration(
-                  key: "begin", defaultValue: const BoxDecoration())!,
+                key: "begin",
+                defaultValue: const BoxDecoration(),
+              )!,
               end: tweenData.decoration(
-                  key: "end", defaultValue: const BoxDecoration())!,
+                key: "end",
+                defaultValue: const BoxDecoration(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3667,9 +3745,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.alignment(
-                  key: "begin", defaultValue: Alignment.center)!,
+                key: "begin",
+                defaultValue: Alignment.center,
+              )!,
               end: tweenData.alignment(
-                  key: "end", defaultValue: Alignment.center)!,
+                key: "end",
+                defaultValue: Alignment.center,
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3691,9 +3773,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.edgeInsets(
-                  key: "begin", defaultValue: EdgeInsets.zero)!,
+                key: "begin",
+                defaultValue: EdgeInsets.zero,
+              )!,
               end: tweenData.edgeInsets(
-                  key: "end", defaultValue: EdgeInsets.zero)!,
+                key: "end",
+                defaultValue: EdgeInsets.zero,
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3704,9 +3790,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.boxConstraints(
-                  key: "begin", defaultValue: const BoxConstraints())!,
+                key: "begin",
+                defaultValue: const BoxConstraints(),
+              )!,
               end: tweenData.boxConstraints(
-                  key: "end", defaultValue: const BoxConstraints())!,
+                key: "end",
+                defaultValue: const BoxConstraints(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),

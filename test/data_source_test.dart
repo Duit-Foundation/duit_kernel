@@ -262,6 +262,81 @@ void main() {
         expect(data.size("size"), const Size(100.0, 200.0));
         expect(data["size"], const Size(100.0, 200.0));
       });
+
+      test(
+          "should parse and return size from map with value and horizontal mainAxis",
+          () {
+        final json = <String, dynamic>{
+          "size": {
+            "value": 100.0,
+            "mainAxis": "horizontal",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromWidth(100.0));
+        expect(data["size"], const Size.fromWidth(100.0));
+      });
+
+      test(
+          "should parse and return size from map with value and vertical mainAxis",
+          () {
+        final json = <String, dynamic>{
+          "size": {
+            "value": 100.0,
+            "mainAxis": "vertical",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromHeight(100.0));
+        expect(data["size"], const Size.fromHeight(100.0));
+      });
+
+      test(
+          "should parse and return size from map with value and mainAxis as int (horizontal)",
+          () {
+        final json = <String, dynamic>{
+          "size": <String, dynamic>{
+            "value": 150.0,
+            "mainAxis": 1, // 1 = Axis.horizontal
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromWidth(150.0));
+      });
+
+      test(
+          "should parse and return size from map with value and mainAxis as int (vertical)",
+          () {
+        final json = <String, dynamic>{
+          "size": <String, dynamic>{
+            "value": 120.0,
+            "mainAxis": 0, // 0 = Axis.vertical
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromHeight(120.0));
+      });
+
+      test("should return Size.zero for unknown map format", () {
+        final json = <String, dynamic>{
+          "size": {
+            "unknown": "value",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), Size.zero);
+        expect(data["size"], Size.zero);
+      });
     },
   );
 
@@ -3408,50 +3483,33 @@ void main() {
 
         final data = DuitDataSource(json);
 
+        final border = data.inputBorder() as OutlineInputBorder;
+        expect(border, isA<OutlineInputBorder>());
+        expect(border.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(border.borderSide.width, 2.0);
+        expect(border.borderSide.style, BorderStyle.solid);
+        expect(border.gapPadding, 4.0);
+        expect(border.borderRadius, BorderRadius.circular(4.0));
+        final cachedBorder = data["border"] as OutlineInputBorder;
+        expect(cachedBorder, isA<OutlineInputBorder>());
+        expect(cachedBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(cachedBorder.borderSide.width, 2.0);
+        expect(cachedBorder.borderSide.style, BorderStyle.solid);
+        expect(cachedBorder.gapPadding, 4.0);
+        expect(cachedBorder.borderRadius, BorderRadius.circular(4.0));
+        final underlineBorder =
+            data.inputBorder(key: "border2") as UnderlineInputBorder;
+        expect(underlineBorder, isA<UnderlineInputBorder>());
         expect(
-          data.inputBorder(),
-          OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-            gapPadding: 4.0,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-        );
-        expect(
-          data["border"],
-          OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-            gapPadding: 4.0,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-        );
-        expect(
-          data.inputBorder(key: "border2"),
-          const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-        );
-        expect(
-          data["border2"],
-          const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromRGBO(0, 0, 0, 1),
-              width: 2.0,
-              style: BorderStyle.solid,
-            ),
-          ),
-        );
+            underlineBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+        expect(underlineBorder.borderSide.width, 2.0);
+        expect(underlineBorder.borderSide.style, BorderStyle.solid);
+        final cachedUnderlineBorder = data["border2"] as UnderlineInputBorder;
+        expect(cachedUnderlineBorder, isA<UnderlineInputBorder>());
+        expect(cachedUnderlineBorder.borderSide.color,
+            const Color.fromRGBO(0, 0, 0, 1));
+        expect(cachedUnderlineBorder.borderSide.width, 2.0);
+        expect(cachedUnderlineBorder.borderSide.style, BorderStyle.solid);
       });
 
       test("should return null if the value is null", () {
@@ -4104,7 +4162,7 @@ void main() {
   group(
     "borderRadius method",
     () {
-      test("should parse and return BorderRadius", () {
+      test("should parse and return BorderRadius with only corners", () {
         final json = <String, dynamic>{
           "borderRadius": <String, dynamic>{
             "topLeft": <String, dynamic>{
@@ -4132,6 +4190,69 @@ void main() {
         expect(borderRadius.bottomRight, const Radius.circular(40.0));
       });
 
+      test("should parse and return BorderRadius with vertical", () {
+        final json = <String, dynamic>{
+          "borderRadius": <String, dynamic>{
+            "top": <String, dynamic>{
+              "radius": 15.0,
+            },
+            "bottom": <String, dynamic>{
+              "radius": 25.0,
+            },
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final borderRadius = data.borderRadius();
+
+        expect(borderRadius, isA<BorderRadius>());
+        expect(borderRadius.topLeft, const Radius.circular(15.0));
+        expect(borderRadius.topRight, const Radius.circular(15.0));
+        expect(borderRadius.bottomLeft, const Radius.circular(25.0));
+        expect(borderRadius.bottomRight, const Radius.circular(25.0));
+      });
+
+      test("should parse and return BorderRadius with horizontal", () {
+        final json = <String, dynamic>{
+          "borderRadius": <String, dynamic>{
+            "left": <String, dynamic>{
+              "radius": 12.0,
+            },
+            "right": <String, dynamic>{
+              "radius": 18.0,
+            },
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final borderRadius = data.borderRadius();
+
+        expect(borderRadius, isA<BorderRadius>());
+        expect(borderRadius.topLeft, const Radius.circular(12.0));
+        expect(borderRadius.topRight, const Radius.circular(18.0));
+        expect(borderRadius.bottomLeft, const Radius.circular(12.0));
+        expect(borderRadius.bottomRight, const Radius.circular(18.0));
+      });
+
+      test("should parse and return BorderRadius with all radius", () {
+        final json = <String, dynamic>{
+          "borderRadius": <String, dynamic>{
+            "radius": <String, dynamic>{
+              "radius": 8.0,
+            },
+          },
+        };
+
+        final data = DuitDataSource(json);
+        final borderRadius = data.borderRadius();
+
+        expect(borderRadius, isA<BorderRadius>());
+        expect(borderRadius.topLeft, const Radius.circular(8.0));
+        expect(borderRadius.topRight, const Radius.circular(8.0));
+        expect(borderRadius.bottomLeft, const Radius.circular(8.0));
+        expect(borderRadius.bottomRight, const Radius.circular(8.0));
+      });
+
       test("should return the default value if the value is null", () {
         final json = <String, dynamic>{};
         final defaultBorderRadius = BorderRadius.circular(10.0);
@@ -4154,6 +4275,130 @@ void main() {
 
         expect(data.borderRadius(), borderRadius);
         expect(data["borderRadius"], borderRadius);
+      });
+
+      test("should return default value for invalid data", () {
+        final json = <String, dynamic>{
+          "borderRadius": "invalid",
+        };
+        final defaultBorderRadius = BorderRadius.circular(5.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.borderRadius(), BorderRadius.zero);
+        expect(data.borderRadius(defaultValue: defaultBorderRadius),
+            defaultBorderRadius);
+      });
+    },
+  );
+
+  group(
+    "radius method",
+    () {
+      test("should parse and return Radius circular from number", () {
+        final json = <String, dynamic>{
+          "radius": 15.0,
+        };
+
+        final data = DuitDataSource(json);
+        final radius = data.radius();
+
+        expect(radius, isA<Radius>());
+        expect(radius, const Radius.circular(15.0));
+      });
+
+      test("should parse and return Radius circular from int", () {
+        final json = <String, dynamic>{
+          "radius": 10,
+        };
+
+        final data = DuitDataSource(json);
+        final radius = data.radius();
+
+        expect(radius, isA<Radius>());
+        expect(radius, const Radius.circular(10.0));
+      });
+
+      test("should parse and return Radius elliptical from list", () {
+        final json = <String, dynamic>{
+          "radius": [12.0, 8.0],
+        };
+
+        final data = DuitDataSource(json);
+        final radius = data.radius();
+
+        expect(radius, isA<Radius>());
+        expect(radius, const Radius.elliptical(12.0, 8.0));
+      });
+
+      test("should parse and return Radius elliptical from int list", () {
+        final json = <String, dynamic>{
+          "radius": [20, 15],
+        };
+
+        final data = DuitDataSource(json);
+        final radius = data.radius();
+
+        expect(radius, isA<Radius>());
+        expect(radius, const Radius.elliptical(20.0, 15.0));
+      });
+
+      test("should return the default value if the value is null", () {
+        final json = <String, dynamic>{};
+        final defaultRadius = const Radius.circular(5.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.radius(), Radius.zero);
+        expect(data.radius(defaultValue: defaultRadius), defaultRadius);
+        expect(data["radius"], null);
+      });
+
+      test("should return instance if the value is already an instance", () {
+        const radius = Radius.circular(7.0);
+        final json = <String, dynamic>{
+          "radius": radius,
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.radius(), radius);
+        expect(data["radius"], radius);
+      });
+
+      test("should return default value for invalid data", () {
+        final json = <String, dynamic>{
+          "radius": "invalid",
+        };
+        const defaultRadius = Radius.circular(3.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.radius(), Radius.zero);
+        expect(data.radius(defaultValue: defaultRadius), defaultRadius);
+      });
+
+      test("should return default value for empty list", () {
+        final json = <String, dynamic>{
+          "radius": [],
+        };
+        const defaultRadius = Radius.circular(4.0);
+
+        final data = DuitDataSource(json);
+
+        expect(data.radius(), Radius.zero);
+        expect(data.radius(defaultValue: defaultRadius), defaultRadius);
+      });
+
+      test("should work with custom key", () {
+        final json = <String, dynamic>{
+          "customRadius": 25.0,
+        };
+
+        final data = DuitDataSource(json);
+        final radius = data.radius(key: "customRadius");
+
+        expect(radius, const Radius.circular(25.0));
       });
     },
   );
