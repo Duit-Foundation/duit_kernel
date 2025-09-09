@@ -620,16 +620,31 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [map]: The map containing width and height values.
   /// Returns a [Size] object with the specified dimensions.
   @preferInline
-  Size _sizeFromMap(DuitDataSource map) => Size(
-        map.getDouble(
-          key: "width",
-          defaultValue: double.infinity,
-        ),
-        map.getDouble(
-          key: "height",
-          defaultValue: double.infinity,
-        ),
-      );
+  Size _sizeFromMap(Map<String, dynamic> map) {
+    switch (map) {
+      case {
+          "width": num width,
+          "height": num height,
+        }:
+        return Size(
+          width.toDouble(),
+          height.toDouble(),
+        );
+      case {
+          "value": num value,
+          "mainAxis": dynamic _,
+        }:
+        final axis = DuitDataSource(map).axis(key: "mainAxis");
+
+        if (axis == Axis.horizontal) {
+          return Size.fromWidth(value.toDouble());
+        } else {
+          return Size.fromHeight(value.toDouble());
+        }
+      default:
+        return Size.zero;
+    }
+  }
 
   /// Creates a [Size] object from a list of numeric values.
   ///

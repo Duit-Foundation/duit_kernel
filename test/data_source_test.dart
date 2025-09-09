@@ -262,6 +262,81 @@ void main() {
         expect(data.size("size"), const Size(100.0, 200.0));
         expect(data["size"], const Size(100.0, 200.0));
       });
+
+      test(
+          "should parse and return size from map with value and horizontal mainAxis",
+          () {
+        final json = <String, dynamic>{
+          "size": {
+            "value": 100.0,
+            "mainAxis": "horizontal",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromWidth(100.0));
+        expect(data["size"], const Size.fromWidth(100.0));
+      });
+
+      test(
+          "should parse and return size from map with value and vertical mainAxis",
+          () {
+        final json = <String, dynamic>{
+          "size": {
+            "value": 100.0,
+            "mainAxis": "vertical",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromHeight(100.0));
+        expect(data["size"], const Size.fromHeight(100.0));
+      });
+
+      test(
+          "should parse and return size from map with value and mainAxis as int (horizontal)",
+          () {
+        final json = <String, dynamic>{
+          "size": <String, dynamic>{
+            "value": 150.0,
+            "mainAxis": 1, // 1 = Axis.horizontal
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromWidth(150.0));
+      });
+
+      test(
+          "should parse and return size from map with value and mainAxis as int (vertical)",
+          () {
+        final json = <String, dynamic>{
+          "size": <String, dynamic>{
+            "value": 120.0,
+            "mainAxis": 0, // 0 = Axis.vertical
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), const Size.fromHeight(120.0));
+      });
+
+      test("should return Size.zero for unknown map format", () {
+        final json = <String, dynamic>{
+          "size": {
+            "unknown": "value",
+          },
+        };
+
+        final data = DuitDataSource(json);
+
+        expect(data.size("size"), Size.zero);
+        expect(data["size"], Size.zero);
+      });
     },
   );
 
