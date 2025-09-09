@@ -1,13 +1,13 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'dart:ui';
+import "dart:convert";
+import "dart:typed_data";
+import "dart:ui";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/gestures.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
 
-part 'lookup.dart';
+part "lookup.dart";
 
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
 ///
@@ -142,8 +142,8 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final isHexColor = color.startsWith("#");
     if (isHexColor) {
       final buffer = StringBuffer();
-      if (color.length == 6 || color.length == 7) buffer.write('ff');
-      buffer.write(color.replaceFirst('#', ''));
+      if (color.length == 6 || color.length == 7) buffer.write("ff");
+      buffer.write(color.replaceFirst("#", ""));
       return Color(int.parse(buffer.toString(), radix: 16));
     }
     return null;
@@ -686,7 +686,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _sizeFromMap(DuitDataSource(value));
+        return json[key] = _sizeFromMap(value);
       case List<num>():
         return json[key] = _sizeFromList(value);
       case double():
@@ -907,7 +907,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'leadingDistribution': A leading distribution value.
   @preferInline
   TextStyle _textStyleFromMap(Map<String, dynamic> data) {
-    final source = DuitDataSource(Map<String, dynamic>.from(data));
+    final source = DuitDataSource(data);
     return TextStyle(
       color: source.tryParseColor(key: "color"),
       fontFamily: source.tryGetString("fontFamily"),
@@ -946,7 +946,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final List? colors = source["colors"];
     if (colors == null) return null;
 
-    final List<Color> dColors = [];
+    final dColors = <Color>[];
 
     for (var color in colors) {
       dColors.add(_parseColor(color) ?? Colors.transparent);
@@ -1071,7 +1071,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - 'boxShadow': A list of box shadow values.
   @preferInline
   Decoration _decorationFromMap(Map<String, dynamic> data) {
-    final source = DuitDataSource(Map<String, dynamic>.from(data));
+    final source = DuitDataSource(data);
     return BoxDecoration(
       color: source.tryParseColor(key: "color"),
       borderRadius: source["borderRadius"] != null
@@ -1257,7 +1257,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   @preferInline
   TextSpan _textSpanFromMap(Map<String, dynamic> value) {
     final source = DuitDataSource(value);
-    final List? children = value['children'];
+    final List? children = value["children"];
     final spanChildren = <InlineSpan>[];
 
     if (children != null) {
@@ -2197,7 +2197,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns an [ImageFilter] that applies a blur effect.
   @preferInline
   static ImageFilter _blurImageFilterFromMap(Map<String, dynamic> value) {
-    final source = DuitDataSource(Map<String, dynamic>.from(value));
+    final source = DuitDataSource(value);
     return ImageFilter.blur(
       sigmaX: source.getDouble(key: "sigmaX"),
       sigmaY: source.getDouble(key: "sigmaY"),
@@ -3472,7 +3472,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a new List<dynamic> that is a deep copy of the original list.
   @preferInline
   List<dynamic> _copyList(List<dynamic> source) {
-    final List<dynamic> result = [];
+    final result = [];
     for (final item in source) {
       if (item is Map<String, dynamic>) {
         result.add(_copyMap(item));
@@ -3493,7 +3493,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// Returns a new Map<String, dynamic> that is a deep copy of the original map.
   @preferInline
   Map<String, dynamic> _copyMap(Map<String, dynamic> source) {
-    final Map<String, dynamic> result = {};
+    final result = <String, dynamic>{};
     for (final entry in source.entries) {
       final key = entry.key;
       final value = entry.value;
@@ -3711,9 +3711,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.textStyle(
-                  key: "begin", defaultValue: const TextStyle())!,
+                key: "begin",
+                defaultValue: const TextStyle(),
+              )!,
               end: tweenData.textStyle(
-                  key: "end", defaultValue: const TextStyle())!,
+                key: "end",
+                defaultValue: const TextStyle(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3724,9 +3728,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.decoration(
-                  key: "begin", defaultValue: const BoxDecoration())!,
+                key: "begin",
+                defaultValue: const BoxDecoration(),
+              )!,
               end: tweenData.decoration(
-                  key: "end", defaultValue: const BoxDecoration())!,
+                key: "end",
+                defaultValue: const BoxDecoration(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3737,9 +3745,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.alignment(
-                  key: "begin", defaultValue: Alignment.center)!,
+                key: "begin",
+                defaultValue: Alignment.center,
+              )!,
               end: tweenData.alignment(
-                  key: "end", defaultValue: Alignment.center)!,
+                key: "end",
+                defaultValue: Alignment.center,
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3761,9 +3773,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.edgeInsets(
-                  key: "begin", defaultValue: EdgeInsets.zero)!,
+                key: "begin",
+                defaultValue: EdgeInsets.zero,
+              )!,
               end: tweenData.edgeInsets(
-                  key: "end", defaultValue: EdgeInsets.zero)!,
+                key: "end",
+                defaultValue: EdgeInsets.zero,
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
@@ -3774,9 +3790,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
               animatedPropKey: tweenData.getString(key: "animatedPropKey"),
               duration: tweenData.duration(),
               begin: tweenData.boxConstraints(
-                  key: "begin", defaultValue: const BoxConstraints())!,
+                key: "begin",
+                defaultValue: const BoxConstraints(),
+              )!,
               end: tweenData.boxConstraints(
-                  key: "end", defaultValue: const BoxConstraints())!,
+                key: "end",
+                defaultValue: const BoxConstraints(),
+              )!,
               curve: tweenData.curve(defaultValue: Curves.linear)!,
               trigger: tweenData.animationTrigger(),
               method: tweenData.animationMethod(),
