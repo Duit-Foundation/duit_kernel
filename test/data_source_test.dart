@@ -1,10 +1,10 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'dart:typed_data';
-import 'package:flutter/gestures.dart';
-import 'dart:ui';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+import "package:flutter_test/flutter_test.dart";
+import "dart:typed_data";
+import "package:flutter/gestures.dart";
+import "dart:ui";
 
 void main() {
   group(
@@ -519,11 +519,17 @@ void main() {
 
       final data = DuitDataSource(json);
       expect(
-          data.parseColor(key: "color"), const Color.fromRGBO(255, 0, 0, 0.5));
+        data.parseColor(key: "color"),
+        const Color.fromRGBO(255, 0, 0, 0.5),
+      );
       expect(
-          data.parseColor(key: "color2"), const Color.fromRGBO(0, 255, 0, 0.7));
+        data.parseColor(key: "color2"),
+        const Color.fromRGBO(0, 255, 0, 0.7),
+      );
       expect(
-          data.parseColor(key: "color3"), const Color.fromRGBO(0, 0, 255, 0.3));
+        data.parseColor(key: "color3"),
+        const Color.fromRGBO(0, 0, 255, 0.3),
+      );
     });
 
     test("should return default value for invalid hex color", () {
@@ -598,8 +604,10 @@ void main() {
       final json = <String, dynamic>{};
       final data = DuitDataSource(json);
       expect(data.duration(), Duration.zero);
-      expect(data.duration(defaultValue: const Duration(seconds: 2)),
-          const Duration(seconds: 2));
+      expect(
+        data.duration(defaultValue: const Duration(seconds: 2)),
+        const Duration(seconds: 2),
+      );
       expect(data["duration"], null);
     });
 
@@ -879,7 +887,9 @@ void main() {
         expect(data.textWidthBasis(), TextWidthBasis.parent);
         expect(data["textWidthBasis"], TextWidthBasis.parent);
         expect(
-            data.textWidthBasis(key: "textWidthBasis2"), TextWidthBasis.parent);
+          data.textWidthBasis(key: "textWidthBasis2"),
+          TextWidthBasis.parent,
+        );
         expect(data["textWidthBasis2"], TextWidthBasis.parent);
       });
 
@@ -1175,7 +1185,7 @@ void main() {
 
         // Проверяем градиент
         expect(boxDecoration.gradient, isA<LinearGradient>());
-        final gradient = boxDecoration.gradient as LinearGradient;
+        final gradient = boxDecoration.gradient! as LinearGradient;
         expect(gradient.colors, [
           const Color(0xFFFF0000),
           const Color(0xFF00FF00),
@@ -1185,7 +1195,7 @@ void main() {
         expect(gradient.begin, Alignment.centerLeft);
         expect(gradient.end, Alignment.centerRight);
         expect(gradient.transform, isA<GradientRotation>());
-        final transform = gradient.transform as GradientRotation;
+        final transform = gradient.transform! as GradientRotation;
         expect(transform, isNotNull);
 
         // Проверяем тени
@@ -1216,7 +1226,7 @@ void main() {
 
         expect(boxDecoration.color, const Color(0xFFFF0000));
         expect(boxDecoration.gradient, isA<LinearGradient>());
-        final gradient = boxDecoration.gradient as LinearGradient;
+        final gradient = boxDecoration.gradient! as LinearGradient;
         expect(gradient.colors, [
           const Color(0xFFFF0000),
           const Color(0xFF00FF00),
@@ -1224,7 +1234,7 @@ void main() {
         expect(gradient.stops, null);
         expect(gradient.begin, Alignment.centerLeft);
         expect(gradient.end, Alignment.centerRight);
-        expect(gradient.transform, null);
+        expect(gradient.transform, isNull);
 
         expect(data["decoration"], decoration);
       });
@@ -1239,8 +1249,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.decoration(), null);
-        expect(data.decoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.decoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], null);
       });
 
@@ -1255,8 +1267,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.decoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.decoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], true);
       });
 
@@ -1654,8 +1668,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.textHeightBehavior(), null);
-        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
-            defaultBehavior);
+        expect(
+          data.textHeightBehavior(defaultValue: defaultBehavior),
+          defaultBehavior,
+        );
         expect(data["textHeightBehavior"], null);
       });
 
@@ -1669,8 +1685,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
-            defaultBehavior);
+        expect(
+          data.textHeightBehavior(defaultValue: defaultBehavior),
+          defaultBehavior,
+        );
         expect(data["textHeightBehavior"], true);
       });
 
@@ -1849,7 +1867,8 @@ void main() {
         expect(data.textLeadingDistribution(), null);
         expect(
           data.textLeadingDistribution(
-              defaultValue: TextLeadingDistribution.even),
+            defaultValue: TextLeadingDistribution.even,
+          ),
           TextLeadingDistribution.even,
         );
         expect(data["leadingDistribution"], null);
@@ -1866,7 +1885,8 @@ void main() {
 
         expect(
           data.textLeadingDistribution(
-              defaultValue: TextLeadingDistribution.even),
+            defaultValue: TextLeadingDistribution.even,
+          ),
           TextLeadingDistribution.even,
         );
         expect(data["leadingDistribution"], true);
@@ -1965,8 +1985,10 @@ void main() {
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
         expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
-        expect(data.wrapCrossAlignment(key: "crossAxisAlignment2"),
-            WrapCrossAlignment.start);
+        expect(
+          data.wrapCrossAlignment(key: "crossAxisAlignment2"),
+          WrapCrossAlignment.start,
+        );
         expect(data["crossAxisAlignment2"], WrapCrossAlignment.start);
       });
 
@@ -2125,8 +2147,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.boxConstraints(), null);
-        expect(data.boxConstraints(defaultValue: defaultConstraints),
-            defaultConstraints);
+        expect(
+          data.boxConstraints(defaultValue: defaultConstraints),
+          defaultConstraints,
+        );
         expect(data["constraints"], null);
       });
 
@@ -2143,8 +2167,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.boxConstraints(defaultValue: defaultConstraints),
-            defaultConstraints);
+        expect(
+          data.boxConstraints(defaultValue: defaultConstraints),
+          defaultConstraints,
+        );
         expect(data["constraints"], true);
       });
 
@@ -2338,7 +2364,9 @@ void main() {
 
         expect(data.alignment(), null);
         expect(
-            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+          data.alignment(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], null);
       });
 
@@ -2353,7 +2381,9 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+          data.alignment(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], true);
       });
 
@@ -2385,8 +2415,10 @@ void main() {
 
         expect(alignment, const AlignmentDirectional(0.5, 0.5));
         expect(data["alignment"], const AlignmentDirectional(0.5, 0.5));
-        expect(data.alignmentDirectional(key: "alignment2"),
-            AlignmentDirectional.topCenter);
+        expect(
+          data.alignmentDirectional(key: "alignment2"),
+          AlignmentDirectional.topCenter,
+        );
         expect(data["alignment2"], AlignmentDirectional.topCenter);
       });
 
@@ -2408,8 +2440,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), null);
-        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
-            defaultAlignment);
+        expect(
+          data.alignmentDirectional(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], null);
       });
 
@@ -2423,8 +2457,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
-            defaultAlignment);
+        expect(
+          data.alignmentDirectional(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], true);
       });
 
@@ -2743,7 +2779,8 @@ void main() {
         expect(data.materialTapTargetSize(), null);
         expect(
           data.materialTapTargetSize(
-              defaultValue: MaterialTapTargetSize.padded),
+            defaultValue: MaterialTapTargetSize.padded,
+          ),
           MaterialTapTargetSize.padded,
         );
         expect(data["materialTapTargetSize"], null);
@@ -2760,7 +2797,8 @@ void main() {
 
         expect(
           data.materialTapTargetSize(
-              defaultValue: MaterialTapTargetSize.padded),
+            defaultValue: MaterialTapTargetSize.padded,
+          ),
           MaterialTapTargetSize.padded,
         );
         expect(data["materialTapTargetSize"], true);
@@ -2927,8 +2965,10 @@ void main() {
 
         expect(result, Uint8List.fromList([1, 2, 3, 4, 5]));
         expect(data["byteData"], Uint8List.fromList([1, 2, 3, 4, 5]));
-        expect(data.uint8List(key: "byteData2"),
-            Uint8List.fromList([116, 101, 115, 116]));
+        expect(
+          data.uint8List(key: "byteData2"),
+          Uint8List.fromList([116, 101, 115, 116]),
+        );
         expect(data["byteData2"], Uint8List.fromList([116, 101, 115, 116]));
       });
 
@@ -3483,7 +3523,7 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        final border = data.inputBorder() as OutlineInputBorder;
+        final border = data.inputBorder()! as OutlineInputBorder;
         expect(border, isA<OutlineInputBorder>());
         expect(border.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
         expect(border.borderSide.width, 2.0);
@@ -3498,16 +3538,20 @@ void main() {
         expect(cachedBorder.gapPadding, 4.0);
         expect(cachedBorder.borderRadius, BorderRadius.circular(4.0));
         final underlineBorder =
-            data.inputBorder(key: "border2") as UnderlineInputBorder;
+            data.inputBorder(key: "border2")! as UnderlineInputBorder;
         expect(underlineBorder, isA<UnderlineInputBorder>());
         expect(
-            underlineBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+          underlineBorder.borderSide.color,
+          const Color.fromRGBO(0, 0, 0, 1),
+        );
         expect(underlineBorder.borderSide.width, 2.0);
         expect(underlineBorder.borderSide.style, BorderStyle.solid);
         final cachedUnderlineBorder = data["border2"] as UnderlineInputBorder;
         expect(cachedUnderlineBorder, isA<UnderlineInputBorder>());
-        expect(cachedUnderlineBorder.borderSide.color,
-            const Color.fromRGBO(0, 0, 0, 1));
+        expect(
+          cachedUnderlineBorder.borderSide.color,
+          const Color.fromRGBO(0, 0, 0, 1),
+        );
         expect(cachedUnderlineBorder.borderSide.width, 2.0);
         expect(cachedUnderlineBorder.borderSide.style, BorderStyle.solid);
       });
@@ -3579,8 +3623,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.inputDecoration(), null);
-        expect(data.inputDecoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.inputDecoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], null);
       });
 
@@ -3594,8 +3640,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.inputDecoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.inputDecoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], true);
       });
 
@@ -3711,13 +3759,16 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.visualDensity(),
-            const VisualDensity(
-              horizontal: 0.0,
-              vertical: 0.0,
-            ));
+          data.visualDensity(),
+          const VisualDensity(
+            horizontal: 0.0,
+            vertical: 0.0,
+          ),
+        );
         expect(
-            data.visualDensity(defaultValue: defaultDensity), defaultDensity);
+          data.visualDensity(defaultValue: defaultDensity),
+          defaultDensity,
+        );
         expect(data["visualDensity"], null);
       });
 
@@ -3733,7 +3784,9 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.visualDensity(defaultValue: defaultDensity), defaultDensity);
+          data.visualDensity(defaultValue: defaultDensity),
+          defaultDensity,
+        );
         expect(data["visualDensity"], true);
       });
 
@@ -3748,10 +3801,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.visualDensity(),
-            const VisualDensity(horizontal: 4.0, vertical: 4.0));
-        expect(data["visualDensity"],
-            const VisualDensity(horizontal: 4.0, vertical: 4.0));
+        expect(
+          data.visualDensity(),
+          const VisualDensity(horizontal: 4.0, vertical: 4.0),
+        );
+        expect(
+          data["visualDensity"],
+          const VisualDensity(horizontal: 4.0, vertical: 4.0),
+        );
       });
     },
   );
@@ -3767,10 +3824,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.onDrag);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.onDrag);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
       });
 
       test("should parse and return the keyboardDismissBehavior from int", () {
@@ -3781,10 +3842,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.manual);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.manual);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
       });
 
       test("should return null if the value is null", () {
@@ -3792,11 +3857,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.manual);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
         expect(
           data.keyboardDismissBehavior(
-              defaultValue: ScrollViewKeyboardDismissBehavior.onDrag),
+            defaultValue: ScrollViewKeyboardDismissBehavior.onDrag,
+          ),
           ScrollViewKeyboardDismissBehavior.onDrag,
         );
         expect(data["keyboardDismissBehavior"], null);
@@ -3813,7 +3881,8 @@ void main() {
 
         expect(
           data.keyboardDismissBehavior(
-              defaultValue: ScrollViewKeyboardDismissBehavior.onDrag),
+            defaultValue: ScrollViewKeyboardDismissBehavior.onDrag,
+          ),
           ScrollViewKeyboardDismissBehavior.onDrag,
         );
         expect(data["keyboardDismissBehavior"], true);
@@ -3826,10 +3895,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.onDrag);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.onDrag);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
       });
     },
   );
@@ -3846,8 +3919,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.scrollPhysics(), isA<AlwaysScrollableScrollPhysics>());
-        expect(data.scrollPhysics(key: "physics2"),
-            isA<AlwaysScrollableScrollPhysics>());
+        expect(
+          data.scrollPhysics(key: "physics2"),
+          isA<AlwaysScrollableScrollPhysics>(),
+        );
         expect(data["physics"], isA<AlwaysScrollableScrollPhysics>());
         expect(data["physics2"], isA<AlwaysScrollableScrollPhysics>());
       });
@@ -3909,8 +3984,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.dragStartBehavior(), DragStartBehavior.start);
-        expect(data.dragStartBehavior(key: "dragStartBehavior2"),
-            DragStartBehavior.start);
+        expect(
+          data.dragStartBehavior(key: "dragStartBehavior2"),
+          DragStartBehavior.start,
+        );
         expect(data["dragStartBehavior"], DragStartBehavior.start);
         expect(data["dragStartBehavior2"], DragStartBehavior.start);
       });
@@ -3969,8 +4046,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.hitTestBehavior(), HitTestBehavior.deferToChild);
-        expect(data.hitTestBehavior(key: "hitTestBehavior2"),
-            HitTestBehavior.deferToChild);
+        expect(
+          data.hitTestBehavior(key: "hitTestBehavior2"),
+          HitTestBehavior.deferToChild,
+        );
         expect(data["hitTestBehavior"], HitTestBehavior.deferToChild);
         expect(data["hitTestBehavior2"], HitTestBehavior.deferToChild);
       });
@@ -4056,7 +4135,7 @@ void main() {
         };
 
         final data = DuitDataSource(json);
-        final shape = data.shapeBorder() as RoundedRectangleBorder;
+        final shape = data.shapeBorder()! as RoundedRectangleBorder;
 
         expect(shape, isA<RoundedRectangleBorder>());
         expect(shape.borderRadius, BorderRadius.circular(10.0));
@@ -4065,7 +4144,9 @@ void main() {
         expect(data.shapeBorder(key: "shape2"), isA<StadiumBorder>());
         expect(data.shapeBorder(key: "shape3"), isA<BeveledRectangleBorder>());
         expect(
-            data.shapeBorder(key: "shape4"), isA<ContinuousRectangleBorder>());
+          data.shapeBorder(key: "shape4"),
+          isA<ContinuousRectangleBorder>(),
+        );
       });
 
       test("should parse and return CircleBorder", () {
@@ -4080,7 +4161,7 @@ void main() {
         };
 
         final data = DuitDataSource(json);
-        final shape = data.shapeBorder() as CircleBorder;
+        final shape = data.shapeBorder()! as CircleBorder;
 
         expect(shape, isA<CircleBorder>());
         expect(shape.side.color, const Color(0xFFFF0000));
@@ -4123,7 +4204,7 @@ void main() {
               "width": 2.0,
               "style": "solid",
             },
-          }
+          },
         };
 
         final data = DuitDataSource(json);
@@ -4260,8 +4341,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.borderRadius(), BorderRadius.zero);
-        expect(data.borderRadius(defaultValue: defaultBorderRadius),
-            defaultBorderRadius);
+        expect(
+          data.borderRadius(defaultValue: defaultBorderRadius),
+          defaultBorderRadius,
+        );
         expect(data["borderRadius"], null);
       });
 
@@ -4286,8 +4369,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.borderRadius(), BorderRadius.zero);
-        expect(data.borderRadius(defaultValue: defaultBorderRadius),
-            defaultBorderRadius);
+        expect(
+          data.borderRadius(defaultValue: defaultBorderRadius),
+          defaultBorderRadius,
+        );
       });
     },
   );
@@ -4345,7 +4430,7 @@ void main() {
 
       test("should return the default value if the value is null", () {
         final json = <String, dynamic>{};
-        final defaultRadius = const Radius.circular(5.0);
+        const defaultRadius = Radius.circular(5.0);
 
         final data = DuitDataSource(json);
 
@@ -4415,12 +4500,18 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.fabLocation(), FloatingActionButtonLocation.centerDocked);
-        expect(data.fabLocation(key: "floatingActionButtonLocation2"),
-            FloatingActionButtonLocation.centerDocked);
-        expect(data["floatingActionButtonLocation"],
-            FloatingActionButtonLocation.centerDocked);
-        expect(data["floatingActionButtonLocation2"],
-            FloatingActionButtonLocation.centerDocked);
+        expect(
+          data.fabLocation(key: "floatingActionButtonLocation2"),
+          FloatingActionButtonLocation.centerDocked,
+        );
+        expect(
+          data["floatingActionButtonLocation"],
+          FloatingActionButtonLocation.centerDocked,
+        );
+        expect(
+          data["floatingActionButtonLocation2"],
+          FloatingActionButtonLocation.centerDocked,
+        );
       });
 
       test("should return the default value if the value is null", () {
@@ -4460,8 +4551,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.fabLocation(), FloatingActionButtonLocation.endFloat);
-        expect(data["floatingActionButtonLocation"],
-            FloatingActionButtonLocation.endFloat);
+        expect(
+          data["floatingActionButtonLocation"],
+          FloatingActionButtonLocation.endFloat,
+        );
       });
     },
   );
@@ -4627,8 +4720,10 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
-      expect(data.themeOverrideRule(key: "overrideRule2"),
-          ThemeOverrideRule.themePriority);
+      expect(
+        data.themeOverrideRule(key: "overrideRule2"),
+        ThemeOverrideRule.themePriority,
+      );
       expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
       expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
     });
@@ -4642,8 +4737,10 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
-      expect(data.themeOverrideRule(key: "overrideRule2"),
-          ThemeOverrideRule.themePriority);
+      expect(
+        data.themeOverrideRule(key: "overrideRule2"),
+        ThemeOverrideRule.themePriority,
+      );
       expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
       expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
     });
@@ -4781,11 +4878,12 @@ void main() {
       expect(copy["matrix"][0], isA<List>());
       expect(copy["matrix"][0], isNot(same(nestedList[0])));
       expect(
-          copy["matrix"],
-          equals([
-            [1, 2],
-            [3, 4]
-          ]));
+        copy["matrix"],
+        equals([
+          [1, 2],
+          [3, 4],
+        ]),
+      );
     });
 
     test("should create a deep copy of complex nested structures", () {
@@ -4823,13 +4921,19 @@ void main() {
       expect(copy, isNot(same(complexStructure)));
       expect(copy["users"], isNot(same(complexStructure["users"])));
       expect(copy["users"][0], isNot(same(complexStructure["users"][0])));
-      expect(copy["users"][0]["hobbies"],
-          isNot(same(complexStructure["users"][0]["hobbies"])));
-      expect(copy["users"][0]["address"],
-          isNot(same(complexStructure["users"][0]["address"])));
+      expect(
+        copy["users"][0]["hobbies"],
+        isNot(same(complexStructure["users"][0]["hobbies"])),
+      );
+      expect(
+        copy["users"][0]["address"],
+        isNot(same(complexStructure["users"][0]["address"])),
+      );
       expect(copy["settings"], isNot(same(complexStructure["settings"])));
-      expect(copy["settings"]["preferences"],
-          isNot(same(complexStructure["settings"]["preferences"])));
+      expect(
+        copy["settings"]["preferences"],
+        isNot(same(complexStructure["settings"]["preferences"])),
+      );
 
       // Verify the content is identical
       expect(copy, equals(complexStructure));
@@ -4982,7 +5086,7 @@ void main() {
             0.0,
             0.0,
             0.0,
-            1.0
+            1.0,
           ],
           "filterQuality": "high",
         },
@@ -5024,8 +5128,10 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.imageFilter(defaultValue: ImageFilter.blur()),
-          ImageFilter.blur());
+      expect(
+        data.imageFilter(defaultValue: ImageFilter.blur()),
+        ImageFilter.blur(),
+      );
       expect(data["filter"], null);
     });
 
@@ -5145,7 +5251,7 @@ void main() {
             0.0,
             0.0,
             0.0,
-            1.0
+            1.0,
           ],
         },
       };
@@ -5316,11 +5422,15 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
       expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
       expect(data["stretchMode2"], [StretchMode.fadeTitle]);
     });
 
@@ -5354,7 +5464,7 @@ void main() {
     test("should return instance if the value is already an instance", () {
       final stretchModes = [
         StretchMode.zoomBackground,
-        StretchMode.blurBackground
+        StretchMode.blurBackground,
       ];
       final json = <String, dynamic>{
         "stretchModes": stretchModes,
@@ -5373,10 +5483,14 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(key: "customStretchMode"),
-          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
-      expect(data["customStretchMode"],
-          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
+      expect(
+        data.stretchModes(key: "customStretchMode"),
+        [StretchMode.zoomBackground, StretchMode.fadeTitle],
+      );
+      expect(
+        data["customStretchMode"],
+        [StretchMode.zoomBackground, StretchMode.fadeTitle],
+      );
     });
 
     test("should handle empty list of strings", () {
@@ -5408,10 +5522,14 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
     });
 
     test("should handle mixed valid and invalid int values", () {
@@ -5419,16 +5537,20 @@ void main() {
         "stretchModes": [
           0,
           999,
-          1
+          1,
         ], // 0=zoomBackground, 999=invalid, 1=blurBackground
       };
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
     });
   });
 
@@ -5439,10 +5561,10 @@ void main() {
           "event": "testEvent",
           "executionType": 0,
           "dependsOn": [
-            {"target": "t1", "id": "id1"}
+            {"target": "t1", "id": "id1"},
           ],
-          "meta": {"method": "POST"}
-        }
+          "meta": {"method": "POST"},
+        },
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5467,9 +5589,9 @@ void main() {
           "executionType": 1,
           "payload": {
             "type": "update",
-            "updates": {"key": "value"}
-          }
-        }
+            "updates": {"key": "value"},
+          },
+        },
       };
       final data = DuitDataSource(json);
       final action = data.getAction("action");
@@ -5485,14 +5607,14 @@ void main() {
           "event": "script",
           "executionType": 2,
           "dependsOn": [
-            {"target": "t1", "id": "id1"}
+            {"target": "t1", "id": "id1"},
           ],
           "script": {
             "sourceCode": "print('hi')",
             "functionName": "main",
-            "meta": {"info": "metaInfo"}
-          }
-        }
+            "meta": {"info": "metaInfo"},
+          },
+        },
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5504,13 +5626,13 @@ void main() {
       expect(action.dependsOn.first.target, "t1");
       expect(action.dependsOn.first.id, "id1");
       expect((action as ScriptAction).script.sourceCode, "print('hi')");
-      expect((action).script.functionName, "main");
-      expect((action).script.meta, {"info": "metaInfo"});
+      expect(action.script.functionName, "main");
+      expect(action.script.meta, {"info": "metaInfo"});
     });
 
     test("getAction should parse UnknownAction for invalid executionType", () {
       final json = <String, dynamic>{
-        "action": {"event": "unknown", "executionType": 999}
+        "action": {"event": "unknown", "executionType": 999},
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5549,8 +5671,8 @@ void main() {
       final json = <String, dynamic>{
         "dependsOn": [
           {"target": "t1", "id": "id1"},
-          {"target": "t2", "id": "id2"}
-        ]
+          {"target": "t2", "id": "id2"},
+        ],
       };
       final data = DuitDataSource(json);
       final deps = data.getActionDependencies().toList();
@@ -5576,7 +5698,7 @@ void main() {
 
     test("meta should parse HttpActionMetainfo from map", () {
       final json = <String, dynamic>{
-        "meta": {"method": "POST"}
+        "meta": {"method": "POST"},
       };
       final data = DuitDataSource(json);
       expect(data.meta, isA<HttpActionMetainfo>());
@@ -5603,8 +5725,8 @@ void main() {
         "script": {
           "sourceCode": "print('hi')",
           "functionName": "main",
-          "meta": {"info": "metaInfo"}
-        }
+          "meta": {"info": "metaInfo"},
+        },
       };
       final data = DuitDataSource(json);
       final script = data.script;
@@ -5626,7 +5748,7 @@ void main() {
 
     test("affectedProperties should return set of strings if present", () {
       final data = DuitDataSource({
-        "affectedProperties": ["a", "b", "c"]
+        "affectedProperties": ["a", "b", "c"],
       });
       expect(data.affectedProperties, isA<Set<String>>());
       expect(data.affectedProperties, containsAll(["a", "b", "c"]));
@@ -5635,8 +5757,10 @@ void main() {
     test("affectedProperties should return null if not present or not iterable",
         () {
       expect(DuitDataSource({}).affectedProperties, isNull);
-      expect(DuitDataSource({"affectedProperties": 123}).affectedProperties,
-          isNull);
+      expect(
+        DuitDataSource({"affectedProperties": 123}).affectedProperties,
+        isNull,
+      );
     });
   });
 
@@ -5654,9 +5778,9 @@ void main() {
             "trigger": 0, // onEnter
             "method": 0, // forward
             "reverseOnRepeat": false,
-            "interval": {"begin": 0.0, "end": 1.0}
+            "interval": {"begin": 0.0, "end": 1.0},
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5687,9 +5811,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 1, // repeat
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5719,9 +5843,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5750,15 +5874,15 @@ void main() {
               "color": "#0000FF",
               "borderRadius": 20,
               "boxShadow": [
-                {"color": "#000000", "blurRadius": 10}
-              ]
+                {"color": "#000000", "blurRadius": 10},
+              ],
             },
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5768,10 +5892,14 @@ void main() {
       final tween = tweens.first as DecorationTweenDescription;
       expect(tween.animatedPropKey, "decoration");
       expect(tween.duration, const Duration(milliseconds: 600));
-      expect((tween.begin as BoxDecoration).color,
-          const Color(0xFFFFFFFF)); // #FFFFFF
-      expect((tween.end as BoxDecoration).color,
-          const Color(0xFF0000FF)); // #0000FF
+      expect(
+        (tween.begin as BoxDecoration).color,
+        const Color(0xFFFFFFFF),
+      ); // #FFFFFF
+      expect(
+        (tween.end as BoxDecoration).color,
+        const Color(0xFF0000FF),
+      ); // #0000FF
     });
 
     test("tweens should parse alignmentTween from map", () {
@@ -5786,9 +5914,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5814,9 +5942,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5842,9 +5970,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5870,9 +5998,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5912,9 +6040,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5945,7 +6073,7 @@ void main() {
                 "curve": "easeIn",
                 "trigger": 0, // onEnter
                 "method": 0, // forward
-                "reverseOnRepeat": false
+                "reverseOnRepeat": false,
               },
               {
                 "type": "tween",
@@ -5956,14 +6084,14 @@ void main() {
                 "curve": "easeIn",
                 "trigger": 0, // onEnter
                 "method": 0, // forward
-                "reverseOnRepeat": false
+                "reverseOnRepeat": false,
               }
             ],
             "method": 0, // forward
             "reverseOnRepeat": false,
-            "trigger": 0 // onEnter
+            "trigger": 0, // onEnter
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6016,7 +6144,7 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           },
           {
             "type": "colorTween",
@@ -6027,9 +6155,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 1, // repeat
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6048,10 +6176,10 @@ void main() {
             "animatedPropKey": "opacity",
             "duration": 500,
             "begin": 0.0,
-            "end": 1.0
+            "end": 1.0,
             // Missing curve, trigger, method, reverseOnRepeat - should use defaults
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6082,7 +6210,7 @@ void main() {
 
     test("should parse from Map", () {
       final data = DuitDataSource({
-        "interval": {"begin": 0.3, "end": 0.7}
+        "interval": {"begin": 0.3, "end": 0.7},
       });
       final result = data.animationInterval();
       expect(result, isA<AnimationInterval>());
@@ -6092,7 +6220,7 @@ void main() {
 
     test("should parse from List", () {
       final data = DuitDataSource({
-        "interval": [0.1, 0.9]
+        "interval": [0.1, 0.9],
       });
       final result = data.animationInterval();
       expect(result, isA<AnimationInterval>());
@@ -6112,7 +6240,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationInterval(
-            key: "custom", defaultValue: const AnimationInterval(0.5, 0.6)),
+          key: "custom",
+          defaultValue: const AnimationInterval(0.5, 0.6),
+        ),
         const AnimationInterval(0.5, 0.6),
       );
     });
@@ -6149,7 +6279,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationTrigger(
-            key: "custom", defaultValue: AnimationTrigger.onAction),
+          key: "custom",
+          defaultValue: AnimationTrigger.onAction,
+        ),
         AnimationTrigger.onAction,
       );
     });
@@ -6186,7 +6318,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationMethod(
-            key: "custom", defaultValue: AnimationMethod.toggle),
+          key: "custom",
+          defaultValue: AnimationMethod.toggle,
+        ),
         AnimationMethod.toggle,
       );
     });
@@ -6234,7 +6368,7 @@ void main() {
         "colorProp": <String, dynamic>{
           "pressed": "#FF0000",
           "hovered": "#00FF00",
-        }
+        },
       });
       final prop = data.widgetStateProperty<Color>(key: "colorProp");
       expect(prop!.resolve({WidgetState.pressed}), const Color(0xFFFF0000));
@@ -6250,20 +6384,22 @@ void main() {
             20,
             30,
             40,
-          ]
-        }
+          ],
+        },
       });
       final prop =
           data.widgetStateProperty<EdgeInsetsGeometry>(key: "paddingProp");
-      expect(prop!.resolve({WidgetState.selected}),
-          const EdgeInsets.fromLTRB(10, 20, 30, 40));
+      expect(
+        prop!.resolve({WidgetState.selected}),
+        const EdgeInsets.fromLTRB(10, 20, 30, 40),
+      );
     });
 
     test("should resolve Size for error", () {
       final data = DuitDataSource({
         "sizeProp": <String, dynamic>{
-          "error": {"width": 42, "height": 24}
-        }
+          "error": {"width": 42, "height": 24},
+        },
       });
       final prop = data.widgetStateProperty<Size>(key: "sizeProp");
       expect(prop!.resolve({WidgetState.error}), const Size(42, 24));
@@ -6271,7 +6407,7 @@ void main() {
 
     test("should resolve double for disabled", () {
       final data = DuitDataSource({
-        "doubleProp": <String, dynamic>{"disabled": 3.14}
+        "doubleProp": <String, dynamic>{"disabled": 3.14},
       });
       final prop = data.widgetStateProperty<double>(key: "doubleProp");
       expect(prop!.resolve({WidgetState.disabled}), 3.14);
@@ -6282,22 +6418,24 @@ void main() {
         "borderProp": <String, dynamic>{
           "focused": <String, dynamic>{
             "type": "RoundedRectangleBorder",
-            "borderRadius": 8
-          }
-        }
+            "borderRadius": 8,
+          },
+        },
       });
       final prop = data.widgetStateProperty<OutlinedBorder>(key: "borderProp");
       final border = prop!.resolve({WidgetState.focused});
       expect(border, isA<RoundedRectangleBorder>());
-      expect((border as RoundedRectangleBorder).borderRadius,
-          BorderRadius.circular(8));
+      expect(
+        (border! as RoundedRectangleBorder).borderRadius,
+        BorderRadius.circular(8),
+      );
     });
 
     test("should resolve TextStyle for dragged", () {
       final data = DuitDataSource({
         "textStyleProp": <String, dynamic>{
-          "dragged": <String, dynamic>{"fontSize": 18, "color": "#123456"}
-        }
+          "dragged": <String, dynamic>{"fontSize": 18, "color": "#123456"},
+        },
       });
       final prop = data.widgetStateProperty<TextStyle>(key: "textStyleProp");
       final style = prop!.resolve({WidgetState.dragged});
@@ -6309,8 +6447,8 @@ void main() {
     test("should resolve BorderSide for hovered", () {
       final data = DuitDataSource({
         "sideProp": <String, dynamic>{
-          "hovered": <String, dynamic>{"color": "#ABCDEF", "width": 2.0}
-        }
+          "hovered": <String, dynamic>{"color": "#ABCDEF", "width": 2.0},
+        },
       });
       final prop = data.widgetStateProperty<BorderSide>(key: "sideProp");
       final side = prop!.resolve({WidgetState.hovered});
@@ -6321,7 +6459,7 @@ void main() {
 
     test("should return null if no state matches", () {
       final data = DuitDataSource({
-        "colorProp": <String, dynamic>{"pressed": "#FF0000"}
+        "colorProp": <String, dynamic>{"pressed": "#FF0000"},
       });
       final prop = data.widgetStateProperty<Color>(key: "colorProp");
       expect(prop!.resolve({WidgetState.focused}), Colors.transparent);
@@ -6466,7 +6604,7 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(
-        () => data.executionOptions(),
+        data.executionOptions,
         throwsA(isA<Error>()),
       );
     });
