@@ -34,6 +34,49 @@ sealed class FlutterPropertyKeys {
   static const constraints = "constraints";
   static const stackFit = "stackFit";
   static const overflowBoxFit = "overflowBoxFit";
+  static const alignment = "alignment";
+  static const persistentFooterAlignment = "persistentFooterAlignment";
+  static const alignmentDirectional = "alignmentDirectional";
+  static const mainAxisAlignment = "mainAxisAlignment";
+  static const crossAxisAlignment = "crossAxisAlignment";
+  static const mainAxisSize = "mainAxisSize";
+  static const allowedInteraction = "allowedInteraction";
+  static const materialTapTargetSize = "materialTapTargetSize";
+  static const filterQuality = "filterQuality";
+  static const repeat = "repeat";
+  static const byteData = "byteData";
+  static const fit = "fit";
+  static const blendMode = "blendMode";
+  static const tileMode = "tileMode";
+  static const filter = "filter";
+  static const verticalDirection = "verticalDirection";
+  static const shape = "shape";
+  static const border = "border";
+  static const boxShape = "boxShape";
+  static const side = "side";
+  static const borderSide = "borderSide";
+  static const inputBorder = "inputBorder";
+  static const enabledBorder = "enabledBorder";
+  static const errorBorder = "errorBorder";
+  static const focusedBorder = "focusedBorder";
+  static const focusedErrorBorder = "focusedErrorBorder";
+  static const keyboardType = "keyboardType";
+  static const borderRadius = "borderRadius";
+  static const inputDecoration = "inputDecoration";
+  static const visualDensity = "visualDensity";
+  static const keyboardDismissBehavior = "keyboardDismissBehavior";
+  static const physics = "physics";
+  static const dragStartBehavior = "dragStartBehavior";
+  static const hitTestBehavior = "hitTestBehavior";
+  static const radius = "radius";
+  static const floatingActionButtonLocation = "floatingActionButtonLocation";
+  static const overrideRule = "overrideRule";
+  static const interval = "interval";
+  static const trigger = "trigger";
+  static const method = "method";
+  static const collapseMode = "collapseMode";
+  static const stretchModes = "stretchModes";
+  static const modifier = "modifier";
 
   static const values = <String>{
     color,
@@ -67,5 +110,48 @@ sealed class FlutterPropertyKeys {
     constraints,
     stackFit,
     overflowBoxFit,
+    alignment,
+    persistentFooterAlignment,
+    alignmentDirectional,
+    mainAxisAlignment,
+    crossAxisAlignment,
+    mainAxisSize,
+    allowedInteraction,
+    materialTapTargetSize,
+    filterQuality,
+    repeat,
+    byteData,
+    fit,
+    blendMode,
+    tileMode,
+    filter,
+    verticalDirection,
+    shape,
+    border,
+    boxShape,
+    side,
+    inputBorder,
+    enabledBorder,
+    errorBorder,
+    focusedBorder,
+    focusedErrorBorder,
+    borderSide,
+    keyboardType,
+    borderRadius,
+    inputDecoration,
+    visualDensity,
+    keyboardDismissBehavior,
+    physics,
+    dragStartBehavior,
+    hitTestBehavior,
+    radius,
+    floatingActionButtonLocation,
+    overrideRule,
+    interval,
+    trigger,
+    method,
+    collapseMode,
+    stretchModes,
+    modifier,
   };
 }

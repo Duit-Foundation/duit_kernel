@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
@@ -2406,7 +2408,7 @@ void main() {
     () {
       test("should parse and return the alignmentDirectional from map", () {
         final json = <String, dynamic>{
-          "alignment": [0.5, 0.5],
+          "alignmentDirectional": [0.5, 0.5],
           "alignment2": 1,
         };
 
@@ -2414,7 +2416,10 @@ void main() {
         final alignment = data.alignmentDirectional()!;
 
         expect(alignment, const AlignmentDirectional(0.5, 0.5));
-        expect(data["alignment"], const AlignmentDirectional(0.5, 0.5));
+        expect(
+          data["alignmentDirectional"],
+          const AlignmentDirectional(0.5, 0.5),
+        );
         expect(
           data.alignmentDirectional(key: "alignment2"),
           AlignmentDirectional.topCenter,
@@ -2424,13 +2429,13 @@ void main() {
 
       test("should parse and return the alignmentDirectional from string", () {
         final json = <String, dynamic>{
-          "alignment": "center",
+          "alignmentDirectional": "center",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), AlignmentDirectional.center);
-        expect(data["alignment"], AlignmentDirectional.center);
+        expect(data["alignmentDirectional"], AlignmentDirectional.center);
       });
 
       test("should return the default value if the value is null", () {
@@ -2444,14 +2449,14 @@ void main() {
           data.alignmentDirectional(defaultValue: defaultAlignment),
           defaultAlignment,
         );
-        expect(data["alignment"], null);
+        expect(data["alignmentDirectional"], null);
       });
 
       test(
           "should return the default value if the value is not a map or string",
           () {
         final json = <String, dynamic>{
-          "alignment": true,
+          "alignmentDirectional": true,
         };
         const defaultAlignment = AlignmentDirectional.topStart;
 
@@ -2461,19 +2466,19 @@ void main() {
           data.alignmentDirectional(defaultValue: defaultAlignment),
           defaultAlignment,
         );
-        expect(data["alignment"], true);
+        expect(data["alignmentDirectional"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         const alignment = AlignmentDirectional.topEnd;
         final json = <String, dynamic>{
-          "alignment": alignment,
+          "alignmentDirectional": alignment,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), alignment);
-        expect(data["alignment"], alignment);
+        expect(data["alignmentDirectional"], alignment);
       });
     },
   );
@@ -2684,24 +2689,24 @@ void main() {
     () {
       test("should parse and return the sliderInteraction from string", () {
         final json = <String, dynamic>{
-          "interaction": "tapOnly",
+          "allowedInteraction": "tapOnly",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.tapOnly);
-        expect(data["interaction"], SliderInteraction.tapOnly);
+        expect(data["allowedInteraction"], SliderInteraction.tapOnly);
       });
 
       test("should parse and return the sliderInteraction from int", () {
         final json = <String, dynamic>{
-          "interaction": 0, // SliderInteraction.tapOnly
+          "allowedInteraction": 0, // SliderInteraction.tapOnly
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.tapOnly);
-        expect(data["interaction"], SliderInteraction.tapOnly);
+        expect(data["allowedInteraction"], SliderInteraction.tapOnly);
       });
 
       test("should return the default value if the value is null", () {
@@ -2714,14 +2719,14 @@ void main() {
           data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
           SliderInteraction.slideOnly,
         );
-        expect(data["interaction"], null);
+        expect(data["allowedInteraction"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "interaction": true,
+          "allowedInteraction": true,
         };
 
         final data = DuitDataSource(json);
@@ -2730,18 +2735,18 @@ void main() {
           data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
           SliderInteraction.slideOnly,
         );
-        expect(data["interaction"], true);
+        expect(data["allowedInteraction"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "interaction": SliderInteraction.slideOnly,
+          "allowedInteraction": SliderInteraction.slideOnly,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.slideOnly);
-        expect(data["interaction"], SliderInteraction.slideOnly);
+        expect(data["allowedInteraction"], SliderInteraction.slideOnly);
       });
     },
   );
@@ -3283,24 +3288,24 @@ void main() {
     () {
       test("should parse and return the boxShape from string", () {
         final json = <String, dynamic>{
-          "shape": "circle",
+          "boxShape": "circle",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
 
       test("should parse and return the boxShape from int", () {
         final json = <String, dynamic>{
-          "shape": 0, // BoxShape.rectangle
+          "boxShape": 0, // BoxShape.rectangle
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
 
       test("should return null if the value is null", () {
@@ -3313,14 +3318,14 @@ void main() {
           data.boxShape(defaultValue: BoxShape.circle),
           BoxShape.circle,
         );
-        expect(data["shape"], null);
+        expect(data["boxShape"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "shape": true,
+          "boxShape": true,
         };
 
         final data = DuitDataSource(json);
@@ -3329,18 +3334,18 @@ void main() {
           data.boxShape(defaultValue: BoxShape.circle),
           BoxShape.circle,
         );
-        expect(data["shape"], true);
+        expect(data["boxShape"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "shape": BoxShape.circle,
+          "boxShape": BoxShape.circle,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
     },
   );
@@ -3501,7 +3506,7 @@ void main() {
     () {
       test("should parse and return the inputBorder from string", () {
         final json = <String, dynamic>{
-          "border": {
+          "inputBorder": {
             "type": "outline",
             "borderSide": {
               "color": "#000000",
@@ -3530,7 +3535,7 @@ void main() {
         expect(border.borderSide.style, BorderStyle.solid);
         expect(border.gapPadding, 4.0);
         expect(border.borderRadius, BorderRadius.circular(4.0));
-        final cachedBorder = data["border"] as OutlineInputBorder;
+        final cachedBorder = data["inputBorder"] as OutlineInputBorder;
         expect(cachedBorder, isA<OutlineInputBorder>());
         expect(cachedBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
         expect(cachedBorder.borderSide.width, 2.0);
@@ -3564,31 +3569,31 @@ void main() {
 
         expect(data.inputBorder(), null);
         expect(data.inputBorder(defaultValue: defaultBorder), defaultBorder);
-        expect(data["border"], null);
+        expect(data["inputBorder"], null);
       });
 
       test("should return the default value if the value is not a string", () {
         final json = <String, dynamic>{
-          "border": true,
+          "inputBorder": true,
         };
         const defaultBorder = UnderlineInputBorder();
 
         final data = DuitDataSource(json);
 
         expect(data.inputBorder(defaultValue: defaultBorder), defaultBorder);
-        expect(data["border"], true);
+        expect(data["inputBorder"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         const border = OutlineInputBorder();
         final json = <String, dynamic>{
-          "border": border,
+          "inputBorder": border,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.inputBorder(), border);
-        expect(data["border"], border);
+        expect(data["inputBorder"], border);
       });
     },
   );
@@ -3598,7 +3603,7 @@ void main() {
     () {
       test("should parse and return the inputDecoration from map", () {
         final json = <String, dynamic>{
-          "decoration": {
+          "inputDecoration": {
             "labelText": "Label",
             "hintText": "Hint",
             "errorText": "Error",
@@ -3611,7 +3616,7 @@ void main() {
         expect(decoration.labelText, "Label");
         expect(decoration.hintText, "Hint");
         expect(decoration.errorText, "Error");
-        expect(data["decoration"], decoration);
+        expect(data["inputDecoration"], decoration);
       });
 
       test("should return null if the value is null", () {
@@ -3627,12 +3632,12 @@ void main() {
           data.inputDecoration(defaultValue: defaultDecoration),
           defaultDecoration,
         );
-        expect(data["decoration"], null);
+        expect(data["inputDecoration"], null);
       });
 
       test("should return the default value if the value is not a map", () {
         final json = <String, dynamic>{
-          "decoration": true,
+          "inputDecoration": true,
         };
         const defaultDecoration = InputDecoration(
           labelText: "Default",
@@ -3644,7 +3649,7 @@ void main() {
           data.inputDecoration(defaultValue: defaultDecoration),
           defaultDecoration,
         );
-        expect(data["decoration"], true);
+        expect(data["inputDecoration"], true);
       });
 
       test("should return instance if the value is already an instance", () {
@@ -3652,13 +3657,13 @@ void main() {
           labelText: "Label",
         );
         final json = <String, dynamic>{
-          "decoration": decoration,
+          "inputDecoration": decoration,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.inputDecoration(), decoration);
-        expect(data["decoration"], decoration);
+        expect(data["inputDecoration"], decoration);
       });
     },
   );
@@ -4198,7 +4203,7 @@ void main() {
     () {
       test("should parse and return Border", () {
         final json = <String, dynamic>{
-          "shape": <String, dynamic>{
+          "border": <String, dynamic>{
             "side": <String, dynamic>{
               "color": "#FF0000",
               "width": 2.0,
@@ -4223,19 +4228,19 @@ void main() {
 
         expect(data.border(), null);
         expect(data.border(defaultValue: defaultBorder), defaultBorder);
-        expect(data["shape"], null);
+        expect(data["border"], null);
       });
 
       test("should return instance if the value is already an instance", () {
         final border = Border.all();
         final json = <String, dynamic>{
-          "shape": border,
+          "border": border,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.border(), border);
-        expect(data["shape"], border);
+        expect(data["border"], border);
       });
     },
   );

@@ -1306,7 +1306,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return BoxDecoration(
       color: source.tryParseColor(key: "color"),
       borderRadius: source.borderRadius(),
-      border: source.border(key: "border"),
+      border: source.border(),
       gradient: _gradientFromMap(source["gradient"]),
       boxShadow: source.boxShadow(),
     );
@@ -2198,10 +2198,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Alignment? alignment({
-    String key = "alignment",
+    String key = FlutterPropertyKeys.alignment,
     Alignment? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is Alignment) return value;
 
@@ -2209,14 +2211,44 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _alignmentStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _alignmentStringLookupTable[value];
+          } else {
+            return json[key] = _alignmentStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _alignmentStringLookupTable[value];
+        }
       case int():
-        return json[key] = _alignmentIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _alignmentIntLookupTable[value];
+          } else {
+            return json[key] = _alignmentIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _alignmentIntLookupTable[value];
+        }
       case List<num>() when value.length == 2:
-        return json[key] = Alignment(
-          value[0].toDouble(),
-          value[1].toDouble(),
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return Alignment(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          } else {
+            return json[key] = Alignment(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          }
+        } else {
+          return json[key] = Alignment(
+            value[0].toDouble(),
+            value[1].toDouble(),
+          );
+        }
       default:
         return defaultValue;
     }
@@ -2237,10 +2269,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   AlignmentDirectional? alignmentDirectional({
-    String key = "alignment",
+    String key = FlutterPropertyKeys.alignmentDirectional,
     AlignmentDirectional? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is AlignmentDirectional) return value;
 
@@ -2248,14 +2282,44 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _alignmentDirectionalStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _alignmentDirectionalStringLookupTable[value];
+          } else {
+            return json[key] = _alignmentDirectionalStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _alignmentDirectionalStringLookupTable[value];
+        }
       case int():
-        return json[key] = _alignmentDirectionalIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _alignmentDirectionalIntLookupTable[value];
+          } else {
+            return json[key] = _alignmentDirectionalIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _alignmentDirectionalIntLookupTable[value];
+        }
       case List<num>() when value.length == 2:
-        return json[key] = AlignmentDirectional(
-          value[0].toDouble(),
-          value[1].toDouble(),
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return AlignmentDirectional(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          } else {
+            return json[key] = AlignmentDirectional(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          }
+        } else {
+          return json[key] = AlignmentDirectional(
+            value[0].toDouble(),
+            value[1].toDouble(),
+          );
+        }
       default:
         return defaultValue;
     }
@@ -2276,10 +2340,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MainAxisAlignment? mainAxisAlignment({
-    String key = "mainAxisAlignment",
+    String key = FlutterPropertyKeys.mainAxisAlignment,
     MainAxisAlignment? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is MainAxisAlignment) return value;
 
@@ -2287,9 +2353,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _mainAxisAlignmentStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _mainAxisAlignmentStringLookupTable[value];
+          } else {
+            return json[key] = _mainAxisAlignmentStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _mainAxisAlignmentStringLookupTable[value];
+        }
       case int():
-        return json[key] = _mainAxisAlignmentIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _mainAxisAlignmentIntLookupTable[value];
+          } else {
+            return json[key] = _mainAxisAlignmentIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _mainAxisAlignmentIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -2310,10 +2392,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   CrossAxisAlignment? crossAxisAlignment({
-    String key = "crossAxisAlignment",
+    String key = FlutterPropertyKeys.crossAxisAlignment,
     CrossAxisAlignment? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is CrossAxisAlignment) return value;
 
@@ -2321,9 +2405,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _crossAxisAlignmentStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _crossAxisAlignmentStringLookupTable[value];
+          } else {
+            return json[key] = _crossAxisAlignmentStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _crossAxisAlignmentStringLookupTable[value];
+        }
       case int():
-        return json[key] = _crossAxisAlignmentIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _crossAxisAlignmentIntLookupTable[value];
+          } else {
+            return json[key] = _crossAxisAlignmentIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _crossAxisAlignmentIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -2344,10 +2444,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MainAxisSize? mainAxisSize({
-    String key = "mainAxisSize",
+    String key = FlutterPropertyKeys.mainAxisSize,
     MainAxisSize? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is MainAxisSize) return value;
 
@@ -2355,9 +2457,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _mainAxisSizeStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _mainAxisSizeStringLookupTable[value];
+          } else {
+            return json[key] = _mainAxisSizeStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _mainAxisSizeStringLookupTable[value];
+        }
       case int():
-        return json[key] = _mainAxisSizeIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _mainAxisSizeIntLookupTable[value];
+          } else {
+            return json[key] = _mainAxisSizeIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _mainAxisSizeIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -2378,10 +2496,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   SliderInteraction? sliderInteraction({
-    String key = "interaction",
+    String key = FlutterPropertyKeys.allowedInteraction,
     SliderInteraction? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is SliderInteraction) return value;
 
@@ -2389,7 +2509,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _sliderInteractionStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _sliderInteractionStringLookupTable[value];
+          } else {
+            return json[key] = _sliderInteractionStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _sliderInteractionStringLookupTable[value];
+        }
       case int():
         return json[key] = _sliderInteractionIntLookupTable[value];
       default:
@@ -2412,10 +2540,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   MaterialTapTargetSize? materialTapTargetSize({
-    String key = "materialTapTargetSize",
+    String key = FlutterPropertyKeys.materialTapTargetSize,
     MaterialTapTargetSize? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is MaterialTapTargetSize) return value;
 
@@ -2423,9 +2553,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _materialTapTargetSizeStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _materialTapTargetSizeStringLookupTable[value];
+          } else {
+            return json[key] = _materialTapTargetSizeStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _materialTapTargetSizeStringLookupTable[value];
+        }
       case int():
-        return json[key] = _materialTapTargetSizeIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _materialTapTargetSizeIntLookupTable[value];
+          } else {
+            return json[key] = _materialTapTargetSizeIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _materialTapTargetSizeIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -2446,10 +2592,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   FilterQuality filterQuality({
-    String key = "filterQuality",
+    String key = FlutterPropertyKeys.filterQuality,
     FilterQuality defaultValue = FilterQuality.medium,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is FilterQuality) return value;
 
@@ -2457,9 +2605,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _filterQualityStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _filterQualityStringLookupTable[value]!;
+          } else {
+            return json[key] = _filterQualityStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _filterQualityStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _filterQualityIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _filterQualityIntLookupTable[value]!;
+          } else {
+            return json[key] = _filterQualityIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _filterQualityIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -2480,10 +2644,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ImageRepeat imageRepeat({
-    String key = "repeat",
+    String key = FlutterPropertyKeys.repeat,
     ImageRepeat defaultValue = ImageRepeat.noRepeat,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ImageRepeat) return value;
 
@@ -2491,9 +2657,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _imageRepeatStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _imageRepeatStringLookupTable[value]!;
+          } else {
+            return json[key] = _imageRepeatStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _imageRepeatStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _imageRepeatIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _imageRepeatIntLookupTable[value]!;
+          } else {
+            return json[key] = _imageRepeatIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _imageRepeatIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -2527,10 +2709,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [Uint8List] or cannot be parsed.
   @preferInline
   Uint8List uint8List({
-    String key = "byteData",
+    String key = FlutterPropertyKeys.byteData,
     Uint8List? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is Uint8List) return value;
 
@@ -2540,9 +2724,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case List<int>():
-        return json[key] = _uint8ListFromList(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _uint8ListFromList(value);
+          } else {
+            return json[key] = _uint8ListFromList(value);
+          }
+        } else {
+          return json[key] = _uint8ListFromList(value);
+        }
       case String():
-        return json[key] = _uint8ListFromString(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _uint8ListFromString(value);
+          } else {
+            return json[key] = _uint8ListFromString(value);
+          }
+        } else {
+          return json[key] = _uint8ListFromString(value);
+        }
       default:
         return defaultValue ?? Uint8List(0);
     }
@@ -2562,10 +2762,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [BoxFit] or cannot be parsed.
   @preferInline
   BoxFit? boxFit({
-    String key = "fit",
+    String key = FlutterPropertyKeys.fit,
     BoxFit? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BoxFit) return value;
 
@@ -2573,9 +2775,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _boxFitStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _boxFitStringLookupTable[value];
+          } else {
+            return json[key] = _boxFitStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _boxFitStringLookupTable[value];
+        }
       case int():
-        return json[key] = _boxFitIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _boxFitIntLookupTable[value];
+          } else {
+            return json[key] = _boxFitIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _boxFitIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -2595,10 +2813,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [BlendMode] or cannot be parsed.
   @preferInline
   BlendMode blendMode({
-    String key = "blendMode",
+    String key = FlutterPropertyKeys.blendMode,
     BlendMode defaultValue = BlendMode.srcOver,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BlendMode) return value;
 
@@ -2606,9 +2826,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _blendModeStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _blendModeStringLookupTable[value]!;
+          } else {
+            return json[key] = _blendModeStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _blendModeStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _blendModeIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _blendModeIntLookupTable[value]!;
+          } else {
+            return json[key] = _blendModeIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _blendModeIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -2627,10 +2863,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - A [TileMode] if the value is valid or can be parsed.
   /// - [defaultValue] if the value is not a valid [TileMode] or cannot be parsed.
   TileMode tileMode({
-    String key = "tileMode",
+    String key = FlutterPropertyKeys.tileMode,
     TileMode defaultValue = TileMode.clamp,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is TileMode) return value;
 
@@ -2638,9 +2876,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _tileModeStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tileModeStringLookupTable[value]!;
+          } else {
+            return json[key] = _tileModeStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _tileModeStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _tileModeIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tileModeIntLookupTable[value]!;
+          } else {
+            return json[key] = _tileModeIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _tileModeIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -2789,8 +3043,10 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// ```
   @preferInline
   ImageFilter? imageFilter({
-    String key = "filter",
+    String key = FlutterPropertyKeys.filter,
     ImageFilter? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
     final value = json[key];
 
@@ -2800,7 +3056,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _imageFilterFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _imageFilterFromMap(value);
+          } else {
+            return json[key] = _imageFilterFromMap(value);
+          }
+        } else {
+          return json[key] = _imageFilterFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -2815,7 +3079,9 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [key]: The key to look up in the JSON map. Defaults to 'verticalDirection'.
   @preferInline
   VerticalDirection verticalDirection({
-    String key = "verticalDirection",
+    String key = FlutterPropertyKeys.verticalDirection,
+    Object? target,
+    bool warmUp = false,
     VerticalDirection defaultValue = VerticalDirection.down,
   }) {
     final value = json[key];
@@ -2826,9 +3092,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _verticalDirectionStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _verticalDirectionStringLookupTable[value]!;
+          } else {
+            return json[key] = _verticalDirectionStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _verticalDirectionStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _verticalDirectionIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _verticalDirectionIntLookupTable[value]!;
+          } else {
+            return json[key] = _verticalDirectionIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _verticalDirectionIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -2849,10 +3131,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BoxShape? boxShape({
-    String key = "shape",
+    String key = FlutterPropertyKeys.boxShape,
     BoxShape? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BoxShape) return value;
 
@@ -2860,7 +3144,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _boxShapeStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _boxShapeStringLookupTable[value]!;
+          } else {
+            return json[key] = _boxShapeStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _boxShapeStringLookupTable[value]!;
+        }
       case int():
         return json[key] = _boxShapeIntLookupTable[value]!;
       default:
@@ -2925,7 +3217,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
       errorMaxLines: source.tryGetInt(key: "errorMaxLines"),
       errorStyle: source.textStyle(key: "errorStyle"),
       enabledBorder: source.inputBorder(key: "enabledBorder"),
-      border: source.inputBorder(key: "border"),
+      border: source.inputBorder(key: "inputBorder"),
       errorBorder: source.inputBorder(key: "errorBorder"),
       focusedBorder: source.inputBorder(key: "focusedBorder"),
       focusedErrorBorder: source.inputBorder(key: "focusedErrorBorder"),
@@ -2993,10 +3285,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderStyle? borderStyle({
-    String key = "style",
+    String key = FlutterPropertyKeys.style,
     BorderStyle? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BorderStyle) return value;
 
@@ -3004,9 +3298,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _borderStyleStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _borderStyleStringLookupTable[value]!;
+          } else {
+            return json[key] = _borderStyleStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _borderStyleStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _borderStyleIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _borderStyleIntLookupTable[value]!;
+          } else {
+            return json[key] = _borderStyleIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _borderStyleIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -3027,10 +3337,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderSide borderSide({
-    String key = "side",
+    String key = FlutterPropertyKeys.side,
     BorderSide defaultValue = BorderSide.none,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BorderSide) return value;
 
@@ -3038,7 +3350,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _borderSideFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _borderSideFromMap(value);
+          } else {
+            return json[key] = _borderSideFromMap(value);
+          }
+        } else {
+          return json[key] = _borderSideFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3108,10 +3428,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   InputBorder? inputBorder({
-    String key = "border",
+    String key = FlutterPropertyKeys.inputBorder,
     InputBorder? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is InputBorder) return value;
 
@@ -3119,7 +3441,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _inputBorderFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _inputBorderFromMap(value);
+          } else {
+            return json[key] = _inputBorderFromMap(value);
+          }
+        } else {
+          return json[key] = _inputBorderFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3140,10 +3470,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   InputDecoration? inputDecoration({
-    String key = "decoration",
+    String key = FlutterPropertyKeys.inputDecoration,
     InputDecoration? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is InputDecoration) return value;
 
@@ -3151,7 +3483,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _inputDecorationFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _inputDecorationFromMap(value);
+          } else {
+            return json[key] = _inputDecorationFromMap(value);
+          }
+        } else {
+          return json[key] = _inputDecorationFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3159,10 +3499,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   TextInputType? textInputType({
-    String key = "keyboardType",
+    String key = FlutterPropertyKeys.keyboardType,
     TextInputType? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is TextInputType) return value;
 
@@ -3170,9 +3512,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _textInputTypeStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _textInputTypeStringLookupTable[value];
+          } else {
+            return json[key] = _textInputTypeStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _textInputTypeStringLookupTable[value];
+        }
       case int():
-        return json[key] = _textInputTypeIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _textInputTypeIntLookupTable[value];
+          } else {
+            return json[key] = _textInputTypeIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _textInputTypeIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -3215,10 +3573,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   VisualDensity visualDensity({
-    String key = "visualDensity",
+    String key = FlutterPropertyKeys.visualDensity,
     VisualDensity defaultValue = const VisualDensity(),
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is VisualDensity) return value;
 
@@ -3226,7 +3586,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _visualDensityFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _visualDensityFromMap(value);
+          } else {
+            return json[key] = _visualDensityFromMap(value);
+          }
+        } else {
+          return json[key] = _visualDensityFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3247,11 +3615,13 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ScrollViewKeyboardDismissBehavior keyboardDismissBehavior({
-    String key = "keyboardDismissBehavior",
+    String key = FlutterPropertyKeys.keyboardDismissBehavior,
     ScrollViewKeyboardDismissBehavior defaultValue =
         ScrollViewKeyboardDismissBehavior.manual,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ScrollViewKeyboardDismissBehavior) return value;
 
@@ -3259,9 +3629,26 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _keyboardDismissBehaviorStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _keyboardDismissBehaviorStringLookupTable[value]!;
+          } else {
+            return json[key] =
+                _keyboardDismissBehaviorStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _keyboardDismissBehaviorStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _keyboardDismissBehaviorIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _keyboardDismissBehaviorIntLookupTable[value]!;
+          } else {
+            return json[key] = _keyboardDismissBehaviorIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _keyboardDismissBehaviorIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -3282,10 +3669,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ScrollPhysics? scrollPhysics({
-    String key = "physics",
+    String key = FlutterPropertyKeys.physics,
     ScrollPhysics? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ScrollPhysics) return value;
 
@@ -3293,9 +3682,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _scrollPhysicsStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _scrollPhysicsStringLookupTable[value];
+          } else {
+            return json[key] = _scrollPhysicsStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _scrollPhysicsStringLookupTable[value];
+        }
       case int():
-        return json[key] = _scrollPhysicsIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _scrollPhysicsIntLookupTable[value];
+          } else {
+            return json[key] = _scrollPhysicsIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _scrollPhysicsIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -3316,10 +3721,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   DragStartBehavior dragStartBehavior({
-    String key = "dragStartBehavior",
+    String key = FlutterPropertyKeys.dragStartBehavior,
     DragStartBehavior defaultValue = DragStartBehavior.start,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is DragStartBehavior) return value;
 
@@ -3327,9 +3734,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _dragStartBehaviorStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _dragStartBehaviorStringLookupTable[value]!;
+          } else {
+            return json[key] = _dragStartBehaviorStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _dragStartBehaviorStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _dragStartBehaviorIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _dragStartBehaviorIntLookupTable[value]!;
+          } else {
+            return json[key] = _dragStartBehaviorIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _dragStartBehaviorIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -3350,10 +3773,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   HitTestBehavior hitTestBehavior({
-    String key = "hitTestBehavior",
+    String key = FlutterPropertyKeys.hitTestBehavior,
     HitTestBehavior defaultValue = HitTestBehavior.deferToChild,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is HitTestBehavior) return value;
 
@@ -3361,9 +3786,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _hitTestBehaviorStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _hitTestBehaviorStringLookupTable[value]!;
+          } else {
+            return json[key] = _hitTestBehaviorStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _hitTestBehaviorStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _hitTestBehaviorIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _hitTestBehaviorIntLookupTable[value]!;
+          } else {
+            return json[key] = _hitTestBehaviorIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _hitTestBehaviorIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -3484,10 +3925,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ShapeBorder? shapeBorder({
-    String key = "shape",
+    String key = FlutterPropertyKeys.shape,
     ShapeBorder? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ShapeBorder) return value;
 
@@ -3495,7 +3938,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _shapeBorderFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _shapeBorderFromMap(value);
+          } else {
+            return json[key] = _shapeBorderFromMap(value);
+          }
+        } else {
+          return json[key] = _shapeBorderFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3528,16 +3979,26 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   Border? border({
-    String key = "shape",
+    String key = FlutterPropertyKeys.border,
     Border? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is Border) return value;
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _borderFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _borderFromMap(value);
+          } else {
+            return json[key] = _borderFromMap(value);
+          }
+        } else {
+          return json[key] = _borderFromMap(value);
+        }
       default:
         return defaultValue;
     }
@@ -3558,10 +4019,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   BorderRadius borderRadius({
-    String key = "borderRadius",
+    String key = FlutterPropertyKeys.borderRadius,
     BorderRadius defaultValue = BorderRadius.zero,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is BorderRadius) return value;
 
@@ -3569,9 +4032,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = _borderRadiusFromMap(value);
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _borderRadiusFromMap(value);
+          } else {
+            return json[key] = _borderRadiusFromMap(value);
+          }
+        } else {
+          return json[key] = _borderRadiusFromMap(value);
+        }
       case num():
-        return json[key] = BorderRadius.circular(value.toDouble());
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return BorderRadius.circular(value.toDouble());
+          } else {
+            return json[key] = BorderRadius.circular(value.toDouble());
+          }
+        } else {
+          return json[key] = BorderRadius.circular(value.toDouble());
+        }
       default:
         return defaultValue;
     }
@@ -3621,10 +4100,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
   @preferInline
   Radius radius({
-    String key = "radius",
+    String key = FlutterPropertyKeys.radius,
     Radius defaultValue = Radius.zero,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is Radius) return value;
 
@@ -3632,14 +4113,40 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case List<num>():
-        return json[key] = Radius.elliptical(
-          value[0].toDouble(),
-          value[1].toDouble(),
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return Radius.elliptical(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          } else {
+            return json[key] = Radius.elliptical(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          }
+        } else {
+          return json[key] = Radius.elliptical(
+            value[0].toDouble(),
+            value[1].toDouble(),
+          );
+        }
       case num():
-        return json[key] = Radius.circular(
-          value.toDouble(),
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return Radius.circular(
+              value.toDouble(),
+            );
+          } else {
+            return json[key] = Radius.circular(
+              value.toDouble(),
+            );
+          }
+        } else {
+          return json[key] = Radius.circular(
+            value.toDouble(),
+          );
+        }
       default:
         return defaultValue;
     }
@@ -3660,10 +4167,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   FloatingActionButtonLocation? fabLocation({
-    String key = "floatingActionButtonLocation",
+    String key = FlutterPropertyKeys.floatingActionButtonLocation,
     FloatingActionButtonLocation? defaultValue,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is FloatingActionButtonLocation) return value;
 
@@ -3671,9 +4180,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _fabLocationStringLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _fabLocationStringLookupTable[value];
+          } else {
+            return json[key] = _fabLocationStringLookupTable[value];
+          }
+        } else {
+          return json[key] = _fabLocationStringLookupTable[value];
+        }
       case int():
-        return json[key] = _fabLocationIntLookupTable[value];
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _fabLocationIntLookupTable[value];
+          } else {
+            return json[key] = _fabLocationIntLookupTable[value];
+          }
+        } else {
+          return json[key] = _fabLocationIntLookupTable[value];
+        }
       default:
         return defaultValue;
     }
@@ -3903,10 +4428,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   ThemeOverrideRule themeOverrideRule({
-    String key = "overrideRule",
+    String key = FlutterPropertyKeys.overrideRule,
     ThemeOverrideRule defaultValue = ThemeOverrideRule.themeOverlay,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ThemeOverrideRule) return value;
 
@@ -3914,11 +4441,29 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] =
-            _themeOverrideRuleStringLookupTable[value] ?? defaultValue;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _themeOverrideRuleStringLookupTable[value] ?? defaultValue;
+          } else {
+            return json[key] =
+                _themeOverrideRuleStringLookupTable[value] ?? defaultValue;
+          }
+        } else {
+          return json[key] =
+              _themeOverrideRuleStringLookupTable[value] ?? defaultValue;
+        }
       case int():
-        return json[key] =
-            _themeOverrideRuleIntLookupTable[value] ?? defaultValue;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _themeOverrideRuleIntLookupTable[value] ?? defaultValue;
+          } else {
+            return json[key] =
+                _themeOverrideRuleIntLookupTable[value] ?? defaultValue;
+          }
+        } else {
+          return json[key] =
+              _themeOverrideRuleIntLookupTable[value] ?? defaultValue;
+        }
       default:
         return defaultValue;
     }
@@ -3992,10 +4537,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [AnimationInterval] or cannot be parsed.
   @preferInline
   AnimationInterval animationInterval({
-    String key = "interval",
+    String key = FlutterPropertyKeys.interval,
     AnimationInterval defaultValue = const AnimationInterval(0.0, 1.0),
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is AnimationInterval) return value;
 
@@ -4003,15 +4550,43 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case Map<String, dynamic>():
-        return json[key] = AnimationInterval(
-          value["begin"] ?? 0.0,
-          value["end"] ?? 1.0,
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return AnimationInterval(
+              value["begin"] ?? 0.0,
+              value["end"] ?? 1.0,
+            );
+          } else {
+            return json[key] = AnimationInterval(
+              value["begin"] ?? 0.0,
+              value["end"] ?? 1.0,
+            );
+          }
+        } else {
+          return json[key] = AnimationInterval(
+            value["begin"] ?? 0.0,
+            value["end"] ?? 1.0,
+          );
+        }
       case List<num>():
-        return json[key] = AnimationInterval(
-          value[0].toDouble(),
-          value[1].toDouble(),
-        );
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return AnimationInterval(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          } else {
+            return json[key] = AnimationInterval(
+              value[0].toDouble(),
+              value[1].toDouble(),
+            );
+          }
+        } else {
+          return json[key] = AnimationInterval(
+            value[0].toDouble(),
+            value[1].toDouble(),
+          );
+        }
       default:
         return defaultValue;
     }
@@ -4031,10 +4606,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [AnimationTrigger] or cannot be parsed.
   @preferInline
   AnimationTrigger animationTrigger({
-    String key = "trigger",
+    String key = FlutterPropertyKeys.trigger,
     AnimationTrigger defaultValue = AnimationTrigger.onEnter,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is AnimationTrigger) return value;
 
@@ -4042,9 +4619,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _animationTriggerStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _animationTriggerStringLookupTable[value]!;
+          } else {
+            return json[key] = _animationTriggerStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _animationTriggerStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _animationTriggerIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _animationTriggerIntLookupTable[value]!;
+          } else {
+            return json[key] = _animationTriggerIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _animationTriggerIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -4064,10 +4657,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [AnimationMethod] or cannot be parsed.
   @preferInline
   AnimationMethod animationMethod({
-    String key = "method",
+    String key = FlutterPropertyKeys.method,
     AnimationMethod defaultValue = AnimationMethod.forward,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is AnimationMethod) return value;
 
@@ -4075,9 +4670,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _animationMethodStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _animationMethodStringLookupTable[value]!;
+          } else {
+            return json[key] = _animationMethodStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _animationMethodStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _animationMethodIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _animationMethodIntLookupTable[value]!;
+          } else {
+            return json[key] = _animationMethodIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _animationMethodIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -4308,10 +4919,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [CollapseMode] or cannot be parsed.
   @preferInline
   CollapseMode collapseMode({
-    String key = "collapseMode",
+    String key = FlutterPropertyKeys.collapseMode,
     CollapseMode defaultValue = CollapseMode.parallax,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is CollapseMode) return value;
 
@@ -4319,9 +4932,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _collapseModeStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _collapseModeStringLookupTable[value]!;
+          } else {
+            return json[key] = _collapseModeStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _collapseModeStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _collapseModeIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _collapseModeIntLookupTable[value]!;
+          } else {
+            return json[key] = _collapseModeIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _collapseModeIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -4342,12 +4971,14 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - `null` if both the value and [defaultValue] are null.
   @preferInline
   List<StretchMode> stretchModes({
-    String key = "stretchModes",
+    String key = FlutterPropertyKeys.stretchModes,
     List<StretchMode> defaultValue = const [
       StretchMode.zoomBackground,
     ],
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is List<StretchMode>) return value;
 
@@ -4362,7 +4993,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
         }
       }
 
-      return json[key] = list.isNotEmpty ? list : defaultValue;
+      if (envAttributeWarmUpEnabled) {
+        if (warmUp) {
+          return list.isNotEmpty ? list : defaultValue;
+        } else {
+          return json[key] = list.isNotEmpty ? list : defaultValue;
+        }
+      } else {
+        return json[key] = list.isNotEmpty ? list : defaultValue;
+      }
     }
 
     if (value is List<int>) {
@@ -4374,7 +5013,15 @@ extension type DuitDataSource(Map<String, dynamic> json)
         }
       }
 
-      return json[key] = list.isNotEmpty ? list : defaultValue;
+      if (envAttributeWarmUpEnabled) {
+        if (warmUp) {
+          return list.isNotEmpty ? list : defaultValue;
+        } else {
+          return json[key] = list.isNotEmpty ? list : defaultValue;
+        }
+      } else {
+        return json[key] = list.isNotEmpty ? list : defaultValue;
+      }
     }
 
     return defaultValue;
@@ -4394,10 +5041,12 @@ extension type DuitDataSource(Map<String, dynamic> json)
   /// - [defaultValue] if the value is not a valid [ExecutionModifier] or cannot be parsed.
   @preferInline
   ExecutionModifier _executionModifier({
-    String key = "modifier",
+    String key = FlutterPropertyKeys.modifier,
     ExecutionModifier defaultValue = ExecutionModifier.debounce,
+    Object? target,
+    bool warmUp = false,
   }) {
-    final value = json[key];
+    final value = _readProp(key, target, warmUp);
 
     if (value is ExecutionModifier) return value;
 
@@ -4405,9 +5054,25 @@ extension type DuitDataSource(Map<String, dynamic> json)
 
     switch (value) {
       case String():
-        return json[key] = _executionModifierStringLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _executionModifierStringLookupTable[value]!;
+          } else {
+            return json[key] = _executionModifierStringLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _executionModifierStringLookupTable[value]!;
+        }
       case int():
-        return json[key] = _executionModifierIntLookupTable[value]!;
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _executionModifierIntLookupTable[value]!;
+          } else {
+            return json[key] = _executionModifierIntLookupTable[value]!;
+          }
+        } else {
+          return json[key] = _executionModifierIntLookupTable[value]!;
+        }
       default:
         return defaultValue;
     }
@@ -4471,65 +5136,143 @@ extension type DuitDataSource(Map<String, dynamic> json)
     FlutterPropertyKeys.style: _dispatchStyleKeyEntryCall,
     FlutterPropertyKeys.decoration: _dispatchDecorationKeyEntryCall,
     FlutterPropertyKeys.color: (self, k, d, t, w) =>
-        self.tryParseColor(key: k, defaultValue: d, target: t, warmUp: w),
+        self.tryParseColor(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.duration: (self, k, d, t, w) =>
-        self.duration(key: k, defaultValue: d, target: t, warmUp: w),
+        self.duration(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textAlign: (self, k, d, t, w) =>
-        self.textAlign(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textAlign(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textDirection: (self, k, d, t, w) =>
-        self.textDirection(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textDirection(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textOverflow: (self, k, d, t, w) =>
-        self.textOverflow(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textOverflow(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.clipBehavior: (self, k, d, t, w) =>
-        self.clipBehavior(key: k, defaultValue: d, target: t, warmUp: w),
+        self.clipBehavior(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.padding: (self, k, d, t, w) =>
-        self.edgeInsets(key: k, defaultValue: d, target: t, warmUp: w),
+        self.edgeInsets(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.margin: (self, k, d, t, w) =>
-        self.edgeInsets(key: k, defaultValue: d, target: t, warmUp: w),
+        self.edgeInsets(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.curve: (self, k, d, t, w) =>
-        self.curve(key: k, defaultValue: d, target: t, warmUp: w),
+        self.curve(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textWidthBasis: (self, k, d, t, w) =>
-        self.textWidthBasis(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textWidthBasis(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textBaseline: (self, k, d, t, w) =>
-        self.textBaseline(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textBaseline(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.offset: (self, k, d, t, w) =>
-        self.offset(key: k, defaultValue: d, target: t, warmUp: w),
+        self.offset(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.boxShadow: (self, k, d, t, w) =>
-        self.boxShadow(key: k, defaultValue: d, target: t, warmUp: w),
+        self.boxShadow(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.decorationStyle: (self, k, d, t, w) =>
-        self.textDecorationStyle(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textDecorationStyle(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.fontWeight: (self, k, d, t, w) =>
-        self.fontWeight(key: k, defaultValue: d, target: t, warmUp: w),
+        self.fontWeight(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.fontStyle: (self, k, d, t, w) =>
-        self.fontStyle(key: k, defaultValue: d, target: t, warmUp: w),
+        self.fontStyle(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textSpan: (self, k, d, t, w) =>
-        self.textSpan(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textSpan(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textHeightBehavior: (self, k, d, t, w) =>
-        self.textHeightBehavior(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textHeightBehavior(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.textScaler: (self, k, d, t, w) =>
-        self.textScaler(key: k, defaultValue: d, target: t, warmUp: w),
+        self.textScaler(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.strutStyle: (self, k, d, t, w) =>
-        self.strutStyle(key: k, defaultValue: d, target: t, warmUp: w),
-    FlutterPropertyKeys.leadingDistribution: (self, k, d, t, w) => self
-        .textLeadingDistribution(key: k, defaultValue: d, target: t, warmUp: w),
+        self.strutStyle(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.leadingDistribution: (self, k, d, t, w) =>
+        self.textLeadingDistribution(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.direction: (self, k, d, t, w) =>
-        self.axis(key: k, defaultValue: d, target: t, warmUp: w),
+        self.axis(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.scrollDirection: (self, k, d, t, w) =>
-        self.axis(key: k, defaultValue: d, target: t, warmUp: w),
+        self.axis(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.mainAxis: (self, k, d, t, w) =>
-        self.axis(key: k, defaultValue: d, target: t, warmUp: w),
+        self.axis(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.wrapCrossAlignment: (self, k, d, t, w) =>
-        self.wrapCrossAlignment(key: k, defaultValue: d, target: t, warmUp: w),
+        self.wrapCrossAlignment(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.wrapAlignment: (self, k, d, t, w) =>
-        self.wrapAlignment(key: k, defaultValue: d, target: t, warmUp: w),
+        self.wrapAlignment(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.runAlignment: (self, k, d, t, w) =>
-        self.wrapAlignment(key: k, defaultValue: d, target: t, warmUp: w),
+        self.wrapAlignment(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.constraints: (self, k, d, t, w) =>
-        self.boxConstraints(key: k, defaultValue: d, target: t, warmUp: w),
+        self.boxConstraints(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.stackFit: (self, k, d, t, w) =>
-        self.stackFit(key: k, defaultValue: d, target: t, warmUp: w),
+        self.stackFit(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.overflowBoxFit: (self, k, d, t, w) =>
-        self.overflowBoxFit(key: k, defaultValue: d, target: t, warmUp: w),
+        self.overflowBoxFit(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.alignment: (self, k, d, t, w) =>
+        self.alignment(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.alignmentDirectional: (self, k, d, t, w) =>
+        self.alignmentDirectional(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.persistentFooterAlignment: (self, k, d, t, w) =>
+        self.alignmentDirectional(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.mainAxisAlignment: (self, k, d, t, w) =>
+        self.mainAxisAlignment(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.crossAxisAlignment: (self, k, d, t, w) =>
+        self.crossAxisAlignment(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.mainAxisSize: (self, k, d, t, w) =>
+        self.mainAxisSize(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.allowedInteraction: (self, k, d, t, w) =>
+        self.sliderInteraction(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.materialTapTargetSize: (self, k, d, t, w) =>
+        self.materialTapTargetSize(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.filterQuality: (self, k, d, t, w) =>
+        self.filterQuality(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.repeat: (self, k, d, t, w) =>
+        self.imageRepeat(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.fit: (self, k, d, t, w) =>
+        self.boxFit(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.byteData: (self, k, d, t, w) =>
+        self.uint8List(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.blendMode: (self, k, d, t, w) =>
+        self.blendMode(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.tileMode: (self, k, d, t, w) =>
+        self.tileMode(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.filter: (self, k, d, t, w) =>
+        self.imageFilter(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.verticalDirection: (self, k, d, t, w) =>
+        self.verticalDirection(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.shape: (self, k, d, t, w) =>
+        self.boxShape(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.border: (self, k, d, t, w) =>
+        self.border(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.side: (self, k, d, t, w) =>
+        self.borderSide(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.borderSide: (self, k, d, t, w) =>
+        self.borderSide(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.inputBorder: (self, k, d, t, w) =>
+        self.inputBorder(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.enabledBorder: (self, k, d, t, w) =>
+        self.inputBorder(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.errorBorder: (self, k, d, t, w) =>
+        self.inputBorder(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.focusedBorder: (self, k, d, t, w) =>
+        self.inputBorder(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.focusedErrorBorder: (self, k, d, t, w) =>
+        self.inputBorder(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.keyboardType: (self, k, d, t, w) =>
+        self.textInputType(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.borderRadius: (self, k, d, t, w) =>
+        self.borderRadius(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.inputDecoration: (self, k, d, t, w) =>
+        self.inputDecoration(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.visualDensity: (self, k, d, t, w) =>
+        self.visualDensity(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.keyboardDismissBehavior: (self, k, d, t, w) =>
+        self.keyboardDismissBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.physics: (self, k, d, t, w) =>
+        self.scrollPhysics(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.dragStartBehavior: (self, k, d, t, w) =>
+        self.dragStartBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.hitTestBehavior: (self, k, d, t, w) =>
+        self.hitTestBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.interval: (self, k, d, t, w) =>
+        self.animationInterval(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.trigger: (self, k, d, t, w) =>
+        self.animationTrigger(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.method: (self, k, d, t, w) =>
+        self.animationMethod(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.collapseMode: (self, k, d, t, w) =>
+        self.collapseMode(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.stretchModes: (self, k, d, t, w) =>
+        self.stretchModes(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.modifier: (self, k, d, t, w) =>
+        self._executionModifier(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key
@@ -4547,7 +5290,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return switch (target) {
       Map<String, dynamic>() => self.textStyle(
           key: key,
-          defaultValue: null,
+          target: target,
+          warmUp: warmUp,
+        ),
+      String() => self.borderStyle(
+          key: key,
+          target: target,
+          warmUp: warmUp,
+        ),
+      int() => self.borderStyle(
+          key: key,
           target: target,
           warmUp: warmUp,
         ),
@@ -4570,19 +5322,16 @@ extension type DuitDataSource(Map<String, dynamic> json)
     return switch (target) {
       Map<String, dynamic>() => self.decoration(
           key: key,
-          defaultValue: null,
           target: target,
           warmUp: warmUp,
         ),
       String() => self.textDecoration(
           key: key,
-          defaultValue: null,
           target: target,
           warmUp: warmUp,
         ),
       int() => self.textDecoration(
           key: key,
-          defaultValue: null,
           target: target,
           warmUp: warmUp,
         ),
@@ -4595,11 +5344,7 @@ extension type DuitDataSource(Map<String, dynamic> json)
     final fn = _dispatchMap[key];
 
     if (fn == null) {
-      throw ArgumentError.value(
-        key,
-        "key",
-        "Unknown key recieved at jsonReviver",
-      );
+      return target;
     } else {
       return fn.call(this, key, null, target, true);
     }
@@ -4767,11 +5512,207 @@ extension type DuitDataSource(Map<String, dynamic> json)
           target: target,
           warmUp: true,
         ),
-      _ => throw ArgumentError.value(
-          key,
-          "key",
-          "Unknown key recieved at jsonReviver",
+      FlutterPropertyKeys.alignment => alignment(
+          key: FlutterPropertyKeys.alignment,
+          target: target,
+          warmUp: true,
         ),
+      FlutterPropertyKeys.alignmentDirectional => alignmentDirectional(
+          key: FlutterPropertyKeys.alignmentDirectional,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.persistentFooterAlignment => alignmentDirectional(
+          key: FlutterPropertyKeys.persistentFooterAlignment,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.mainAxisAlignment => mainAxisAlignment(
+          key: FlutterPropertyKeys.mainAxisAlignment,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.crossAxisAlignment => crossAxisAlignment(
+          key: FlutterPropertyKeys.crossAxisAlignment,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.mainAxisSize => mainAxisSize(
+          key: FlutterPropertyKeys.mainAxisSize,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.allowedInteraction => sliderInteraction(
+          key: FlutterPropertyKeys.allowedInteraction,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.materialTapTargetSize => materialTapTargetSize(
+          key: FlutterPropertyKeys.materialTapTargetSize,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.filterQuality => filterQuality(
+          key: FlutterPropertyKeys.filterQuality,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.repeat => imageRepeat(
+          key: FlutterPropertyKeys.repeat,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.fit => boxFit(
+          key: FlutterPropertyKeys.fit,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.byteData => uint8List(
+          key: FlutterPropertyKeys.byteData,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.blendMode => blendMode(
+          key: FlutterPropertyKeys.blendMode,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.tileMode => tileMode(
+          key: FlutterPropertyKeys.tileMode,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.filter => imageFilter(
+          key: FlutterPropertyKeys.filter,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.verticalDirection => verticalDirection(
+          key: FlutterPropertyKeys.verticalDirection,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.shape => boxShape(
+          key: FlutterPropertyKeys.shape,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.border => border(
+          key: FlutterPropertyKeys.border,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.side => borderSide(
+          key: FlutterPropertyKeys.side,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.inputBorder => inputBorder(
+          key: FlutterPropertyKeys.inputBorder,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.enabledBorder => inputBorder(
+          key: FlutterPropertyKeys.enabledBorder,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.errorBorder => inputBorder(
+          key: FlutterPropertyKeys.errorBorder,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.focusedBorder => inputBorder(
+          key: FlutterPropertyKeys.focusedBorder,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.focusedErrorBorder => inputBorder(
+          key: FlutterPropertyKeys.focusedErrorBorder,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.keyboardType => textInputType(
+          key: FlutterPropertyKeys.keyboardType,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.borderRadius => borderRadius(
+          key: FlutterPropertyKeys.borderRadius,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.visualDensity => visualDensity(
+          key: FlutterPropertyKeys.visualDensity,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.keyboardDismissBehavior => keyboardDismissBehavior(
+          key: FlutterPropertyKeys.keyboardDismissBehavior,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.physics => scrollPhysics(
+          key: FlutterPropertyKeys.physics,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.dragStartBehavior => dragStartBehavior(
+          key: FlutterPropertyKeys.dragStartBehavior,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.hitTestBehavior => hitTestBehavior(
+          key: FlutterPropertyKeys.hitTestBehavior,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.radius => radius(
+          key: FlutterPropertyKeys.radius,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.floatingActionButtonLocation => fabLocation(
+          key: FlutterPropertyKeys.floatingActionButtonLocation,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.overrideRule => themeOverrideRule(
+          key: FlutterPropertyKeys.overrideRule,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.interval => animationInterval(
+          key: FlutterPropertyKeys.interval,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.trigger => animationTrigger(
+          key: FlutterPropertyKeys.trigger,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.method => animationMethod(
+          key: FlutterPropertyKeys.method,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.collapseMode => collapseMode(
+          key: FlutterPropertyKeys.collapseMode,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.stretchModes => stretchModes(
+          key: FlutterPropertyKeys.stretchModes,
+          target: target,
+          warmUp: true,
+        ),
+      FlutterPropertyKeys.modifier => _executionModifier(
+          key: FlutterPropertyKeys.modifier,
+          target: target,
+          warmUp: true,
+        ),
+      _ => target,
     };
   }
 
