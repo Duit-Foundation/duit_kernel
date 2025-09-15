@@ -20,7 +20,20 @@ sealed class FlutterPropertyKeys {
   static const decorationStyle = "decorationStyle";
   static const fontWeight = "fontWeight";
   static const fontStyle = "fontStyle";
-
+  static const textSpan = "textSpan";
+  static const textHeightBehavior = "textHeightBehavior";
+  static const textScaler = "textScaler";
+  static const strutStyle = "strutStyle";
+  static const leadingDistribution = "leadingDistribution";
+  static const direction = "direction";
+  static const scrollDirection = "scrollDirection";
+  static const mainAxis = "mainAxis";
+  static const wrapCrossAlignment = "wrapCrossAlignment";
+  static const wrapAlignment = "wrapAlignment";
+  static const runAlignment = "runAlignment";
+  static const constraints = "constraints";
+  static const stackFit = "stackFit";
+  static const overflowBoxFit = "overflowBoxFit";
 
   static const values = <String>{
     color,
@@ -41,5 +54,18 @@ sealed class FlutterPropertyKeys {
     decorationStyle,
     fontWeight,
     fontStyle,
+    textSpan,
+    textHeightBehavior,
+    textScaler,
+    strutStyle,
+    direction,
+    scrollDirection,
+    mainAxis,
+    wrapCrossAlignment,
+    wrapAlignment,
+    runAlignment,
+    constraints,
+    stackFit,
+    overflowBoxFit,
   };
 }

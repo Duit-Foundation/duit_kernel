@@ -1977,14 +1977,14 @@ void main() {
     () {
       test("should parse and return the wrapCrossAlignment from string", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": "start",
+          "wrapCrossAlignment": "start",
           "crossAxisAlignment2": 0,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.start);
         expect(
           data.wrapCrossAlignment(key: "crossAxisAlignment2"),
           WrapCrossAlignment.start,
@@ -1994,13 +1994,13 @@ void main() {
 
       test("should parse and return the wrapCrossAlignment from int", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": 0, // WrapCrossAlignment.start
+          "wrapCrossAlignment": 0, // WrapCrossAlignment.start
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.start);
       });
 
       test("should return the default value if the value is null", () {
@@ -2013,14 +2013,14 @@ void main() {
           data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
           WrapCrossAlignment.center,
         );
-        expect(data["crossAxisAlignment"], null);
+        expect(data["wrapCrossAlignment"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": true,
+          "wrapCrossAlignment": true,
         };
 
         final data = DuitDataSource(json);
@@ -2029,18 +2029,18 @@ void main() {
           data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
           WrapCrossAlignment.center,
         );
-        expect(data["crossAxisAlignment"], true);
+        expect(data["wrapCrossAlignment"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": WrapCrossAlignment.center,
+          "wrapCrossAlignment": WrapCrossAlignment.center,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.center);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.center);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.center);
       });
     },
   );
@@ -2050,24 +2050,24 @@ void main() {
     () {
       test("should parse and return the wrapAlignment from string", () {
         final json = <String, dynamic>{
-          "alignment": "start",
+          "wrapAlignment": "start",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.start);
-        expect(data["alignment"], WrapAlignment.start);
+        expect(data["wrapAlignment"], WrapAlignment.start);
       });
 
       test("should parse and return the wrapAlignment from int", () {
         final json = <String, dynamic>{
-          "alignment": 0, // WrapAlignment.start
+          "wrapAlignment": 0, // WrapAlignment.start
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.start);
-        expect(data["alignment"], WrapAlignment.start);
+        expect(data["wrapAlignment"], WrapAlignment.start);
       });
 
       test("should return the default value if the value is null", () {
@@ -2080,14 +2080,14 @@ void main() {
           data.wrapAlignment(defaultValue: WrapAlignment.center),
           WrapAlignment.center,
         );
-        expect(data["alignment"], null);
+        expect(data["wrapAlignment"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "alignment": true,
+          "wrapAlignment": true,
         };
 
         final data = DuitDataSource(json);
@@ -2096,18 +2096,18 @@ void main() {
           data.wrapAlignment(defaultValue: WrapAlignment.center),
           WrapAlignment.center,
         );
-        expect(data["alignment"], true);
+        expect(data["wrapAlignment"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "alignment": WrapAlignment.center,
+          "wrapAlignment": WrapAlignment.center,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.center);
-        expect(data["alignment"], WrapAlignment.center);
+        expect(data["wrapAlignment"], WrapAlignment.center);
       });
     },
   );
@@ -2198,24 +2198,24 @@ void main() {
     () {
       test("should parse and return the stackFit from string", () {
         final json = <String, dynamic>{
-          "fit": "loose",
+          "stackFit": "loose",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.loose);
-        expect(data["fit"], StackFit.loose);
+        expect(data["stackFit"], StackFit.loose);
       });
 
       test("should parse and return the stackFit from int", () {
         final json = <String, dynamic>{
-          "fit": 0, // StackFit.loose
+          "stackFit": 0, // StackFit.loose
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.expand);
-        expect(data["fit"], StackFit.expand);
+        expect(data["stackFit"], StackFit.expand);
       });
 
       test("should return the default value if the value is null", () {
@@ -2228,14 +2228,14 @@ void main() {
           data.stackFit(defaultValue: StackFit.expand),
           StackFit.expand,
         );
-        expect(data["fit"], null);
+        expect(data["stackFit"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "fit": true,
+          "stackFit": true,
         };
 
         final data = DuitDataSource(json);
@@ -2244,18 +2244,18 @@ void main() {
           data.stackFit(defaultValue: StackFit.expand),
           StackFit.expand,
         );
-        expect(data["fit"], true);
+        expect(data["stackFit"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "fit": StackFit.expand,
+          "stackFit": StackFit.expand,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.expand);
-        expect(data["fit"], StackFit.expand);
+        expect(data["stackFit"], StackFit.expand);
       });
     },
   );
@@ -2265,24 +2265,24 @@ void main() {
     () {
       test("should parse and return the overflowBoxFit from string", () {
         final json = <String, dynamic>{
-          "fit": "max",
+          "overflowBoxFit": "max",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.max);
-        expect(data["fit"], OverflowBoxFit.max);
+        expect(data["overflowBoxFit"], OverflowBoxFit.max);
       });
 
       test("should parse and return the overflowBoxFit from int", () {
         final json = <String, dynamic>{
-          "fit": 0, // OverflowBoxFit.max
+          "overflowBoxFit": 0, // OverflowBoxFit.max
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.max);
-        expect(data["fit"], OverflowBoxFit.max);
+        expect(data["overflowBoxFit"], OverflowBoxFit.max);
       });
 
       test("should return the default value if the value is null", () {
@@ -2295,14 +2295,14 @@ void main() {
           data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
           OverflowBoxFit.deferToChild,
         );
-        expect(data["fit"], null);
+        expect(data["overflowBoxFit"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "fit": true,
+          "overflowBoxFit": true,
         };
 
         final data = DuitDataSource(json);
@@ -2311,18 +2311,18 @@ void main() {
           data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
           OverflowBoxFit.deferToChild,
         );
-        expect(data["fit"], true);
+        expect(data["overflowBoxFit"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "fit": OverflowBoxFit.deferToChild,
+          "overflowBoxFit": OverflowBoxFit.deferToChild,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.deferToChild);
-        expect(data["fit"], OverflowBoxFit.deferToChild);
+        expect(data["overflowBoxFit"], OverflowBoxFit.deferToChild);
       });
     },
   );
