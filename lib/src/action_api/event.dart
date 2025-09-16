@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// The [ServerEvent] class represents an event that was sent by the server.
 ///
@@ -9,6 +9,7 @@ import 'package:duit_kernel/duit_kernel.dart';
 base class ServerEvent {
   static late Parser<ServerEvent> _eventParser;
 
+  // ignore: avoid_setters_without_getters
   static set eventParser(Parser<ServerEvent> value) {
     _eventParser = value;
   }

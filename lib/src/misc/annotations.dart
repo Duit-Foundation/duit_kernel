@@ -1,7 +1,4 @@
-const _envPreferInlineFn = bool.fromEnvironment(
-  "preferInline",
-  defaultValue: true,
-);
+import "package:duit_kernel/src/misc/env.dart";
 
 const Object preferInline =
-    _envPreferInlineFn ? pragma("vm:prefer-inline") : Object();
+    envPreferInlineFn ? pragma("vm:prefer-inline") : Object();

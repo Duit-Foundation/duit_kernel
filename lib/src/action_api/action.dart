@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// The [ServerAction] class represents an action that was sent by the server.
 base class ServerAction {

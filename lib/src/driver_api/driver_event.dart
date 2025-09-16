@@ -1,4 +1,4 @@
-import 'package:duit_kernel/src/driver_api/view.dart';
+import "package:duit_kernel/src/driver_api/view.dart";
 
 /// Base class for driver events
 sealed class UIDriverEvent {

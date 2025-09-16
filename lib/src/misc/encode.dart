@@ -1,7 +1,7 @@
-import 'dart:convert' as conv;
+import "dart:convert" as conv;
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
 
 /// Converts any object to a JSON string representation with custom encoding support.
 ///
@@ -83,7 +83,7 @@ import 'package:flutter/material.dart';
 String duitJsonEncode(Object? object) {
   return switch (object) {
     //Add serializable values here to provide custom encoding
-    TextInputType() => object.toJson()['name'] ?? "text",
+    TextInputType() => object.toJson()["name"] ?? "text",
     //Rest types are encoded using the default jsonEncode
     _ => conv.jsonEncode(
         object,
@@ -138,57 +138,59 @@ List<double> _encodeEdgeInsets(EdgeInsets edgeInsets) => [
 /// Encodes a [TextStyle] object to a map containing only non-null properties.
 @preferInline
 Map _encodeTextStyle(TextStyle textStyle) => {
-      if (textStyle.color != null) 'color': textStyle.color,
-      if (textStyle.fontFamily != null) 'fontFamily': textStyle.fontFamily,
-      if (textStyle.fontWeight != null) 'fontWeight': textStyle.fontWeight,
-      if (textStyle.fontSize != null) 'fontSize': textStyle.fontSize,
-      if (textStyle.fontStyle != null) 'fontStyle': textStyle.fontStyle,
-      if (textStyle.overflow != null) 'overflow': textStyle.overflow,
+      if (textStyle.color != null) "color": textStyle.color,
+      if (textStyle.fontFamily != null) "fontFamily": textStyle.fontFamily,
+      if (textStyle.fontWeight != null) "fontWeight": textStyle.fontWeight,
+      if (textStyle.fontSize != null) "fontSize": textStyle.fontSize,
+      if (textStyle.fontStyle != null) "fontStyle": textStyle.fontStyle,
+      if (textStyle.overflow != null) "overflow": textStyle.overflow,
       if (textStyle.textBaseline != null)
-        'textBaseline': textStyle.textBaseline,
-      if (textStyle.height != null) 'height': textStyle.height,
+        "textBaseline": textStyle.textBaseline,
+      if (textStyle.height != null) "height": textStyle.height,
       if (textStyle.letterSpacing != null)
-        'letterSpacing': textStyle.letterSpacing,
-      if (textStyle.wordSpacing != null) 'wordSpacing': textStyle.wordSpacing,
+        "letterSpacing": textStyle.letterSpacing,
+      if (textStyle.wordSpacing != null) "wordSpacing": textStyle.wordSpacing,
       if (textStyle.backgroundColor != null)
-        'backgroundColor': textStyle.backgroundColor,
-      if (textStyle.decoration != null) 'decoration': textStyle.decoration,
+        "backgroundColor": textStyle.backgroundColor,
+      if (textStyle.decoration != null) "decoration": textStyle.decoration,
       if (textStyle.decorationColor != null)
-        'decorationColor': textStyle.decorationColor,
+        "decorationColor": textStyle.decorationColor,
       if (textStyle.decorationStyle != null)
-        'decorationStyle': textStyle.decorationStyle,
+        "decorationStyle": textStyle.decorationStyle,
       if (textStyle.decorationThickness != null)
-        'decorationThickness': textStyle.decorationThickness,
-      if (textStyle.debugLabel != null) 'debugLabel': textStyle.debugLabel,
+        "decorationThickness": textStyle.decorationThickness,
+      if (textStyle.debugLabel != null) "debugLabel": textStyle.debugLabel,
       if (textStyle.leadingDistribution != null)
-        'leadingDistribution': textStyle.leadingDistribution,
+        "leadingDistribution": textStyle.leadingDistribution,
     };
 
+//TODO: Remove deprecated_member_use when v3.24.x is no longer supported
 /// Encodes a [Color] object to a hex string with alpha channel.
 @preferInline
 String _encodeColor(Color color) =>
+    // ignore: deprecated_member_use
     "#${color.value.toRadixString(16).padLeft(8, '0')}";
 
 /// Encodes a [LinearGradient] object to a map with colors, stops, begin, end, and transform.
 @preferInline
 Map _encodeGradient(LinearGradient gradient) => {
-      'colors': gradient.colors,
-      'stops': gradient.stops,
-      'begin': gradient.begin,
-      'end': gradient.end,
+      "colors": gradient.colors,
+      "stops": gradient.stops,
+      "begin": gradient.begin,
+      "end": gradient.end,
       if (gradient.transform != null)
-        'transform': gradient.transform is GradientRotation
-            ? (gradient.transform as GradientRotation).radians
+        "transform": gradient.transform is GradientRotation
+            ? (gradient.transform! as GradientRotation).radians
             : gradient.transform.toString(),
     };
 
 /// Encodes a [BoxShadow] object to a map with color, offset, blurRadius, and spreadRadius.
 @preferInline
 Map _encodeBoxShadow(BoxShadow boxShadow) => {
-      'color': boxShadow.color,
-      'offset': boxShadow.offset,
-      'blurRadius': boxShadow.blurRadius,
-      'spreadRadius': boxShadow.spreadRadius,
+      "color": boxShadow.color,
+      "offset": boxShadow.offset,
+      "blurRadius": boxShadow.blurRadius,
+      "spreadRadius": boxShadow.spreadRadius,
     };
 
 /// Encodes an [Offset] object to a map with dx and dy coordinates.
@@ -201,12 +203,12 @@ Map _encodeOffset(Offset offset) => {
 /// Encodes a [BoxDecoration] object to a map with non-null decoration properties.
 @preferInline
 Map _encodeDecoration(BoxDecoration decoration) => {
-      if (decoration.color != null) 'color': decoration.color,
+      if (decoration.color != null) "color": decoration.color,
       if (decoration.borderRadius != null)
-        'borderRadius': decoration.borderRadius,
-      if (decoration.border != null) 'border': decoration.border,
-      if (decoration.gradient != null) 'gradient': decoration.gradient,
-      if (decoration.boxShadow != null) 'boxShadow': decoration.boxShadow,
+        "borderRadius": decoration.borderRadius,
+      if (decoration.border != null) "border": decoration.border,
+      if (decoration.gradient != null) "gradient": decoration.gradient,
+      if (decoration.boxShadow != null) "boxShadow": decoration.boxShadow,
     };
 
 /// Encodes a [Border] object to a map with side properties.
@@ -216,7 +218,7 @@ Map _encodeBorder(Border border) => {
         "color": border.top.color,
         "width": border.top.width,
         "style": border.top.style,
-      }
+      },
     };
 
 /// Encodes an [InputBorder] object to a map with type, borderSide, and optional properties.
@@ -421,42 +423,42 @@ Map _encodeTweenDescription(DuitTweenDescription tweenDescription) =>
 
 /// Maps Flutter [Curve] objects to their string representations.
 const _curveToStringMap = <Curve, String>{
-  Curves.linear: 'linear',
-  Curves.fastEaseInToSlowEaseOut: 'fastEaseInToSlowEaseOut',
-  Curves.bounceIn: 'bounceIn',
-  Curves.bounceInOut: 'bounceInOut',
-  Curves.bounceOut: 'bounceOut',
-  Curves.decelerate: 'decelerate',
-  Curves.ease: 'ease',
-  Curves.easeIn: 'easeIn',
-  Curves.easeInBack: 'easeInBack',
-  Curves.easeInCirc: 'easeInCirc',
-  Curves.easeInSine: 'easeInSine',
-  Curves.easeInCubic: 'easeInCubic',
-  Curves.easeInExpo: 'easeInExpo',
-  Curves.easeInOutCubicEmphasized: 'easeInOutCubicEmphasized',
-  Curves.easeInOutBack: 'easeInOutBack',
-  Curves.easeInOutCirc: 'easeInOutCirc',
-  Curves.easeInOutExpo: 'easeInOutExpo',
-  Curves.easeInOutQuad: 'easeInOutQuad',
-  Curves.easeInOutQuart: 'easeInOutQuart',
-  Curves.easeInOutQuint: 'easeInOutQuint',
-  Curves.easeInOutSine: 'easeInOutSine',
-  Curves.easeInToLinear: 'easeInToLinear',
-  Curves.easeOutSine: 'easeOutSine',
-  Curves.easeOutBack: 'easeOutBack',
-  Curves.easeOutCirc: 'easeOutCirc',
-  Curves.easeOutCubic: 'easeOutCubic',
-  Curves.easeOutExpo: 'easeOutExpo',
-  Curves.easeOutQuad: 'easeOutQuad',
-  Curves.easeOutQuart: 'easeOutQuart',
-  Curves.easeOutQuint: 'easeOutQuint',
-  Curves.linearToEaseOut: 'linearToEaseOut',
-  Curves.slowMiddle: 'slowMiddle',
-  Curves.fastOutSlowIn: 'fastOutSlowIn',
-  Curves.elasticIn: 'elasticIn',
-  Curves.elasticInOut: 'elasticInOut',
-  Curves.elasticOut: 'elasticOut',
+  Curves.linear: "linear",
+  Curves.fastEaseInToSlowEaseOut: "fastEaseInToSlowEaseOut",
+  Curves.bounceIn: "bounceIn",
+  Curves.bounceInOut: "bounceInOut",
+  Curves.bounceOut: "bounceOut",
+  Curves.decelerate: "decelerate",
+  Curves.ease: "ease",
+  Curves.easeIn: "easeIn",
+  Curves.easeInBack: "easeInBack",
+  Curves.easeInCirc: "easeInCirc",
+  Curves.easeInSine: "easeInSine",
+  Curves.easeInCubic: "easeInCubic",
+  Curves.easeInExpo: "easeInExpo",
+  Curves.easeInOutCubicEmphasized: "easeInOutCubicEmphasized",
+  Curves.easeInOutBack: "easeInOutBack",
+  Curves.easeInOutCirc: "easeInOutCirc",
+  Curves.easeInOutExpo: "easeInOutExpo",
+  Curves.easeInOutQuad: "easeInOutQuad",
+  Curves.easeInOutQuart: "easeInOutQuart",
+  Curves.easeInOutQuint: "easeInOutQuint",
+  Curves.easeInOutSine: "easeInOutSine",
+  Curves.easeInToLinear: "easeInToLinear",
+  Curves.easeOutSine: "easeOutSine",
+  Curves.easeOutBack: "easeOutBack",
+  Curves.easeOutCirc: "easeOutCirc",
+  Curves.easeOutCubic: "easeOutCubic",
+  Curves.easeOutExpo: "easeOutExpo",
+  Curves.easeOutQuad: "easeOutQuad",
+  Curves.easeOutQuart: "easeOutQuart",
+  Curves.easeOutQuint: "easeOutQuint",
+  Curves.linearToEaseOut: "linearToEaseOut",
+  Curves.slowMiddle: "slowMiddle",
+  Curves.fastOutSlowIn: "fastOutSlowIn",
+  Curves.elasticIn: "elasticIn",
+  Curves.elasticInOut: "elasticInOut",
+  Curves.elasticOut: "elasticOut",
 };
 
 /// Encodes a [Curve] object to its string representation, defaulting to 'linear'.

@@ -1,7 +1,7 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/foundation.dart" show kDebugMode;
 
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
@@ -34,7 +34,8 @@ final class DefaultLogger implements DebugLogger {
     if (kDebugMode) {
       if (_isApple) {
         _outPrinter(
-            "${DebugLogger.logTag}$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}");
+          "${DebugLogger.logTag}$message\nError text: ${error.toString()}\nStackTrace: ${stackTrace.toString()}",
+        );
       } else {
         _tag ??= _createTag();
         final text =

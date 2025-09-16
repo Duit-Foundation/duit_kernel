@@ -1,4 +1,4 @@
-import 'package:duit_kernel/src/misc/json_patch/semantics.dart';
+import "package:duit_kernel/src/misc/json_patch/semantics.dart";
 
 /// Patch template describes where and how to write a value into the component
 /// layout when building an instance.

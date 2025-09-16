@@ -1,5 +1,5 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/widgets.dart' show Widget;
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/widgets.dart" show Widget;
 
 /// The `DuitView` class is an abstract interface that defines the methods a Duit view must implement.
 /// It provides a way to render a Duit model to a Flutter widget.

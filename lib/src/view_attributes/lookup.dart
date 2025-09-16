@@ -1,4 +1,4 @@
-part of 'data_source.dart';
+part of "data_source.dart";
 
 /// Lookup table for [TextAlign] values by [int] type key.
 ///

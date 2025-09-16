@@ -1,5 +1,5 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/widgets.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/widgets.dart";
 
 /// An abstract base class representing an entry in the DUIT element tree.
 ///

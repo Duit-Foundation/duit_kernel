@@ -12,9 +12,9 @@ final class ValueReference {
 
   factory ValueReference.fromJson(Map<String, dynamic> json) {
     return ValueReference(
-      objectKey: json['objectKey'],
-      attributeKey: json['attributeKey'],
-      defaultValue: json['defaultValue'],
+      objectKey: json["objectKey"],
+      attributeKey: json["attributeKey"],
+      defaultValue: json["defaultValue"],
     );
   }
 }

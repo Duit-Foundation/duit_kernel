@@ -1,7 +1,7 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/registry_api/components/index.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/registry_api/components/index.dart";
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.

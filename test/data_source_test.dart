@@ -1,10 +1,10 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'dart:typed_data';
-import 'package:flutter/gestures.dart';
-import 'dart:ui';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
+import "package:flutter_test/flutter_test.dart";
+import "dart:typed_data";
+import "package:flutter/gestures.dart";
+import "dart:ui";
 
 void main() {
   group(
@@ -519,11 +519,17 @@ void main() {
 
       final data = DuitDataSource(json);
       expect(
-          data.parseColor(key: "color"), const Color.fromRGBO(255, 0, 0, 0.5));
+        data.parseColor(key: "color"),
+        const Color.fromRGBO(255, 0, 0, 0.5),
+      );
       expect(
-          data.parseColor(key: "color2"), const Color.fromRGBO(0, 255, 0, 0.7));
+        data.parseColor(key: "color2"),
+        const Color.fromRGBO(0, 255, 0, 0.7),
+      );
       expect(
-          data.parseColor(key: "color3"), const Color.fromRGBO(0, 0, 255, 0.3));
+        data.parseColor(key: "color3"),
+        const Color.fromRGBO(0, 0, 255, 0.3),
+      );
     });
 
     test("should return default value for invalid hex color", () {
@@ -598,8 +604,10 @@ void main() {
       final json = <String, dynamic>{};
       final data = DuitDataSource(json);
       expect(data.duration(), Duration.zero);
-      expect(data.duration(defaultValue: const Duration(seconds: 2)),
-          const Duration(seconds: 2));
+      expect(
+        data.duration(defaultValue: const Duration(seconds: 2)),
+        const Duration(seconds: 2),
+      );
       expect(data["duration"], null);
     });
 
@@ -879,7 +887,9 @@ void main() {
         expect(data.textWidthBasis(), TextWidthBasis.parent);
         expect(data["textWidthBasis"], TextWidthBasis.parent);
         expect(
-            data.textWidthBasis(key: "textWidthBasis2"), TextWidthBasis.parent);
+          data.textWidthBasis(key: "textWidthBasis2"),
+          TextWidthBasis.parent,
+        );
         expect(data["textWidthBasis2"], TextWidthBasis.parent);
       });
 
@@ -1175,7 +1185,7 @@ void main() {
 
         // Проверяем градиент
         expect(boxDecoration.gradient, isA<LinearGradient>());
-        final gradient = boxDecoration.gradient as LinearGradient;
+        final gradient = boxDecoration.gradient! as LinearGradient;
         expect(gradient.colors, [
           const Color(0xFFFF0000),
           const Color(0xFF00FF00),
@@ -1185,7 +1195,7 @@ void main() {
         expect(gradient.begin, Alignment.centerLeft);
         expect(gradient.end, Alignment.centerRight);
         expect(gradient.transform, isA<GradientRotation>());
-        final transform = gradient.transform as GradientRotation;
+        final transform = gradient.transform! as GradientRotation;
         expect(transform, isNotNull);
 
         // Проверяем тени
@@ -1216,7 +1226,7 @@ void main() {
 
         expect(boxDecoration.color, const Color(0xFFFF0000));
         expect(boxDecoration.gradient, isA<LinearGradient>());
-        final gradient = boxDecoration.gradient as LinearGradient;
+        final gradient = boxDecoration.gradient! as LinearGradient;
         expect(gradient.colors, [
           const Color(0xFFFF0000),
           const Color(0xFF00FF00),
@@ -1224,7 +1234,7 @@ void main() {
         expect(gradient.stops, null);
         expect(gradient.begin, Alignment.centerLeft);
         expect(gradient.end, Alignment.centerRight);
-        expect(gradient.transform, null);
+        expect(gradient.transform, isNull);
 
         expect(data["decoration"], decoration);
       });
@@ -1239,8 +1249,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.decoration(), null);
-        expect(data.decoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.decoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], null);
       });
 
@@ -1255,8 +1267,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.decoration(defaultValue: defaultDecoration),
-            defaultDecoration);
+        expect(
+          data.decoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
         expect(data["decoration"], true);
       });
 
@@ -1654,8 +1668,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.textHeightBehavior(), null);
-        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
-            defaultBehavior);
+        expect(
+          data.textHeightBehavior(defaultValue: defaultBehavior),
+          defaultBehavior,
+        );
         expect(data["textHeightBehavior"], null);
       });
 
@@ -1669,8 +1685,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.textHeightBehavior(defaultValue: defaultBehavior),
-            defaultBehavior);
+        expect(
+          data.textHeightBehavior(defaultValue: defaultBehavior),
+          defaultBehavior,
+        );
         expect(data["textHeightBehavior"], true);
       });
 
@@ -1849,7 +1867,8 @@ void main() {
         expect(data.textLeadingDistribution(), null);
         expect(
           data.textLeadingDistribution(
-              defaultValue: TextLeadingDistribution.even),
+            defaultValue: TextLeadingDistribution.even,
+          ),
           TextLeadingDistribution.even,
         );
         expect(data["leadingDistribution"], null);
@@ -1866,7 +1885,8 @@ void main() {
 
         expect(
           data.textLeadingDistribution(
-              defaultValue: TextLeadingDistribution.even),
+            defaultValue: TextLeadingDistribution.even,
+          ),
           TextLeadingDistribution.even,
         );
         expect(data["leadingDistribution"], true);
@@ -1957,28 +1977,30 @@ void main() {
     () {
       test("should parse and return the wrapCrossAlignment from string", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": "start",
+          "wrapCrossAlignment": "start",
           "crossAxisAlignment2": 0,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
-        expect(data.wrapCrossAlignment(key: "crossAxisAlignment2"),
-            WrapCrossAlignment.start);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.start);
+        expect(
+          data.wrapCrossAlignment(key: "crossAxisAlignment2"),
+          WrapCrossAlignment.start,
+        );
         expect(data["crossAxisAlignment2"], WrapCrossAlignment.start);
       });
 
       test("should parse and return the wrapCrossAlignment from int", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": 0, // WrapCrossAlignment.start
+          "wrapCrossAlignment": 0, // WrapCrossAlignment.start
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.start);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.start);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.start);
       });
 
       test("should return the default value if the value is null", () {
@@ -1991,14 +2013,14 @@ void main() {
           data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
           WrapCrossAlignment.center,
         );
-        expect(data["crossAxisAlignment"], null);
+        expect(data["wrapCrossAlignment"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": true,
+          "wrapCrossAlignment": true,
         };
 
         final data = DuitDataSource(json);
@@ -2007,18 +2029,18 @@ void main() {
           data.wrapCrossAlignment(defaultValue: WrapCrossAlignment.center),
           WrapCrossAlignment.center,
         );
-        expect(data["crossAxisAlignment"], true);
+        expect(data["wrapCrossAlignment"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "crossAxisAlignment": WrapCrossAlignment.center,
+          "wrapCrossAlignment": WrapCrossAlignment.center,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapCrossAlignment(), WrapCrossAlignment.center);
-        expect(data["crossAxisAlignment"], WrapCrossAlignment.center);
+        expect(data["wrapCrossAlignment"], WrapCrossAlignment.center);
       });
     },
   );
@@ -2028,24 +2050,24 @@ void main() {
     () {
       test("should parse and return the wrapAlignment from string", () {
         final json = <String, dynamic>{
-          "alignment": "start",
+          "wrapAlignment": "start",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.start);
-        expect(data["alignment"], WrapAlignment.start);
+        expect(data["wrapAlignment"], WrapAlignment.start);
       });
 
       test("should parse and return the wrapAlignment from int", () {
         final json = <String, dynamic>{
-          "alignment": 0, // WrapAlignment.start
+          "wrapAlignment": 0, // WrapAlignment.start
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.start);
-        expect(data["alignment"], WrapAlignment.start);
+        expect(data["wrapAlignment"], WrapAlignment.start);
       });
 
       test("should return the default value if the value is null", () {
@@ -2058,14 +2080,14 @@ void main() {
           data.wrapAlignment(defaultValue: WrapAlignment.center),
           WrapAlignment.center,
         );
-        expect(data["alignment"], null);
+        expect(data["wrapAlignment"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "alignment": true,
+          "wrapAlignment": true,
         };
 
         final data = DuitDataSource(json);
@@ -2074,18 +2096,18 @@ void main() {
           data.wrapAlignment(defaultValue: WrapAlignment.center),
           WrapAlignment.center,
         );
-        expect(data["alignment"], true);
+        expect(data["wrapAlignment"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "alignment": WrapAlignment.center,
+          "wrapAlignment": WrapAlignment.center,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.wrapAlignment(), WrapAlignment.center);
-        expect(data["alignment"], WrapAlignment.center);
+        expect(data["wrapAlignment"], WrapAlignment.center);
       });
     },
   );
@@ -2125,8 +2147,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.boxConstraints(), null);
-        expect(data.boxConstraints(defaultValue: defaultConstraints),
-            defaultConstraints);
+        expect(
+          data.boxConstraints(defaultValue: defaultConstraints),
+          defaultConstraints,
+        );
         expect(data["constraints"], null);
       });
 
@@ -2143,8 +2167,10 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.boxConstraints(defaultValue: defaultConstraints),
-            defaultConstraints);
+        expect(
+          data.boxConstraints(defaultValue: defaultConstraints),
+          defaultConstraints,
+        );
         expect(data["constraints"], true);
       });
 
@@ -2172,24 +2198,24 @@ void main() {
     () {
       test("should parse and return the stackFit from string", () {
         final json = <String, dynamic>{
-          "fit": "loose",
+          "stackFit": "loose",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.loose);
-        expect(data["fit"], StackFit.loose);
+        expect(data["stackFit"], StackFit.loose);
       });
 
       test("should parse and return the stackFit from int", () {
         final json = <String, dynamic>{
-          "fit": 0, // StackFit.loose
+          "stackFit": 0, // StackFit.loose
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.expand);
-        expect(data["fit"], StackFit.expand);
+        expect(data["stackFit"], StackFit.expand);
       });
 
       test("should return the default value if the value is null", () {
@@ -2202,14 +2228,14 @@ void main() {
           data.stackFit(defaultValue: StackFit.expand),
           StackFit.expand,
         );
-        expect(data["fit"], null);
+        expect(data["stackFit"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "fit": true,
+          "stackFit": true,
         };
 
         final data = DuitDataSource(json);
@@ -2218,18 +2244,18 @@ void main() {
           data.stackFit(defaultValue: StackFit.expand),
           StackFit.expand,
         );
-        expect(data["fit"], true);
+        expect(data["stackFit"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "fit": StackFit.expand,
+          "stackFit": StackFit.expand,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.stackFit(), StackFit.expand);
-        expect(data["fit"], StackFit.expand);
+        expect(data["stackFit"], StackFit.expand);
       });
     },
   );
@@ -2239,24 +2265,24 @@ void main() {
     () {
       test("should parse and return the overflowBoxFit from string", () {
         final json = <String, dynamic>{
-          "fit": "max",
+          "overflowBoxFit": "max",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.max);
-        expect(data["fit"], OverflowBoxFit.max);
+        expect(data["overflowBoxFit"], OverflowBoxFit.max);
       });
 
       test("should parse and return the overflowBoxFit from int", () {
         final json = <String, dynamic>{
-          "fit": 0, // OverflowBoxFit.max
+          "overflowBoxFit": 0, // OverflowBoxFit.max
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.max);
-        expect(data["fit"], OverflowBoxFit.max);
+        expect(data["overflowBoxFit"], OverflowBoxFit.max);
       });
 
       test("should return the default value if the value is null", () {
@@ -2269,14 +2295,14 @@ void main() {
           data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
           OverflowBoxFit.deferToChild,
         );
-        expect(data["fit"], null);
+        expect(data["overflowBoxFit"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "fit": true,
+          "overflowBoxFit": true,
         };
 
         final data = DuitDataSource(json);
@@ -2285,18 +2311,18 @@ void main() {
           data.overflowBoxFit(defaultValue: OverflowBoxFit.deferToChild),
           OverflowBoxFit.deferToChild,
         );
-        expect(data["fit"], true);
+        expect(data["overflowBoxFit"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "fit": OverflowBoxFit.deferToChild,
+          "overflowBoxFit": OverflowBoxFit.deferToChild,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.overflowBoxFit(), OverflowBoxFit.deferToChild);
-        expect(data["fit"], OverflowBoxFit.deferToChild);
+        expect(data["overflowBoxFit"], OverflowBoxFit.deferToChild);
       });
     },
   );
@@ -2338,7 +2364,9 @@ void main() {
 
         expect(data.alignment(), null);
         expect(
-            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+          data.alignment(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], null);
       });
 
@@ -2353,7 +2381,9 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.alignment(defaultValue: defaultAlignment), defaultAlignment);
+          data.alignment(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
         expect(data["alignment"], true);
       });
 
@@ -2376,7 +2406,7 @@ void main() {
     () {
       test("should parse and return the alignmentDirectional from map", () {
         final json = <String, dynamic>{
-          "alignment": [0.5, 0.5],
+          "alignmentDirectional": [0.5, 0.5],
           "alignment2": 1,
         };
 
@@ -2384,21 +2414,26 @@ void main() {
         final alignment = data.alignmentDirectional()!;
 
         expect(alignment, const AlignmentDirectional(0.5, 0.5));
-        expect(data["alignment"], const AlignmentDirectional(0.5, 0.5));
-        expect(data.alignmentDirectional(key: "alignment2"),
-            AlignmentDirectional.topCenter);
+        expect(
+          data["alignmentDirectional"],
+          const AlignmentDirectional(0.5, 0.5),
+        );
+        expect(
+          data.alignmentDirectional(key: "alignment2"),
+          AlignmentDirectional.topCenter,
+        );
         expect(data["alignment2"], AlignmentDirectional.topCenter);
       });
 
       test("should parse and return the alignmentDirectional from string", () {
         final json = <String, dynamic>{
-          "alignment": "center",
+          "alignmentDirectional": "center",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), AlignmentDirectional.center);
-        expect(data["alignment"], AlignmentDirectional.center);
+        expect(data["alignmentDirectional"], AlignmentDirectional.center);
       });
 
       test("should return the default value if the value is null", () {
@@ -2408,36 +2443,40 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), null);
-        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
-            defaultAlignment);
-        expect(data["alignment"], null);
+        expect(
+          data.alignmentDirectional(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
+        expect(data["alignmentDirectional"], null);
       });
 
       test(
           "should return the default value if the value is not a map or string",
           () {
         final json = <String, dynamic>{
-          "alignment": true,
+          "alignmentDirectional": true,
         };
         const defaultAlignment = AlignmentDirectional.topStart;
 
         final data = DuitDataSource(json);
 
-        expect(data.alignmentDirectional(defaultValue: defaultAlignment),
-            defaultAlignment);
-        expect(data["alignment"], true);
+        expect(
+          data.alignmentDirectional(defaultValue: defaultAlignment),
+          defaultAlignment,
+        );
+        expect(data["alignmentDirectional"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         const alignment = AlignmentDirectional.topEnd;
         final json = <String, dynamic>{
-          "alignment": alignment,
+          "alignmentDirectional": alignment,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.alignmentDirectional(), alignment);
-        expect(data["alignment"], alignment);
+        expect(data["alignmentDirectional"], alignment);
       });
     },
   );
@@ -2648,24 +2687,24 @@ void main() {
     () {
       test("should parse and return the sliderInteraction from string", () {
         final json = <String, dynamic>{
-          "interaction": "tapOnly",
+          "allowedInteraction": "tapOnly",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.tapOnly);
-        expect(data["interaction"], SliderInteraction.tapOnly);
+        expect(data["allowedInteraction"], SliderInteraction.tapOnly);
       });
 
       test("should parse and return the sliderInteraction from int", () {
         final json = <String, dynamic>{
-          "interaction": 0, // SliderInteraction.tapOnly
+          "allowedInteraction": 0, // SliderInteraction.tapOnly
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.tapOnly);
-        expect(data["interaction"], SliderInteraction.tapOnly);
+        expect(data["allowedInteraction"], SliderInteraction.tapOnly);
       });
 
       test("should return the default value if the value is null", () {
@@ -2678,14 +2717,14 @@ void main() {
           data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
           SliderInteraction.slideOnly,
         );
-        expect(data["interaction"], null);
+        expect(data["allowedInteraction"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "interaction": true,
+          "allowedInteraction": true,
         };
 
         final data = DuitDataSource(json);
@@ -2694,18 +2733,18 @@ void main() {
           data.sliderInteraction(defaultValue: SliderInteraction.slideOnly),
           SliderInteraction.slideOnly,
         );
-        expect(data["interaction"], true);
+        expect(data["allowedInteraction"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "interaction": SliderInteraction.slideOnly,
+          "allowedInteraction": SliderInteraction.slideOnly,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.sliderInteraction(), SliderInteraction.slideOnly);
-        expect(data["interaction"], SliderInteraction.slideOnly);
+        expect(data["allowedInteraction"], SliderInteraction.slideOnly);
       });
     },
   );
@@ -2743,7 +2782,8 @@ void main() {
         expect(data.materialTapTargetSize(), null);
         expect(
           data.materialTapTargetSize(
-              defaultValue: MaterialTapTargetSize.padded),
+            defaultValue: MaterialTapTargetSize.padded,
+          ),
           MaterialTapTargetSize.padded,
         );
         expect(data["materialTapTargetSize"], null);
@@ -2760,7 +2800,8 @@ void main() {
 
         expect(
           data.materialTapTargetSize(
-              defaultValue: MaterialTapTargetSize.padded),
+            defaultValue: MaterialTapTargetSize.padded,
+          ),
           MaterialTapTargetSize.padded,
         );
         expect(data["materialTapTargetSize"], true);
@@ -2927,8 +2968,10 @@ void main() {
 
         expect(result, Uint8List.fromList([1, 2, 3, 4, 5]));
         expect(data["byteData"], Uint8List.fromList([1, 2, 3, 4, 5]));
-        expect(data.uint8List(key: "byteData2"),
-            Uint8List.fromList([116, 101, 115, 116]));
+        expect(
+          data.uint8List(key: "byteData2"),
+          Uint8List.fromList([116, 101, 115, 116]),
+        );
         expect(data["byteData2"], Uint8List.fromList([116, 101, 115, 116]));
       });
 
@@ -3243,24 +3286,24 @@ void main() {
     () {
       test("should parse and return the boxShape from string", () {
         final json = <String, dynamic>{
-          "shape": "circle",
+          "boxShape": "circle",
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
 
       test("should parse and return the boxShape from int", () {
         final json = <String, dynamic>{
-          "shape": 0, // BoxShape.rectangle
+          "boxShape": 0, // BoxShape.rectangle
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
 
       test("should return null if the value is null", () {
@@ -3273,14 +3316,14 @@ void main() {
           data.boxShape(defaultValue: BoxShape.circle),
           BoxShape.circle,
         );
-        expect(data["shape"], null);
+        expect(data["boxShape"], null);
       });
 
       test(
           "should return the default value if the value is not a string or int",
           () {
         final json = <String, dynamic>{
-          "shape": true,
+          "boxShape": true,
         };
 
         final data = DuitDataSource(json);
@@ -3289,18 +3332,18 @@ void main() {
           data.boxShape(defaultValue: BoxShape.circle),
           BoxShape.circle,
         );
-        expect(data["shape"], true);
+        expect(data["boxShape"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         final json = <String, dynamic>{
-          "shape": BoxShape.circle,
+          "boxShape": BoxShape.circle,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.boxShape(), BoxShape.circle);
-        expect(data["shape"], BoxShape.circle);
+        expect(data["boxShape"], BoxShape.circle);
       });
     },
   );
@@ -3461,7 +3504,7 @@ void main() {
     () {
       test("should parse and return the inputBorder from string", () {
         final json = <String, dynamic>{
-          "border": {
+          "inputBorder": {
             "type": "outline",
             "borderSide": {
               "color": "#000000",
@@ -3483,14 +3526,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        final border = data.inputBorder() as OutlineInputBorder;
+        final border = data.inputBorder()! as OutlineInputBorder;
         expect(border, isA<OutlineInputBorder>());
         expect(border.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
         expect(border.borderSide.width, 2.0);
         expect(border.borderSide.style, BorderStyle.solid);
         expect(border.gapPadding, 4.0);
         expect(border.borderRadius, BorderRadius.circular(4.0));
-        final cachedBorder = data["border"] as OutlineInputBorder;
+        final cachedBorder = data["inputBorder"] as OutlineInputBorder;
         expect(cachedBorder, isA<OutlineInputBorder>());
         expect(cachedBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
         expect(cachedBorder.borderSide.width, 2.0);
@@ -3498,16 +3541,20 @@ void main() {
         expect(cachedBorder.gapPadding, 4.0);
         expect(cachedBorder.borderRadius, BorderRadius.circular(4.0));
         final underlineBorder =
-            data.inputBorder(key: "border2") as UnderlineInputBorder;
+            data.inputBorder(key: "border2")! as UnderlineInputBorder;
         expect(underlineBorder, isA<UnderlineInputBorder>());
         expect(
-            underlineBorder.borderSide.color, const Color.fromRGBO(0, 0, 0, 1));
+          underlineBorder.borderSide.color,
+          const Color.fromRGBO(0, 0, 0, 1),
+        );
         expect(underlineBorder.borderSide.width, 2.0);
         expect(underlineBorder.borderSide.style, BorderStyle.solid);
         final cachedUnderlineBorder = data["border2"] as UnderlineInputBorder;
         expect(cachedUnderlineBorder, isA<UnderlineInputBorder>());
-        expect(cachedUnderlineBorder.borderSide.color,
-            const Color.fromRGBO(0, 0, 0, 1));
+        expect(
+          cachedUnderlineBorder.borderSide.color,
+          const Color.fromRGBO(0, 0, 0, 1),
+        );
         expect(cachedUnderlineBorder.borderSide.width, 2.0);
         expect(cachedUnderlineBorder.borderSide.style, BorderStyle.solid);
       });
@@ -3520,31 +3567,31 @@ void main() {
 
         expect(data.inputBorder(), null);
         expect(data.inputBorder(defaultValue: defaultBorder), defaultBorder);
-        expect(data["border"], null);
+        expect(data["inputBorder"], null);
       });
 
       test("should return the default value if the value is not a string", () {
         final json = <String, dynamic>{
-          "border": true,
+          "inputBorder": true,
         };
         const defaultBorder = UnderlineInputBorder();
 
         final data = DuitDataSource(json);
 
         expect(data.inputBorder(defaultValue: defaultBorder), defaultBorder);
-        expect(data["border"], true);
+        expect(data["inputBorder"], true);
       });
 
       test("should return instance if the value is already an instance", () {
         const border = OutlineInputBorder();
         final json = <String, dynamic>{
-          "border": border,
+          "inputBorder": border,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.inputBorder(), border);
-        expect(data["border"], border);
+        expect(data["inputBorder"], border);
       });
     },
   );
@@ -3554,7 +3601,7 @@ void main() {
     () {
       test("should parse and return the inputDecoration from map", () {
         final json = <String, dynamic>{
-          "decoration": {
+          "inputDecoration": {
             "labelText": "Label",
             "hintText": "Hint",
             "errorText": "Error",
@@ -3567,7 +3614,7 @@ void main() {
         expect(decoration.labelText, "Label");
         expect(decoration.hintText, "Hint");
         expect(decoration.errorText, "Error");
-        expect(data["decoration"], decoration);
+        expect(data["inputDecoration"], decoration);
       });
 
       test("should return null if the value is null", () {
@@ -3579,14 +3626,16 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.inputDecoration(), null);
-        expect(data.inputDecoration(defaultValue: defaultDecoration),
-            defaultDecoration);
-        expect(data["decoration"], null);
+        expect(
+          data.inputDecoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
+        expect(data["inputDecoration"], null);
       });
 
       test("should return the default value if the value is not a map", () {
         final json = <String, dynamic>{
-          "decoration": true,
+          "inputDecoration": true,
         };
         const defaultDecoration = InputDecoration(
           labelText: "Default",
@@ -3594,9 +3643,11 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.inputDecoration(defaultValue: defaultDecoration),
-            defaultDecoration);
-        expect(data["decoration"], true);
+        expect(
+          data.inputDecoration(defaultValue: defaultDecoration),
+          defaultDecoration,
+        );
+        expect(data["inputDecoration"], true);
       });
 
       test("should return instance if the value is already an instance", () {
@@ -3604,13 +3655,13 @@ void main() {
           labelText: "Label",
         );
         final json = <String, dynamic>{
-          "decoration": decoration,
+          "inputDecoration": decoration,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.inputDecoration(), decoration);
-        expect(data["decoration"], decoration);
+        expect(data["inputDecoration"], decoration);
       });
     },
   );
@@ -3711,13 +3762,16 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.visualDensity(),
-            const VisualDensity(
-              horizontal: 0.0,
-              vertical: 0.0,
-            ));
+          data.visualDensity(),
+          const VisualDensity(
+            horizontal: 0.0,
+            vertical: 0.0,
+          ),
+        );
         expect(
-            data.visualDensity(defaultValue: defaultDensity), defaultDensity);
+          data.visualDensity(defaultValue: defaultDensity),
+          defaultDensity,
+        );
         expect(data["visualDensity"], null);
       });
 
@@ -3733,7 +3787,9 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(
-            data.visualDensity(defaultValue: defaultDensity), defaultDensity);
+          data.visualDensity(defaultValue: defaultDensity),
+          defaultDensity,
+        );
         expect(data["visualDensity"], true);
       });
 
@@ -3748,10 +3804,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.visualDensity(),
-            const VisualDensity(horizontal: 4.0, vertical: 4.0));
-        expect(data["visualDensity"],
-            const VisualDensity(horizontal: 4.0, vertical: 4.0));
+        expect(
+          data.visualDensity(),
+          const VisualDensity(horizontal: 4.0, vertical: 4.0),
+        );
+        expect(
+          data["visualDensity"],
+          const VisualDensity(horizontal: 4.0, vertical: 4.0),
+        );
       });
     },
   );
@@ -3767,10 +3827,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.onDrag);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.onDrag);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
       });
 
       test("should parse and return the keyboardDismissBehavior from int", () {
@@ -3781,10 +3845,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.manual);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.manual);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
       });
 
       test("should return null if the value is null", () {
@@ -3792,11 +3860,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.manual);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.manual,
+        );
         expect(
           data.keyboardDismissBehavior(
-              defaultValue: ScrollViewKeyboardDismissBehavior.onDrag),
+            defaultValue: ScrollViewKeyboardDismissBehavior.onDrag,
+          ),
           ScrollViewKeyboardDismissBehavior.onDrag,
         );
         expect(data["keyboardDismissBehavior"], null);
@@ -3813,7 +3884,8 @@ void main() {
 
         expect(
           data.keyboardDismissBehavior(
-              defaultValue: ScrollViewKeyboardDismissBehavior.onDrag),
+            defaultValue: ScrollViewKeyboardDismissBehavior.onDrag,
+          ),
           ScrollViewKeyboardDismissBehavior.onDrag,
         );
         expect(data["keyboardDismissBehavior"], true);
@@ -3826,10 +3898,14 @@ void main() {
 
         final data = DuitDataSource(json);
 
-        expect(data.keyboardDismissBehavior(),
-            ScrollViewKeyboardDismissBehavior.onDrag);
-        expect(data["keyboardDismissBehavior"],
-            ScrollViewKeyboardDismissBehavior.onDrag);
+        expect(
+          data.keyboardDismissBehavior(),
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
+        expect(
+          data["keyboardDismissBehavior"],
+          ScrollViewKeyboardDismissBehavior.onDrag,
+        );
       });
     },
   );
@@ -3846,8 +3922,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.scrollPhysics(), isA<AlwaysScrollableScrollPhysics>());
-        expect(data.scrollPhysics(key: "physics2"),
-            isA<AlwaysScrollableScrollPhysics>());
+        expect(
+          data.scrollPhysics(key: "physics2"),
+          isA<AlwaysScrollableScrollPhysics>(),
+        );
         expect(data["physics"], isA<AlwaysScrollableScrollPhysics>());
         expect(data["physics2"], isA<AlwaysScrollableScrollPhysics>());
       });
@@ -3909,8 +3987,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.dragStartBehavior(), DragStartBehavior.start);
-        expect(data.dragStartBehavior(key: "dragStartBehavior2"),
-            DragStartBehavior.start);
+        expect(
+          data.dragStartBehavior(key: "dragStartBehavior2"),
+          DragStartBehavior.start,
+        );
         expect(data["dragStartBehavior"], DragStartBehavior.start);
         expect(data["dragStartBehavior2"], DragStartBehavior.start);
       });
@@ -3969,8 +4049,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.hitTestBehavior(), HitTestBehavior.deferToChild);
-        expect(data.hitTestBehavior(key: "hitTestBehavior2"),
-            HitTestBehavior.deferToChild);
+        expect(
+          data.hitTestBehavior(key: "hitTestBehavior2"),
+          HitTestBehavior.deferToChild,
+        );
         expect(data["hitTestBehavior"], HitTestBehavior.deferToChild);
         expect(data["hitTestBehavior2"], HitTestBehavior.deferToChild);
       });
@@ -4056,7 +4138,7 @@ void main() {
         };
 
         final data = DuitDataSource(json);
-        final shape = data.shapeBorder() as RoundedRectangleBorder;
+        final shape = data.shapeBorder()! as RoundedRectangleBorder;
 
         expect(shape, isA<RoundedRectangleBorder>());
         expect(shape.borderRadius, BorderRadius.circular(10.0));
@@ -4065,7 +4147,9 @@ void main() {
         expect(data.shapeBorder(key: "shape2"), isA<StadiumBorder>());
         expect(data.shapeBorder(key: "shape3"), isA<BeveledRectangleBorder>());
         expect(
-            data.shapeBorder(key: "shape4"), isA<ContinuousRectangleBorder>());
+          data.shapeBorder(key: "shape4"),
+          isA<ContinuousRectangleBorder>(),
+        );
       });
 
       test("should parse and return CircleBorder", () {
@@ -4080,7 +4164,7 @@ void main() {
         };
 
         final data = DuitDataSource(json);
-        final shape = data.shapeBorder() as CircleBorder;
+        final shape = data.shapeBorder()! as CircleBorder;
 
         expect(shape, isA<CircleBorder>());
         expect(shape.side.color, const Color(0xFFFF0000));
@@ -4117,13 +4201,13 @@ void main() {
     () {
       test("should parse and return Border", () {
         final json = <String, dynamic>{
-          "shape": <String, dynamic>{
+          "border": <String, dynamic>{
             "side": <String, dynamic>{
               "color": "#FF0000",
               "width": 2.0,
               "style": "solid",
             },
-          }
+          },
         };
 
         final data = DuitDataSource(json);
@@ -4142,19 +4226,19 @@ void main() {
 
         expect(data.border(), null);
         expect(data.border(defaultValue: defaultBorder), defaultBorder);
-        expect(data["shape"], null);
+        expect(data["border"], null);
       });
 
       test("should return instance if the value is already an instance", () {
         final border = Border.all();
         final json = <String, dynamic>{
-          "shape": border,
+          "border": border,
         };
 
         final data = DuitDataSource(json);
 
         expect(data.border(), border);
-        expect(data["shape"], border);
+        expect(data["border"], border);
       });
     },
   );
@@ -4260,8 +4344,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.borderRadius(), BorderRadius.zero);
-        expect(data.borderRadius(defaultValue: defaultBorderRadius),
-            defaultBorderRadius);
+        expect(
+          data.borderRadius(defaultValue: defaultBorderRadius),
+          defaultBorderRadius,
+        );
         expect(data["borderRadius"], null);
       });
 
@@ -4286,8 +4372,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.borderRadius(), BorderRadius.zero);
-        expect(data.borderRadius(defaultValue: defaultBorderRadius),
-            defaultBorderRadius);
+        expect(
+          data.borderRadius(defaultValue: defaultBorderRadius),
+          defaultBorderRadius,
+        );
       });
     },
   );
@@ -4345,7 +4433,7 @@ void main() {
 
       test("should return the default value if the value is null", () {
         final json = <String, dynamic>{};
-        final defaultRadius = const Radius.circular(5.0);
+        const defaultRadius = Radius.circular(5.0);
 
         final data = DuitDataSource(json);
 
@@ -4415,12 +4503,18 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.fabLocation(), FloatingActionButtonLocation.centerDocked);
-        expect(data.fabLocation(key: "floatingActionButtonLocation2"),
-            FloatingActionButtonLocation.centerDocked);
-        expect(data["floatingActionButtonLocation"],
-            FloatingActionButtonLocation.centerDocked);
-        expect(data["floatingActionButtonLocation2"],
-            FloatingActionButtonLocation.centerDocked);
+        expect(
+          data.fabLocation(key: "floatingActionButtonLocation2"),
+          FloatingActionButtonLocation.centerDocked,
+        );
+        expect(
+          data["floatingActionButtonLocation"],
+          FloatingActionButtonLocation.centerDocked,
+        );
+        expect(
+          data["floatingActionButtonLocation2"],
+          FloatingActionButtonLocation.centerDocked,
+        );
       });
 
       test("should return the default value if the value is null", () {
@@ -4460,8 +4554,10 @@ void main() {
         final data = DuitDataSource(json);
 
         expect(data.fabLocation(), FloatingActionButtonLocation.endFloat);
-        expect(data["floatingActionButtonLocation"],
-            FloatingActionButtonLocation.endFloat);
+        expect(
+          data["floatingActionButtonLocation"],
+          FloatingActionButtonLocation.endFloat,
+        );
       });
     },
   );
@@ -4627,8 +4723,10 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
-      expect(data.themeOverrideRule(key: "overrideRule2"),
-          ThemeOverrideRule.themePriority);
+      expect(
+        data.themeOverrideRule(key: "overrideRule2"),
+        ThemeOverrideRule.themePriority,
+      );
       expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
       expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
     });
@@ -4642,8 +4740,10 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(data.themeOverrideRule(), ThemeOverrideRule.themeOverlay);
-      expect(data.themeOverrideRule(key: "overrideRule2"),
-          ThemeOverrideRule.themePriority);
+      expect(
+        data.themeOverrideRule(key: "overrideRule2"),
+        ThemeOverrideRule.themePriority,
+      );
       expect(data["overrideRule"], ThemeOverrideRule.themeOverlay);
       expect(data["overrideRule2"], ThemeOverrideRule.themePriority);
     });
@@ -4781,11 +4881,12 @@ void main() {
       expect(copy["matrix"][0], isA<List>());
       expect(copy["matrix"][0], isNot(same(nestedList[0])));
       expect(
-          copy["matrix"],
-          equals([
-            [1, 2],
-            [3, 4]
-          ]));
+        copy["matrix"],
+        equals([
+          [1, 2],
+          [3, 4],
+        ]),
+      );
     });
 
     test("should create a deep copy of complex nested structures", () {
@@ -4823,13 +4924,19 @@ void main() {
       expect(copy, isNot(same(complexStructure)));
       expect(copy["users"], isNot(same(complexStructure["users"])));
       expect(copy["users"][0], isNot(same(complexStructure["users"][0])));
-      expect(copy["users"][0]["hobbies"],
-          isNot(same(complexStructure["users"][0]["hobbies"])));
-      expect(copy["users"][0]["address"],
-          isNot(same(complexStructure["users"][0]["address"])));
+      expect(
+        copy["users"][0]["hobbies"],
+        isNot(same(complexStructure["users"][0]["hobbies"])),
+      );
+      expect(
+        copy["users"][0]["address"],
+        isNot(same(complexStructure["users"][0]["address"])),
+      );
       expect(copy["settings"], isNot(same(complexStructure["settings"])));
-      expect(copy["settings"]["preferences"],
-          isNot(same(complexStructure["settings"]["preferences"])));
+      expect(
+        copy["settings"]["preferences"],
+        isNot(same(complexStructure["settings"]["preferences"])),
+      );
 
       // Verify the content is identical
       expect(copy, equals(complexStructure));
@@ -4982,7 +5089,7 @@ void main() {
             0.0,
             0.0,
             0.0,
-            1.0
+            1.0,
           ],
           "filterQuality": "high",
         },
@@ -5024,8 +5131,10 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.imageFilter(defaultValue: ImageFilter.blur()),
-          ImageFilter.blur());
+      expect(
+        data.imageFilter(defaultValue: ImageFilter.blur()),
+        ImageFilter.blur(),
+      );
       expect(data["filter"], null);
     });
 
@@ -5145,7 +5254,7 @@ void main() {
             0.0,
             0.0,
             0.0,
-            1.0
+            1.0,
           ],
         },
       };
@@ -5316,11 +5425,15 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
       expect(data.stretchModes(key: "stretchMode2"), [StretchMode.fadeTitle]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
       expect(data["stretchMode2"], [StretchMode.fadeTitle]);
     });
 
@@ -5354,7 +5467,7 @@ void main() {
     test("should return instance if the value is already an instance", () {
       final stretchModes = [
         StretchMode.zoomBackground,
-        StretchMode.blurBackground
+        StretchMode.blurBackground,
       ];
       final json = <String, dynamic>{
         "stretchModes": stretchModes,
@@ -5373,10 +5486,14 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(key: "customStretchMode"),
-          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
-      expect(data["customStretchMode"],
-          [StretchMode.zoomBackground, StretchMode.fadeTitle]);
+      expect(
+        data.stretchModes(key: "customStretchMode"),
+        [StretchMode.zoomBackground, StretchMode.fadeTitle],
+      );
+      expect(
+        data["customStretchMode"],
+        [StretchMode.zoomBackground, StretchMode.fadeTitle],
+      );
     });
 
     test("should handle empty list of strings", () {
@@ -5408,10 +5525,14 @@ void main() {
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
     });
 
     test("should handle mixed valid and invalid int values", () {
@@ -5419,16 +5540,20 @@ void main() {
         "stretchModes": [
           0,
           999,
-          1
+          1,
         ], // 0=zoomBackground, 999=invalid, 1=blurBackground
       };
 
       final data = DuitDataSource(json);
 
-      expect(data.stretchModes(),
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
-      expect(data["stretchModes"],
-          [StretchMode.zoomBackground, StretchMode.blurBackground]);
+      expect(
+        data.stretchModes(),
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
+      expect(
+        data["stretchModes"],
+        [StretchMode.zoomBackground, StretchMode.blurBackground],
+      );
     });
   });
 
@@ -5439,10 +5564,10 @@ void main() {
           "event": "testEvent",
           "executionType": 0,
           "dependsOn": [
-            {"target": "t1", "id": "id1"}
+            {"target": "t1", "id": "id1"},
           ],
-          "meta": {"method": "POST"}
-        }
+          "meta": {"method": "POST"},
+        },
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5467,9 +5592,9 @@ void main() {
           "executionType": 1,
           "payload": {
             "type": "update",
-            "updates": {"key": "value"}
-          }
-        }
+            "updates": {"key": "value"},
+          },
+        },
       };
       final data = DuitDataSource(json);
       final action = data.getAction("action");
@@ -5485,14 +5610,14 @@ void main() {
           "event": "script",
           "executionType": 2,
           "dependsOn": [
-            {"target": "t1", "id": "id1"}
+            {"target": "t1", "id": "id1"},
           ],
           "script": {
             "sourceCode": "print('hi')",
             "functionName": "main",
-            "meta": {"info": "metaInfo"}
-          }
-        }
+            "meta": {"info": "metaInfo"},
+          },
+        },
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5504,13 +5629,13 @@ void main() {
       expect(action.dependsOn.first.target, "t1");
       expect(action.dependsOn.first.id, "id1");
       expect((action as ScriptAction).script.sourceCode, "print('hi')");
-      expect((action).script.functionName, "main");
-      expect((action).script.meta, {"info": "metaInfo"});
+      expect(action.script.functionName, "main");
+      expect(action.script.meta, {"info": "metaInfo"});
     });
 
     test("getAction should parse UnknownAction for invalid executionType", () {
       final json = <String, dynamic>{
-        "action": {"event": "unknown", "executionType": 999}
+        "action": {"event": "unknown", "executionType": 999},
       };
       ServerAction.setActionParser(const DefaultActionParser());
       final data = DuitDataSource(json);
@@ -5549,8 +5674,8 @@ void main() {
       final json = <String, dynamic>{
         "dependsOn": [
           {"target": "t1", "id": "id1"},
-          {"target": "t2", "id": "id2"}
-        ]
+          {"target": "t2", "id": "id2"},
+        ],
       };
       final data = DuitDataSource(json);
       final deps = data.getActionDependencies().toList();
@@ -5576,7 +5701,7 @@ void main() {
 
     test("meta should parse HttpActionMetainfo from map", () {
       final json = <String, dynamic>{
-        "meta": {"method": "POST"}
+        "meta": {"method": "POST"},
       };
       final data = DuitDataSource(json);
       expect(data.meta, isA<HttpActionMetainfo>());
@@ -5603,8 +5728,8 @@ void main() {
         "script": {
           "sourceCode": "print('hi')",
           "functionName": "main",
-          "meta": {"info": "metaInfo"}
-        }
+          "meta": {"info": "metaInfo"},
+        },
       };
       final data = DuitDataSource(json);
       final script = data.script;
@@ -5626,7 +5751,7 @@ void main() {
 
     test("affectedProperties should return set of strings if present", () {
       final data = DuitDataSource({
-        "affectedProperties": ["a", "b", "c"]
+        "affectedProperties": ["a", "b", "c"],
       });
       expect(data.affectedProperties, isA<Set<String>>());
       expect(data.affectedProperties, containsAll(["a", "b", "c"]));
@@ -5635,8 +5760,10 @@ void main() {
     test("affectedProperties should return null if not present or not iterable",
         () {
       expect(DuitDataSource({}).affectedProperties, isNull);
-      expect(DuitDataSource({"affectedProperties": 123}).affectedProperties,
-          isNull);
+      expect(
+        DuitDataSource({"affectedProperties": 123}).affectedProperties,
+        isNull,
+      );
     });
   });
 
@@ -5654,9 +5781,9 @@ void main() {
             "trigger": 0, // onEnter
             "method": 0, // forward
             "reverseOnRepeat": false,
-            "interval": {"begin": 0.0, "end": 1.0}
+            "interval": {"begin": 0.0, "end": 1.0},
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5687,9 +5814,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 1, // repeat
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5719,9 +5846,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5750,15 +5877,15 @@ void main() {
               "color": "#0000FF",
               "borderRadius": 20,
               "boxShadow": [
-                {"color": "#000000", "blurRadius": 10}
-              ]
+                {"color": "#000000", "blurRadius": 10},
+              ],
             },
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5768,10 +5895,14 @@ void main() {
       final tween = tweens.first as DecorationTweenDescription;
       expect(tween.animatedPropKey, "decoration");
       expect(tween.duration, const Duration(milliseconds: 600));
-      expect((tween.begin as BoxDecoration).color,
-          const Color(0xFFFFFFFF)); // #FFFFFF
-      expect((tween.end as BoxDecoration).color,
-          const Color(0xFF0000FF)); // #0000FF
+      expect(
+        (tween.begin as BoxDecoration).color,
+        const Color(0xFFFFFFFF),
+      ); // #FFFFFF
+      expect(
+        (tween.end as BoxDecoration).color,
+        const Color(0xFF0000FF),
+      ); // #0000FF
     });
 
     test("tweens should parse alignmentTween from map", () {
@@ -5786,9 +5917,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5814,9 +5945,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5842,9 +5973,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 0, // forward
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5870,9 +6001,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5912,9 +6043,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -5945,7 +6076,7 @@ void main() {
                 "curve": "easeIn",
                 "trigger": 0, // onEnter
                 "method": 0, // forward
-                "reverseOnRepeat": false
+                "reverseOnRepeat": false,
               },
               {
                 "type": "tween",
@@ -5956,14 +6087,14 @@ void main() {
                 "curve": "easeIn",
                 "trigger": 0, // onEnter
                 "method": 0, // forward
-                "reverseOnRepeat": false
+                "reverseOnRepeat": false,
               }
             ],
             "method": 0, // forward
             "reverseOnRepeat": false,
-            "trigger": 0 // onEnter
+            "trigger": 0, // onEnter
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6016,7 +6147,7 @@ void main() {
             "curve": "easeIn",
             "trigger": 0, // onEnter
             "method": 0, // forward
-            "reverseOnRepeat": false
+            "reverseOnRepeat": false,
           },
           {
             "type": "colorTween",
@@ -6027,9 +6158,9 @@ void main() {
             "curve": "easeIn",
             "trigger": 1, // onAction
             "method": 1, // repeat
-            "reverseOnRepeat": true
+            "reverseOnRepeat": true,
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6048,10 +6179,10 @@ void main() {
             "animatedPropKey": "opacity",
             "duration": 500,
             "begin": 0.0,
-            "end": 1.0
+            "end": 1.0,
             // Missing curve, trigger, method, reverseOnRepeat - should use defaults
           }
-        ]
+        ],
       };
       final data = DuitDataSource(json);
       final tweens = data.tweens();
@@ -6082,7 +6213,7 @@ void main() {
 
     test("should parse from Map", () {
       final data = DuitDataSource({
-        "interval": {"begin": 0.3, "end": 0.7}
+        "interval": {"begin": 0.3, "end": 0.7},
       });
       final result = data.animationInterval();
       expect(result, isA<AnimationInterval>());
@@ -6092,7 +6223,7 @@ void main() {
 
     test("should parse from List", () {
       final data = DuitDataSource({
-        "interval": [0.1, 0.9]
+        "interval": [0.1, 0.9],
       });
       final result = data.animationInterval();
       expect(result, isA<AnimationInterval>());
@@ -6112,7 +6243,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationInterval(
-            key: "custom", defaultValue: const AnimationInterval(0.5, 0.6)),
+          key: "custom",
+          defaultValue: const AnimationInterval(0.5, 0.6),
+        ),
         const AnimationInterval(0.5, 0.6),
       );
     });
@@ -6149,7 +6282,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationTrigger(
-            key: "custom", defaultValue: AnimationTrigger.onAction),
+          key: "custom",
+          defaultValue: AnimationTrigger.onAction,
+        ),
         AnimationTrigger.onAction,
       );
     });
@@ -6186,7 +6321,9 @@ void main() {
       final data = DuitDataSource({"custom": null});
       expect(
         data.animationMethod(
-            key: "custom", defaultValue: AnimationMethod.toggle),
+          key: "custom",
+          defaultValue: AnimationMethod.toggle,
+        ),
         AnimationMethod.toggle,
       );
     });
@@ -6234,7 +6371,7 @@ void main() {
         "colorProp": <String, dynamic>{
           "pressed": "#FF0000",
           "hovered": "#00FF00",
-        }
+        },
       });
       final prop = data.widgetStateProperty<Color>(key: "colorProp");
       expect(prop!.resolve({WidgetState.pressed}), const Color(0xFFFF0000));
@@ -6250,20 +6387,22 @@ void main() {
             20,
             30,
             40,
-          ]
-        }
+          ],
+        },
       });
       final prop =
           data.widgetStateProperty<EdgeInsetsGeometry>(key: "paddingProp");
-      expect(prop!.resolve({WidgetState.selected}),
-          const EdgeInsets.fromLTRB(10, 20, 30, 40));
+      expect(
+        prop!.resolve({WidgetState.selected}),
+        const EdgeInsets.fromLTRB(10, 20, 30, 40),
+      );
     });
 
     test("should resolve Size for error", () {
       final data = DuitDataSource({
         "sizeProp": <String, dynamic>{
-          "error": {"width": 42, "height": 24}
-        }
+          "error": {"width": 42, "height": 24},
+        },
       });
       final prop = data.widgetStateProperty<Size>(key: "sizeProp");
       expect(prop!.resolve({WidgetState.error}), const Size(42, 24));
@@ -6271,7 +6410,7 @@ void main() {
 
     test("should resolve double for disabled", () {
       final data = DuitDataSource({
-        "doubleProp": <String, dynamic>{"disabled": 3.14}
+        "doubleProp": <String, dynamic>{"disabled": 3.14},
       });
       final prop = data.widgetStateProperty<double>(key: "doubleProp");
       expect(prop!.resolve({WidgetState.disabled}), 3.14);
@@ -6282,22 +6421,24 @@ void main() {
         "borderProp": <String, dynamic>{
           "focused": <String, dynamic>{
             "type": "RoundedRectangleBorder",
-            "borderRadius": 8
-          }
-        }
+            "borderRadius": 8,
+          },
+        },
       });
       final prop = data.widgetStateProperty<OutlinedBorder>(key: "borderProp");
       final border = prop!.resolve({WidgetState.focused});
       expect(border, isA<RoundedRectangleBorder>());
-      expect((border as RoundedRectangleBorder).borderRadius,
-          BorderRadius.circular(8));
+      expect(
+        (border! as RoundedRectangleBorder).borderRadius,
+        BorderRadius.circular(8),
+      );
     });
 
     test("should resolve TextStyle for dragged", () {
       final data = DuitDataSource({
         "textStyleProp": <String, dynamic>{
-          "dragged": <String, dynamic>{"fontSize": 18, "color": "#123456"}
-        }
+          "dragged": <String, dynamic>{"fontSize": 18, "color": "#123456"},
+        },
       });
       final prop = data.widgetStateProperty<TextStyle>(key: "textStyleProp");
       final style = prop!.resolve({WidgetState.dragged});
@@ -6309,8 +6450,8 @@ void main() {
     test("should resolve BorderSide for hovered", () {
       final data = DuitDataSource({
         "sideProp": <String, dynamic>{
-          "hovered": <String, dynamic>{"color": "#ABCDEF", "width": 2.0}
-        }
+          "hovered": <String, dynamic>{"color": "#ABCDEF", "width": 2.0},
+        },
       });
       final prop = data.widgetStateProperty<BorderSide>(key: "sideProp");
       final side = prop!.resolve({WidgetState.hovered});
@@ -6321,7 +6462,7 @@ void main() {
 
     test("should return null if no state matches", () {
       final data = DuitDataSource({
-        "colorProp": <String, dynamic>{"pressed": "#FF0000"}
+        "colorProp": <String, dynamic>{"pressed": "#FF0000"},
       });
       final prop = data.widgetStateProperty<Color>(key: "colorProp");
       expect(prop!.resolve({WidgetState.focused}), Colors.transparent);
@@ -6466,7 +6607,7 @@ void main() {
       final data = DuitDataSource(json);
 
       expect(
-        () => data.executionOptions(),
+        data.executionOptions,
         throwsA(isA<Error>()),
       );
     });

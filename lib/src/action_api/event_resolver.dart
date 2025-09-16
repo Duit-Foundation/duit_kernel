@@ -1,7 +1,7 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart' show BuildContext;
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart" show BuildContext;
 
 abstract class EventResolver {
   final UIDriver driver;
@@ -12,7 +12,7 @@ abstract class EventResolver {
     this.logger,
   });
 
-  Future<void> resolveEvent(BuildContext context, dynamic eventData);
+  Future<void> resolveEvent(BuildContext context, eventData);
 }
 
 final class DefaultEventResolver extends EventResolver {
@@ -22,7 +22,7 @@ final class DefaultEventResolver extends EventResolver {
   });
 
   @override
-  Future<void> resolveEvent(BuildContext context, dynamic eventData) async {
+  Future<void> resolveEvent(BuildContext context, eventData) async {
     ServerEvent event;
 
     if (eventData is ServerEvent) {
@@ -41,8 +41,10 @@ final class DefaultEventResolver extends EventResolver {
           });
           break;
         case NavigationEvent():
-          assert(driver.externalEventHandler != null,
-              "ExternalEventHandler instance is not set");
+          assert(
+            driver.externalEventHandler != null,
+            "ExternalEventHandler instance is not set",
+          );
           await driver.externalEventHandler?.handleNavigation(
             context,
             event.path,
@@ -50,8 +52,10 @@ final class DefaultEventResolver extends EventResolver {
           );
           break;
         case OpenUrlEvent():
-          assert(driver.externalEventHandler != null,
-              "ExternalEventHandler instance is not set");
+          assert(
+            driver.externalEventHandler != null,
+            "ExternalEventHandler instance is not set",
+          );
           await driver.externalEventHandler?.handleOpenUrl(event.url);
           break;
         case CustomEvent():
