@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// Description of the component for registering it
 /// in the [DuitRegistry] under the key corresponding to the [tag] property

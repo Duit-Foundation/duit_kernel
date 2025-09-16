@@ -10,7 +10,7 @@ abstract interface class DebugLogger {
   void warn(String message);
   void error(
     String message, {
-    dynamic error,
+    error,
     StackTrace? stackTrace,
   });
 }

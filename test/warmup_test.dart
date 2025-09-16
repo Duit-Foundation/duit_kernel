@@ -415,8 +415,10 @@ void main() {
         expect(j["inputDecoration"], isA<InputDecoration>());
         expect(j["stretchModes"], isA<List<StretchMode>>());
         expect(j["visualDensity"], isA<VisualDensity>());
-        expect(j["keyboardDismissBehavior"],
-            isA<ScrollViewKeyboardDismissBehavior>());
+        expect(
+          j["keyboardDismissBehavior"],
+          isA<ScrollViewKeyboardDismissBehavior>(),
+        );
         expect(j["physics"], isA<ScrollPhysics>());
         expect(j["dragStartBehavior"], isA<DragStartBehavior>());
         expect(j["hitTestBehavior"], isA<HitTestBehavior>());

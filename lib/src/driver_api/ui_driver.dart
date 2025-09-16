@@ -1,11 +1,10 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 abstract interface class UIDriver implements WidgetDisplayStateNotifier {
-
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -103,6 +102,8 @@ abstract interface class UIDriver implements WidgetDisplayStateNotifier {
   Stream<UIDriverEvent> get eventStream;
 
   /// Set the BuildContext.
+
+  // ignore: avoid_setters_without_getters
   set context(BuildContext value);
 
   /// Prepares the payload for a server action.

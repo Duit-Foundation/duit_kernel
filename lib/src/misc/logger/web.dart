@@ -1,7 +1,7 @@
-import 'dart:js_interop';
+import "dart:js_interop";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:web/web.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:web/web.dart";
 
 /// The [DefaultLogger] class provides a default WASM compatible logger implementation for the DUIT library.
 ///

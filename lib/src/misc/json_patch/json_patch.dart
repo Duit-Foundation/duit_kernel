@@ -127,15 +127,15 @@ final class JsonPatchApplier {
 
     final segment = path[depth];
     if (segment is String) {
-      final Map<String, dynamic> current = _asMap(node, ensure);
-      final Map<String, dynamic> clone = {...current};
+      final current = _asMap(node, ensure);
+      final clone = <String, dynamic>{...current};
       final nextNode = current[segment];
       final replaced = _replaceAtPath(nextNode, path, value, ensure, depth + 1);
       clone[segment] = replaced;
       return clone;
     } else if (segment is int) {
-      final List<dynamic> current = _asList(node, ensure);
-      final List<dynamic> clone = List<dynamic>.of(current);
+      final current = _asList(node, ensure);
+      final clone = List<dynamic>.of(current);
       _ensureListLen(clone, segment, ensure);
       final nextNode = segment < clone.length ? clone[segment] : null;
       final replaced = _replaceAtPath(nextNode, path, value, ensure, depth + 1);
@@ -149,7 +149,7 @@ final class JsonPatchApplier {
       }
       return clone;
     } else {
-      throw ArgumentError('Unsupported path segment: $segment');
+      throw ArgumentError("Unsupported path segment: $segment");
     }
   }
 
@@ -173,8 +173,8 @@ final class JsonPatchApplier {
     final isLast = depth == path.length - 1;
 
     if (segment is String) {
-      final Map<String, dynamic> current = _asMap(node, ensure);
-      final Map<String, dynamic> clone = {...current};
+      final current = _asMap(node, ensure);
+      final clone = <String, dynamic>{...current};
       if (isLast) {
         clone[segment] = value;
         return clone;
@@ -184,8 +184,8 @@ final class JsonPatchApplier {
       clone[segment] = next;
       return clone;
     } else if (segment is int) {
-      final List<dynamic> current = _asList(node, ensure);
-      final List<dynamic> clone = List<dynamic>.of(current);
+      final current = _asList(node, ensure);
+      final clone = List<dynamic>.of(current);
       if (isLast) {
         // insert semantics: if index within [0, length], insert; if index
         // greater than length and ensure=true, expand with nulls and append.
@@ -211,7 +211,7 @@ final class JsonPatchApplier {
       }
       return clone;
     } else {
-      throw ArgumentError('Unsupported path segment: $segment');
+      throw ArgumentError("Unsupported path segment: $segment");
     }
   }
 
@@ -237,8 +237,8 @@ final class JsonPatchApplier {
 
     if (segment is String) {
       if (node is! Map) return node; // type mismatch -> no-op
-      final Map<String, dynamic> current = _asMap(node, false);
-      final Map<String, dynamic> clone = {...current};
+      final current = _asMap(node, false);
+      final clone = <String, dynamic>{...current};
       if (isLast) {
         clone.remove(segment);
         return clone;
@@ -252,7 +252,7 @@ final class JsonPatchApplier {
       return clone;
     } else if (segment is int) {
       if (node is! List) return node; // type mismatch -> no-op
-      final List<dynamic> current = List<dynamic>.of(node);
+      final current = List<dynamic>.of(node);
       if (isLast) {
         if (segment >= 0 && segment < current.length) {
           current.removeAt(segment);
@@ -269,7 +269,7 @@ final class JsonPatchApplier {
       }
       return current;
     } else {
-      throw ArgumentError('Unsupported path segment: $segment');
+      throw ArgumentError("Unsupported path segment: $segment");
     }
   }
 

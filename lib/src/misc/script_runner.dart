@@ -1,4 +1,4 @@
-import '../index.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 ///The base class required to implement a script runner
 abstract base class ScriptRunner<TOptions> {

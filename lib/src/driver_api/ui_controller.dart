@@ -1,7 +1,7 @@
-import 'dart:async';
-import 'dart:ui';
+import "dart:async";
+import "dart:ui";
 
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// Base class for ViewController objects.
 ///
@@ -46,6 +46,7 @@ abstract interface class UIElementController {
   /// The [commandChannel] property represents a stream of animation commands
   /// that are sent to the controller. The commands are processed by the controller
   /// in order to perform the desired animation.
+  // ignore: close_sinks
   abstract StreamController<RemoteCommand> commandChannel;
 
   /// Perform the related action.

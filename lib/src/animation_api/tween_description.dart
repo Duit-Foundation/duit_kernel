@@ -1,5 +1,5 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
 
 /// Base class for describing a Tween object.
 ///

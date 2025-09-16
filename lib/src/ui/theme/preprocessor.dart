@@ -1,4 +1,4 @@
-import 'package:duit_kernel/src/ui/theme/index.dart';
+import "package:duit_kernel/src/ui/theme/index.dart";
 
 /// Function for custom tokenization of themes.
 typedef TokenizationCallback = ThemeToken? Function(

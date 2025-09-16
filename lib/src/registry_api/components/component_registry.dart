@@ -1,6 +1,6 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// [ComponentRegistry] is a low level registry for components.
 /// It is supposed to be used in [DuitRegistry] or other registries.

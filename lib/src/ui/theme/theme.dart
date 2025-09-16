@@ -1,4 +1,4 @@
-import 'package:duit_kernel/src/ui/theme/theme_token.dart';
+import "package:duit_kernel/src/ui/theme/theme_token.dart";
 
 final class DuitTheme {
   final Map<String, ThemeToken> _tokens;
