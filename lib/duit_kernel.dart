@@ -1,3 +1,3 @@
 library duit_kernel;
 
-export 'src/index.dart';
+export "src/index.dart";

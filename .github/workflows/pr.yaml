@@ -23,7 +23,14 @@ jobs:
 
       - name: Disable animations
         run: flutter config --no-cli-animations
+      
+      - name: Analyze
+        run: flutter analyze
 
       - name: Run tests
         run: |
           flutter test --no-pub --coverage --test-randomize-ordering-seed=random
+      
+      - name: Run warmup test set
+        run: |
+          flutter test --no-pub --dart-define=DK_ENABLE_ATTRIBUTE_WARM_UP=true test/warmup_test.dart
