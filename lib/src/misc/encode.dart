@@ -164,9 +164,11 @@ Map _encodeTextStyle(TextStyle textStyle) => {
         "leadingDistribution": textStyle.leadingDistribution,
     };
 
+//TODO: Remove deprecated_member_use when v3.24.x is no longer supported
 /// Encodes a [Color] object to a hex string with alpha channel.
 @preferInline
 String _encodeColor(Color color) =>
+    // ignore: deprecated_member_use
     "#${color.value.toRadixString(16).padLeft(8, '0')}";
 
 /// Encodes a [LinearGradient] object to a map with colors, stops, begin, end, and transform.
