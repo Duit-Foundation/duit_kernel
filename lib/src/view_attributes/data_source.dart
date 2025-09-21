@@ -86,9 +86,13 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   @preferInline
   Iterable<ActionDependency> getActionDependencies() {
     final dependsOn = _json["dependsOn"];
-    return dependsOn is List<Map<String, dynamic>> && dependsOn.isNotEmpty
-        ? dependsOn.map(_actionDependency)
-        : const <ActionDependency>[];
+
+    if (dependsOn is List) {
+      return dependsOn
+          .map((e) => _actionDependency(Map<String, dynamic>.from(e)));
+    } else {
+      return const <ActionDependency>[];
+    }
   }
 
   //
@@ -4404,8 +4408,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     final List<Map<String, dynamic>> cachedChildren =
         _json["_listContentBuffer"] ?? [];
 
-    if (children != null && children is List<Map<String, dynamic>>) {
-      cachedChildren.addAll(children);
+    if (children != null && children is List) {
+      cachedChildren.addAll(children.cast<Map<String, dynamic>>());
       _json[key] = null;
       _json["_listContentBuffer"] = cachedChildren;
     }
