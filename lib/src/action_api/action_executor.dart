@@ -12,7 +12,7 @@ abstract class ActionExecutor {
   final UIDriver driver;
   final DebugLogger? logger;
 
-  ActionExecutor({
+  const ActionExecutor({
     required this.driver,
     this.logger,
   });
@@ -35,7 +35,7 @@ abstract class ActionExecutor {
 /// This method is asynchronous and returns a [Future] that completes when
 /// the action execution is finished.
 final class DefaultActionExecutor extends ActionExecutor {
-  DefaultActionExecutor({
+  const DefaultActionExecutor({
     required super.driver,
     super.logger,
   });

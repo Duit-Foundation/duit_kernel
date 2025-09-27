@@ -4,7 +4,8 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
-abstract interface class UIDriver implements WidgetDisplayStateNotifier {
+abstract interface class UIDriver
+    implements WidgetDisplayStateNotifier, SlotManager {
   /// The source url of the UI driver.
   abstract final String source;
 

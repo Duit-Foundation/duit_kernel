@@ -96,6 +96,12 @@ final class DefaultEventResolver extends EventResolver {
             },
           );
           break;
+        case SlotEvent():
+          driver.updateSlotHostContent(
+            event.id,
+            event.ops,
+          );
+          break;
         default:
           break;
       }

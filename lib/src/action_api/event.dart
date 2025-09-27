@@ -203,3 +203,21 @@ final class CommandEvent extends ServerEvent {
     );
   }
 }
+
+final class SlotEvent extends ServerEvent {
+  final String id;
+  final List<SlotOp> ops;
+
+  SlotEvent({
+    required this.id,
+    required this.ops,
+  }) : super(type: "slot");
+
+  factory SlotEvent.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return SlotEvent(
+      id: source.getString(key: "id"),
+      ops: SlotOp.fronList(json["ops"]),
+    );
+  }
+}

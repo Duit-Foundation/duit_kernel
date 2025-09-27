@@ -23,6 +23,7 @@ final class DefaultEventParser implements Parser<ServerEvent> {
       "grouped" => CommonEventGroup.fromJson(json),
       "timer" => TimerEvent.fromJson(json),
       "command" => CommandEvent.fromJson(json),
+      "slot" => SlotEvent.fromJson(json),
       _ => NullEvent(),
     };
   }
