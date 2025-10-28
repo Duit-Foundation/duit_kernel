@@ -1,9 +1,9 @@
 const envAttributeWarmUpEnabled = bool.fromEnvironment(
-  "DK_ENABLE_ATTRIBUTE_WARM_UP",
+  "duit:enable-warm-up",
   defaultValue: false,
 );
 
 const envPreferInlineFn = bool.fromEnvironment(
-  "DK_PREFER_INLINE",
+  "duit:prefer-inline",
   defaultValue: false,
 );
