@@ -140,7 +140,8 @@ List<double> _encodeEdgeInsets(EdgeInsets edgeInsets) => [
 Map _encodeTextStyle(TextStyle textStyle) => {
       if (textStyle.color != null) "color": textStyle.color,
       if (textStyle.fontFamily != null) "fontFamily": textStyle.fontFamily,
-      if (textStyle.fontWeight != null) "fontWeight": textStyle.fontWeight,
+      if (textStyle.fontWeight != null)
+        "fontWeight": textStyle.fontWeight!.value,
       if (textStyle.fontSize != null) "fontSize": textStyle.fontSize,
       if (textStyle.fontStyle != null) "fontStyle": textStyle.fontStyle,
       if (textStyle.overflow != null) "overflow": textStyle.overflow,

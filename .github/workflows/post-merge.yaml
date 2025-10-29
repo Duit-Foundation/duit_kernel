@@ -3,7 +3,7 @@ name: Post-merge
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
 jobs:
   test:
@@ -11,14 +11,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter-version: [ '3.24.3', '3.27.4', '3.29.3', '3.32.7' ]
+        flutter-version: ["3.24.3", "3.27.4", "3.29.3", "3.32.7"]
     steps:
       - uses: actions/checkout@v3
 
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ matrix.flutter-version }}
-          channel: 'stable'
+          channel: "stable"
           cache: true
 
       - name: Analyze
@@ -27,7 +27,7 @@ jobs:
       - name: Run tests
         run: |
           flutter test --no-pub --coverage --test-randomize-ordering-seed=random
-      
+
       - name: Run warmup test set
         run: |
           flutter test --no-pub --dart-define=DK_ENABLE_ATTRIBUTE_WARM_UP=true test/warmup_test.dart

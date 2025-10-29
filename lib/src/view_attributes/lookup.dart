@@ -1424,13 +1424,20 @@ const _inputBorderTypeStringLookupTable =
 ///
 /// Maps string identifiers to functions that create [ShapeBorder] instances from maps.
 /// Supported values: "roundedRectangleBorder", "circleBorder", "stadiumBorder", "beveledRectangleBorder", "continuousRectangleBorder".
-const _shapeBorderTypeStringLookupTable =
-    <String, ShapeBorder Function(Map<String, dynamic> value)>{
+const _shapeBorderTypeStringLookupTable = <String,
+    ShapeBorder Function(
+  Map<String, dynamic> value,
+)>{
   "RoundedRectangleBorder": DuitDataSource._roundedRectangleBorderFromMap,
+  "roundedRectangleBorder": DuitDataSource._roundedRectangleBorderFromMap,
   "CircleBorder": DuitDataSource._circleBorderFromMap,
+  "circleBorder": DuitDataSource._circleBorderFromMap,
   "StadiumBorder": DuitDataSource._stadiumBorderFromMap,
+  "stadiumBorder": DuitDataSource._stadiumBorderFromMap,
   "BeveledRectangleBorder": DuitDataSource._beveledRectangleBorderFromMap,
+  "beveledRectangleBorder": DuitDataSource._beveledRectangleBorderFromMap,
   "ContinuousRectangleBorder": DuitDataSource._continuousRectangleBorderFromMap,
+  "continuousRectangleBorder": DuitDataSource._continuousRectangleBorderFromMap,
 };
 
 /// Lookup table for [ExecutionModifier] values by [String] type key.

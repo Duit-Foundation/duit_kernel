@@ -20,9 +20,8 @@ base class ServerEvent {
     required this.type,
   });
 
-  static ServerEvent parseEvent(Map<String, dynamic> json) {
-    return _eventParser.parse(json);
-  }
+  static ServerEvent parseEvent(Map<String, dynamic> json) =>
+      _eventParser.parse(json);
 }
 
 final class NullEvent extends ServerEvent {

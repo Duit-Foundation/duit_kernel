@@ -26,6 +26,7 @@ base class ServerAction {
   /// 2 - script
   final int executionType;
 
+  /// Optional execution behavior overrides (e.g., debounce, timeouts).
   final ExecutionOptions? executionOptions;
 
   ServerAction({
