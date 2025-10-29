@@ -92,7 +92,7 @@ void main() {
 
         expect(decoded["color"], "#fff44336");
         expect(decoded["fontSize"], 16.0);
-        expect(decoded["fontWeight"], "FontWeight.w700");
+        expect(decoded["fontWeight"], 700);
         expect(decoded["fontFamily"], "Roboto");
         expect(decoded["fontStyle"], "FontStyle.italic");
         expect(decoded["height"], 1.5);
