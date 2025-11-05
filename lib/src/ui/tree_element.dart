@@ -1,5 +1,5 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/widgets.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/widgets.dart";
 
 /// An abstract base class representing an entry in the DUIT element tree.
 ///
@@ -21,20 +21,14 @@ import 'package:flutter/widgets.dart';
 ///
 /// Methods:
 /// - [renderView]: Abstract method that must be implemented to render the element as a widget.
-abstract base class ElementTreeEntry<T> {
-  /// The type of the DUIT element.
-  final String type, id;
-  final bool controlled;
-  final String? tag;
-  abstract UIElementController<T>? viewController;
-  abstract ViewAttribute<T>? attributes;
+abstract base class ElementTreeEntry {
+  UIElementController get viewController;
 
-  ElementTreeEntry({
-    required this.type,
-    required this.id,
-    required this.controlled,
-    this.tag,
-  });
+  ViewAttribute get attributes;
+
+  List<ElementTreeEntry> get children;
+
+  ElementTreeEntry? get child;
 
   Widget renderView();
 }

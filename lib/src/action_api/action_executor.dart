@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// The [ActionExecutor] is an abstract class responsible for executing actions.
 ///

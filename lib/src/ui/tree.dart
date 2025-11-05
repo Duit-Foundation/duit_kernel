@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
-import '../index.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart";
 
 /// Represents an abstract tree structure for rendering DUIT elements.
 ///

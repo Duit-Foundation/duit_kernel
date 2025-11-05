@@ -1,47 +1,29 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:duit_kernel/src/registry_api/components/index.dart';
-import 'package:duit_kernel/src/registry_api/factory_record.dart';
+import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/registry_api/components/index.dart";
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
-  static final Map<String, FactoryRecord> _customComponentRegistry = {};
+  static final Map<String, BuildFactory> _customComponentRegistry = {};
+  static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
   static DebugLogger _logger = DefaultLogger.instance;
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
-  static late final ResourceLoader<DuitTheme> _themeLoader;
   static DuitTheme _theme = const DuitTheme({});
 
-  static FutureOr<void> configure({
+  static FutureOr<void> initialize({
     DebugLogger? logger,
-    ResourceLoader<DuitTheme>? themeLoader,
+    DuitTheme? theme,
     ComponentRegistry? componentRegistry,
   }) async {
     _logger = logger ?? _logger;
     _componentRegistry = componentRegistry ?? _componentRegistry;
-
+    _theme = theme ?? _theme;
     await _componentRegistry.init();
-
-    if (themeLoader != null) {
-      _themeLoader = themeLoader;
-    }
   }
 
   static DuitTheme get theme => _theme;
-
-  static Future<void> initTheme() async {
-    try {
-      _theme = await _themeLoader.load();
-    } catch (e, s) {
-      _logger.error(
-        "Theme initialization failed",
-        error: e,
-        stackTrace: s,
-      );
-      rethrow;
-    }
-  }
 
   /// Registers a list of component descriptions.
   static FutureOr<void> registerComponents(
@@ -95,52 +77,23 @@ sealed class DuitRegistry {
     }
   }
 
-  /// Registers a DUIT element with the specified key, model mapper, renderer, and attributes mapper.
-  ///
-  /// - The [key] is a unique identifier for the DUIT element.
-  ///
-  /// - The [modelFactory] is a function that maps the DUIT element to a [ElementTreeEntry].
-  ///
-  /// - The [buildFactory] is a function that returns the [Widget] representation of the [ElementTreeEntry].
-  ///
-  /// - The [attributesFactory] is a function that maps the attributes from json to [DuitAttributes.
+  /// Registers a build factory for a custom Duit element.
   static void register(
     String key, {
-    required ModelFactory modelFactory,
     required BuildFactory buildFactory,
-    required AttributesFactory attributesFactory,
   }) {
-    _customComponentRegistry[key] = (
-      attributesFactory: attributesFactory,
-      modelFactory: modelFactory,
-      buildFactory: buildFactory,
-    );
+    _customComponentRegistry[key] = buildFactory;
 
     _logger.info(
       "Custom widget $key registered successfull",
     );
   }
 
-  /// Returns the model factory registered with the specified [tag].
-  ///
-  /// Returns `null` if the specified [tag] is not registered.
-  static ModelFactory? getModelFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.modelFactory;
-    if (factory != null) {
-      return factory;
-    } else {
-      _logger.warn(
-        "Not found model factory for specified tag - $tag",
-      );
-      return null;
-    }
-  }
-
   /// Returns the build factory registered with the specified [tag].
   ///
   /// Returns `null` if the specified [tag] is not registered.
   static BuildFactory? getBuildFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.buildFactory;
+    final factory = _customComponentRegistry[tag];
     if (factory != null) {
       return factory;
     } else {
@@ -151,17 +104,19 @@ sealed class DuitRegistry {
     }
   }
 
-  /// Returns the attributes factory registered with the specified [tag].
-  ///
-  /// Returns `null` if the specified [tag] is not registered.
-  static AttributesFactory? getAttributesFactory(String tag) {
-    final factory = _customComponentRegistry[tag]?.attributesFactory;
-    if (factory != null) {
-      return factory;
+  static void registerFragment(
+    String key,
+    Map<String, dynamic> fragment,
+  ) {
+    _fragmentRegistry[key] = fragment;
+  }
+
+  static Map<String, dynamic>? getFragment(String key) {
+    final fragment = _fragmentRegistry[key];
+    if (fragment != null) {
+      return fragment;
     } else {
-      _logger.warn(
-        "Not found attributes factory for specified tag - $tag",
-      );
+      _logger.warn("Not found fragment for specified key - $key");
       return null;
     }
   }

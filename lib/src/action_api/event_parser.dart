@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// The [DefaultEventParser] is a default parser for [ServerEvent] objects.
 ///
@@ -21,9 +21,9 @@ final class DefaultEventParser implements Parser<ServerEvent> {
       "custom" => CustomEvent.fromJson(json),
       "sequenced" => SequencedEventGroup.fromJson(json),
       "grouped" => CommonEventGroup.fromJson(json),
-      "animationTrigger" => AnimationTriggerEvent.fromJson(json),
       "timer" => TimerEvent.fromJson(json),
-      String() || Object() || null => NullEvent(),
+      "command" => CommandEvent.fromJson(json),
+      _ => NullEvent(),
     };
   }
 }

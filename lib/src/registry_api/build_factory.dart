@@ -1,5 +1,5 @@
-import 'package:duit_kernel/duit_kernel.dart';
-import 'package:flutter/material.dart' show Widget;
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/material.dart" show Widget;
 
 /// The `Renderer` is a function type that returns a widget representation of a `DUITElement`.
 ///

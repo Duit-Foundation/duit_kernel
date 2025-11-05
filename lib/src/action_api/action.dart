@@ -1,4 +1,4 @@
-import 'package:duit_kernel/duit_kernel.dart';
+import "package:duit_kernel/duit_kernel.dart";
 
 /// The [ServerAction] class represents an action that was sent by the server.
 base class ServerAction {
@@ -26,10 +26,14 @@ base class ServerAction {
   /// 2 - script
   final int executionType;
 
+  /// Optional execution behavior overrides (e.g., debounce, timeouts).
+  final ExecutionOptions? executionOptions;
+
   ServerAction({
     required this.eventName,
     required this.executionType,
     this.dependsOn = const [],
+    this.executionOptions,
   });
 
   static ServerAction parse(Map<String, dynamic> json) =>
@@ -58,14 +62,17 @@ final class LocalAction extends ServerAction {
 
   LocalAction({
     required this.event,
+    super.executionOptions,
   }) : super(
           eventName: "local_exec",
           executionType: 1,
         );
 
   factory LocalAction.fromJson(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
     return LocalAction(
       event: ServerEvent.parseEvent(json["payload"]),
+      executionOptions: source.executionOptions(),
     );
   }
 }
@@ -98,17 +105,19 @@ final class TransportAction extends ServerAction implements DependentAction {
     required super.eventName,
     required super.dependsOn,
     this.meta,
+    super.executionOptions,
   }) : super(
           executionType: 0,
         );
 
   factory TransportAction.fromJson(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+    final source = DuitDataSource(json);
 
     return TransportAction(
-      eventName: view.eventName,
-      dependsOn: view.dependsOn,
-      meta: view.meta,
+      eventName: source.getString(key: "event"),
+      dependsOn: source.getActionDependencies(),
+      meta: source.meta,
+      executionOptions: source.executionOptions(),
     );
   }
 }
@@ -125,17 +134,19 @@ final class ScriptAction extends ServerAction implements DependentAction {
   ScriptAction({
     required this.script,
     required super.dependsOn,
+    super.executionOptions,
   }) : super(
           eventName: "script",
           executionType: 2,
         );
 
   factory ScriptAction.fromJson(Map<String, dynamic> json) {
-    final view = ServerActionJsonView(json);
+    final source = DuitDataSource(json);
 
     return ScriptAction(
-      script: view.script!,
-      dependsOn: view.dependsOn,
+      script: source.script,
+      dependsOn: source.getActionDependencies(),
+      executionOptions: source.executionOptions(),
     );
   }
 }

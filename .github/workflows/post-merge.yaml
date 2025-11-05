@@ -3,7 +3,7 @@ name: Post-merge
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
 jobs:
   test:
@@ -11,22 +11,43 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flutter-version: [ '3.22.3', '3.24.3', '3.27.3' ]
+        flutter-version: ["3.24.3", "3.27.4", "3.29.3", "3.32.7"]
     steps:
       - uses: actions/checkout@v3
 
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ matrix.flutter-version }}
-          channel: 'stable'
+          channel: "stable"
           cache: true
 
-      - name: Install Dependencies
-        run: flutter packages get
-
-      - name: Disable animations
-        run: flutter config --no-cli-animations
+      - name: Analyze
+        run: flutter analyze
 
       - name: Run tests
         run: |
           flutter test --no-pub --coverage --test-randomize-ordering-seed=random
+
+      - name: Run warmup test set
+        run: |
+          flutter test --no-pub --dart-define=DK_ENABLE_ATTRIBUTE_WARM_UP=true test/warmup_test.dart
+
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          path-to-lcov: coverage/lcov.info
+          flag-name: flutter-${{ matrix.flutter-version }}-UNIT
+          parallel: true
+          fail-on-error: false
+
+  finish:
+    needs: post-merge-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          parallel-finished: true
+          fail-on-error: false
