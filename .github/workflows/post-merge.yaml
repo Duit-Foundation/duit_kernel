@@ -42,7 +42,7 @@ jobs:
           fail-on-error: false
 
   finish:
-    needs: post-merge-test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Finish Coveralls
