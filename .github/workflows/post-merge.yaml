@@ -31,3 +31,23 @@ jobs:
       - name: Run warmup test set
         run: |
           flutter test --no-pub --dart-define=DK_ENABLE_ATTRIBUTE_WARM_UP=true test/warmup_test.dart
+
+      - name: Upload coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          path-to-lcov: coverage/lcov.info
+          flag-name: flutter-${{ matrix.flutter-version }}-UNIT
+          parallel: true
+          fail-on-error: false
+
+  finish:
+    needs: post-merge-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          parallel-finished: true
+          fail-on-error: false
