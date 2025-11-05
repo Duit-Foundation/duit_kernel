@@ -1,3 +1,13 @@
+## 4.0.0
+
+- Updated remote command API
+- Added DuitDataSource - extension type for work with JSON as string-typed objects
+- Flutter/Dart types to JSON encoder
+- Attribute object warm up function
+- Package API cleanup
+- Added debounce and throttle for action exec configuration
+- Improve performance
+
 ## 3.3.2
 
 - Added component registry
