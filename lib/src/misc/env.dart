@@ -5,5 +5,5 @@ const envAttributeWarmUpEnabled = bool.fromEnvironment(
 
 const envPreferInlineFn = bool.fromEnvironment(
   "duit:prefer-inline",
-  defaultValue: false,
+  defaultValue: true,
 );

@@ -30,7 +30,7 @@ jobs:
 
       - name: Run warmup test set
         run: |
-          flutter test --no-pub --dart-define=DK_ENABLE_ATTRIBUTE_WARM_UP=true test/warmup_test.dart
+          flutter test --no-pub --dart-define=duit:enable-warm-up=true test/warmup_test.dart
 
       - name: Upload coverage to Coveralls
         uses: coverallsapp/github-action@master
