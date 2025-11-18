@@ -1,5 +1,7 @@
 # duit_kernel
 
+[![Coverage Status](https://coveralls.io/repos/github/Duit-Foundation/duit_kernel/badge.svg?branch=main)](https://coveralls.io/github/Duit-Foundation/duit_kernel?branch=main) ![Pub Version](https://img.shields.io/pub/v/duit_kernel) ![Pub Points](https://img.shields.io/pub/points/duit_kernel) 
+
 Core library for the flutter_duit package. Contains basic models used in flutter_duit and which can be used to develop third-party extensions.
 
 ## Purpose
