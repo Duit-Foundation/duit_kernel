@@ -20,6 +20,7 @@ jobs:
           flutter-version: ${{ matrix.flutter-version }}
           channel: "stable"
           cache: true
+          cache-key: flutter-stable-${{ matrix.flutter-version }}-${{ runner.os }}
 
       - name: Analyze
         run: flutter analyze
@@ -46,7 +47,7 @@ jobs:
         with:
           github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
           path-to-lcov: coverage/lcov.info
-          flag-name: flutter-${{ matrix.flutter-version }}-UNIT
+          flag-name: flutter-${{ matrix.flutter-version }}-WUP-UNIT
           parallel: true
           fail-on-error: false
           
