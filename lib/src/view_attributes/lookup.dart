@@ -260,6 +260,10 @@ const _curveStringLookupTable = <String, Curve>{
   "Curves.easeInOutCubicEmphasized": Curves.easeInOutCubicEmphasized,
 };
 
+const _customCurveStringLookupTable = <String, CustomCurveParser>{
+  "slowpoke": SlowpokeCurve.fromMap,
+};
+
 /// Lookup table for [FontStyle] values by [int] type key.
 ///
 /// Maps integer identifiers to [FontStyle] enum values for font style.

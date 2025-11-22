@@ -943,8 +943,35 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         } else {
           return _json[key] = _curveIntLookupTable[value];
         }
+      case Map<String, dynamic>():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _customCurveFromMap(value);
+          } else {
+            return _json[key] = _customCurveFromMap(value);
+          }
+        } else {
+          return _json[key] = _customCurveFromMap(value);
+        }
       default:
         return defaultValue;
+    }
+  }
+
+  @preferInline
+  static Curve _customCurveFromMap(Map<String, dynamic> value) {
+    final source = DuitDataSource(value);
+    final type = source.tryGetString("type");
+
+    if (type != null) {
+      final parser = _customCurveStringLookupTable[type];
+      if (parser != null) {
+        return parser(source);
+      } else {
+        return Curves.linear;
+      }
+    } else {
+      return Curves.linear;
     }
   }
 
@@ -4754,6 +4781,10 @@ extension type DuitDataSource(Map<String, dynamic> _json)
       final list = <DuitTweenDescription>[];
 
       for (final tweenDescription in value) {
+        if (tweenDescription is DuitTweenDescription) {
+          list.add(tweenDescription);
+          continue;
+        }
         if (tweenDescription is! Map<String, dynamic>) continue;
 
         final tweenData = DuitDataSource(tweenDescription);
