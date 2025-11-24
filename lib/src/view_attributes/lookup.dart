@@ -260,6 +260,11 @@ const _curveStringLookupTable = <String, Curve>{
   "Curves.easeInOutCubicEmphasized": Curves.easeInOutCubicEmphasized,
 };
 
+
+/// Lookup table for mapping custom curve names (as [String]) to their corresponding [CustomCurveParser] factory methods.
+///
+/// Currently supports:
+/// - "slowpoke": parses [SlowpokeCurve] from map data.
 const _customCurveStringLookupTable = <String, CustomCurveParser>{
   "slowpoke": SlowpokeCurve.fromMap,
 };
