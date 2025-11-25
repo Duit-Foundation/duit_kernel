@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, cloud]
     strategy:
       fail-fast: false
       matrix:
@@ -18,12 +18,12 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Dependencies
-        run: flutter packages get
-
       - name: Disable animations
         run: flutter config --no-cli-animations
-
+  
+      - name: Load packages
+        run: flutter pub get
+  
       - name: Analyze
         run: flutter analyze
 
