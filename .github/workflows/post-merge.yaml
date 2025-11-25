@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: [ self-hosted, cloud ]
+    runs-on: [self-hosted, cloud]
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +54,7 @@ jobs:
 
   finish:
     needs: test
-    runs-on: [ self-hosted, cloud ]
+    runs-on: [self-hosted, cloud]
     steps:
       - name: Finish Coveralls
         uses: coverallsapp/github-action@master
