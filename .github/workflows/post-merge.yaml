@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -21,6 +21,12 @@ jobs:
           channel: "stable"
           cache: true
           cache-key: flutter-stable-${{ matrix.flutter-version }}-${{ runner.os }}
+
+      - name: Disable animations
+        run: flutter config --no-cli-animations
+
+      - name: Load packages
+        run: flutter pub get
 
       - name: Analyze
         run: flutter analyze
@@ -41,7 +47,7 @@ jobs:
       - name: Run warmup test set
         run: |
           flutter test --no-pub --coverage --dart-define=duit:enable-warm-up=true test/warmup_test.dart
-          
+
       - name: Upload warm-up coverage to Coveralls
         uses: coverallsapp/github-action@master
         with:
@@ -50,11 +56,10 @@ jobs:
           flag-name: flutter-${{ matrix.flutter-version }}-WUP-UNIT
           parallel: true
           fail-on-error: false
-          
 
   finish:
     needs: test
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Finish Coveralls
         uses: coverallsapp/github-action@master

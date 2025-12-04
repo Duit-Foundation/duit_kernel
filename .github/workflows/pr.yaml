@@ -18,12 +18,12 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Dependencies
-        run: flutter packages get
-
       - name: Disable animations
         run: flutter config --no-cli-animations
-
+  
+      - name: Load packages
+        run: flutter pub get
+  
       - name: Analyze
         run: flutter analyze
 
