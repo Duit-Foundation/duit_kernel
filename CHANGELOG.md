@@ -1,3 +1,7 @@
+## 4.0.1
+
+- Patch for DuitDataSource: better Tween models handling, custom Curve parsing from json
+
 ## 4.0.0
 
 - Updated remote command API

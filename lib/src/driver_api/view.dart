@@ -16,5 +16,8 @@ abstract interface class DuitView {
 
   Widget build([String tag = ""]);
 
+  @Deprecated(
+    "The method is not used and will be removed in the next major release",
+  )
   ElementTree getElementTree([String tag = ""]);
 }
