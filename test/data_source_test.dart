@@ -6670,10 +6670,5 @@ void main() {
         throwsA(isA<Error>()),
       );
     });
-
-    group(
-      "FocusNode",
-      () {},
-    );
   });
 }
