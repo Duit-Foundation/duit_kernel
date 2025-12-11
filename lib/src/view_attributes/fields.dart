@@ -33,6 +33,7 @@ sealed class FlutterPropertyKeys {
   static const direction = "direction";
   static const fontStyle = "fontStyle";
   static const textAlign = "textAlign";
+  static const focusNode = "focusNode";
   static const borderSide = "borderSide";
   static const decoration = "decoration";
   static const fontWeight = "fontWeight";
@@ -107,6 +108,7 @@ sealed class FlutterPropertyKeys {
     alignment,
     blendMode,
     boxShadow,
+    focusNode,
     direction,
     fontStyle,
     textAlign,
