@@ -5113,6 +5113,90 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves a [FocusNode] from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [FocusNode],
+  /// it is returned as is. If the value is a `Map<String, dynamic>`, it attempts to construct
+  /// a [FocusNode] using the provided map. If the value is `null`, [defaultValue] is returned.
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to [FlutterPropertyKeys.focusNode].
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to `null`.
+  /// - [target]: Optional object to override or supplement the lookup.
+  /// - [warmUp]: If `true` during attribute warm-up, skips writing back to the JSON.
+  ///
+  /// Returns:
+  /// - A [FocusNode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FocusNode] or cannot be parsed.
+  @preferInline
+  FocusNode? focusNode({
+    String key = FlutterPropertyKeys.focusNode,
+    FocusNode? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is FocusNode) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Map<String, dynamic>) {
+      if (envAttributeWarmUpEnabled) {
+        if (warmUp) {
+          return _focusNodeFromMap(value);
+        } else {
+          return _json[key] = _focusNodeFromMap(value);
+        }
+      } else {
+        return _json[key] = _focusNodeFromMap(value);
+      }
+    }
+    return defaultValue;
+  }
+
+  /// Attempts to construct a [FocusNode] from a [Map<String, dynamic>] representation.
+  ///
+  /// This utility is used internally to parse a JSON-like map of properties and
+  /// build a [FocusNode] using values extracted from the map. It reads recognized focus node
+  /// properties such as `"debugLabel"`, `"skipTraversal"`, `"canRequestFocus"`,
+  /// `"descendantsAreFocusable"`, and `"descendantsAreTraversable"`, with appropriate
+  /// defaults as in the standard [FocusNode] constructor.
+  ///
+  /// Any property missing from the input [map] will fall back to the corresponding
+  /// default value provided by [FocusNode].
+  ///
+  /// Returns a new [FocusNode] instance with the configured properties,
+  /// or (in practice) throws if required types are invalid.
+  ///
+  /// Example:
+  /// ```
+  /// final node = _focusNodeFromMap({
+  ///   "debugLabel": "Main",
+  ///   "skipTraversal": true,
+  /// });
+  /// ```
+  @preferInline
+  FocusNode _focusNodeFromMap(Map<String, dynamic> map) {
+    final source = DuitDataSource(map);
+
+    return FocusNode(
+      debugLabel: source.tryGetString("debugLabel"),
+      skipTraversal: source.getBool("skipTraversal"),
+      canRequestFocus: source.getBool(
+        "canRequestFocus",
+        defaultValue: true,
+      ),
+      descendantsAreFocusable: source.getBool(
+        "descendantsAreFocusable",
+        defaultValue: true,
+      ),
+      descendantsAreTraversable: source.getBool(
+        "descendantsAreTraversable",
+        defaultValue: true,
+      ),
+    );
+  }
+
   /// Retrieves an [ExecutionOptions] value from the JSON map for the given [key].
   ///
   /// Looks up the value associated with [key] in the JSON. If the value is already a [ExecutionOptions],
@@ -5338,6 +5422,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.stretchModes(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.modifier: (self, k, t, w) =>
         self._executionModifier(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.focusNode: (self, k, t, w) =>
+        self.focusNode(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key

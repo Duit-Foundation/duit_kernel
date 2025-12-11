@@ -318,6 +318,15 @@ final propsDataset = <String, dynamic>{
   "some": {
     "decoration": "overline",
   },
+
+  // Focus node
+  "focusNode": {
+    "debugLabel": "testFocusNode",
+    "skipTraversal": false,
+    "canRequestFocus": true,
+    "descendantsAreFocusable": true,
+    "descendantsAreTraversable": true,
+  },
 };
 
 void main() {
@@ -428,6 +437,7 @@ void main() {
         expect(j["collapseMode"], isA<CollapseMode>());
         expect(j["modifier"], isA<ExecutionModifier>());
         expect(j["some"]["decoration"], isA<TextDecoration>());
+        expect(j["focusNode"], isA<FocusNode>());
       });
     },
     skip: !envAttributeWarmUpEnabled,

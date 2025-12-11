@@ -6469,6 +6469,65 @@ void main() {
     });
   });
 
+  group("focusNode method", () {
+    test("should parse and return focusNode from map", () {
+      final json = <String, dynamic>{
+        "focusNode": {
+          "debugLabel": "node-1",
+          "skipTraversal": true,
+          "canRequestFocus": false,
+          "descendantsAreFocusable": false,
+          "descendantsAreTraversable": false,
+        },
+      };
+
+      final data = DuitDataSource(json);
+      final node = data.focusNode()!;
+
+      expect(node.debugLabel, "node-1");
+      expect(node.skipTraversal, true);
+      expect(node.canRequestFocus, false);
+      expect(node.descendantsAreFocusable, false);
+      expect(node.descendantsAreTraversable, false);
+      expect(data["focusNode"], same(node));
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+      final defaultNode = FocusNode(debugLabel: "default");
+
+      final data = DuitDataSource(json);
+
+      expect(data.focusNode(), null);
+      expect(data.focusNode(defaultValue: defaultNode), defaultNode);
+      expect(data["focusNode"], null);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final focusNode = FocusNode(debugLabel: "existing");
+      final json = <String, dynamic>{
+        "focusNode": focusNode,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.focusNode(), focusNode);
+      expect(data["focusNode"], focusNode);
+    });
+
+    test("should return default value for unsupported type", () {
+      final json = <String, dynamic>{
+        "focusNode": true,
+      };
+      final defaultNode = FocusNode(debugLabel: "fallback");
+
+      final data = DuitDataSource(json);
+
+      expect(data.focusNode(defaultValue: defaultNode), defaultNode);
+      expect(data["focusNode"], true);
+    });
+  });
+
   group("executionOptions method", () {
     test(
         "should parse and return ExecutionOptions from Map with throttle modifier",
