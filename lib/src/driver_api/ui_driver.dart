@@ -4,7 +4,8 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
-abstract interface class UIDriver implements WidgetDisplayStateNotifier {
+abstract class UIDriver extends BDUIApplicationDelegate
+    implements WidgetDisplayStateNotifier {
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -89,9 +90,6 @@ abstract interface class UIDriver implements WidgetDisplayStateNotifier {
   /// - [action]: The server action to be executed.
   /// - [dependencies]: A list of dependencies for the server action.
   Future<void> execute(ServerAction action);
-
-  /// Evaluates a script source code.
-  Future<void> evalScript(String source);
 
   /// Disposes of the driver and releases any resources.
   ///
