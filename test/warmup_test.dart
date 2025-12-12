@@ -327,6 +327,10 @@ final propsDataset = <String, dynamic>{
     "descendantsAreFocusable": true,
     "descendantsAreTraversable": true,
   },
+
+  // Focus traversal
+  "traversalDirection": "down",
+  "unfocusDisposition": "previouslyFocusedChild",
 };
 
 void main() {
@@ -438,6 +442,8 @@ void main() {
         expect(j["modifier"], isA<ExecutionModifier>());
         expect(j["some"]["decoration"], isA<TextDecoration>());
         expect(j["focusNode"], isA<FocusNode>());
+        expect(j["traversalDirection"], isA<TraversalDirection>());
+        expect(j["unfocusDisposition"], isA<UnfocusDisposition>());
       });
     },
     skip: !envAttributeWarmUpEnabled,

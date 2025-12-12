@@ -30,7 +30,36 @@ jobs:
       - name: Run tests
         run: |
           flutter test --no-pub --coverage --test-randomize-ordering-seed=random
+          
+      - name: Upload base coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          path-to-lcov: coverage/lcov.info
+          flag-name: flutter-${{ matrix.flutter-version }}-UNIT
+          parallel: true
+          fail-on-error: false
 
       - name: Run warmup test set
         run: |
-          flutter test --no-pub --dart-define=duit:enable-warm-up=true test/warmup_test.dart
+          flutter test --no-pub --coverage --dart-define=duit:enable-warm-up=true test/warmup_test.dart
+
+      - name: Upload warm-up coverage to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          path-to-lcov: coverage/lcov.info
+          flag-name: flutter-${{ matrix.flutter-version }}-WUP-UNIT
+          parallel: true
+          fail-on-error: false
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.DUIT_KERNEL_COVERALLS_REPO_TOKEN }}
+          parallel-finished: true
+          fail-on-error: false

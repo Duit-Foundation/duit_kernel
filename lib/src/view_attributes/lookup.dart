@@ -260,7 +260,6 @@ const _curveStringLookupTable = <String, Curve>{
   "Curves.easeInOutCubicEmphasized": Curves.easeInOutCubicEmphasized,
 };
 
-
 /// Lookup table for mapping custom curve names (as [String]) to their corresponding [CustomCurveParser] factory methods.
 ///
 /// Currently supports:
@@ -1465,4 +1464,51 @@ const _executionModifierStringLookupTable = <String, ExecutionModifier>{
 const _executionModifierIntLookupTable = <int, ExecutionModifier>{
   0: ExecutionModifier.throttle,
   1: ExecutionModifier.debounce,
+};
+
+/// Lookup table for [TraversalDirection] values by [String] type key.
+///
+/// Maps string identifiers to [TraversalDirection] enum values for focus traversal direction.
+/// Supported values: "up", "right", "down", "left".
+const _traversalDirectionStringLookupTable = <String, TraversalDirection>{
+  "up": TraversalDirection.up,
+  "TraversalDirection.up": TraversalDirection.up,
+  "right": TraversalDirection.right,
+  "TraversalDirection.right": TraversalDirection.right,
+  "down": TraversalDirection.down,
+  "TraversalDirection.down": TraversalDirection.down,
+  "left": TraversalDirection.left,
+  "TraversalDirection.left": TraversalDirection.left,
+};
+
+/// Lookup table for [TraversalDirection] values by [int] type key.
+///
+/// Maps integer identifiers to [TraversalDirection] enum values for focus traversal direction.
+/// Supported values: 0 (up), 1 (right), 2 (down), 3 (left).
+const _traversalDirectionIntLookupTable = <int, TraversalDirection>{
+  0: TraversalDirection.up,
+  1: TraversalDirection.right,
+  2: TraversalDirection.down,
+  3: TraversalDirection.left,
+};
+
+/// Lookup table for [UnfocusDisposition] values by [String] type key.
+///
+/// Maps string identifiers to [UnfocusDisposition] enum values for unfocus disposition.
+/// Supported values: "scope", "previouslyFocusedChild".
+const _unfocusDispositionStringLookupTable = <String, UnfocusDisposition>{
+  "scope": UnfocusDisposition.scope,
+  "UnfocusDisposition.scope": UnfocusDisposition.scope,
+  "previouslyFocusedChild": UnfocusDisposition.previouslyFocusedChild,
+  "UnfocusDisposition.previouslyFocusedChild":
+      UnfocusDisposition.previouslyFocusedChild,
+};
+
+/// Lookup table for [UnfocusDisposition] values by [int] type key.
+///
+/// Maps integer identifiers to [UnfocusDisposition] enum values for unfocus disposition.
+/// Supported values: 0 (scope), 1 (previouslyFocusedChild).
+const _unfocusDispositionIntLookupTable = <int, UnfocusDisposition>{
+  0: UnfocusDisposition.scope,
+  1: UnfocusDisposition.previouslyFocusedChild,
 };
