@@ -1,5 +1,3 @@
-import "dart:core";
-
 /// An [Exception] thrown when a required method implementation is missing
 /// from a class that uses a particular mixin.
 ///
