@@ -4,7 +4,7 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
-abstract class UIDriver extends BDUIApplicationDelegate
+abstract class UIDriver extends UIApplicationDelegate
     implements WidgetDisplayStateNotifier {
   /// The source url of the UI driver.
   abstract final String source;
@@ -114,4 +114,7 @@ abstract class UIDriver extends BDUIApplicationDelegate
     String controllerId,
     Map<String, dynamic> json,
   );
+
+  /// Eval script source code
+  Future<void> evalScript(String source);
 }

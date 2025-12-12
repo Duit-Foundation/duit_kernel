@@ -1,6 +1,7 @@
+import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/widgets.dart";
 import "package:meta/meta.dart";
 
 part "focus_delegate.dart";
 
-abstract class BDUIApplicationDelegate with FocusDelegate, ScriptRunnerDelegate {}
+abstract class UIApplicationDelegate with FocusDelegate {}

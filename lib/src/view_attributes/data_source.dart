@@ -5197,6 +5197,82 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     );
   }
 
+  TraversalDirection? traversalDirection({
+    String key = FlutterPropertyKeys.traversalDirection,
+    TraversalDirection? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is TraversalDirection) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _traversalDirectionStringLookupTable[value];
+          } else {
+            return _json[key] = _traversalDirectionStringLookupTable[value];
+          }
+        } else {
+          return _json[key] = _traversalDirectionStringLookupTable[value];
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _traversalDirectionIntLookupTable[value];
+          } else {
+            return _json[key] = _traversalDirectionIntLookupTable[value];
+          }
+        } else {
+          return _json[key] = _traversalDirectionIntLookupTable[value];
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  UnfocusDisposition unfocusDisposition({
+    String key = FlutterPropertyKeys.unfocusDisposition,
+    UnfocusDisposition defaultValue = UnfocusDisposition.scope,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is UnfocusDisposition) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _unfocusDispositionStringLookupTable[value]!;
+          } else {
+            return _json[key] = _unfocusDispositionStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _unfocusDispositionStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _unfocusDispositionIntLookupTable[value]!;
+          } else {
+            return _json[key] = _unfocusDispositionIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _unfocusDispositionIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
   /// Retrieves an [ExecutionOptions] value from the JSON map for the given [key].
   ///
   /// Looks up the value associated with [key] in the JSON. If the value is already a [ExecutionOptions],
@@ -5424,6 +5500,10 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self._executionModifier(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.focusNode: (self, k, t, w) =>
         self.focusNode(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.traversalDirection: (self, k, t, w) =>
+        self.traversalDirection(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.unfocusDisposition: (self, k, t, w) =>
+        self.unfocusDisposition(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key

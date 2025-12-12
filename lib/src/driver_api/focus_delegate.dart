@@ -2,28 +2,36 @@ part of "app_delegate.dart";
 
 mixin FocusDelegate {
   @mustBeOverridden
-  void requestFocus(String nodeId) => throw UnimplementedError();
+  void requestFocus(String nodeId) =>
+      throw const MissingMethodImplementation("requestFocus", "FocusDelegate");
+
   @mustBeOverridden
-  bool nextFocus(String nodeId) => throw UnimplementedError();
+  bool nextFocus(String nodeId) =>
+      throw const MissingMethodImplementation("nextFocus", "FocusDelegate");
+
   @mustBeOverridden
-  bool previousFocus(String nodeId) => throw UnimplementedError();
+  bool previousFocus(String nodeId) =>
+      throw const MissingMethodImplementation("previousFocus", "FocusDelegate");
+
   @mustBeOverridden
   void unfocus(
     String nodeId, {
     UnfocusDisposition disposition = UnfocusDisposition.scope,
   }) =>
-      throw UnimplementedError();
+      throw const MissingMethodImplementation("unfocus", "FocusDelegate");
+
   @mustBeOverridden
   bool focusInDirection(String nodeId, TraversalDirection direction) =>
-      throw UnimplementedError();
-  @mustBeOverridden
-  void attachNode(String nodeId, FocusNode node) => throw UnimplementedError();
-  @mustBeOverridden
-  void detachNode(String nodeId) => throw UnimplementedError();
-}
+      throw const MissingMethodImplementation(
+        "focusInDirection",
+        "FocusDelegate",
+      );
 
-mixin ScriptRunnerDelegate {
-  /// Evaluates a script source code.
   @mustBeOverridden
-  Future<void> evalScript(String source) => throw UnimplementedError();
+  void attachFocusNode(String nodeId, FocusNode node) =>
+      throw const MissingMethodImplementation("attachNode", "FocusDelegate");
+
+  @mustBeOverridden
+  void detachFocusNode(String nodeId) =>
+      throw const MissingMethodImplementation("detachNode", "FocusDelegate");
 }
