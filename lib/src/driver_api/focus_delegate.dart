@@ -34,4 +34,8 @@ mixin FocusDelegate {
   @mustBeOverridden
   void detachFocusNode(String nodeId) =>
       throw const MissingMethodImplementation("detachNode", "FocusDelegate");
+
+  @mustBeOverridden
+  FocusNode? getNode(Object? key) =>
+      throw const MissingMethodImplementation("getNode", "FocusDelegate");
 }
