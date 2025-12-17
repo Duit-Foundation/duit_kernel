@@ -56,14 +56,14 @@ void main() {
     test("attachFocusNode throws MissingMethodImplementation", () {
       expect(
         () => delegate.attachFocusNode("node", FocusNode()),
-        _throwsMissing("attachNode"),
+        _throwsMissing("attachFocusNode"),
       );
     });
 
     test("detachFocusNode throws MissingMethodImplementation", () {
       expect(
         () => delegate.detachFocusNode("node"),
-        _throwsMissing("detachNode"),
+        _throwsMissing("detachFocusNode"),
       );
     });
   });

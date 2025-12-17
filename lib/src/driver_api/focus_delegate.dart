@@ -1,5 +1,17 @@
-part of "app_delegate.dart";
+import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/widgets.dart";
+import "package:meta/meta.dart";
 
+/// A mixin that provides an interface for managing focus nodes
+/// within the Duit kernel driver API.
+///
+/// Classes that use [FocusDelegate] must implement focus management
+/// behaviors by overriding the methods. By default, methods throw
+/// [MissingMethodImplementation] if not overridden.
+///
+/// See also:
+///  * [UnfocusDisposition], for handling how focus should be removed.
+///  * [TraversalDirection], for spatial focus navigation.
 mixin FocusDelegate {
   @mustBeOverridden
   void requestFocus(String nodeId) =>
@@ -29,11 +41,17 @@ mixin FocusDelegate {
 
   @mustBeOverridden
   void attachFocusNode(String nodeId, FocusNode node) =>
-      throw const MissingMethodImplementation("attachNode", "FocusDelegate");
+      throw const MissingMethodImplementation(
+        "attachFocusNode",
+        "FocusDelegate",
+      );
 
   @mustBeOverridden
   void detachFocusNode(String nodeId) =>
-      throw const MissingMethodImplementation("detachNode", "FocusDelegate");
+      throw const MissingMethodImplementation(
+        "detachFocusNode",
+        "FocusDelegate",
+      );
 
   @mustBeOverridden
   FocusNode? getNode(Object? key) =>

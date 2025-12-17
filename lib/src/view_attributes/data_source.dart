@@ -5197,6 +5197,21 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     );
   }
 
+  /// Retrieves a [TraversalDirection] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TraversalDirection],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'traversalDirection'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to `null`.
+  /// - [target]: An optional target object to search for the property.
+  /// - [warmUp]: Whether to perform a warm-up lookup only (does not cache).
+  ///
+  /// Returns:
+  /// - A [TraversalDirection] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TraversalDirection] or cannot be parsed.
+  @preferInline
   TraversalDirection? traversalDirection({
     String key = FlutterPropertyKeys.traversalDirection,
     TraversalDirection? defaultValue,
@@ -5235,6 +5250,21 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves an [UnfocusDisposition] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already an [UnfocusDisposition],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'unfocusDisposition'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to [UnfocusDisposition.scope].
+  /// - [target]: An optional target object to search for the property.
+  /// - [warmUp]: Whether to perform a warm-up lookup only (does not cache).
+  ///
+  /// Returns:
+  /// - An [UnfocusDisposition] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [UnfocusDisposition] or cannot be parsed.
+  @preferInline
   UnfocusDisposition unfocusDisposition({
     String key = FlutterPropertyKeys.unfocusDisposition,
     UnfocusDisposition defaultValue = UnfocusDisposition.scope,
