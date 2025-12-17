@@ -67,6 +67,8 @@ sealed class FlutterPropertyKeys {
   static const dragStartBehavior = "dragStartBehavior";
   static const mainAxisAlignment = "mainAxisAlignment";
   static const verticalDirection = "verticalDirection";
+  static const traversalDirection = "traversalDirection";
+  static const unfocusDisposition = "unfocusDisposition";
   static const wrapCrossAlignment = "wrapCrossAlignment";
   static const allowedInteraction = "allowedInteraction";
   static const crossAxisAlignment = "crossAxisAlignment";
@@ -149,6 +151,8 @@ sealed class FlutterPropertyKeys {
     allowedInteraction,
     crossAxisAlignment,
     focusedErrorBorder,
+    traversalDirection,
+    unfocusDisposition,
     textHeightBehavior,
     alignmentDirectional,
     leadingDistribution,

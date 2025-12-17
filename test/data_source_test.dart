@@ -6671,4 +6671,246 @@ void main() {
       );
     });
   });
+
+  group("traversalDirection method", () {
+    test("should parse and return the traversalDirection", () {
+      final json = <String, dynamic>{
+        "traversalDirection": "up",
+        "traversalDirection2": "right",
+        "traversalDirection3": 2, // down
+        "traversalDirection4": 3, // left
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), TraversalDirection.up);
+      expect(
+        data.traversalDirection(key: "traversalDirection2"),
+        TraversalDirection.right,
+      );
+      expect(
+        data.traversalDirection(key: "traversalDirection3"),
+        TraversalDirection.down,
+      );
+      expect(
+        data.traversalDirection(key: "traversalDirection4"),
+        TraversalDirection.left,
+      );
+      expect(data["traversalDirection"], TraversalDirection.up);
+      expect(data["traversalDirection2"], TraversalDirection.right);
+      expect(data["traversalDirection3"], TraversalDirection.down);
+      expect(data["traversalDirection4"], TraversalDirection.left);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "traversalDirection": "TraversalDirection.up",
+        "traversalDirection2": "TraversalDirection.down",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), TraversalDirection.up);
+      expect(
+        data.traversalDirection(key: "traversalDirection2"),
+        TraversalDirection.down,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), null);
+      expect(
+        data.traversalDirection(defaultValue: TraversalDirection.right),
+        TraversalDirection.right,
+      );
+      expect(data["traversalDirection"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "traversalDirection": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.traversalDirection(defaultValue: TraversalDirection.down),
+        TraversalDirection.down,
+      );
+      expect(data["traversalDirection"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "traversalDirection": TraversalDirection.left,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), TraversalDirection.left);
+      expect(data["traversalDirection"], TraversalDirection.left);
+    });
+
+    test("should return null for invalid string values", () {
+      final json = <String, dynamic>{
+        "traversalDirection": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), null);
+      expect(
+        data.traversalDirection(defaultValue: TraversalDirection.up),
+        TraversalDirection.up,
+      );
+      expect(data["traversalDirection"], null);
+    });
+
+    test("should return null for invalid int values", () {
+      final json = <String, dynamic>{
+        "traversalDirection": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.traversalDirection(), null);
+      expect(
+        data.traversalDirection(defaultValue: TraversalDirection.right),
+        TraversalDirection.right,
+      );
+      expect(data["traversalDirection"], null);
+    });
+  });
+
+  group("unfocusDisposition method", () {
+    test("should parse and return the unfocusDisposition", () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": "scope",
+        "unfocusDisposition2": "previouslyFocusedChild",
+        "unfocusDisposition3": 0, // scope
+        "unfocusDisposition4": 1, // previouslyFocusedChild
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.unfocusDisposition(), UnfocusDisposition.scope);
+      expect(
+        data.unfocusDisposition(key: "unfocusDisposition2"),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(
+        data.unfocusDisposition(key: "unfocusDisposition3"),
+        UnfocusDisposition.scope,
+      );
+      expect(
+        data.unfocusDisposition(key: "unfocusDisposition4"),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(data["unfocusDisposition"], UnfocusDisposition.scope);
+      expect(
+        data["unfocusDisposition2"],
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(data["unfocusDisposition3"], UnfocusDisposition.scope);
+      expect(
+        data["unfocusDisposition4"],
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": "UnfocusDisposition.scope",
+        "unfocusDisposition2": "UnfocusDisposition.previouslyFocusedChild",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.unfocusDisposition(), UnfocusDisposition.scope);
+      expect(
+        data.unfocusDisposition(key: "unfocusDisposition2"),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.unfocusDisposition(), UnfocusDisposition.scope);
+      expect(
+        data.unfocusDisposition(
+          defaultValue: UnfocusDisposition.previouslyFocusedChild,
+        ),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(data["unfocusDisposition"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.unfocusDisposition(
+          defaultValue: UnfocusDisposition.previouslyFocusedChild,
+        ),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(data["unfocusDisposition"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": UnfocusDisposition.previouslyFocusedChild,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.unfocusDisposition(),
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+      expect(
+        data["unfocusDisposition"],
+        UnfocusDisposition.previouslyFocusedChild,
+      );
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.unfocusDisposition,
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "unfocusDisposition": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.unfocusDisposition,
+        throwsA(isA<Error>()),
+      );
+    });
+  });
 }
