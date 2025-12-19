@@ -8,15 +8,15 @@
 ///
 /// The exception message will include the method name and the mixin name
 /// for easier debugging.
-/// 
+///
 /// Example usage:
 /// ```dart
 /// throw MissingMethodImplementation('someMethod', 'SomeMixin');
 /// ```
-final class MissingMethodImplementation implements Exception {
+final class MissingCapabilityMethodImplementation implements Exception {
   final String methodName, mixinName;
 
-  const MissingMethodImplementation(this.methodName, this.mixinName);
+  const MissingCapabilityMethodImplementation(this.methodName, this.mixinName);
 
   @override
   String toString() =>

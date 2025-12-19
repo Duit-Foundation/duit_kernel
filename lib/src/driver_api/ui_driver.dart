@@ -5,7 +5,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 abstract class UIDriver
-    with FocusDelegate
+    with FocusCapabilityDelegate
     implements WidgetDisplayStateNotifier {
   /// The source url of the UI driver.
   abstract final String source;

@@ -3,7 +3,9 @@ import "package:flutter_test/flutter_test.dart";
 
 void main() {
   test("MissingMethodImplementation toString", () {
-    final str = const MissingMethodImplementation("testMethod", "testMixin").toString();
+    final str =
+        const MissingCapabilityMethodImplementation("testMethod", "testMixin")
+            .toString();
     expect(str,  "Missing [testMethod] method implementation of testMixin mixin");
   });
 }

@@ -3,10 +3,10 @@ import "package:flutter/widgets.dart";
 import "package:flutter_test/flutter_test.dart";
 
 // ignore: missing_override_of_must_be_overridden
-class _DummyFocusDelegate with FocusDelegate {}
+class _DummyFocusDelegate with FocusCapabilityDelegate {}
 
 Matcher _throwsMissing(String method) => throwsA(
-      isA<MissingMethodImplementation>()
+      isA<MissingCapabilityMethodImplementation>()
           .having((e) => e.methodName, "methodName", method)
           .having((e) => e.mixinName, "mixinName", "FocusDelegate"),
     );
