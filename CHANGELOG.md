@@ -1,3 +1,8 @@
+## 4.1.0
+
+- FocusNode and related types are supported in DuitDataSource
+- Focus node management AP
+
 ## 4.0.1
 
 - Patch for DuitDataSource: better Tween models handling, custom Curve parsing from json
