@@ -6,4 +6,4 @@ export "dependency.dart";
 export "view.dart";
 export "driver_event.dart";
 export "display_state_notifier.dart";
-export "cap/focus_capability.dart";
+export "capabilities/index.dart";

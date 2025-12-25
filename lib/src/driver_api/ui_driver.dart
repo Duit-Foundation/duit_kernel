@@ -5,7 +5,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 abstract class UIDriver
-    with FocusCapabilityDelegate
+    with FocusCapabilityDelegate, ServerActionExecutionCapabilityDelegate
     implements WidgetDisplayStateNotifier {
   /// The source url of the UI driver.
   abstract final String source;
@@ -17,7 +17,6 @@ abstract class UIDriver
   abstract Transport? transport;
 
   /// The build context associated with the UI driver.
-  @protected
   abstract BuildContext buildContext;
 
   /// The stream controller for the UI driver.
@@ -79,19 +78,6 @@ abstract class UIDriver
   /// Returns: The widget representing the UI.
   Widget? build();
 
-  /// Executes a server action and handles the response event.
-  ///
-  /// If [dependencies] is not empty, it collects the data from the controllers
-  /// associated with each dependency and adds it to the payload. The payload is
-  /// then passed to the server action.
-  ///
-  /// This method is called when a server action needs to be executed.
-  ///
-  /// Parameters:
-  /// - [action]: The server action to be executed.
-  /// - [dependencies]: A list of dependencies for the server action.
-  Future<void> execute(ServerAction action);
-
   /// Disposes of the driver and releases any resources.
   ///
   /// This method is called when the driver is no longer needed.
@@ -104,11 +90,6 @@ abstract class UIDriver
 
   // ignore: avoid_setters_without_getters
   set context(BuildContext value);
-
-  /// Prepares the payload for a server action.
-  Map<String, dynamic> preparePayload(
-    Iterable<ActionDependency> dependencies,
-  );
 
   /// Updates the attributes of a controller.
   Future<void> updateAttributes(

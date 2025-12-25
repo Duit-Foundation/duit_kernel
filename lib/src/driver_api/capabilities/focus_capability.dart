@@ -10,50 +10,69 @@ import "package:meta/meta.dart";
 /// [MissingCapabilityMethodImplementation] if not overridden.
 ///
 /// See also:
-///  * [UnfocusDisposition], for handling how focus should be removed.
-///  * [TraversalDirection], for spatial focus navigation.
+///  - [UnfocusDisposition], for handling how focus should be removed.
+///  - [TraversalDirection], for spatial focus navigation.
+///  - Focus cookbook - https://docs.flutter.dev/cookbook/forms/focus
+///  - [FocusNode] docs - https://api.flutter.dev/flutter/widgets/FocusNode-class.html
 mixin FocusCapabilityDelegate {
+  late final UIDriver driver;
+
   @mustBeOverridden
   void requestFocus(String nodeId) =>
-      throw const MissingCapabilityMethodImplementation("requestFocus", "FocusDelegate");
+      throw const MissingCapabilityMethodImplementation(
+        "requestFocus",
+        "FocusCapabilityDelegate",
+      );
 
   @mustBeOverridden
   bool nextFocus(String nodeId) =>
-      throw const MissingCapabilityMethodImplementation("nextFocus", "FocusDelegate");
+      throw const MissingCapabilityMethodImplementation(
+        "nextFocus",
+        "FocusCapabilityDelegate",
+      );
 
   @mustBeOverridden
   bool previousFocus(String nodeId) =>
-      throw const MissingCapabilityMethodImplementation("previousFocus", "FocusDelegate");
+      throw const MissingCapabilityMethodImplementation(
+        "previousFocus",
+        "FocusCapabilityDelegate",
+      );
 
   @mustBeOverridden
   void unfocus(
     String nodeId, {
     UnfocusDisposition disposition = UnfocusDisposition.scope,
   }) =>
-      throw const MissingCapabilityMethodImplementation("unfocus", "FocusDelegate");
+      throw const MissingCapabilityMethodImplementation(
+        "unfocus",
+        "FocusCapabilityDelegate",
+      );
 
   @mustBeOverridden
   bool focusInDirection(String nodeId, TraversalDirection direction) =>
       throw const MissingCapabilityMethodImplementation(
         "focusInDirection",
-        "FocusDelegate",
+        "FocusCapabilityDelegate",
       );
 
   @mustBeOverridden
   void attachFocusNode(String nodeId, FocusNode node) =>
       throw const MissingCapabilityMethodImplementation(
         "attachFocusNode",
-        "FocusDelegate",
+        "FocusCapabilityDelegate",
       );
 
   @mustBeOverridden
   void detachFocusNode(String nodeId) =>
       throw const MissingCapabilityMethodImplementation(
         "detachFocusNode",
-        "FocusDelegate",
+        "FocusCapabilityDelegate",
       );
 
   @mustBeOverridden
   FocusNode? getNode(Object? key) =>
-      throw const MissingCapabilityMethodImplementation("getNode", "FocusDelegate");
+      throw const MissingCapabilityMethodImplementation(
+        "getNode",
+        "FocusCapabilityDelegate",
+      );
 }
