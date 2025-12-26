@@ -8,7 +8,7 @@ class _DummyFocusDelegate with FocusCapabilityDelegate {}
 Matcher _throwsMissing(String method) => throwsA(
       isA<MissingCapabilityMethodImplementation>()
           .having((e) => e.methodName, "methodName", method)
-          .having((e) => e.mixinName, "mixinName", "FocusDelegate"),
+          .having((e) => e.mixinName, "mixinName", "FocusCapabilityDelegate"),
     );
 
 void main() {
