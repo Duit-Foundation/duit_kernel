@@ -1,5 +1,20 @@
+import "dart:async";
+
 import "package:duit_kernel/duit_kernel.dart";
+import "package:flutter/widgets.dart";
 import "package:meta/meta.dart";
+
+typedef UserDefinedEventHandler = FutureOr<void> Function(
+  BuildContext context,
+  String path,
+  Object? extra,
+);
+
+enum UserDefinedHandlerKind {
+  openUrl,
+  navigation,
+  custom;
+}
 
 /// A mixin that provides an interface for managing [ServerAction] execution
 /// and [ServerEvent] handling
@@ -17,7 +32,7 @@ mixin ServerActionExecutionCapabilityDelegate {
   Future<void> execute(ServerAction action) =>
       throw const MissingCapabilityMethodImplementation(
         "execute",
-        "ActionCapabilityDelegate",
+        "ServerActionExecutionCapabilityDelegate",
       );
 
   @mustBeOverridden
@@ -26,6 +41,38 @@ mixin ServerActionExecutionCapabilityDelegate {
   ) =>
       throw const MissingCapabilityMethodImplementation(
         "preparePayload",
-        "ActionCapabilityDelegate",
+        "ServerActionExecutionCapabilityDelegate",
+      );
+
+  @mustBeOverridden
+  Future<void> resolveEvent(BuildContext context, eventData) =>
+      throw const MissingCapabilityMethodImplementation(
+        "resolveEvent",
+        "ServerActionExecutionCapabilityDelegate",
+      );
+
+  @mustBeOverridden
+  void addExternalEventStream(
+    Stream<Map<String, dynamic>> stream,
+  ) =>
+      throw const MissingCapabilityMethodImplementation(
+        "addExternalEventStream",
+        "ServerActionExecutionCapabilityDelegate",
+      );
+
+  @mustBeOverridden
+  void releaseResources() => throw const MissingCapabilityMethodImplementation(
+        "releaseResources",
+        "ServerActionExecutionCapabilityDelegate",
+      );
+
+  @mustBeOverridden
+  void attachExternalHandler(
+    UserDefinedHandlerKind type,
+    UserDefinedEventHandler handle,
+  ) =>
+      throw const MissingCapabilityMethodImplementation(
+        "dispose",
+        "ServerActionExecutionCapabilityDelegate",
       );
 }

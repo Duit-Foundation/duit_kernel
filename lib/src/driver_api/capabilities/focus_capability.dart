@@ -18,7 +18,10 @@ mixin FocusCapabilityDelegate {
   late final UIDriver driver;
 
   @mustBeOverridden
-  void requestFocus(String nodeId) =>
+  void requestFocus(
+    String nodeId, {
+    String? targetNodeId,
+  }) =>
       throw const MissingCapabilityMethodImplementation(
         "requestFocus",
         "FocusCapabilityDelegate",
@@ -73,6 +76,12 @@ mixin FocusCapabilityDelegate {
   FocusNode? getNode(Object? key) =>
       throw const MissingCapabilityMethodImplementation(
         "getNode",
+        "FocusCapabilityDelegate",
+      );
+
+  @mustBeOverridden
+  void releaseResources() => throw const MissingCapabilityMethodImplementation(
+        "releaseResources",
         "FocusCapabilityDelegate",
       );
 }

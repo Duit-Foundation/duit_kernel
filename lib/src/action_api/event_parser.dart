@@ -5,7 +5,7 @@ import "package:duit_kernel/duit_kernel.dart";
 /// It uses a simple switch statement to parse the JSON map into a concrete event
 /// object based on the value of the "type" property of the JSON map.
 ///
-/// The [DefaultEventParser] is used by the [DefaultEventResolver] to parse events
+/// The [DefaultEventParser] is used by the DefaultEventResolver to parse events
 /// from the server.
 final class DefaultEventParser implements Parser<ServerEvent> {
   const DefaultEventParser();
