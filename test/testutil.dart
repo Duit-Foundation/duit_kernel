@@ -31,6 +31,7 @@ class MockController implements UIElementController {
   late ViewAttribute attributes;
 
   @override
+  // ignore: close_sinks
   late StreamController<RemoteCommand> commandChannel;
 
   @override
@@ -115,29 +116,35 @@ class MockBuildCtx extends BuildContext {
   bool get debugDoingBuild => throw UnimplementedError();
 
   @override
-  InheritedWidget dependOnInheritedElement(InheritedElement ancestor,
-      {Object? aspect}) {
+  InheritedWidget dependOnInheritedElement(
+    InheritedElement ancestor, {
+    Object? aspect,
+  }) {
     // TODO: implement dependOnInheritedElement
     throw UnimplementedError();
   }
 
   @override
-  T? dependOnInheritedWidgetOfExactType<T extends InheritedWidget>(
-      {Object? aspect}) {
+  T? dependOnInheritedWidgetOfExactType<T extends InheritedWidget>({
+    Object? aspect,
+  }) {
     // TODO: implement dependOnInheritedWidgetOfExactType
     throw UnimplementedError();
   }
 
   @override
-  DiagnosticsNode describeElement(String name,
-      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty}) {
+  DiagnosticsNode describeElement(
+    String name, {
+    DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty,
+  }) {
     // TODO: implement describeElement
     throw UnimplementedError();
   }
 
   @override
-  List<DiagnosticsNode> describeMissingAncestor(
-      {required Type expectedAncestorType}) {
+  List<DiagnosticsNode> describeMissingAncestor({
+    required Type expectedAncestorType,
+  }) {
     // TODO: implement describeMissingAncestor
     throw UnimplementedError();
   }
@@ -149,8 +156,10 @@ class MockBuildCtx extends BuildContext {
   }
 
   @override
-  DiagnosticsNode describeWidget(String name,
-      {DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty}) {
+  DiagnosticsNode describeWidget(
+    String name, {
+    DiagnosticsTreeStyle style = DiagnosticsTreeStyle.errorProperty,
+  }) {
     // TODO: implement describeWidget
     throw UnimplementedError();
   }

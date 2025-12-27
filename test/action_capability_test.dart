@@ -53,7 +53,9 @@ void main() {
       test("resolveEvent throws MissingMethodImplementation", () {
         expect(
           () => delegate.resolveEvent(
-              MockBuildCtx(), const ServerEvent(type: "")),
+            MockBuildCtx(),
+            const ServerEvent(type: ""),
+          ),
           throwsMissing(
             "resolveEvent",
             "ServerActionExecutionCapabilityDelegate",

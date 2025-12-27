@@ -25,11 +25,12 @@ void main() {
 
     test("nextFocus throws MissingMethodImplementation", () {
       expect(
-          () => delegate.nextFocus("node"),
-          throwsMissing(
-            "nextFocus",
-            "FocusCapabilityDelegate",
-          ));
+        () => delegate.nextFocus("node"),
+        throwsMissing(
+          "nextFocus",
+          "FocusCapabilityDelegate",
+        ),
+      );
     });
 
     test("previousFocus throws MissingMethodImplementation", () {
