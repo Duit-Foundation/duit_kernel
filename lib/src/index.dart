@@ -6,3 +6,4 @@ export "view_attributes/index.dart";
 export "misc/index.dart";
 export "animation_api/index.dart";
 export "action_api/index.dart";
+export "capabilities/index.dart";

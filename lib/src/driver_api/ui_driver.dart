@@ -5,7 +5,10 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
 abstract class UIDriver
-    with FocusCapabilityDelegate
+    with
+        FocusCapabilityDelegate,
+        ServerActionExecutionCapabilityDelegate,
+        UIControllerCapabilityDelegate
     implements WidgetDisplayStateNotifier {
   /// The source url of the UI driver.
   abstract final String source;
@@ -17,7 +20,6 @@ abstract class UIDriver
   abstract Transport? transport;
 
   /// The build context associated with the UI driver.
-  @protected
   abstract BuildContext buildContext;
 
   /// The stream controller for the UI driver.
@@ -30,14 +32,17 @@ abstract class UIDriver
   /// The script runner used by the UI driver.
   ///
   /// The script runner is used to execute scripts defined in the layout.
+  @Deprecated("Will be removed in the next major release.")
   abstract EventResolver eventResolver;
 
   /// The executor of actions used by the UI driver.
   ///
   /// The action executor is used to execute actions defined in the layout.
+  @Deprecated("Will be removed in the next major release.")
   abstract ActionExecutor actionExecutor;
 
   /// The action executor used by the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract ExternalEventHandler? externalEventHandler;
 
   abstract MethodChannel? driverChannel;
@@ -45,20 +50,7 @@ abstract class UIDriver
   abstract bool isModule;
 
   abstract DebugLogger? logger;
-
-  /// Attaches a controller to the UI driver.
-  ///
-  /// Parameters:
-  /// - [id]: The ID of the controller.
-  /// - [controller]: The UI element controller to attach.
-  void attachController(String id, UIElementController controller);
-
-  /// Detaches a controller from the UI driver.
-  void detachController(String id);
-
-  /// Gets the controller associated with the given ID.
-  UIElementController? getController(String id);
-
+  
   /// Initializes the UI driver.
   ///
   /// This method initializes the UI driver by performing any necessary setup or
@@ -79,19 +71,6 @@ abstract class UIDriver
   /// Returns: The widget representing the UI.
   Widget? build();
 
-  /// Executes a server action and handles the response event.
-  ///
-  /// If [dependencies] is not empty, it collects the data from the controllers
-  /// associated with each dependency and adds it to the payload. The payload is
-  /// then passed to the server action.
-  ///
-  /// This method is called when a server action needs to be executed.
-  ///
-  /// Parameters:
-  /// - [action]: The server action to be executed.
-  /// - [dependencies]: A list of dependencies for the server action.
-  Future<void> execute(ServerAction action);
-
   /// Disposes of the driver and releases any resources.
   ///
   /// This method is called when the driver is no longer needed.
@@ -101,20 +80,8 @@ abstract class UIDriver
   Stream<UIDriverEvent> get eventStream;
 
   /// Set the BuildContext.
-
   // ignore: avoid_setters_without_getters
   set context(BuildContext value);
-
-  /// Prepares the payload for a server action.
-  Map<String, dynamic> preparePayload(
-    Iterable<ActionDependency> dependencies,
-  );
-
-  /// Updates the attributes of a controller.
-  Future<void> updateAttributes(
-    String controllerId,
-    Map<String, dynamic> json,
-  );
 
   /// Eval script source code
   Future<void> evalScript(String source);
