@@ -27,7 +27,7 @@ mixin ViewModelCapabilityDelegate {
   Stream<UIDriverEvent> get eventStream =>
       throw const MissingCapabilityMethodImplementation(
         "eventStream",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// The build context associated with the UI driver.
@@ -35,7 +35,7 @@ mixin ViewModelCapabilityDelegate {
   BuildContext get buildContext =>
       throw const MissingCapabilityMethodImplementation(
         "buildContext",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Sets the current [BuildContext] for the delegate.
@@ -53,7 +53,7 @@ mixin ViewModelCapabilityDelegate {
   set context(BuildContext value) =>
       throw const MissingCapabilityMethodImplementation(
         "context",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Adds a [UIDriverEvent] to the event stream or processes it within the
@@ -71,7 +71,7 @@ mixin ViewModelCapabilityDelegate {
   void addUIDriverEvent(UIDriverEvent event) =>
       throw const MissingCapabilityMethodImplementation(
         "addUIDriverEvent",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Reports an error that occurred within the UI driver context to the delegate.
@@ -87,7 +87,7 @@ mixin ViewModelCapabilityDelegate {
   void addUIDriverError(Object error, [StackTrace? stackTrace]) =>
       throw const MissingCapabilityMethodImplementation(
         "addUIDriverError",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Notify the driver that the display state of a widget has changed.
@@ -108,7 +108,7 @@ mixin ViewModelCapabilityDelegate {
   void notifyWidgetDisplayStateChanged(String viewTag, int state) =>
       throw const MissingCapabilityMethodImplementation(
         "notifyWidgetDisplayStateChanged",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Check if a widget is ready to be displayed.
@@ -126,7 +126,7 @@ mixin ViewModelCapabilityDelegate {
   bool isWidgetReady(String viewTag) =>
       throw const MissingCapabilityMethodImplementation(
         "isWidgetReady",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Prepares and validates a layout configuration from a JSON-like map, returning a [DuitView] instance.
@@ -146,7 +146,7 @@ mixin ViewModelCapabilityDelegate {
   Future<DuitView?> prepareLayout(Map<String, dynamic> json) =>
       throw const MissingCapabilityMethodImplementation(
         "prepareLayout",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 
   /// Called to clean up any external resources, subscriptions, or handlers
@@ -159,6 +159,6 @@ mixin ViewModelCapabilityDelegate {
   @mustBeOverridden
   void releaseResources() => throw const MissingCapabilityMethodImplementation(
         "releaseResources",
-        "ViewCapabilityDelegare",
+        "ViewModelCapabilityDelegate",
       );
 }

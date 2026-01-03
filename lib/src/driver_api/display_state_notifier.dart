@@ -12,7 +12,6 @@
 ///   driver.
 ///
 /// * [UIDriver], which is the base class for all UI drivers.
-@Deprecated("")
 abstract interface class WidgetDisplayStateNotifier {
   /// Notify the driver that the display state of a widget has changed.
   ///

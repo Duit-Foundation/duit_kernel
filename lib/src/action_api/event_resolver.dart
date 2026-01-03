@@ -3,7 +3,6 @@ import "dart:async";
 import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart" show BuildContext;
 
-@Deprecated("Will be removed in the next major release.")
 abstract class EventResolver {
   final UIDriver driver;
   final DebugLogger? logger;
@@ -16,7 +15,6 @@ abstract class EventResolver {
   Future<void> resolveEvent(BuildContext context, eventData);
 }
 
-@Deprecated("Will be removed in the next major release.")
 final class DefaultEventResolver extends EventResolver {
   DefaultEventResolver({
     required super.driver,
