@@ -34,10 +34,7 @@ mixin FocusCapabilityDelegate {
   /// See also:
   ///  - [FocusNode.requestFocus], for the underlying Flutter mechanism.
   @mustBeOverridden
-  void requestFocus(
-    String nodeId, {
-    String? targetNodeId,
-  }) =>
+  void requestFocus(String nodeId) =>
       throw const MissingCapabilityMethodImplementation(
         "requestFocus",
         "FocusCapabilityDelegate",
