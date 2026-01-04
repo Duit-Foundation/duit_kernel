@@ -1,4 +1,5 @@
 import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/capabilities/driver_ref.dart";
 import "package:flutter/widgets.dart";
 import "package:meta/meta.dart";
 
@@ -10,9 +11,15 @@ import "package:meta/meta.dart";
 /// Implementing this mixin allows a class to interact with [UIDriver]s,
 /// respond to UI events, and manage view lifecycle updates in a
 /// decoupled, extensible manner.
-mixin ViewModelCapabilityDelegate {
-  late final UIDriver driver;
+mixin ViewModelCapabilityDelegate implements DriverRefHolder {
+  late final UIDriver _driver;
 
+  @override
+  @protected
+  UIDriver get driver => _driver;
+
+  @override
+  void linkDriver(UIDriver driver) => _driver = driver;
   /// A stream of [UIDriverEvent]s that this delegate manages or receives.
   ///
   /// Implementors must provide access to a broadcast stream (or similar)
