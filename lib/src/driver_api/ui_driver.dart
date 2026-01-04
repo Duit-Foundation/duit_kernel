@@ -25,17 +25,14 @@ abstract class UIDriver
   /// The script runner used by the UI driver.
   ///
   /// The script runner is used to execute scripts defined in the layout.
-  @Deprecated("Will be removed in the next major release")
   abstract EventResolver eventResolver;
 
   /// The executor of actions used by the UI driver.
   ///
   /// The action executor is used to execute actions defined in the layout.
-  @Deprecated("Will be removed in the next major release")
   abstract ActionExecutor actionExecutor;
 
   /// The action executor used by the UI driver.
-  @Deprecated("Will be removed in the next major release")
   abstract ExternalEventHandler? externalEventHandler;
 
   abstract MethodChannel? driverChannel;
@@ -62,7 +59,6 @@ abstract class UIDriver
   /// the UI to be rendered on the screen.
   ///
   /// Returns: The widget representing the UI.
-  @Deprecated("Will be removed in the next major release")
   Widget? build();
 
   /// Disposes of the driver and releases any resources.
