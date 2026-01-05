@@ -8,8 +8,8 @@ abstract class UIDriver
     with
         FocusCapabilityDelegate,
         ServerActionExecutionCapabilityDelegate,
-        UIControllerCapabilityDelegate
-    implements WidgetDisplayStateNotifier {
+        UIControllerCapabilityDelegate,
+        ViewModelCapabilityDelegate {
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -19,30 +19,20 @@ abstract class UIDriver
   /// The transport used by the UI driver.
   abstract Transport? transport;
 
-  /// The build context associated with the UI driver.
-  abstract BuildContext buildContext;
-
-  /// The stream controller for the UI driver.
-  // @protected
-  // abstract StreamController<UIDriverEvent> eventStreamController;
-
   /// The script runner used by the UI driver.
   abstract ScriptRunner? scriptRunner;
 
   /// The script runner used by the UI driver.
   ///
   /// The script runner is used to execute scripts defined in the layout.
-  @Deprecated("Will be removed in the next major release.")
   abstract EventResolver eventResolver;
 
   /// The executor of actions used by the UI driver.
   ///
   /// The action executor is used to execute actions defined in the layout.
-  @Deprecated("Will be removed in the next major release.")
   abstract ActionExecutor actionExecutor;
 
   /// The action executor used by the UI driver.
-  @Deprecated("Will be removed in the next major release.")
   abstract ExternalEventHandler? externalEventHandler;
 
   abstract MethodChannel? driverChannel;
@@ -50,7 +40,7 @@ abstract class UIDriver
   abstract bool isModule;
 
   abstract DebugLogger? logger;
-  
+
   /// Initializes the UI driver.
   ///
   /// This method initializes the UI driver by performing any necessary setup or
@@ -75,13 +65,6 @@ abstract class UIDriver
   ///
   /// This method is called when the driver is no longer needed.
   void dispose();
-
-  /// Returns the stream of UI abstract trees.
-  Stream<UIDriverEvent> get eventStream;
-
-  /// Set the BuildContext.
-  // ignore: avoid_setters_without_getters
-  set context(BuildContext value);
 
   /// Eval script source code
   Future<void> evalScript(String source);

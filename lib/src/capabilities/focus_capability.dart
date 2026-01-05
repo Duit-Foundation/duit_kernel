@@ -1,4 +1,5 @@
 import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/capabilities/driver_ref.dart";
 import "package:flutter/widgets.dart";
 import "package:meta/meta.dart";
 
@@ -14,8 +15,14 @@ import "package:meta/meta.dart";
 ///  - [TraversalDirection], for spatial focus navigation.
 ///  - Focus cookbook - https://docs.flutter.dev/cookbook/forms/focus
 ///  - [FocusNode] docs - https://api.flutter.dev/flutter/widgets/FocusNode-class.html
-mixin FocusCapabilityDelegate {
-  late final UIDriver driver;
+mixin FocusCapabilityDelegate implements DriverRefHolder {
+  @override
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
   /// Requests that the focus be moved to the [FocusNode] associated with the given [nodeId].
   ///
@@ -34,10 +41,7 @@ mixin FocusCapabilityDelegate {
   /// See also:
   ///  - [FocusNode.requestFocus], for the underlying Flutter mechanism.
   @mustBeOverridden
-  void requestFocus(
-    String nodeId, {
-    String? targetNodeId,
-  }) =>
+  void requestFocus(String nodeId) =>
       throw const MissingCapabilityMethodImplementation(
         "requestFocus",
         "FocusCapabilityDelegate",

@@ -1,6 +1,7 @@
 import "dart:async";
 
 import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/capabilities/driver_ref.dart";
 import "package:flutter/widgets.dart";
 import "package:meta/meta.dart";
 
@@ -44,8 +45,14 @@ enum UserDefinedHandlerKind {
 ///
 /// See also:
 /// - https://duit.pro/en/docs/core_concepts/actions_events
-mixin ServerActionExecutionCapabilityDelegate {
-  late final UIDriver driver;
+mixin ServerActionExecutionCapabilityDelegate implements DriverRefHolder {
+  @override
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
   /// Executes the given [ServerAction].
   ///
