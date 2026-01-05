@@ -16,14 +16,13 @@ import "package:meta/meta.dart";
 ///  - Focus cookbook - https://docs.flutter.dev/cookbook/forms/focus
 ///  - [FocusNode] docs - https://api.flutter.dev/flutter/widgets/FocusNode-class.html
 mixin FocusCapabilityDelegate implements DriverRefHolder {
-  late final UIDriver _driver;
-
   @override
-  @protected
-  UIDriver get driver => _driver;
-
-  @override
-  void linkDriver(UIDriver driver) => _driver = driver;
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
   /// Requests that the focus be moved to the [FocusNode] associated with the given [nodeId].
   ///

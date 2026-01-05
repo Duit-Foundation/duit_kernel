@@ -18,14 +18,13 @@ import "package:meta/meta.dart";
 ///   - Applying state and attribute updates received from the server or driver logic
 ///   - Exposing helpers to query or enumerate attached controllers
 mixin UIControllerCapabilityDelegate implements DriverRefHolder {
-  late final UIDriver _driver;
-
   @override
-  @protected
-  UIDriver get driver => _driver;
-
-  @override
-  void linkDriver(UIDriver driver) => _driver = driver;
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
   /// Attaches a UI element controller to the driver.
   ///

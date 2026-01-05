@@ -7,12 +7,8 @@ import "package:duit_kernel/duit_kernel.dart";
 /// driver functionality and coordinate with other capabilities.
 ///
 /// Classes implementing this interface must:
-/// - Provide a getter for the [driver] property
 /// - Implement the [linkDriver] method to establish the driver reference
 abstract interface class DriverRefHolder {
-  /// The [UIDriver] instance associated with this holder.
-  UIDriver get driver;
-
   /// Links a [UIDriver] instance to this holder.
   ///
   /// This method should be called to establish the connection between

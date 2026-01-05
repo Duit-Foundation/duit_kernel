@@ -46,14 +46,13 @@ enum UserDefinedHandlerKind {
 /// See also:
 /// - https://duit.pro/en/docs/core_concepts/actions_events
 mixin ServerActionExecutionCapabilityDelegate implements DriverRefHolder {
-  late final UIDriver _driver;
-
   @override
-  @protected
-  UIDriver get driver => _driver;
-
-  @override
-  void linkDriver(UIDriver driver) => _driver = driver;
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
   /// Executes the given [ServerAction].
   ///

@@ -12,14 +12,14 @@ import "package:meta/meta.dart";
 /// respond to UI events, and manage view lifecycle updates in a
 /// decoupled, extensible manner.
 mixin ViewModelCapabilityDelegate implements DriverRefHolder {
-  late final UIDriver _driver;
-
   @override
-  @protected
-  UIDriver get driver => _driver;
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "eventStream",
+        "ViewModelCapabilityDelegate",
+      );
 
-  @override
-  void linkDriver(UIDriver driver) => _driver = driver;
   /// A stream of [UIDriverEvent]s that this delegate manages or receives.
   ///
   /// Implementors must provide access to a broadcast stream (or similar)
@@ -106,11 +106,6 @@ mixin ViewModelCapabilityDelegate implements DriverRefHolder {
   ///
   /// * 0: the widget is not visible
   /// * 1: the widget is visible and displayed
-  ///
-  /// See also:
-  ///
-  /// * [DuitDriver], which is the main interface for interacting with the UI
-  ///   driver.
   @mustBeOverridden
   void notifyWidgetDisplayStateChanged(String viewTag, int state) =>
       throw const MissingCapabilityMethodImplementation(
@@ -124,11 +119,6 @@ mixin ViewModelCapabilityDelegate implements DriverRefHolder {
   ///
   /// The returned value is true if the widget is ready to be displayed, and false
   /// otherwise.
-  ///
-  /// See also:
-  ///
-  /// * [DuitDriver], which is the main interface for interacting with the UI
-  ///   driver.
   @mustBeOverridden
   bool isWidgetReady(String viewTag) =>
       throw const MissingCapabilityMethodImplementation(
@@ -146,9 +136,6 @@ mixin ViewModelCapabilityDelegate implements DriverRefHolder {
   /// Returning `null` may indicate an invalid or unrecognized layout.
   ///
   /// Throws [MissingCapabilityMethodImplementation] if not overridden.
-  ///
-  /// See also:
-  ///  - [DuitView], which represents the parsed layout view.
   @mustBeOverridden
   Future<DuitView?> prepareLayout(Map<String, dynamic> json) =>
       throw const MissingCapabilityMethodImplementation(
