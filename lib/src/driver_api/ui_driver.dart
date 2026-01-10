@@ -12,7 +12,8 @@ abstract class UIDriver
         ViewModelCapabilityDelegate,
         TransportCapabilityDelegate,
         ScriptingCapabilityDelegate,
-        LoggingCapabilityDelegate {
+        LoggingCapabilityDelegate,
+        NativeModuleCapabilityDelegate {
   /// The source url of the UI driver.
   abstract final String source;
 

@@ -5,3 +5,4 @@ export "viewmodel_capability.dart";
 export "transport_capability.dart";
 export "scripting_capability.dart";
 export "logging/index.dart";
+export "native_module_capability.dart";
