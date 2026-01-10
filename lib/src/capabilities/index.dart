@@ -4,3 +4,4 @@ export "ui_controller_capability.dart";
 export "viewmodel_capability.dart";
 export "transport_capability.dart";
 export "scripting_capability.dart";
+export "logging/index.dart";

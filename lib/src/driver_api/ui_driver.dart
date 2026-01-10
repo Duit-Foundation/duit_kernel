@@ -11,7 +11,8 @@ abstract class UIDriver
         UIControllerCapabilityDelegate,
         ViewModelCapabilityDelegate,
         TransportCapabilityDelegate,
-        ScriptingCapabilityDelegate {
+        ScriptingCapabilityDelegate,
+        LoggingCapabilityDelegate {
   /// The source url of the UI driver.
   abstract final String source;
 
