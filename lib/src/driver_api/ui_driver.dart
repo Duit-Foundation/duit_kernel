@@ -9,7 +9,9 @@ abstract class UIDriver
         FocusCapabilityDelegate,
         ServerActionExecutionCapabilityDelegate,
         UIControllerCapabilityDelegate,
-        ViewModelCapabilityDelegate {
+        ViewModelCapabilityDelegate,
+        TransportCapabilityDelegate,
+        ScriptingCapabilityDelegate {
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -65,7 +67,4 @@ abstract class UIDriver
   ///
   /// This method is called when the driver is no longer needed.
   void dispose();
-
-  /// Eval script source code
-  Future<void> evalScript(String source);
 }

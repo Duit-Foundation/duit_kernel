@@ -1,0 +1,77 @@
+import "dart:async";
+
+import "package:duit_kernel/duit_kernel.dart";
+import "package:duit_kernel/src/capabilities/driver_ref.dart";
+import "package:meta/meta.dart";
+
+mixin TransportCapabilityDelegate implements DriverRefHolder {
+  @override
+  @mustBeOverridden
+  void linkDriver(UIDriver driver) =>
+      throw const MissingCapabilityMethodImplementation(
+        "linkDriver",
+        "TransportCapabilityDelegate",
+      );
+
+  /// Executes a server action with the given payload and returns a server event.
+  ///
+  /// The [action] parameter represents the server action to execute.
+  /// The [payload] parameter contains any additional data required for the action.
+  /// Returns a [ServerEvent] object representing the server's response.
+  @mustBeOverridden
+  Future<Map<String, dynamic>?> executeRemoteAction(
+    ServerAction action,
+    Map<String, dynamic> payload,
+  ) =>
+      throw const MissingCapabilityMethodImplementation(
+        "executeRemoteAction",
+        "TransportCapabilityDelegate",
+      );
+
+  /// Sends a request to the server.
+  ///
+  /// The [url] parameter represents the URL to send the request to.
+  /// The [meta] parameter contains any additional metadata for the request.
+  /// The [body] parameter contains the body of the request.
+  /// Returns a [ServerEvent] object representing the server's response.
+  @mustBeOverridden
+  Future<Map<String, dynamic>?> request(
+    String url,
+    Map<String, dynamic> meta,
+    Map<String, dynamic> body,
+  ) =>
+      throw const MissingCapabilityMethodImplementation(
+        "request",
+        "TransportCapabilityDelegate",
+      );
+
+  /// Establishes a connection to the server.
+  ///
+  /// Returns a [Stream] that completes when the connection is established or keep it alive in streaming mode.
+  ///
+  /// The [initialRequestData] parameter contains any initial data to send when establishing the connection.
+  /// The [staticContent] parameter contains the static content to send when establishing the connection.
+  /// Returns a [ServerEvent] object representing the server's response.
+  @mustBeOverridden
+  Stream<Map<String, dynamic>> connect({
+    Map<String, dynamic>? initialRequestData,
+    Map<String, dynamic>? staticContent,
+  }) =>
+      throw const MissingCapabilityMethodImplementation(
+        "connect",
+        "TransportCapabilityDelegate",
+      );
+
+  /// Called to clean up any external resources, subscriptions, or handlers
+  /// typically when a delegate is being disposed of or detached. Implementations
+  /// should ensure all open streams or event sources are closed.
+  ///
+  /// This method must be overridden by implementers.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] by default.
+  @mustBeOverridden
+  void releaseResources() => throw const MissingCapabilityMethodImplementation(
+        "releaseResources",
+        "TransportCapabilityDelegate",
+      );
+}
