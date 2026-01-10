@@ -5,6 +5,7 @@ import "package:flutter/material.dart" show BuildContext;
 
 abstract class EventResolver {
   final UIDriver driver;
+  @Deprecated("Use [LoggingCapabilityDelegate] instead")
   final DebugLogger? logger;
 
   EventResolver({
@@ -32,8 +33,6 @@ final class DefaultEventResolver extends EventResolver {
     }
 
     try {
-      final driver = this.driver;
-
       switch (event) {
         case UpdateEvent():
           event.updates.forEach((key, value) async {
@@ -46,7 +45,7 @@ final class DefaultEventResolver extends EventResolver {
             "ExternalEventHandler instance is not set",
           );
           if (driver.externalEventHandler != null) {
-            logger?.error("ExternalEventHandler instance is not set");
+            driver.error("ExternalEventHandler instance is not set");
             throw StateError("ExternalEventHandler instance is not set");
           }
           await driver.externalEventHandler?.handleNavigation(
@@ -57,7 +56,7 @@ final class DefaultEventResolver extends EventResolver {
           break;
         case OpenUrlEvent():
           if (driver.externalEventHandler != null) {
-            logger?.error("ExternalEventHandler instance is not set");
+            driver.error("ExternalEventHandler instance is not set");
             throw StateError("ExternalEventHandler instance is not set");
           }
           await driver.externalEventHandler?.handleOpenUrl(event.url);
@@ -106,10 +105,10 @@ final class DefaultEventResolver extends EventResolver {
           break;
       }
     } catch (e, s) {
-      logger?.error(
+      driver.error(
         "Error while resolving ${event.type} event",
-        error: e,
-        stackTrace: s,
+        e,
+        s,
       );
     }
   }

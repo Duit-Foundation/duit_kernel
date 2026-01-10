@@ -2,7 +2,7 @@ import "package:duit_kernel/duit_kernel.dart";
 
 /// The [ActionExecutor] is an abstract class responsible for executing actions.
 ///
-/// It relies on a [UIDriver] to perform actions and an [DebugLogger] to log messages.
+/// It relies on a [UIDriver] to perform actions and an DebugLogger to log messages.
 /// This class serves as a base for concrete implementations that define how actions
 /// should be executed.
 ///
@@ -10,6 +10,7 @@ import "package:duit_kernel/duit_kernel.dart";
 /// of [ServerAction]s.
 abstract class ActionExecutor {
   final UIDriver driver;
+  @Deprecated("Use [LoggingCapabilityDelegate] instead")
   final DebugLogger? logger;
 
   ActionExecutor({
@@ -58,10 +59,10 @@ final class DefaultActionExecutor extends ActionExecutor {
 
           return null;
         } catch (e, s) {
-          logger?.error(
+          driver.error(
             "[Error while executing transport action]",
-            error: e,
-            stackTrace: s,
+            e,
+            s,
           );
         }
 
@@ -71,10 +72,10 @@ final class DefaultActionExecutor extends ActionExecutor {
         try {
           return action.event;
         } catch (e, s) {
-          logger?.error(
+          driver.error(
             "[Error while executing local action]",
-            error: e,
-            stackTrace: s,
+            e,
+            s,
           );
         }
         break;
@@ -97,10 +98,10 @@ final class DefaultActionExecutor extends ActionExecutor {
 
           return null;
         } catch (e, s) {
-          logger?.error(
+          driver.error(
             "[Error while executing script action]",
-            error: e,
-            stackTrace: s,
+            e,
+            s,
           );
         }
         break;

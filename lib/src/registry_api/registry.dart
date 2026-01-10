@@ -8,18 +8,17 @@ import "package:duit_kernel/src/registry_api/components/index.dart";
 sealed class DuitRegistry {
   static final Map<String, BuildFactory> _customComponentRegistry = {};
   static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
-  static DebugLogger _logger = DefaultLogger.instance;
   static LoggingCapabilityDelegate _logManager = const LoggingManager();
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
 
   static FutureOr<void> initialize({
+    @Deprecated("Use [LoggingCapabilityDelegate] and [logManager] instead")
     DebugLogger? logger,
     DuitTheme? theme,
     ComponentRegistry? componentRegistry,
     LoggingCapabilityDelegate? logManager,
   }) async {
-    _logger = logger ?? _logger;
     _componentRegistry = componentRegistry ?? _componentRegistry;
     _theme = theme ?? _theme;
     _logManager = logManager ?? _logManager;

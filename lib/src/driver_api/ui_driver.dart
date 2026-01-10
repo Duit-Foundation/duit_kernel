@@ -42,6 +42,7 @@ abstract class UIDriver
 
   abstract bool isModule;
 
+  @Deprecated("Use [LoggingCapabilityDelegate] instead")
   abstract DebugLogger? logger;
 
   /// Initializes the UI driver.
