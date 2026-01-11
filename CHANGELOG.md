@@ -1,3 +1,7 @@
+## 4.2.0-rc.1
+
+- New capability-base UIDriver API
+
 ## 4.1.0
 
 - FocusNode and related types are supported in DuitDataSource
