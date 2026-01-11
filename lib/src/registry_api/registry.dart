@@ -8,18 +8,20 @@ import "package:duit_kernel/src/registry_api/components/index.dart";
 sealed class DuitRegistry {
   static final Map<String, BuildFactory> _customComponentRegistry = {};
   static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
-  static DebugLogger _logger = DefaultLogger.instance;
+  static LoggingCapabilityDelegate _logManager = const LoggingManager();
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
 
   static FutureOr<void> initialize({
+    @Deprecated("Use [LoggingCapabilityDelegate] and [logManager] instead")
     DebugLogger? logger,
     DuitTheme? theme,
     ComponentRegistry? componentRegistry,
+    LoggingCapabilityDelegate? logManager,
   }) async {
-    _logger = logger ?? _logger;
     _componentRegistry = componentRegistry ?? _componentRegistry;
     _theme = theme ?? _theme;
+    _logManager = logManager ?? _logManager;
     await _componentRegistry.init();
   }
 
@@ -33,14 +35,14 @@ sealed class DuitRegistry {
       for (var block in components) {
         await _componentRegistry.prepareComponent(block);
       }
-      _logger.info(
+      _logManager.logInfo(
         "All of ${components.length} components registered successfull",
       );
     } catch (e, s) {
-      _logger.error(
+      _logManager.logError(
         "Components registration failed",
-        error: e,
-        stackTrace: s,
+        e,
+        s,
       );
       rethrow;
     }
@@ -51,14 +53,14 @@ sealed class DuitRegistry {
   ) async {
     try {
       await _componentRegistry.prepareComponent(component);
-      _logger.info(
+      _logManager.logInfo(
         "Components registered successfully",
       );
     } catch (e, s) {
-      _logger.error(
+      _logManager.logError(
         "Components registration failed",
-        error: e,
-        stackTrace: s,
+        e,
+        s,
       );
       rethrow;
     }
@@ -70,7 +72,7 @@ sealed class DuitRegistry {
     if (desctiption != null) {
       return desctiption;
     } else {
-      _logger.warn(
+      _logManager.logWarning(
         "Not found desctiption for specified tag - $tag",
       );
       return null;
@@ -84,7 +86,7 @@ sealed class DuitRegistry {
   }) {
     _customComponentRegistry[key] = buildFactory;
 
-    _logger.info(
+    _logManager.logInfo(
       "Custom widget $key registered successfull",
     );
   }
@@ -97,7 +99,7 @@ sealed class DuitRegistry {
     if (factory != null) {
       return factory;
     } else {
-      _logger.warn(
+      _logManager.logWarning(
         "Not found build factory for specified tag - $tag",
       );
       return null;
@@ -116,7 +118,7 @@ sealed class DuitRegistry {
     if (fragment != null) {
       return fragment;
     } else {
-      _logger.warn("Not found fragment for specified key - $key");
+      _logManager.logWarning("Not found fragment for specified key - $key");
       return null;
     }
   }

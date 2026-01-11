@@ -6,6 +6,7 @@ import "package:flutter/foundation.dart" show kDebugMode;
 /// The [DefaultLogger] class provides a default logger implementation for the DUIT library.
 ///
 /// It logs messages to the console if the app is running in debug mode.
+@Deprecated("Use [LoggingCapabilityDelegate] instead")
 final class DefaultLogger implements DebugLogger {
   String? _tag;
 

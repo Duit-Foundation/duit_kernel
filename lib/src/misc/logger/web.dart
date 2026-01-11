@@ -6,6 +6,7 @@ import "package:web/web.dart";
 /// The [DefaultLogger] class provides a default WASM compatible logger implementation for the DUIT library.
 ///
 /// It logs messages to the console if the app is running in debug mode.
+@Deprecated("Use [LoggingCapabilityDelegate] instead")
 final class DefaultLogger implements DebugLogger {
   /// The [DefaultLogger] singleton instance.
   static final instance = DefaultLogger._internal();
@@ -19,8 +20,7 @@ final class DefaultLogger implements DebugLogger {
     error,
     StackTrace? stackTrace,
   }) {
-    final m =
-        "${DebugLogger.logTag}$message\n Error text: ${error.toString()} \n StackTrace: ${stackTrace.toString()}";
+    final m = "${DebugLogger.logTag}$message\n Error text: ${error.toString()} \n StackTrace: ${stackTrace.toString()}";
     console.error(m.toJS);
   }
 

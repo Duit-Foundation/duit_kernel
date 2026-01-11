@@ -9,7 +9,11 @@ abstract class UIDriver
         FocusCapabilityDelegate,
         ServerActionExecutionCapabilityDelegate,
         UIControllerCapabilityDelegate,
-        ViewModelCapabilityDelegate {
+        ViewModelCapabilityDelegate,
+        TransportCapabilityDelegate,
+        ScriptingCapabilityDelegate,
+        LoggingCapabilityDelegate,
+        NativeModuleCapabilityDelegate {
   /// The source url of the UI driver.
   abstract final String source;
 
@@ -39,6 +43,7 @@ abstract class UIDriver
 
   abstract bool isModule;
 
+  @Deprecated("Use [LoggingCapabilityDelegate] instead")
   abstract DebugLogger? logger;
 
   /// Initializes the UI driver.
@@ -65,7 +70,4 @@ abstract class UIDriver
   ///
   /// This method is called when the driver is no longer needed.
   void dispose();
-
-  /// Eval script source code
-  Future<void> evalScript(String source);
 }
