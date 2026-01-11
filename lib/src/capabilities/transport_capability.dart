@@ -4,6 +4,10 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:duit_kernel/src/capabilities/driver_ref.dart";
 import "package:meta/meta.dart";
 
+/// A mixin that provides capabilities for managing and interacting with
+/// transport in the Duit UI system. Classes that mix in this delegate should
+/// provide concrete implementations for handling server actions, requests,
+/// and connections to the server.
 mixin TransportCapabilityDelegate implements DriverRefHolder {
   @override
   @mustBeOverridden
@@ -17,7 +21,10 @@ mixin TransportCapabilityDelegate implements DriverRefHolder {
   ///
   /// The [action] parameter represents the server action to execute.
   /// The [payload] parameter contains any additional data required for the action.
-  /// Returns a [ServerEvent] object representing the server's response.
+  ///
+  /// This method must be overridden by implementers.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] by default.
   @mustBeOverridden
   Future<Map<String, dynamic>?> executeRemoteAction(
     ServerAction action,
@@ -33,7 +40,10 @@ mixin TransportCapabilityDelegate implements DriverRefHolder {
   /// The [url] parameter represents the URL to send the request to.
   /// The [meta] parameter contains any additional metadata for the request.
   /// The [body] parameter contains the body of the request.
-  /// Returns a [ServerEvent] object representing the server's response.
+  ///
+  /// This method must be overridden by implementers.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] by default.
   @mustBeOverridden
   Future<Map<String, dynamic>?> request(
     String url,
@@ -47,11 +57,12 @@ mixin TransportCapabilityDelegate implements DriverRefHolder {
 
   /// Establishes a connection to the server.
   ///
-  /// Returns a [Stream] that completes when the connection is established or keep it alive in streaming mode.
+  /// Returns a [Stream] that emits server events. The stream may emit a single event
+  /// when the connection is established or continue emitting events in streaming mode.
   ///
-  /// The [initialRequestData] parameter contains any initial data to send when establishing the connection.
-  /// The [staticContent] parameter contains the static content to send when establishing the connection.
-  /// Returns a [ServerEvent] object representing the server's response.
+  /// This method must be overridden by implementers.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] by default.
   @mustBeOverridden
   Stream<Map<String, dynamic>> connect({
     Map<String, dynamic>? initialRequestData,

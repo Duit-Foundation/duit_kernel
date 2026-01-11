@@ -1,6 +1,10 @@
 import "package:duit_kernel/src/capabilities/logging/logging_capability.dart";
 import "package:flutter/foundation.dart";
 
+/// A class that provides logging capabilities for the Duit UI system.
+///
+/// This class implements the [LoggingCapabilityDelegate] mixin and provides
+/// concrete implementations for logging messages at different levels.
 final class LoggingManager with LoggingCapabilityDelegate {
   const LoggingManager();
 
