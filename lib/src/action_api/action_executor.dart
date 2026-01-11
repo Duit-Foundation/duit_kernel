@@ -59,7 +59,7 @@ final class DefaultActionExecutor extends ActionExecutor {
 
           return null;
         } catch (e, s) {
-          driver.error(
+          driver.logError(
             "[Error while executing transport action]",
             e,
             s,
@@ -72,7 +72,7 @@ final class DefaultActionExecutor extends ActionExecutor {
         try {
           return action.event;
         } catch (e, s) {
-          driver.error(
+          driver.logError(
             "[Error while executing local action]",
             e,
             s,
@@ -98,7 +98,7 @@ final class DefaultActionExecutor extends ActionExecutor {
 
           return null;
         } catch (e, s) {
-          driver.error(
+          driver.logError(
             "[Error while executing script action]",
             e,
             s,

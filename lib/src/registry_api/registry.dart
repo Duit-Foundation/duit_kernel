@@ -35,11 +35,11 @@ sealed class DuitRegistry {
       for (var block in components) {
         await _componentRegistry.prepareComponent(block);
       }
-      _logManager.info(
+      _logManager.logInfo(
         "All of ${components.length} components registered successfull",
       );
     } catch (e, s) {
-      _logManager.error(
+      _logManager.logError(
         "Components registration failed",
         e,
         s,
@@ -53,11 +53,11 @@ sealed class DuitRegistry {
   ) async {
     try {
       await _componentRegistry.prepareComponent(component);
-      _logManager.info(
+      _logManager.logInfo(
         "Components registered successfully",
       );
     } catch (e, s) {
-      _logManager.error(
+      _logManager.logError(
         "Components registration failed",
         e,
         s,
@@ -72,7 +72,7 @@ sealed class DuitRegistry {
     if (desctiption != null) {
       return desctiption;
     } else {
-      _logManager.warning(
+      _logManager.logWarning(
         "Not found desctiption for specified tag - $tag",
       );
       return null;
@@ -86,7 +86,7 @@ sealed class DuitRegistry {
   }) {
     _customComponentRegistry[key] = buildFactory;
 
-    _logManager.info(
+    _logManager.logInfo(
       "Custom widget $key registered successfull",
     );
   }
@@ -99,7 +99,7 @@ sealed class DuitRegistry {
     if (factory != null) {
       return factory;
     } else {
-      _logManager.warning(
+      _logManager.logWarning(
         "Not found build factory for specified tag - $tag",
       );
       return null;
@@ -118,7 +118,7 @@ sealed class DuitRegistry {
     if (fragment != null) {
       return fragment;
     } else {
-      _logManager.warning("Not found fragment for specified key - $key");
+      _logManager.logWarning("Not found fragment for specified key - $key");
       return null;
     }
   }

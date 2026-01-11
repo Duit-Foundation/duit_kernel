@@ -7,7 +7,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   const LoggingManager();
   
   @override
-  void critical(message, [Object? exception, StackTrace? stackTrace]) {
+  void logCritical(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] CRITICAL: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");
@@ -19,7 +19,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   }
 
   @override
-  void debug(message, [Object? exception, StackTrace? stackTrace]) {
+  void logDebug(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] DEBUG: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");
@@ -31,7 +31,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   }
 
   @override
-  void error(message, [Object? exception, StackTrace? stackTrace]) {
+  void logError(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] ERROR: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");
@@ -43,7 +43,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   }
 
   @override
-  void info(message, [Object? exception, StackTrace? stackTrace]) {
+  void logInfo(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] INFO: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");
@@ -55,7 +55,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   }
 
   @override
-  void verbose(message, [Object? exception, StackTrace? stackTrace]) {
+  void logVerbose(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] VERBOSE: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");
@@ -67,7 +67,7 @@ final class LoggingManager with LoggingCapabilityDelegate {
   }
 
   @override
-  void warning(message, [Object? exception, StackTrace? stackTrace]) {
+  void logWarning(message, [Object? exception, StackTrace? stackTrace]) {
     final buff = StringBuffer("[DUIT FRAMEWORK] WARNING: $message \nTime: ${DateTime.now().toIso8601String()}");
     if (exception != null) {
       buff.write("\nException: ${exception.toString()}");

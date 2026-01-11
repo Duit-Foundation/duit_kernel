@@ -45,7 +45,7 @@ final class DefaultEventResolver extends EventResolver {
             "ExternalEventHandler instance is not set",
           );
           if (driver.externalEventHandler != null) {
-            driver.error("ExternalEventHandler instance is not set");
+            driver.logError("ExternalEventHandler instance is not set");
             throw StateError("ExternalEventHandler instance is not set");
           }
           await driver.externalEventHandler?.handleNavigation(
@@ -56,7 +56,7 @@ final class DefaultEventResolver extends EventResolver {
           break;
         case OpenUrlEvent():
           if (driver.externalEventHandler != null) {
-            driver.error("ExternalEventHandler instance is not set");
+            driver.logError("ExternalEventHandler instance is not set");
             throw StateError("ExternalEventHandler instance is not set");
           }
           await driver.externalEventHandler?.handleOpenUrl(event.url);
@@ -105,7 +105,7 @@ final class DefaultEventResolver extends EventResolver {
           break;
       }
     } catch (e, s) {
-      driver.error(
+      driver.logError(
         "Error while resolving ${event.type} event",
         e,
         s,

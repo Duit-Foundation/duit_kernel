@@ -12,7 +12,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log general informational messages about the
   /// application's state or flow.
   @mustBeOverridden
-  void info(
+  void logInfo(
     message, [
     Object? exception,
     StackTrace? stackTrace,
@@ -27,7 +27,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log detailed debugging information that is typically
   /// only useful during development.
   @mustBeOverridden
-  void debug(
+  void logDebug(
     message, [
     Object? exception,
     StackTrace? stackTrace,
@@ -42,7 +42,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log warnings about potential issues or unexpected
   /// conditions that don't prevent the application from functioning.
   @mustBeOverridden
-  void warning(
+  void logWarning(
     message, [
     Object? exception,
     StackTrace? stackTrace,
@@ -57,7 +57,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log error messages that indicate problems or failures
   /// in the application.
   @mustBeOverridden
-  void error(
+  void logError(
     message, [
     Object? exception,
     StackTrace? stackTrace,
@@ -72,7 +72,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log critical errors that require immediate attention
   /// and may indicate serious problems in the application.
   @mustBeOverridden
-  void critical(
+  void logCritical(
     message, [
     Object? exception,
     StackTrace? stackTrace,
@@ -87,7 +87,7 @@ mixin LoggingCapabilityDelegate {
   /// Use this method to log very detailed information that is typically only
   /// useful for deep debugging or troubleshooting.
   @mustBeOverridden
-  void verbose(
+  void logVerbose(
     message, [
     Object? exception,
     StackTrace? stackTrace,
