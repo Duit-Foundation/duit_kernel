@@ -15,30 +15,38 @@ abstract class UIDriver
         LoggingCapabilityDelegate,
         NativeModuleCapabilityDelegate {
   /// The source url of the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract final String source;
 
   /// The options for the transport used by the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract final TransportOptions transportOptions;
 
   /// The transport used by the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract Transport? transport;
 
   /// The script runner used by the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract ScriptRunner? scriptRunner;
 
   /// The script runner used by the UI driver.
   ///
   /// The script runner is used to execute scripts defined in the layout.
+  @Deprecated("Will be removed in the next major release.")
   abstract EventResolver eventResolver;
 
   /// The executor of actions used by the UI driver.
   ///
   /// The action executor is used to execute actions defined in the layout.
+  @Deprecated("Will be removed in the next major release.")
   abstract ActionExecutor actionExecutor;
 
   /// The action executor used by the UI driver.
+  @Deprecated("Will be removed in the next major release.")
   abstract ExternalEventHandler? externalEventHandler;
 
+  @Deprecated("Will be removed in the next major release.")
   abstract MethodChannel? driverChannel;
 
   abstract bool isModule;
@@ -64,6 +72,7 @@ abstract class UIDriver
   /// the UI to be rendered on the screen.
   ///
   /// Returns: The widget representing the UI.
+  @Deprecated("Will be removed in the next major release.")
   Widget? build();
 
   /// Disposes of the driver and releases any resources.

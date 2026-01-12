@@ -14,6 +14,7 @@ import "package:duit_kernel/duit_kernel.dart";
 ///   // Implement the required methods and properties
 /// }
 /// ```
+@Deprecated("Will be removed in the next major release.")
 abstract class Transport {
   final String url;
 

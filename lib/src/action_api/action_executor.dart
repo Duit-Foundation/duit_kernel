@@ -8,6 +8,7 @@ import "package:duit_kernel/duit_kernel.dart";
 ///
 /// Subclasses must implement the [executeAction] method to handle different types
 /// of [ServerAction]s.
+@Deprecated("Will be removed in the next major release.")
 abstract class ActionExecutor {
   final UIDriver driver;
   @Deprecated("Use [LoggingCapabilityDelegate] instead")
@@ -35,6 +36,7 @@ abstract class ActionExecutor {
 ///
 /// This method is asynchronous and returns a [Future] that completes when
 /// the action execution is finished.
+@Deprecated("Will be removed in the next major release.")
 final class DefaultActionExecutor extends ActionExecutor {
   DefaultActionExecutor({
     required super.driver,
