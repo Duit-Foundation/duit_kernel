@@ -1,3 +1,7 @@
+## 4.2.0-rc.2
+
+- New capability-base UIDriver API + docs
+
 ## 4.2.0-rc.1
 
 - New capability-base UIDriver API
