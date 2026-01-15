@@ -4321,9 +4321,7 @@ void main() {
       test("should parse and return BorderRadius with all radius", () {
         final json = <String, dynamic>{
           "borderRadius": <String, dynamic>{
-            "radius": <String, dynamic>{
-              "radius": 8.0,
-            },
+            "radius": 8.0
           },
         };
 
