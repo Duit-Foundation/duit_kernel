@@ -1,7 +1,7 @@
 /// The [DebugLogger] interface defines a contract for logger implementations.
 ///
 /// The methods in [DebugLogger] are used to log messages to the console.
-@Deprecated("Use [LoggingCapabilityDelegate] instead")
+@Deprecated("Will be removed in the next major release.")
 abstract interface class DebugLogger {
   static const logTag = "[DUIT FRAMEWORK] ";
 

@@ -1,4 +1,5 @@
 /// The base options for configuring a transport.
+@Deprecated("Will be removed in the next major release.")
 abstract class TransportOptions {
   /// The type of the transport.
   abstract String type;

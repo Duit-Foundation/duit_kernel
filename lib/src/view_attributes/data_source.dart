@@ -4119,10 +4119,10 @@ extension type DuitDataSource(Map<String, dynamic> _json)
           right: right != null ? right.radius() : Radius.zero,
         );
       case {
-          "radius": DuitDataSource? radius,
+          "radius": num? radius,
         }:
         return BorderRadius.all(
-          radius != null ? radius.radius() : Radius.zero,
+          radius != null ? Radius.circular(radius.toDouble()) : Radius.zero,
         );
       default:
         return BorderRadius.zero;

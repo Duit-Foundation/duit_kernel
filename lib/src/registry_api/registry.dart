@@ -13,7 +13,7 @@ sealed class DuitRegistry {
   static DuitTheme _theme = const DuitTheme({});
 
   static FutureOr<void> initialize({
-    @Deprecated("Use [LoggingCapabilityDelegate] and [logManager] instead")
+    @Deprecated("Will be removed in the next major release.")
     DebugLogger? logger,
     DuitTheme? theme,
     ComponentRegistry? componentRegistry,

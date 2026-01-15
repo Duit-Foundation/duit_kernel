@@ -3,6 +3,7 @@
 /// The `Streamer` class defines a contract for classes that provide a stream
 /// of events. Implementing classes should extend this class and provide
 /// an implementation for the [eventStream] method.
+@Deprecated("Will be removed in the next major release.")
 abstract class Streamer {
   /// Returns a stream of events.
   ///

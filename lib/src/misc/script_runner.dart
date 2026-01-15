@@ -1,6 +1,9 @@
 import "package:duit_kernel/duit_kernel.dart";
 
 ///The base class required to implement a script runner
+@Deprecated(
+  "Will be removed in the next major release. Use [ScriptingCapabilityDelegate] instead",
+)
 abstract base class ScriptRunner<TOptions> {
   ///The script runner options
   final TOptions runnerOptions;

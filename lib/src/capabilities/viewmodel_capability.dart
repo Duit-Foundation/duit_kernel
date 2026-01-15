@@ -155,4 +155,16 @@ mixin ViewModelCapabilityDelegate implements DriverRefHolder {
         "releaseResources",
         "ViewModelCapabilityDelegate",
       );
+
+  /// Get the current view being displayed.
+  ///
+  /// The returned value is the [DuitView] instance that is currently being displayed.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] if not overridden.
+  @mustBeOverridden
+  DuitView? get currentView =>
+      throw const MissingCapabilityMethodImplementation(
+        "currentView",
+        "ViewModelCapabilityDelegate",
+      );
 }

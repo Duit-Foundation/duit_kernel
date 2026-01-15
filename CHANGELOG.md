@@ -1,3 +1,7 @@
+## 4.2.0-rc.3
+
+- Public API deprecation
+
 ## 4.2.0-rc.2
 
 - New capability-base UIDriver API + docs
