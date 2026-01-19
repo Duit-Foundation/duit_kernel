@@ -4434,11 +4434,11 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   /// Returns a list of child objects from the JSON structure by the given key.
   ///
   /// This method looks up the [key] (default is 'childObjects') in the JSON and expects
-  /// a list of child objects (List<Map<String, dynamic>>). If such objects are found, they are
+  /// a list of child objects If such objects are found, they are
   /// added to the internal buffer '_listContentBuffer', and the original key is cleared (json[key] = null).
   /// This prevents the same objects from being added multiple times on repeated calls.
   ///
-  /// Returns the accumulated list of child objects (List<Map<String, dynamic>>)
+  /// Returns the accumulated list of child objects
   /// stored in the '_listContentBuffer'. If there are no child objects, returns an empty list.
   @preferInline
   List<Map<String, dynamic>> childObjects({
@@ -4518,7 +4518,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   /// This method recursively copies all nested objects, lists, and primitive values
   /// to create a completely independent copy of the original list.
   ///
-  /// Returns a new List<dynamic> that is a deep copy of the original list.
+  /// Returns a new List that is a deep copy of the original list.
   @preferInline
   List<dynamic> _copyList(List<dynamic> source) {
     final result = [];
@@ -4539,7 +4539,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   /// This method recursively copies all nested objects, lists, and primitive values
   /// to create a completely independent copy of the original map.
   ///
-  /// Returns a new Map<String, dynamic> that is a deep copy of the original map.
+  /// Returns a new Map that is a deep copy of the original map.
   @preferInline
   Map<String, dynamic> _copyMap(Map<String, dynamic> source) {
     final result = <String, dynamic>{};
@@ -4563,7 +4563,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   /// This method recursively copies all nested objects, lists, and primitive values
   /// to create a completely independent copy of the original data structure.
   ///
-  /// Returns a new Map<String, dynamic> that is a deep copy of the current json.
+  /// Returns a new Map that is a deep copy of the current json.
   @preferInline
   Map<String, dynamic> deepCopy() => _copyMap(_json);
 
