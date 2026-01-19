@@ -4314,19 +4314,32 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   /// - [data]: The data source containing the widget state properties.
   @preferInline
   T? _resolveWidgetStateValue<T>(DuitDataSource data, WidgetState state) {
+    //NOTE: This is a workaround to avoid the type_literal_in_constant_pattern lint error.
+    // We use 'ignore: type_literal_in_constant_pattern' because Dart's analyzer warns when matching on
+    // a type parameter (e.g., T) in a switch statement using 'case Color:', expecting a constant type literal.
+    // However, this pattern is intentional here—we switch on T (the generic type) to delegate resolution
+    // to the correct method for that type. Since T is always a type (not a runtime value), ignoring this lint
+    // is safe and required for this generic dispatch.
     switch (T) {
+      // ignore: type_literal_in_constant_pattern
       case Color:
         return data.parseColor(key: state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case EdgeInsetsGeometry:
         return data.edgeInsets(key: state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case Size:
         return data.size(state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case double:
         return data.tryGetDouble(key: state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case OutlinedBorder:
         return data.shapeBorder(key: state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case TextStyle:
         return data.textStyle(key: state.name) as T;
+      // ignore: type_literal_in_constant_pattern
       case BorderSide:
         return data.borderSide(key: state.name) as T;
       default:
