@@ -331,6 +331,10 @@ final propsDataset = <String, dynamic>{
   // Focus traversal
   "traversalDirection": "down",
   "unfocusDisposition": "previouslyFocusedChild",
+
+  // Locale and orientation (warm-up via dispatch)
+  "locale": "en-US",
+  "orientation": "portrait",
 };
 
 void main() {
@@ -444,6 +448,8 @@ void main() {
         expect(j["focusNode"], isA<FocusNode>());
         expect(j["traversalDirection"], isA<TraversalDirection>());
         expect(j["unfocusDisposition"], isA<UnfocusDisposition>());
+        expect(j["locale"], isA<Locale>());
+        expect(j["orientation"], isA<Orientation>());
       });
     },
     skip: !envAttributeWarmUpEnabled,

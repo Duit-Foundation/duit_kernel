@@ -13,6 +13,7 @@ sealed class FlutterPropertyKeys {
   static const margin = "margin";
   static const method = "method";
   static const offset = "offset";
+  static const locale = "locale";
   static const radius = "radius";
   static const repeat = "repeat";
   static const padding = "padding";
@@ -39,6 +40,7 @@ sealed class FlutterPropertyKeys {
   static const fontWeight = "fontWeight";
   static const strutStyle = "strutStyle";
   static const textScaler = "textScaler";
+  static const orientation = "orientation";
   static const constraints = "constraints";
   static const errorBorder = "errorBorder";
   static const inputBorder = "inputBorder";
@@ -92,6 +94,7 @@ sealed class FlutterPropertyKeys {
     filter,
     margin,
     method,
+    locale,
     offset,
     radius,
     repeat,
@@ -121,6 +124,7 @@ sealed class FlutterPropertyKeys {
     textScaler,
     constraints,
     errorBorder,
+    orientation,
     inputBorder,
     borderRadius,
     clipBehavior,

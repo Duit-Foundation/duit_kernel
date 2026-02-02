@@ -1512,3 +1512,115 @@ const _unfocusDispositionIntLookupTable = <int, UnfocusDisposition>{
   0: UnfocusDisposition.scope,
   1: UnfocusDisposition.previouslyFocusedChild,
 };
+
+/// Lookup table for [DatePickerEntryMode] values by [String] type key.
+///
+/// Maps string identifiers to [DatePickerEntryMode] enum values for date picker entry mode.
+/// Supported values: "calendar", "calendarOnly", "input", "inputOnly".
+const _datePickerEntryModeStringLookupTable = <String, DatePickerEntryMode>{
+  "calendar": DatePickerEntryMode.calendar,
+  "DatePickerEntryMode.calendar": DatePickerEntryMode.calendar,
+  "calendarOnly": DatePickerEntryMode.calendarOnly,
+  "DatePickerEntryMode.calendarOnly": DatePickerEntryMode.calendarOnly,
+  "input": DatePickerEntryMode.input,
+  "DatePickerEntryMode.input": DatePickerEntryMode.input,
+  "inputOnly": DatePickerEntryMode.inputOnly,
+  "DatePickerEntryMode.inputOnly": DatePickerEntryMode.inputOnly,
+};
+
+/// Lookup table for [DatePickerEntryMode] values by [int] type key.
+///
+/// Maps integer identifiers to [DatePickerEntryMode] enum values for date picker entry mode.
+/// Supported values: 0 (calendar), 1 (calendarOnly), 2 (input), 3 (inputOnly).
+const _datePickerEntryModeIntLookupTable = <int, DatePickerEntryMode>{
+  0: DatePickerEntryMode.calendar,
+  1: DatePickerEntryMode.calendarOnly,
+  2: DatePickerEntryMode.input,
+  3: DatePickerEntryMode.inputOnly,
+};
+
+/// Lookup table for [DatePickerMode] values by [String] type key.
+///
+/// Maps string identifiers to [DatePickerMode] enum values for calendar date picker display mode.
+/// Supported values: "day", "year".
+const _datePickerModeStringLookupTable = <String, DatePickerMode>{
+  "day": DatePickerMode.day,
+  "DatePickerMode.day": DatePickerMode.day,
+  "year": DatePickerMode.year,
+  "DatePickerMode.year": DatePickerMode.year,
+};
+
+/// Lookup table for [DatePickerMode] values by [int] type key.
+///
+/// Maps integer identifiers to [DatePickerMode] enum values for calendar date picker display mode.
+/// Supported values: 0 (day), 1 (year).
+const _datePickerModeIntLookupTable = <int, DatePickerMode>{
+  0: DatePickerMode.day,
+  1: DatePickerMode.year,
+};
+
+/// Lookup table for [TimePickerEntryMode] values by [String] type key.
+///
+/// Maps string identifiers to [TimePickerEntryMode] enum values for time picker entry mode.
+/// Supported values: "dial", "input", "dialOnly", "inputOnly".
+const _timePickerEntryModeStringLookupTable = <String, TimePickerEntryMode>{
+  "dial": TimePickerEntryMode.dial,
+  "TimePickerEntryMode.dial": TimePickerEntryMode.dial,
+  "input": TimePickerEntryMode.input,
+  "TimePickerEntryMode.input": TimePickerEntryMode.input,
+  "dialOnly": TimePickerEntryMode.dialOnly,
+  "TimePickerEntryMode.dialOnly": TimePickerEntryMode.dialOnly,
+  "inputOnly": TimePickerEntryMode.inputOnly,
+  "TimePickerEntryMode.inputOnly": TimePickerEntryMode.inputOnly,
+};
+
+/// Lookup table for [TimePickerEntryMode] values by [int] type key.
+///
+/// Maps integer identifiers to [TimePickerEntryMode] enum values for time picker entry mode.
+/// Supported values: 0 (dial), 1 (input), 2 (dialOnly), 3 (inputOnly).
+const _timePickerEntryModeIntLookupTable = <int, TimePickerEntryMode>{
+  0: TimePickerEntryMode.dial,
+  1: TimePickerEntryMode.input,
+  2: TimePickerEntryMode.dialOnly,
+  3: TimePickerEntryMode.inputOnly,
+};
+
+/// Lookup table for [Orientation] values by [String] type key.
+///
+/// Maps string identifiers to [Orientation] enum values for layout orientation.
+/// Supported values: "portrait", "landscape".
+const _orientationStringLookupTable = <String, Orientation>{
+  "portrait": Orientation.portrait,
+  "Orientation.portrait": Orientation.portrait,
+  "landscape": Orientation.landscape,
+  "Orientation.landscape": Orientation.landscape,
+};
+
+/// Lookup table for [Orientation] values by [int] type key.
+///
+/// Maps integer identifiers to [Orientation] enum values for layout orientation.
+/// Supported values: 0 (portrait), 1 (landscape).
+const _orientationIntLookupTable = <int, Orientation>{
+  0: Orientation.portrait,
+  1: Orientation.landscape,
+};
+
+/// Lookup table for [FlexFit] values by [String] type key.
+///
+/// Maps string identifiers to [FlexFit] enum values for flexible fit behavior.
+/// Supported values: "tight", "loose".
+const _flexFitStringLookupTable = <String, FlexFit>{
+  "tight": FlexFit.tight,
+  "FlexFit.tight": FlexFit.tight,
+  "loose": FlexFit.loose,
+  "FlexFit.loose": FlexFit.loose,
+};
+
+/// Lookup table for [FlexFit] values by [int] type key.
+///
+/// Maps integer identifiers to [FlexFit] enum values for flexible fit behavior.
+/// Supported values: 0 (tight), 1 (loose).
+const _flexFitIntLookupTable = <int, FlexFit>{
+  0: FlexFit.tight,
+  1: FlexFit.loose,
+};

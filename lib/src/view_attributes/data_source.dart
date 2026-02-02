@@ -5370,6 +5370,322 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves a [DateTime] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DateTime], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DateTime].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DateTime] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DateTime] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DateTime] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DateTime? dateTime({
+    required String key,
+    DateTime? defaultValue,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DateTime) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is String) {
+      return _json[key] = DateTime.parse(value);
+    }
+
+    if (value is int) {
+      return _json[key] = DateTime.fromMillisecondsSinceEpoch(value);
+    }
+
+    return defaultValue;
+  }
+
+  /// Retrieves a [DatePickerEntryMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DatePickerEntryMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DatePickerEntryMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DatePickerEntryMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DatePickerEntryMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DatePickerEntryMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DatePickerEntryMode datePickerEntryMode({
+    required String key,
+    DatePickerEntryMode defaultValue = DatePickerEntryMode.calendar,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DatePickerEntryMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _datePickerEntryModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _datePickerEntryModeIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [DatePickerMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DatePickerMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DatePickerMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DatePickerMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DatePickerMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DatePickerMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DatePickerMode datePickerMode({
+    required String key,
+    DatePickerMode defaultValue = DatePickerMode.day,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DatePickerMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _datePickerModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _datePickerModeIntLookupTable[value]!;
+    }
+    return defaultValue;
+  }
+
+  /// Retrieves a [Locale] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [Locale], it returns that value.
+  /// If the value is a [String], it attempts to parse it into a [Locale].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Locale] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [Locale] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Locale] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  Locale? locale({
+    String key = FlutterPropertyKeys.locale,
+    Locale? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Locale) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return localeFromString(value);
+          } else {
+            return _json[key] = localeFromString(value);
+          }
+        } else {
+          return _json[key] = localeFromString(value);
+        }
+      case Map<String, dynamic>():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _localeFromMap(value);
+          } else {
+            return _json[key] = _localeFromMap(value);
+          }
+        } else {
+          return _json[key] = _localeFromMap(value);
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  Locale localeFromString(String value) {
+    final tags = value.split("-");
+    if (tags.length == 1) {
+      return Locale(tags[0]);
+    } else {
+      return Locale(tags[0], tags[1]);
+    }
+  }
+
+  @preferInline
+  Locale _localeFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return Locale(
+      source.getString(key: "languageCode"),
+      source.tryGetString("countryCode"),
+    );
+  }
+
+  /// Retrieves a [TimeOfDay] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TimeOfDay], it returns that value.
+  /// If the value is a [List<num>], it attempts to parse it into a [TimeOfDay].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TimeOfDay] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TimeOfDay] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TimeOfDay] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TimeOfDay? timeOfDay({
+    required String key,
+    TimeOfDay? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+
+    if (value is TimeOfDay) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is List<num>) {
+      return _json[key] = TimeOfDay(
+        hour: value.elementAt(0).toInt(),
+        minute: value.elementAt(1).toInt(),
+      );
+    }
+
+    return defaultValue;
+  }
+
+  /// Retrieves a [TimePickerEntryMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TimePickerEntryMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [TimePickerEntryMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TimePickerEntryMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TimePickerEntryMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TimePickerEntryMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TimePickerEntryMode timePickerEntryMode({
+    required String key,
+    TimePickerEntryMode defaultValue = TimePickerEntryMode.dial,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is TimePickerEntryMode) return value;
+    if (value == null) return defaultValue;
+    switch (value) {
+      case String():
+        return _json[key] = _timePickerEntryModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _timePickerEntryModeIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves an [Orientation] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already an [Orientation], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into an [Orientation].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Orientation] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - An [Orientation] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Orientation] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  Orientation? orientation({
+    String key = FlutterPropertyKeys.orientation,
+    Orientation defaultValue = Orientation.portrait,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is Orientation) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _orientationStringLookupTable[value]!;
+          } else {
+            return _json[key] = _orientationStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _orientationStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _orientationIntLookupTable[value]!;
+          } else {
+            return _json[key] = _orientationIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _orientationIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [FlexFit] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [FlexFit], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [FlexFit].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [FlexFit] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [FlexFit] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FlexFit] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  FlexFit? flexFit({
+    required String key,
+    FlexFit defaultValue = FlexFit.loose,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is FlexFit) return value;
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _flexFitStringLookupTable[value]!;
+      case int():
+        return _json[key] = _flexFitIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
   /// The dispatch map for attribute keys to their corresponding handler functions.
   ///
   /// This map associates each supported [FlutterPropertyKeys] value with a function
@@ -5547,6 +5863,10 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.traversalDirection(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.unfocusDisposition: (self, k, t, w) =>
         self.unfocusDisposition(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.locale: (self, k, t, w) =>
+        self.locale(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.orientation: (self, k, t, w) =>
+        self.orientation(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key

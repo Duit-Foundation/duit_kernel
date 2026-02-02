@@ -6911,4 +6911,773 @@ void main() {
       );
     });
   });
+
+  group("dateTime method", () {
+    test("should parse and return the dateTime from string", () {
+      final json = <String, dynamic>{
+        "dateTime": "2024-01-15T12:00:00.000",
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.dateTime(key: "dateTime");
+      expect(result, DateTime(2024, 1, 15, 12, 0, 0));
+      expect(data["dateTime"], DateTime(2024, 1, 15, 12, 0, 0));
+    });
+
+    test("should parse and return the dateTime from int (milliseconds)", () {
+      final epochMs = DateTime(2024, 6, 1).millisecondsSinceEpoch;
+      final json = <String, dynamic>{
+        "dateTime": epochMs,
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.dateTime(key: "dateTime");
+      expect(result, DateTime(2024, 6, 1));
+      expect(data["dateTime"], DateTime(2024, 6, 1));
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+      final defaultValue = DateTime(2020, 1, 1);
+
+      final data = DuitDataSource(json);
+
+      expect(data.dateTime(key: "dateTime"), null);
+      expect(
+        data.dateTime(key: "dateTime", defaultValue: defaultValue),
+        defaultValue,
+      );
+      expect(data["dateTime"], null);
+    });
+
+    test("should return the default value if the value is not string or int",
+        () {
+      final json = <String, dynamic>{
+        "dateTime": true,
+      };
+      final defaultValue = DateTime(2020, 1, 1);
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.dateTime(key: "dateTime", defaultValue: defaultValue),
+        defaultValue,
+      );
+      expect(data["dateTime"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final dt = DateTime(2023, 3, 10);
+      final json = <String, dynamic>{
+        "dateTime": dt,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.dateTime(key: "dateTime"), dt);
+      expect(data["dateTime"], dt);
+    });
+  });
+
+  group("datePickerEntryMode method", () {
+    test("should parse and return the datePickerEntryMode", () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": "calendar",
+        "datePickerEntryMode2": "inputOnly",
+        "datePickerEntryMode3": 0,
+        "datePickerEntryMode4": 2,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode"),
+        DatePickerEntryMode.calendar,
+      );
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode2"),
+        DatePickerEntryMode.inputOnly,
+      );
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode3"),
+        DatePickerEntryMode.calendar,
+      );
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode4"),
+        DatePickerEntryMode.input,
+      );
+      expect(data["datePickerEntryMode"], DatePickerEntryMode.calendar);
+      expect(data["datePickerEntryMode2"], DatePickerEntryMode.inputOnly);
+      expect(data["datePickerEntryMode3"], DatePickerEntryMode.calendar);
+      expect(data["datePickerEntryMode4"], DatePickerEntryMode.input);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": "DatePickerEntryMode.calendarOnly",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode"),
+        DatePickerEntryMode.calendarOnly,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode"),
+        DatePickerEntryMode.calendar,
+      );
+      expect(
+        data.datePickerEntryMode(
+          key: "datePickerEntryMode",
+          defaultValue: DatePickerEntryMode.input,
+        ),
+        DatePickerEntryMode.input,
+      );
+      expect(data["datePickerEntryMode"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerEntryMode(
+          key: "datePickerEntryMode",
+          defaultValue: DatePickerEntryMode.inputOnly,
+        ),
+        DatePickerEntryMode.inputOnly,
+      );
+      expect(data["datePickerEntryMode"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": DatePickerEntryMode.input,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerEntryMode(key: "datePickerEntryMode"),
+        DatePickerEntryMode.input,
+      );
+      expect(data["datePickerEntryMode"], DatePickerEntryMode.input);
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.datePickerEntryMode(key: "datePickerEntryMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "datePickerEntryMode": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.datePickerEntryMode(key: "datePickerEntryMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
+
+  group("datePickerMode method", () {
+    test("should parse and return the datePickerMode", () {
+      final json = <String, dynamic>{
+        "datePickerMode": "day",
+        "datePickerMode2": "year",
+        "datePickerMode3": 0,
+        "datePickerMode4": 1,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerMode(key: "datePickerMode"),
+        DatePickerMode.day,
+      );
+      expect(
+        data.datePickerMode(key: "datePickerMode2"),
+        DatePickerMode.year,
+      );
+      expect(
+        data.datePickerMode(key: "datePickerMode3"),
+        DatePickerMode.day,
+      );
+      expect(
+        data.datePickerMode(key: "datePickerMode4"),
+        DatePickerMode.year,
+      );
+      expect(data["datePickerMode"], DatePickerMode.day);
+      expect(data["datePickerMode2"], DatePickerMode.year);
+      expect(data["datePickerMode3"], DatePickerMode.day);
+      expect(data["datePickerMode4"], DatePickerMode.year);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "datePickerMode": "DatePickerMode.year",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerMode(key: "datePickerMode"),
+        DatePickerMode.year,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerMode(key: "datePickerMode"),
+        DatePickerMode.day,
+      );
+      expect(
+        data.datePickerMode(
+          key: "datePickerMode",
+          defaultValue: DatePickerMode.year,
+        ),
+        DatePickerMode.year,
+      );
+      expect(data["datePickerMode"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "datePickerMode": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerMode(
+          key: "datePickerMode",
+          defaultValue: DatePickerMode.year,
+        ),
+        DatePickerMode.year,
+      );
+      expect(data["datePickerMode"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "datePickerMode": DatePickerMode.year,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.datePickerMode(key: "datePickerMode"),
+        DatePickerMode.year,
+      );
+      expect(data["datePickerMode"], DatePickerMode.year);
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "datePickerMode": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.datePickerMode(key: "datePickerMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "datePickerMode": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.datePickerMode(key: "datePickerMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
+
+  group("locale method", () {
+    test("should parse and return the locale from string", () {
+      final json = <String, dynamic>{
+        "locale": "en-US",
+        "locale2": "ru",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.locale(), const Locale("en", "US"));
+      expect(data.locale(key: "locale2"), const Locale("ru"));
+      expect(data["locale"], const Locale("en", "US"));
+      expect(data["locale2"], const Locale("ru"));
+    });
+
+    test("should parse and return the locale from map", () {
+      final json = <String, dynamic>{
+        "locale": <String, dynamic>{
+          "languageCode": "fr",
+          "countryCode": "CA",
+        },
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.locale(), const Locale("fr", "CA"));
+      expect(data["locale"], const Locale("fr", "CA"));
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+      final defaultValue = const Locale("de");
+
+      final data = DuitDataSource(json);
+
+      expect(data.locale(), null);
+      expect(data.locale(defaultValue: defaultValue), defaultValue);
+      expect(data["locale"], null);
+    });
+
+    test("should return the default value if the value is not string or map",
+        () {
+      final json = <String, dynamic>{
+        "locale": true,
+      };
+      final defaultValue = const Locale("en");
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.locale(defaultValue: defaultValue),
+        defaultValue,
+      );
+      expect(data["locale"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      const loc = Locale("ja", "JP");
+      final json = <String, dynamic>{
+        "locale": loc,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.locale(), loc);
+      expect(data["locale"], loc);
+    });
+  });
+
+  group("timeOfDay method", () {
+    test("should parse and return the timeOfDay from list", () {
+      final json = <String, dynamic>{
+        "timeOfDay": <num>[14, 30],
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.timeOfDay(key: "timeOfDay");
+      expect(result, const TimeOfDay(hour: 14, minute: 30));
+      expect(data["timeOfDay"], const TimeOfDay(hour: 14, minute: 30));
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+      final defaultValue = const TimeOfDay(hour: 12, minute: 0);
+
+      final data = DuitDataSource(json);
+
+      expect(data.timeOfDay(key: "timeOfDay"), null);
+      expect(
+        data.timeOfDay(key: "timeOfDay", defaultValue: defaultValue),
+        defaultValue,
+      );
+      expect(data["timeOfDay"], null);
+    });
+
+    test("should return the default value if the value is not a list of num",
+        () {
+      final json = <String, dynamic>{
+        "timeOfDay": "14:30",
+      };
+      final defaultValue = const TimeOfDay(hour: 0, minute: 0);
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timeOfDay(key: "timeOfDay", defaultValue: defaultValue),
+        defaultValue,
+      );
+      expect(data["timeOfDay"], "14:30");
+    });
+
+    test("should return instance if the value is already an instance", () {
+      const tod = TimeOfDay(hour: 9, minute: 15);
+      final json = <String, dynamic>{
+        "timeOfDay": tod,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.timeOfDay(key: "timeOfDay"), tod);
+      expect(data["timeOfDay"], tod);
+    });
+  });
+
+  group("timePickerEntryMode method", () {
+    test("should parse and return the timePickerEntryMode", () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": "dial",
+        "timePickerEntryMode2": "inputOnly",
+        "timePickerEntryMode3": 0,
+        "timePickerEntryMode4": 3,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode"),
+        TimePickerEntryMode.dial,
+      );
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode2"),
+        TimePickerEntryMode.inputOnly,
+      );
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode3"),
+        TimePickerEntryMode.dial,
+      );
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode4"),
+        TimePickerEntryMode.inputOnly,
+      );
+      expect(data["timePickerEntryMode"], TimePickerEntryMode.dial);
+      expect(data["timePickerEntryMode2"], TimePickerEntryMode.inputOnly);
+      expect(data["timePickerEntryMode3"], TimePickerEntryMode.dial);
+      expect(data["timePickerEntryMode4"], TimePickerEntryMode.inputOnly);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": "TimePickerEntryMode.dialOnly",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode"),
+        TimePickerEntryMode.dialOnly,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode"),
+        TimePickerEntryMode.dial,
+      );
+      expect(
+        data.timePickerEntryMode(
+          key: "timePickerEntryMode",
+          defaultValue: TimePickerEntryMode.input,
+        ),
+        TimePickerEntryMode.input,
+      );
+      expect(data["timePickerEntryMode"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timePickerEntryMode(
+          key: "timePickerEntryMode",
+          defaultValue: TimePickerEntryMode.inputOnly,
+        ),
+        TimePickerEntryMode.inputOnly,
+      );
+      expect(data["timePickerEntryMode"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": TimePickerEntryMode.input,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.timePickerEntryMode(key: "timePickerEntryMode"),
+        TimePickerEntryMode.input,
+      );
+      expect(data["timePickerEntryMode"], TimePickerEntryMode.input);
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.timePickerEntryMode(key: "timePickerEntryMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "timePickerEntryMode": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.timePickerEntryMode(key: "timePickerEntryMode"),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
+
+  group("orientation method", () {
+    test("should parse and return the orientation", () {
+      final json = <String, dynamic>{
+        "orientation": "portrait",
+        "orientation2": "landscape",
+        "orientation3": 0,
+        "orientation4": 1,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.orientation(), Orientation.portrait);
+      expect(
+        data.orientation(key: "orientation2"),
+        Orientation.landscape,
+      );
+      expect(
+        data.orientation(key: "orientation3"),
+        Orientation.portrait,
+      );
+      expect(
+        data.orientation(key: "orientation4"),
+        Orientation.landscape,
+      );
+      expect(data["orientation"], Orientation.portrait);
+      expect(data["orientation2"], Orientation.landscape);
+      expect(data["orientation3"], Orientation.portrait);
+      expect(data["orientation4"], Orientation.landscape);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "orientation": "Orientation.landscape",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.orientation(), Orientation.landscape);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.orientation(), Orientation.portrait);
+      expect(
+        data.orientation(defaultValue: Orientation.landscape),
+        Orientation.landscape,
+      );
+      expect(data["orientation"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "orientation": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.orientation(defaultValue: Orientation.landscape),
+        Orientation.landscape,
+      );
+      expect(data["orientation"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "orientation": Orientation.landscape,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.orientation(), Orientation.landscape);
+      expect(data["orientation"], Orientation.landscape);
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "orientation": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.orientation(key: "orientation"),
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "orientation": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.orientation(key: "orientation"),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
+
+  group("flexFit method", () {
+    test("should parse and return the flexFit", () {
+      final json = <String, dynamic>{
+        "flexFit": "tight",
+        "flexFit2": "loose",
+        "flexFit3": 0,
+        "flexFit4": 1,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.flexFit(key: "flexFit"), FlexFit.tight);
+      expect(data.flexFit(key: "flexFit2"), FlexFit.loose);
+      expect(data.flexFit(key: "flexFit3"), FlexFit.tight);
+      expect(data.flexFit(key: "flexFit4"), FlexFit.loose);
+      expect(data["flexFit"], FlexFit.tight);
+      expect(data["flexFit2"], FlexFit.loose);
+      expect(data["flexFit3"], FlexFit.tight);
+      expect(data["flexFit4"], FlexFit.loose);
+    });
+
+    test("should parse full enum names", () {
+      final json = <String, dynamic>{
+        "flexFit": "FlexFit.loose",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.flexFit(key: "flexFit"), FlexFit.loose);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.flexFit(key: "flexFit"), FlexFit.loose);
+      expect(
+        data.flexFit(key: "flexFit", defaultValue: FlexFit.tight),
+        FlexFit.tight,
+      );
+      expect(data["flexFit"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "flexFit": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.flexFit(key: "flexFit", defaultValue: FlexFit.tight),
+        FlexFit.tight,
+      );
+      expect(data["flexFit"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "flexFit": FlexFit.tight,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.flexFit(key: "flexFit"), FlexFit.tight);
+      expect(data["flexFit"], FlexFit.tight);
+    });
+
+    test("should throw error for invalid string values", () {
+      final json = <String, dynamic>{
+        "flexFit": "invalid",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.flexFit(key: "flexFit"),
+        throwsA(isA<Error>()),
+      );
+    });
+
+    test("should throw error for invalid int values", () {
+      final json = <String, dynamic>{
+        "flexFit": 99,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        () => data.flexFit(key: "flexFit"),
+        throwsA(isA<Error>()),
+      );
+    });
+  });
 }
