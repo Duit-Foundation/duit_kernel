@@ -7773,7 +7773,7 @@ void main() {
         MultitouchDragStrategy.sumAllPointers,
       );
       expect(
-          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer);
+          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer,);
       expect(
         data["multitouchDragStrategy2"],
         MultitouchDragStrategy.sumAllPointers,
@@ -7797,7 +7797,7 @@ void main() {
         MultitouchDragStrategy.averageBoundaryPointers,
       );
       expect(
-          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer);
+          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer,);
       expect(
         data["multitouchDragStrategy2"],
         MultitouchDragStrategy.averageBoundaryPointers,
