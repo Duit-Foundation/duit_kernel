@@ -1,8 +1,8 @@
 import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
+import "package:flutter/services.dart";
 import "package:flutter_test/flutter_test.dart";
-import "dart:typed_data";
 import "package:flutter/gestures.dart";
 import "dart:ui";
 
@@ -7678,6 +7678,381 @@ void main() {
         () => data.flexFit(key: "flexFit"),
         throwsA(isA<Error>()),
       );
+    });
+  });
+
+  group("scrollBehavior method", () {
+    test("should parse and return the scrollBehavior from Map", () {
+      final json = <String, dynamic>{
+        "scrollBehavior": <String, dynamic>{
+          "overscroll": true,
+          "scrollbars": false,
+        },
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.scrollBehavior();
+      expect(result, isA<ScrollBehavior>());
+      expect(data["scrollBehavior"], isA<ScrollBehavior>());
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+      final defaultBehavior = ScrollBehavior();
+
+      expect(data.scrollBehavior(), null);
+      expect(
+        data.scrollBehavior(defaultValue: defaultBehavior),
+        defaultBehavior,
+      );
+      expect(data["scrollBehavior"], null);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final behavior = ScrollBehavior();
+      final json = <String, dynamic>{
+        "scrollBehavior": behavior,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.scrollBehavior(), behavior);
+      expect(data["scrollBehavior"], behavior);
+    });
+
+    test(
+        "should return the default value if the value is not a Map or ScrollBehavior",
+        () {
+      final json = <String, dynamic>{
+        "scrollBehavior": true,
+      };
+
+      final data = DuitDataSource(json);
+      final defaultBehavior = ScrollBehavior();
+
+      expect(
+        data.scrollBehavior(defaultValue: defaultBehavior),
+        defaultBehavior,
+      );
+      expect(data["scrollBehavior"], true);
+    });
+
+    test("should accept custom key", () {
+      final json = <String, dynamic>{
+        "customScrollBehavior": <String, dynamic>{},
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.scrollBehavior(key: "customScrollBehavior"),
+        isA<ScrollBehavior>(),
+      );
+      expect(data["customScrollBehavior"], isA<ScrollBehavior>());
+    });
+  });
+
+  group("multitouchDragStrategy method", () {
+    test("should parse and return the multitouchDragStrategy from string", () {
+      final json = <String, dynamic>{
+        "multitouchDragStrategy": "latestPointer",
+        "multitouchDragStrategy2": "sumAllPointers",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.multitouchDragStrategy(),
+        MultitouchDragStrategy.latestPointer,
+      );
+      expect(
+        data.multitouchDragStrategy(key: "multitouchDragStrategy2"),
+        MultitouchDragStrategy.sumAllPointers,
+      );
+      expect(
+          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer);
+      expect(
+        data["multitouchDragStrategy2"],
+        MultitouchDragStrategy.sumAllPointers,
+      );
+    });
+
+    test("should parse and return the multitouchDragStrategy from int", () {
+      final json = <String, dynamic>{
+        "multitouchDragStrategy": 0,
+        "multitouchDragStrategy2": 1,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.multitouchDragStrategy(),
+        MultitouchDragStrategy.latestPointer,
+      );
+      expect(
+        data.multitouchDragStrategy(key: "multitouchDragStrategy2"),
+        MultitouchDragStrategy.averageBoundaryPointers,
+      );
+      expect(
+          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer);
+      expect(
+        data["multitouchDragStrategy2"],
+        MultitouchDragStrategy.averageBoundaryPointers,
+      );
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.multitouchDragStrategy(), null);
+      expect(
+        data.multitouchDragStrategy(
+          defaultValue: MultitouchDragStrategy.sumAllPointers,
+        ),
+        MultitouchDragStrategy.sumAllPointers,
+      );
+      expect(data["multitouchDragStrategy"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "multitouchDragStrategy": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.multitouchDragStrategy(
+          defaultValue: MultitouchDragStrategy.latestPointer,
+        ),
+        MultitouchDragStrategy.latestPointer,
+      );
+      expect(data["multitouchDragStrategy"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "multitouchDragStrategy":
+            MultitouchDragStrategy.averageBoundaryPointers,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.multitouchDragStrategy(),
+        MultitouchDragStrategy.averageBoundaryPointers,
+      );
+      expect(
+        data["multitouchDragStrategy"],
+        MultitouchDragStrategy.averageBoundaryPointers,
+      );
+    });
+  });
+
+  group("targetPlatform method", () {
+    test("should parse and return the targetPlatform from string", () {
+      final json = <String, dynamic>{
+        "platform": "android",
+        "platform2": "iOS",
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.targetPlatform(), TargetPlatform.android);
+      expect(data.targetPlatform(key: "platform2"), TargetPlatform.iOS);
+      expect(data["platform"], TargetPlatform.android);
+      expect(data["platform2"], TargetPlatform.iOS);
+    });
+
+    test("should parse and return the targetPlatform from int", () {
+      final json = <String, dynamic>{
+        "platform": 0,
+        "platform2": 4,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.targetPlatform(), TargetPlatform.android);
+      expect(data.targetPlatform(key: "platform2"), TargetPlatform.macOS);
+      expect(data["platform"], TargetPlatform.android);
+      expect(data["platform2"], TargetPlatform.macOS);
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+
+      expect(data.targetPlatform(), null);
+      expect(
+        data.targetPlatform(defaultValue: TargetPlatform.linux),
+        TargetPlatform.linux,
+      );
+      expect(data["platform"], null);
+    });
+
+    test("should return the default value if the value is not a string or int",
+        () {
+      final json = <String, dynamic>{
+        "platform": true,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.targetPlatform(defaultValue: TargetPlatform.windows),
+        TargetPlatform.windows,
+      );
+      expect(data["platform"], true);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final json = <String, dynamic>{
+        "platform": TargetPlatform.linux,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.targetPlatform(), TargetPlatform.linux);
+      expect(data["platform"], TargetPlatform.linux);
+    });
+  });
+
+  group("dragDevices method", () {
+    test("should parse and return the dragDevices from list of strings", () {
+      final json = <String, dynamic>{
+        "dragDevices": ["touch", "mouse"],
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.dragDevices()!;
+      expect(result, contains(PointerDeviceKind.touch));
+      expect(result, contains(PointerDeviceKind.mouse));
+      expect(result.length, 2);
+      expect(data["dragDevices"], isA<Set<PointerDeviceKind>>());
+    });
+
+    test("should parse and return the dragDevices from list of ints", () {
+      final json = <String, dynamic>{
+        "dragDevices": [0, 1],
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.dragDevices()!;
+      expect(result, contains(PointerDeviceKind.touch));
+      expect(result, contains(PointerDeviceKind.mouse));
+      expect(result.length, 2);
+      expect(data["dragDevices"], isA<Set<PointerDeviceKind>>());
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+      final defaultDevices = {PointerDeviceKind.touch};
+
+      expect(data.dragDevices(), null);
+      expect(
+        data.dragDevices(defaultValue: defaultDevices),
+        defaultDevices,
+      );
+      expect(data["dragDevices"], null);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final devices = {PointerDeviceKind.mouse, PointerDeviceKind.trackpad};
+      final json = <String, dynamic>{
+        "dragDevices": devices,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.dragDevices(), devices);
+      expect(data["dragDevices"], devices);
+    });
+
+    test("should return the default value if the value is not a list", () {
+      final json = <String, dynamic>{
+        "dragDevices": true,
+      };
+
+      final data = DuitDataSource(json);
+      final defaultDevices = {PointerDeviceKind.stylus};
+
+      expect(
+        data.dragDevices(defaultValue: defaultDevices),
+        defaultDevices,
+      );
+      expect(data["dragDevices"], true);
+    });
+  });
+
+  group("pointerAxisModifiers method", () {
+    test(
+        "should parse and return the pointerAxisModifiers from list of strings",
+        () {
+      final json = <String, dynamic>{
+        "pointerAxisModifiers": ["shift", "control"],
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.pointerAxisModifiers()!;
+      expect(result, contains(LogicalKeyboardKey.shift));
+      expect(result, contains(LogicalKeyboardKey.control));
+      expect(result.length, 2);
+      expect(data["pointerAxisModifiers"], isA<Set<LogicalKeyboardKey>>());
+    });
+
+    test("should return the default value if the value is null", () {
+      final json = <String, dynamic>{};
+
+      final data = DuitDataSource(json);
+      final defaultModifiers = {LogicalKeyboardKey.alt};
+
+      expect(data.pointerAxisModifiers(), null);
+      expect(
+        data.pointerAxisModifiers(defaultValue: defaultModifiers),
+        defaultModifiers,
+      );
+      expect(data["pointerAxisModifiers"], null);
+    });
+
+    test("should return instance if the value is already an instance", () {
+      final modifiers = {LogicalKeyboardKey.shift, LogicalKeyboardKey.meta};
+      final json = <String, dynamic>{
+        "pointerAxisModifiers": modifiers,
+      };
+
+      final data = DuitDataSource(json);
+
+      expect(data.pointerAxisModifiers(), modifiers);
+      expect(data["pointerAxisModifiers"], modifiers);
+    });
+
+    test(
+        "should return the default value if the value is not a list of strings",
+        () {
+      final json = <String, dynamic>{
+        "pointerAxisModifiers": [1, 2],
+      };
+
+      final data = DuitDataSource(json);
+      final defaultModifiers = {LogicalKeyboardKey.capsLock};
+
+      expect(
+        data.pointerAxisModifiers(defaultValue: defaultModifiers),
+        defaultModifiers,
+      );
+      expect(data["pointerAxisModifiers"], [1, 2]);
     });
   });
 }

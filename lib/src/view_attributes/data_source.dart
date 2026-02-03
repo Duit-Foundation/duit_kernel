@@ -6,6 +6,7 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
+import "package:flutter/services.dart";
 
 part "lookup.dart";
 part "fields.dart";
@@ -5686,6 +5687,217 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  // PointerDeviceKind pointerDeviceKind() {
+
+  /// Retrieves a [ScrollBehavior] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [ScrollBehavior], it returns that value.
+  /// If the value is a [Map<String, dynamic>], it attempts to parse it into a [ScrollBehavior].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [ScrollBehavior] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [ScrollBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ScrollBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  ScrollBehavior? scrollBehavior({
+    String key = FlutterPropertyKeys.scrollBehavior,
+    ScrollBehavior? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is ScrollBehavior) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Map<String, dynamic>) {
+      if (envAttributeWarmUpEnabled) {
+        if (warmUp) {
+          return _scrollBehaviorFromMap(value);
+        } else {
+          return _json[key] = _scrollBehaviorFromMap(value);
+        }
+      } else {
+        return _json[key] = _scrollBehaviorFromMap(value);
+      }
+    }
+
+    return defaultValue;
+  }
+
+  /// Parses a [ScrollBehavior] from a [Map<String, dynamic>] JSON object.
+  ///
+  /// This method creates a new [ScrollBehavior] instance by copying the properties from the given JSON map.
+  /// It uses the [DuitDataSource] to parse the properties and returns a new [ScrollBehavior] instance.
+  ///
+  /// Returns:
+  /// - A [ScrollBehavior] instance with the parsed properties.
+  @preferInline
+  ScrollBehavior _scrollBehaviorFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return ScrollBehavior().copyWith(
+      overscroll: source.tryGetBool("overscroll"),
+      scrollbars: source.tryGetBool("scrollbars"),
+      physics: source.scrollPhysics(),
+      multitouchDragStrategy: source.multitouchDragStrategy(),
+      platform: source.targetPlatform(),
+      dragDevices: source.dragDevices(),
+      pointerAxisModifiers: source.pointerAxisModifiers(),
+    );
+  }
+
+  /// Retrieves a [MultitouchDragStrategy] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [MultitouchDragStrategy], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [MultitouchDragStrategy].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [MultitouchDragStrategy] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [MultitouchDragStrategy] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [MultitouchDragStrategy] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  MultitouchDragStrategy? multitouchDragStrategy({
+    String key = FlutterPropertyKeys.multitouchDragStrategy,
+    MultitouchDragStrategy? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is MultitouchDragStrategy) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _multitouchDragStrategyStringLookupTable[value]!;
+          } else {
+            return _json[key] =
+                _multitouchDragStrategyStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _multitouchDragStrategyStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _multitouchDragStrategyIntLookupTable[value]!;
+          } else {
+            return _json[key] = _multitouchDragStrategyIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _multitouchDragStrategyIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [TargetPlatform] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TargetPlatform], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [TargetPlatform].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TargetPlatform] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TargetPlatform] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TargetPlatform] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TargetPlatform? targetPlatform({
+    String key = FlutterPropertyKeys.platform,
+    TargetPlatform? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is TargetPlatform) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _targetPlatformStringLookupTable[value]!;
+          } else {
+            return _json[key] = _targetPlatformStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _targetPlatformStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _targetPlatformIntLookupTable[value]!;
+          } else {
+            return _json[key] = _targetPlatformIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _targetPlatformIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  Set<PointerDeviceKind>? dragDevices({
+    String key = FlutterPropertyKeys.dragDevices,
+    Set<PointerDeviceKind>? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Set<PointerDeviceKind>) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case Iterable<String>():
+        return _json[key] =
+            value.map((e) => _pointerDeviceKindStringLookupTable[e]!).toSet();
+      case Iterable<num>():
+        return _json[key] = value
+            .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+            .toSet();
+      default:
+        return defaultValue;
+    }
+  }
+
+  Set<LogicalKeyboardKey>? pointerAxisModifiers({
+    String key = FlutterPropertyKeys.pointerAxisModifiers,
+    Set<LogicalKeyboardKey>? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Set<LogicalKeyboardKey>) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Iterable<String>) {
+      return _json[key] =
+          value.map((e) => _logicalKeyboardKeyStringLookupTable[e]!).toSet();
+    }
+
+    return defaultValue;
+  }
+
   /// The dispatch map for attribute keys to their corresponding handler functions.
   ///
   /// This map associates each supported [FlutterPropertyKeys] value with a function
@@ -5867,6 +6079,16 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.locale(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.orientation: (self, k, t, w) =>
         self.orientation(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.scrollBehavior: (self, k, t, w) =>
+        self.scrollBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.multitouchDragStrategy: (self, k, t, w) =>
+        self.multitouchDragStrategy(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.platform: (self, k, t, w) =>
+        self.targetPlatform(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.dragDevices: (self, k, t, w) =>
+        self.dragDevices(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.pointerAxisModifiers: (self, k, t, w) =>
+        self.pointerAxisModifiers(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key

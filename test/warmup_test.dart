@@ -1,11 +1,11 @@
 import "dart:convert";
-import "dart:typed_data";
 import "dart:ui";
 
 import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
+import "package:flutter/services.dart";
 import "package:flutter_test/flutter_test.dart";
 
 final propsDataset = <String, dynamic>{
@@ -290,6 +290,24 @@ final propsDataset = <String, dynamic>{
   // Scroll physics
   "physics": "alwaysScrollableScrollPhysics",
 
+  // Scroll behavior
+  "scrollBehavior": <String, dynamic>{
+    "overscroll": true,
+    "scrollbars": false,
+  },
+
+  // Multitouch drag strategy
+  "multitouchDragStrategy": "latestPointer",
+
+  // Target platform
+  "platform": "android",
+
+  // Drag devices
+  "dragDevices": ["touch", "mouse"],
+
+  // Pointer axis modifiers
+  "pointerAxisModifiers": ["shift", "control"],
+
   // Drag start behavior
   "dragStartBehavior": "start",
 
@@ -437,6 +455,11 @@ void main() {
           isA<ScrollViewKeyboardDismissBehavior>(),
         );
         expect(j["physics"], isA<ScrollPhysics>());
+        expect(j["scrollBehavior"], isA<ScrollBehavior>());
+        expect(j["multitouchDragStrategy"], isA<MultitouchDragStrategy>());
+        expect(j["platform"], isA<TargetPlatform>());
+        expect(j["dragDevices"], isA<Set<PointerDeviceKind>>());
+        expect(j["pointerAxisModifiers"], isA<Set<LogicalKeyboardKey>>());
         expect(j["dragStartBehavior"], isA<DragStartBehavior>());
         expect(j["hitTestBehavior"], isA<HitTestBehavior>());
         expect(j["interval"], isA<AnimationInterval>());

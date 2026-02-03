@@ -1624,3 +1624,212 @@ const _flexFitIntLookupTable = <int, FlexFit>{
   0: FlexFit.tight,
   1: FlexFit.loose,
 };
+
+/// Lookup table for [PointerDeviceKind] values by [String] type key.
+///
+/// Maps string identifiers to [PointerDeviceKind] enum values for pointer device type.
+/// Supported values: "touch", "mouse", "stylus", "invertedStylus", "trackpad", "unknown".
+const _pointerDeviceKindStringLookupTable = <String, PointerDeviceKind>{
+  "touch": PointerDeviceKind.touch,
+  "PointerDeviceKind.touch": PointerDeviceKind.touch,
+  "mouse": PointerDeviceKind.mouse,
+  "PointerDeviceKind.mouse": PointerDeviceKind.mouse,
+  "stylus": PointerDeviceKind.stylus,
+  "PointerDeviceKind.stylus": PointerDeviceKind.stylus,
+  "invertedStylus": PointerDeviceKind.invertedStylus,
+  "PointerDeviceKind.invertedStylus": PointerDeviceKind.invertedStylus,
+  "trackpad": PointerDeviceKind.trackpad,
+  "PointerDeviceKind.trackpad": PointerDeviceKind.trackpad,
+  "unknown": PointerDeviceKind.unknown,
+  "PointerDeviceKind.unknown": PointerDeviceKind.unknown,
+};
+
+/// Lookup table for [PointerDeviceKind] values by [int] type key.
+///
+/// Maps integer identifiers to [PointerDeviceKind] enum values for pointer device type.
+/// Supported values: 0 (touch), 1 (mouse), 2 (stylus), 3 (invertedStylus), 4 (trackpad), 5 (unknown).
+const _pointerDeviceKindIntLookupTable = <int, PointerDeviceKind>{
+  0: PointerDeviceKind.touch,
+  1: PointerDeviceKind.mouse,
+  2: PointerDeviceKind.stylus,
+  3: PointerDeviceKind.invertedStylus,
+  4: PointerDeviceKind.trackpad,
+  5: PointerDeviceKind.unknown,
+};
+
+/// Lookup table for [MultitouchDragStrategy] values by [String] type key.
+///
+/// Maps string identifiers to [MultitouchDragStrategy] enum values for multi-pointer drag behavior.
+/// Supported values: "latestPointer", "averageBoundaryPointers", "sumAllPointers".
+const _multitouchDragStrategyStringLookupTable =
+    <String, MultitouchDragStrategy>{
+  "latestPointer": MultitouchDragStrategy.latestPointer,
+  "MultitouchDragStrategy.latestPointer": MultitouchDragStrategy.latestPointer,
+  "averageBoundaryPointers": MultitouchDragStrategy.averageBoundaryPointers,
+  "MultitouchDragStrategy.averageBoundaryPointers":
+      MultitouchDragStrategy.averageBoundaryPointers,
+  "sumAllPointers": MultitouchDragStrategy.sumAllPointers,
+  "MultitouchDragStrategy.sumAllPointers":
+      MultitouchDragStrategy.sumAllPointers,
+};
+
+/// Lookup table for [MultitouchDragStrategy] values by [int] type key.
+///
+/// Maps integer identifiers to [MultitouchDragStrategy] enum values for multi-pointer drag behavior.
+/// Supported values: 0 (latestPointer), 1 (averageBoundaryPointers), 2 (sumAllPointers).
+const _multitouchDragStrategyIntLookupTable = <int, MultitouchDragStrategy>{
+  0: MultitouchDragStrategy.latestPointer,
+  1: MultitouchDragStrategy.averageBoundaryPointers,
+  2: MultitouchDragStrategy.sumAllPointers,
+};
+
+/// Lookup table for [TargetPlatform] values by [String] type key.
+///
+/// Maps string identifiers to [TargetPlatform] enum values for target platform.
+/// Supported values: "android", "fuchsia", "iOS", "linux", "macOS", "windows".
+const _targetPlatformStringLookupTable = <String, TargetPlatform>{
+  "android": TargetPlatform.android,
+  "TargetPlatform.android": TargetPlatform.android,
+  "fuchsia": TargetPlatform.fuchsia,
+  "TargetPlatform.fuchsia": TargetPlatform.fuchsia,
+  "iOS": TargetPlatform.iOS,
+  "TargetPlatform.iOS": TargetPlatform.iOS,
+  "linux": TargetPlatform.linux,
+  "TargetPlatform.linux": TargetPlatform.linux,
+  "macOS": TargetPlatform.macOS,
+  "TargetPlatform.macOS": TargetPlatform.macOS,
+  "windows": TargetPlatform.windows,
+  "TargetPlatform.windows": TargetPlatform.windows,
+};
+
+/// Lookup table for [TargetPlatform] values by [int] type key.
+///
+/// Maps integer identifiers to [TargetPlatform] enum values for target platform.
+/// Supported values: 0 (android), 1 (fuchsia), 2 (iOS), 3 (linux), 4 (macOS), 5 (windows).
+const _targetPlatformIntLookupTable = <int, TargetPlatform>{
+  0: TargetPlatform.android,
+  1: TargetPlatform.fuchsia,
+  2: TargetPlatform.iOS,
+  3: TargetPlatform.linux,
+  4: TargetPlatform.macOS,
+  5: TargetPlatform.windows,
+};
+
+/// Lookup table for [LogicalKeyboardKey] values by [String] type key.
+///
+/// Maps string identifiers (static getter names) to [LogicalKeyboardKey] constants.
+/// Supports common key names: "space", "enter", "escape", "backspace", "keyA", etc.
+const _logicalKeyboardKeyStringLookupTable = <String, LogicalKeyboardKey>{
+  "space": LogicalKeyboardKey.space,
+  "enter": LogicalKeyboardKey.enter,
+  "escape": LogicalKeyboardKey.escape,
+  "backspace": LogicalKeyboardKey.backspace,
+  "tab": LogicalKeyboardKey.tab,
+  "shift": LogicalKeyboardKey.shift,
+  "shiftLeft": LogicalKeyboardKey.shiftLeft,
+  "shiftRight": LogicalKeyboardKey.shiftRight,
+  "control": LogicalKeyboardKey.control,
+  "controlLeft": LogicalKeyboardKey.controlLeft,
+  "controlRight": LogicalKeyboardKey.controlRight,
+  "alt": LogicalKeyboardKey.alt,
+  "altLeft": LogicalKeyboardKey.altLeft,
+  "altRight": LogicalKeyboardKey.altRight,
+  "meta": LogicalKeyboardKey.meta,
+  "metaLeft": LogicalKeyboardKey.metaLeft,
+  "metaRight": LogicalKeyboardKey.metaRight,
+  "capsLock": LogicalKeyboardKey.capsLock,
+  "numLock": LogicalKeyboardKey.numLock,
+  "scrollLock": LogicalKeyboardKey.scrollLock,
+  "arrowUp": LogicalKeyboardKey.arrowUp,
+  "arrowDown": LogicalKeyboardKey.arrowDown,
+  "arrowLeft": LogicalKeyboardKey.arrowLeft,
+  "arrowRight": LogicalKeyboardKey.arrowRight,
+  "home": LogicalKeyboardKey.home,
+  "end": LogicalKeyboardKey.end,
+  "pageUp": LogicalKeyboardKey.pageUp,
+  "pageDown": LogicalKeyboardKey.pageDown,
+  "insert": LogicalKeyboardKey.insert,
+  "delete": LogicalKeyboardKey.delete,
+  "f1": LogicalKeyboardKey.f1,
+  "f2": LogicalKeyboardKey.f2,
+  "f3": LogicalKeyboardKey.f3,
+  "f4": LogicalKeyboardKey.f4,
+  "f5": LogicalKeyboardKey.f5,
+  "f6": LogicalKeyboardKey.f6,
+  "f7": LogicalKeyboardKey.f7,
+  "f8": LogicalKeyboardKey.f8,
+  "f9": LogicalKeyboardKey.f9,
+  "f10": LogicalKeyboardKey.f10,
+  "f11": LogicalKeyboardKey.f11,
+  "f12": LogicalKeyboardKey.f12,
+  "digit0": LogicalKeyboardKey.digit0,
+  "digit1": LogicalKeyboardKey.digit1,
+  "digit2": LogicalKeyboardKey.digit2,
+  "digit3": LogicalKeyboardKey.digit3,
+  "digit4": LogicalKeyboardKey.digit4,
+  "digit5": LogicalKeyboardKey.digit5,
+  "digit6": LogicalKeyboardKey.digit6,
+  "digit7": LogicalKeyboardKey.digit7,
+  "digit8": LogicalKeyboardKey.digit8,
+  "digit9": LogicalKeyboardKey.digit9,
+  "keyA": LogicalKeyboardKey.keyA,
+  "keyB": LogicalKeyboardKey.keyB,
+  "keyC": LogicalKeyboardKey.keyC,
+  "keyD": LogicalKeyboardKey.keyD,
+  "keyE": LogicalKeyboardKey.keyE,
+  "keyF": LogicalKeyboardKey.keyF,
+  "keyG": LogicalKeyboardKey.keyG,
+  "keyH": LogicalKeyboardKey.keyH,
+  "keyI": LogicalKeyboardKey.keyI,
+  "keyJ": LogicalKeyboardKey.keyJ,
+  "keyK": LogicalKeyboardKey.keyK,
+  "keyL": LogicalKeyboardKey.keyL,
+  "keyM": LogicalKeyboardKey.keyM,
+  "keyN": LogicalKeyboardKey.keyN,
+  "keyO": LogicalKeyboardKey.keyO,
+  "keyP": LogicalKeyboardKey.keyP,
+  "keyQ": LogicalKeyboardKey.keyQ,
+  "keyR": LogicalKeyboardKey.keyR,
+  "keyS": LogicalKeyboardKey.keyS,
+  "keyT": LogicalKeyboardKey.keyT,
+  "keyU": LogicalKeyboardKey.keyU,
+  "keyV": LogicalKeyboardKey.keyV,
+  "keyW": LogicalKeyboardKey.keyW,
+  "keyX": LogicalKeyboardKey.keyX,
+  "keyY": LogicalKeyboardKey.keyY,
+  "keyZ": LogicalKeyboardKey.keyZ,
+  "numpad0": LogicalKeyboardKey.numpad0,
+  "numpad1": LogicalKeyboardKey.numpad1,
+  "numpad2": LogicalKeyboardKey.numpad2,
+  "numpad3": LogicalKeyboardKey.numpad3,
+  "numpad4": LogicalKeyboardKey.numpad4,
+  "numpad5": LogicalKeyboardKey.numpad5,
+  "numpad6": LogicalKeyboardKey.numpad6,
+  "numpad7": LogicalKeyboardKey.numpad7,
+  "numpad8": LogicalKeyboardKey.numpad8,
+  "numpad9": LogicalKeyboardKey.numpad9,
+  "numpadEnter": LogicalKeyboardKey.numpadEnter,
+  "numpadAdd": LogicalKeyboardKey.numpadAdd,
+  "numpadSubtract": LogicalKeyboardKey.numpadSubtract,
+  "numpadMultiply": LogicalKeyboardKey.numpadMultiply,
+  "numpadDivide": LogicalKeyboardKey.numpadDivide,
+  "numpadDecimal": LogicalKeyboardKey.numpadDecimal,
+  "comma": LogicalKeyboardKey.comma,
+  "period": LogicalKeyboardKey.period,
+  "minus": LogicalKeyboardKey.minus,
+  "equal": LogicalKeyboardKey.equal,
+  "bracketLeft": LogicalKeyboardKey.bracketLeft,
+  "bracketRight": LogicalKeyboardKey.bracketRight,
+  "backslash": LogicalKeyboardKey.backslash,
+  "semicolon": LogicalKeyboardKey.semicolon,
+  "quote": LogicalKeyboardKey.quote,
+  "slash": LogicalKeyboardKey.slash,
+  "backquote": LogicalKeyboardKey.backquote,
+  "paste": LogicalKeyboardKey.paste,
+  "copy": LogicalKeyboardKey.copy,
+  "cut": LogicalKeyboardKey.cut,
+  "undo": LogicalKeyboardKey.undo,
+  "redo": LogicalKeyboardKey.redo,
+  "contextMenu": LogicalKeyboardKey.contextMenu,
+  "unidentified": LogicalKeyboardKey.unidentified,
+};
