@@ -1,3 +1,7 @@
+## 4.2.1
+
+- Added new methods to DuitDataSource extension
+
 ## 4.2.0-rc.3
 
 - Public API deprecation
@@ -52,7 +56,7 @@
 - Added DebugLogger interface and default implementation for it
 - Extend UIDriver API
 - Extend UIElementController API
-- Models of actions and events and some models for animations have been moved to the kernel 
+- Models of actions and events and some models for animations have been moved to the kernel
 
 ## 3.0.0
 
