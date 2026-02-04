@@ -6,9 +6,11 @@ import "package:duit_kernel/duit_kernel.dart";
 import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
+import "package:flutter/services.dart";
 
-part "lookup.dart";
 part "fields.dart";
+part "lookup.dart";
+part "icon_lookup.g.dart";
 
 /// Shortand for the extension type instance methods
 typedef _DispatchFn = dynamic Function(
@@ -5370,6 +5372,630 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves a [DateTime] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DateTime], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DateTime].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DateTime] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DateTime] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DateTime] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DateTime? dateTime({
+    required String key,
+    DateTime? defaultValue,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DateTime) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is String) {
+      return _json[key] = DateTime.parse(value);
+    }
+
+    if (value is int) {
+      return _json[key] = DateTime.fromMillisecondsSinceEpoch(value);
+    }
+
+    return defaultValue;
+  }
+
+  /// Retrieves a [DatePickerEntryMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DatePickerEntryMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DatePickerEntryMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DatePickerEntryMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DatePickerEntryMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DatePickerEntryMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DatePickerEntryMode datePickerEntryMode({
+    required String key,
+    DatePickerEntryMode defaultValue = DatePickerEntryMode.calendar,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DatePickerEntryMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _datePickerEntryModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _datePickerEntryModeIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [DatePickerMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [DatePickerMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [DatePickerMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [DatePickerMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [DatePickerMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [DatePickerMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  DatePickerMode datePickerMode({
+    required String key,
+    DatePickerMode defaultValue = DatePickerMode.day,
+  }) {
+    // Value warm-up ignored
+    final value = _readProp(key, null, false);
+
+    if (value is DatePickerMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _datePickerModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _datePickerModeIntLookupTable[value]!;
+    }
+    return defaultValue;
+  }
+
+  /// Retrieves a [Locale] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [Locale], it returns that value.
+  /// If the value is a [String], it attempts to parse it into a [Locale].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Locale] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [Locale] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Locale] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  Locale? locale({
+    String key = FlutterPropertyKeys.locale,
+    Locale? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Locale) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return localeFromString(value);
+          } else {
+            return _json[key] = localeFromString(value);
+          }
+        } else {
+          return _json[key] = localeFromString(value);
+        }
+      case Map<String, dynamic>():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _localeFromMap(value);
+          } else {
+            return _json[key] = _localeFromMap(value);
+          }
+        } else {
+          return _json[key] = _localeFromMap(value);
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  Locale localeFromString(String value) {
+    final tags = value.split("-");
+    if (tags.length == 1) {
+      return Locale(tags[0]);
+    } else {
+      return Locale(tags[0], tags[1]);
+    }
+  }
+
+  @preferInline
+  Locale _localeFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return Locale(
+      source.getString(key: "languageCode"),
+      source.tryGetString("countryCode"),
+    );
+  }
+
+  /// Retrieves a [TimeOfDay] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TimeOfDay], it returns that value.
+  /// If the value is a [List<num>], it attempts to parse it into a [TimeOfDay].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TimeOfDay] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TimeOfDay] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TimeOfDay] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TimeOfDay? timeOfDay({
+    required String key,
+    TimeOfDay? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+
+    if (value is TimeOfDay) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is List<num>) {
+      return _json[key] = TimeOfDay(
+        hour: value.elementAt(0).toInt(),
+        minute: value.elementAt(1).toInt(),
+      );
+    }
+
+    return defaultValue;
+  }
+
+  /// Retrieves a [TimePickerEntryMode] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TimePickerEntryMode], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [TimePickerEntryMode].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TimePickerEntryMode] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TimePickerEntryMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TimePickerEntryMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TimePickerEntryMode timePickerEntryMode({
+    required String key,
+    TimePickerEntryMode defaultValue = TimePickerEntryMode.dial,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is TimePickerEntryMode) return value;
+    if (value == null) return defaultValue;
+    switch (value) {
+      case String():
+        return _json[key] = _timePickerEntryModeStringLookupTable[value]!;
+      case int():
+        return _json[key] = _timePickerEntryModeIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves an [Orientation] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already an [Orientation], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into an [Orientation].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [Orientation] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - An [Orientation] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [Orientation] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  Orientation? orientation({
+    String key = FlutterPropertyKeys.orientation,
+    Orientation defaultValue = Orientation.portrait,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+    if (value is Orientation) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _orientationStringLookupTable[value]!;
+          } else {
+            return _json[key] = _orientationStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _orientationStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _orientationIntLookupTable[value]!;
+          } else {
+            return _json[key] = _orientationIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _orientationIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [FlexFit] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [FlexFit], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [FlexFit].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [FlexFit] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [FlexFit] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [FlexFit] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  FlexFit? flexFit({
+    required String key,
+    FlexFit defaultValue = FlexFit.loose,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is FlexFit) return value;
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _flexFitStringLookupTable[value]!;
+      case int():
+        return _json[key] = _flexFitIntLookupTable[value]!;
+      default:
+        return defaultValue;
+    }
+  }
+
+  // PointerDeviceKind pointerDeviceKind() {
+
+  /// Retrieves a [ScrollBehavior] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [ScrollBehavior], it returns that value.
+  /// If the value is a [Map<String, dynamic>], it attempts to parse it into a [ScrollBehavior].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [ScrollBehavior] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [ScrollBehavior] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [ScrollBehavior] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  ScrollBehavior? scrollBehavior({
+    String key = FlutterPropertyKeys.scrollBehavior,
+    ScrollBehavior? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is ScrollBehavior) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Map<String, dynamic>) {
+      if (envAttributeWarmUpEnabled) {
+        if (warmUp) {
+          return _scrollBehaviorFromMap(value);
+        } else {
+          return _json[key] = _scrollBehaviorFromMap(value);
+        }
+      } else {
+        return _json[key] = _scrollBehaviorFromMap(value);
+      }
+    }
+
+    return defaultValue;
+  }
+
+  /// Retrieves an [IconData] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already an [IconData], it returns that value.
+  /// If the value is a [String], it attempts to resolve it via the [Icons] lookup table
+  /// (supports both "add" and "Icons.add" forms).
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [IconData] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - An [IconData] if the value is valid or can be resolved.
+  /// - [defaultValue] if the value is not valid or cannot be resolved.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  IconData? iconData({
+    required String key,
+    IconData? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is IconData) return value;
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _iconDataStringLookupTable[value]!;
+      case Map<String, dynamic>():
+        return _json[key] = _iconDataFromMap(value);
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  IconData _iconDataFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    final ffFallback = source["fontFamilyFallback"] as List<String>?;
+    return IconData(
+      source.getInt(key: "codePoint"),
+      fontFamily: source.tryGetString("fontFamily"),
+      fontPackage: source.tryGetString("fontPackage"),
+      matchTextDirection: source.getBool(
+        "matchTextDirection",
+        defaultValue: false,
+      ),
+      fontFamilyFallback: ffFallback,
+    );
+  }
+
+  /// Parses a [ScrollBehavior] from a [Map<String, dynamic>] JSON object.
+  ///
+  /// This method creates a new [ScrollBehavior] instance by copying the properties from the given JSON map.
+  /// It uses the [DuitDataSource] to parse the properties and returns a new [ScrollBehavior] instance.
+  ///
+  /// Returns:
+  /// - A [ScrollBehavior] instance with the parsed properties.
+  @preferInline
+  ScrollBehavior _scrollBehaviorFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    return ScrollBehavior().copyWith(
+      overscroll: source.tryGetBool("overscroll"),
+      scrollbars: source.tryGetBool("scrollbars"),
+      physics: source.scrollPhysics(),
+      multitouchDragStrategy: source.multitouchDragStrategy(),
+      platform: source.targetPlatform(),
+      dragDevices: source.dragDevices(),
+      pointerAxisModifiers: source.pointerAxisModifiers(),
+    );
+  }
+
+  /// Retrieves a [MultitouchDragStrategy] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [MultitouchDragStrategy], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [MultitouchDragStrategy].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [MultitouchDragStrategy] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [MultitouchDragStrategy] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [MultitouchDragStrategy] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  MultitouchDragStrategy? multitouchDragStrategy({
+    String key = FlutterPropertyKeys.multitouchDragStrategy,
+    MultitouchDragStrategy? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is MultitouchDragStrategy) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _multitouchDragStrategyStringLookupTable[value]!;
+          } else {
+            return _json[key] =
+                _multitouchDragStrategyStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _multitouchDragStrategyStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _multitouchDragStrategyIntLookupTable[value]!;
+          } else {
+            return _json[key] = _multitouchDragStrategyIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _multitouchDragStrategyIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  /// Retrieves a [TargetPlatform] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already a [TargetPlatform], it returns that value.
+  /// If the value is a [String] or [int], it attempts to parse it into a [TargetPlatform].
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [TargetPlatform] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - A [TargetPlatform] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TargetPlatform] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TargetPlatform? targetPlatform({
+    String key = FlutterPropertyKeys.platform,
+    TargetPlatform? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is TargetPlatform) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _targetPlatformStringLookupTable[value]!;
+          } else {
+            return _json[key] = _targetPlatformStringLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _targetPlatformStringLookupTable[value]!;
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _targetPlatformIntLookupTable[value]!;
+          } else {
+            return _json[key] = _targetPlatformIntLookupTable[value]!;
+          }
+        } else {
+          return _json[key] = _targetPlatformIntLookupTable[value]!;
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
+  Set<PointerDeviceKind>? dragDevices({
+    String key = FlutterPropertyKeys.dragDevices,
+    Set<PointerDeviceKind>? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Set<PointerDeviceKind>) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Iterable && value.isNotEmpty) {
+      final item = value.first;
+      switch (item) {
+        case String():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
+                  .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                  .toSet();
+            } else {
+              return _json[key] = value
+                  .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                .toSet();
+          }
+        case num():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
+                  .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                  .toSet();
+            } else {
+              return _json[key] = value
+                  .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                .toSet();
+          }
+        default:
+          return defaultValue;
+      }
+    }
+
+    return defaultValue;
+  }
+
+  Set<LogicalKeyboardKey>? pointerAxisModifiers({
+    String key = FlutterPropertyKeys.pointerAxisModifiers,
+    Set<LogicalKeyboardKey>? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is Set<LogicalKeyboardKey>) return value;
+
+    if (value == null) return defaultValue;
+
+    if (value is Iterable && value.isNotEmpty) {
+      final item = value.first;
+      switch (item) {
+        case String():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
+                  .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                  .toSet();
+            } else {
+              return _json[key] = value
+                  .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                .toSet();
+          }
+        default:
+          return defaultValue;
+      }
+    }
+
+    return defaultValue;
+  }
+
   /// The dispatch map for attribute keys to their corresponding handler functions.
   ///
   /// This map associates each supported [FlutterPropertyKeys] value with a function
@@ -5547,6 +6173,20 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.traversalDirection(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.unfocusDisposition: (self, k, t, w) =>
         self.unfocusDisposition(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.locale: (self, k, t, w) =>
+        self.locale(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.orientation: (self, k, t, w) =>
+        self.orientation(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.scrollBehavior: (self, k, t, w) =>
+        self.scrollBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.multitouchDragStrategy: (self, k, t, w) =>
+        self.multitouchDragStrategy(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.platform: (self, k, t, w) =>
+        self.targetPlatform(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.dragDevices: (self, k, t, w) =>
+        self.dragDevices(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.pointerAxisModifiers: (self, k, t, w) =>
+        self.pointerAxisModifiers(key: k, target: t, warmUp: w),
   };
 
   /// A specialized dispatcher for transforming objects stored under the "style" key

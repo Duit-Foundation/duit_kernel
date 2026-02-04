@@ -18,3 +18,6 @@ lint:
 
 format:
 	fvm dart format .
+
+gen icons:
+	fvm dart run tool/generate_icon_lookup.dart

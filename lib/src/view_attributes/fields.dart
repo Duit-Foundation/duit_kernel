@@ -13,6 +13,7 @@ sealed class FlutterPropertyKeys {
   static const margin = "margin";
   static const method = "method";
   static const offset = "offset";
+  static const locale = "locale";
   static const radius = "radius";
   static const repeat = "repeat";
   static const padding = "padding";
@@ -27,6 +28,7 @@ sealed class FlutterPropertyKeys {
   static const stackFit = "stackFit";
   static const textSpan = "textSpan";
   static const tileMode = "tileMode";
+  static const platform = "platform";
   static const alignment = "alignment";
   static const blendMode = "blendMode";
   static const boxShadow = "boxShadow";
@@ -39,6 +41,8 @@ sealed class FlutterPropertyKeys {
   static const fontWeight = "fontWeight";
   static const strutStyle = "strutStyle";
   static const textScaler = "textScaler";
+  static const dragDevices = "dragDevices";
+  static const orientation = "orientation";
   static const constraints = "constraints";
   static const errorBorder = "errorBorder";
   static const inputBorder = "inputBorder";
@@ -55,15 +59,17 @@ sealed class FlutterPropertyKeys {
   static const enabledBorder = "enabledBorder";
   static const filterQuality = "filterQuality";
   static const focusedBorder = "focusedBorder";
-  static const overflowBoxFit = "overflowBoxFit";
   static const textDirection = "textDirection";
   static const visualDensity = "visualDensity";
   static const wrapAlignment = "wrapAlignment";
+  static const overflowBoxFit = "overflowBoxFit";
+  static const scrollBehavior = "scrollBehavior";
   static const textWidthBasis = "textWidthBasis";
   static const decorationStyle = "decorationStyle";
   static const hitTestBehavior = "hitTestBehavior";
   static const inputDecoration = "inputDecoration";
   static const scrollDirection = "scrollDirection";
+
   static const dragStartBehavior = "dragStartBehavior";
   static const mainAxisAlignment = "mainAxisAlignment";
   static const verticalDirection = "verticalDirection";
@@ -74,9 +80,11 @@ sealed class FlutterPropertyKeys {
   static const crossAxisAlignment = "crossAxisAlignment";
   static const focusedErrorBorder = "focusedErrorBorder";
   static const textHeightBehavior = "textHeightBehavior";
+  static const pointerAxisModifiers = "pointerAxisModifiers";
   static const alignmentDirectional = "alignmentDirectional";
   static const leadingDistribution = "leadingDistribution";
   static const materialTapTargetSize = "materialTapTargetSize";
+  static const multitouchDragStrategy = "multitouchDragStrategy";
   static const keyboardDismissBehavior = "keyboardDismissBehavior";
   static const persistentFooterAlignment = "persistentFooterAlignment";
   static const floatingActionButtonLocation = "floatingActionButtonLocation";
@@ -92,6 +100,7 @@ sealed class FlutterPropertyKeys {
     filter,
     margin,
     method,
+    locale,
     offset,
     radius,
     repeat,
@@ -109,6 +118,7 @@ sealed class FlutterPropertyKeys {
     tileMode,
     alignment,
     blendMode,
+    platform,
     boxShadow,
     focusNode,
     direction,
@@ -121,7 +131,9 @@ sealed class FlutterPropertyKeys {
     textScaler,
     constraints,
     errorBorder,
+    orientation,
     inputBorder,
+    dragDevices,
     borderRadius,
     clipBehavior,
     collapseMode,
@@ -135,11 +147,12 @@ sealed class FlutterPropertyKeys {
     enabledBorder,
     filterQuality,
     focusedBorder,
-    overflowBoxFit,
     textDirection,
     visualDensity,
     wrapAlignment,
     textWidthBasis,
+    overflowBoxFit,
+    scrollBehavior,
     decorationStyle,
     hitTestBehavior,
     inputDecoration,
@@ -154,9 +167,11 @@ sealed class FlutterPropertyKeys {
     traversalDirection,
     unfocusDisposition,
     textHeightBehavior,
-    alignmentDirectional,
     leadingDistribution,
+    pointerAxisModifiers,
+    alignmentDirectional,
     materialTapTargetSize,
+    multitouchDragStrategy,
     keyboardDismissBehavior,
     persistentFooterAlignment,
     floatingActionButtonLocation,
