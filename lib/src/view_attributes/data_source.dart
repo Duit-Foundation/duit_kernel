@@ -5865,17 +5865,47 @@ extension type DuitDataSource(Map<String, dynamic> _json)
 
     if (value == null) return defaultValue;
 
-    switch (value) {
-      case Iterable<String>():
-        return _json[key] =
-            value.map((e) => _pointerDeviceKindStringLookupTable[e]!).toSet();
-      case Iterable<num>():
+    if (value is Iterable && value.isNotEmpty) {
+      final item = value.first;
+      switch (item) {
+        case String():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
+                  .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                  .toSet();
+            } else {
         return _json[key] = value
+                  .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _pointerDeviceKindStringLookupTable[e]!)
+                .toSet();
+          }
+        case num():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
             .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
             .toSet();
+            } else {
+              return _json[key] = value
+                  .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                .toSet();
+          }
       default:
         return defaultValue;
     }
+    }
+
+    return defaultValue;
   }
 
   Set<LogicalKeyboardKey>? pointerAxisModifiers({
@@ -5890,9 +5920,28 @@ extension type DuitDataSource(Map<String, dynamic> _json)
 
     if (value == null) return defaultValue;
 
-    if (value is Iterable<String>) {
-      return _json[key] =
-          value.map((e) => _logicalKeyboardKeyStringLookupTable[e]!).toSet();
+    if (value is Iterable && value.isNotEmpty) {
+      final item = value.first;
+      switch (item) {
+        case String():
+          if (envAttributeWarmUpEnabled) {
+            if (warmUp) {
+              return value
+                  .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                  .toSet();
+            } else {
+              return _json[key] = value
+                  .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                  .toSet();
+            }
+          } else {
+            return _json[key] = value
+                .map((e) => _logicalKeyboardKeyStringLookupTable[e]!)
+                .toSet();
+          }
+        default:
+          return defaultValue;
+      }
     }
 
     return defaultValue;
