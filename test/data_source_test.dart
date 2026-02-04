@@ -340,6 +340,76 @@ void main() {
     },
   );
 
+  group("iconData method", () {
+    test("should return instance if the value is already an IconData", () {
+      final icon = Icons.add;
+      final json = <String, dynamic>{"icon": icon};
+
+      final data = DuitDataSource(json);
+
+      expect(data.iconData(key: "icon"), icon);
+      expect(data["icon"], icon);
+    });
+
+    test("should return default value if the value is null", () {
+      final json = <String, dynamic>{};
+      final defaultIcon = Icons.search;
+
+      final data = DuitDataSource(json);
+
+      expect(data.iconData(key: "icon"), null);
+      expect(
+        data.iconData(key: "icon", defaultValue: defaultIcon),
+        defaultIcon,
+      );
+      expect(data["icon"], null);
+    });
+
+    test("should resolve IconData from string key and store in json", () {
+      final json = <String, dynamic>{"icon": "add"};
+
+      final data = DuitDataSource(json);
+
+      expect(data.iconData(key: "icon"), Icons.add);
+      expect(data["icon"], Icons.add);
+    });
+
+    test("should parse IconData from map with codePoint and optional fields",
+        () {
+      final json = <String, dynamic>{
+        "icon": {
+          "codePoint": 0xe145,
+          "fontFamily": "MaterialIcons",
+          "fontPackage": null,
+          "matchTextDirection": false,
+        },
+      };
+
+      final data = DuitDataSource(json);
+
+      final result = data.iconData(key: "icon");
+      expect(result, isNotNull);
+      expect(result!.codePoint, 0xe145);
+      expect(result.fontFamily, "MaterialIcons");
+      expect(result.matchTextDirection, false);
+      expect(data["icon"], result);
+    });
+
+    test("should return default value if the value is not String, Map or IconData",
+        () {
+      final defaultIcon = Icons.star;
+      final json = <String, dynamic>{"icon": 42};
+
+      final data = DuitDataSource(json);
+
+      expect(
+        data.iconData(key: "icon", defaultValue: defaultIcon),
+        defaultIcon,
+      );
+      expect(data["icon"], 42);
+    });
+  });
+
   group("edgeInsets method", () {
     test("should parse and return edgeInsets from list with 2 values", () {
       final json = <String, dynamic>{

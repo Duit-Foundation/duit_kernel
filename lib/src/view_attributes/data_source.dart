@@ -8,8 +8,9 @@ import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
 
-part "lookup.dart";
 part "fields.dart";
+part "lookup.dart";
+part "icon_lookup.g.dart";
 
 /// Shortand for the extension type instance methods
 typedef _DispatchFn = dynamic Function(
@@ -5625,7 +5626,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     Object? target,
     bool warmUp = false,
   }) {
-    final value = _readProp(key, null, false);
+    final value = _readProp(key, target, warmUp);
     if (value is Orientation) return value;
 
     if (value == null) return defaultValue;
@@ -5727,6 +5728,54 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
 
     return defaultValue;
+  }
+
+  /// Retrieves an [IconData] value from the JSON map associated with the given [key].
+  ///
+  /// If the value associated with the [key] is already an [IconData], it returns that value.
+  /// If the value is a [String], it attempts to resolve it via the [Icons] lookup table
+  /// (supports both "add" and "Icons.add" forms).
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// The parsed or existing [IconData] is also stored back into the JSON map at the given [key].
+  ///
+  /// Returns:
+  /// - An [IconData] if the value is valid or can be resolved.
+  /// - [defaultValue] if the value is not valid or cannot be resolved.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  IconData? iconData({
+    required String key,
+    IconData? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is IconData) return value;
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        return _json[key] = _iconDataStringLookupTable[value]!;
+      case Map<String, dynamic>():
+        return _json[key] = _iconDataFromMap(value);
+      default:
+        return defaultValue;
+    }
+  }
+
+  @preferInline
+  IconData _iconDataFromMap(Map<String, dynamic> json) {
+    final source = DuitDataSource(json);
+    final ffFallback = source["fontFamilyFallback"] as List<String>?;
+    return IconData(
+      source.getInt(key: "codePoint"),
+      fontFamily: source.tryGetString("fontFamily"),
+      fontPackage: source.tryGetString("fontPackage"),
+      matchTextDirection: source.getBool(
+        "matchTextDirection",
+        defaultValue: false,
+      ),
+      fontFamilyFallback: ffFallback,
+    );
   }
 
   /// Parses a [ScrollBehavior] from a [Map<String, dynamic>] JSON object.
@@ -5875,7 +5924,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
                   .map((e) => _pointerDeviceKindStringLookupTable[e]!)
                   .toSet();
             } else {
-        return _json[key] = value
+              return _json[key] = value
                   .map((e) => _pointerDeviceKindStringLookupTable[e]!)
                   .toSet();
             }
@@ -5888,8 +5937,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
           if (envAttributeWarmUpEnabled) {
             if (warmUp) {
               return value
-            .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
-            .toSet();
+                  .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
+                  .toSet();
             } else {
               return _json[key] = value
                   .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
@@ -5900,9 +5949,9 @@ extension type DuitDataSource(Map<String, dynamic> _json)
                 .map((e) => _pointerDeviceKindIntLookupTable[e.toInt()]!)
                 .toSet();
           }
-      default:
-        return defaultValue;
-    }
+        default:
+          return defaultValue;
+      }
     }
 
     return defaultValue;
