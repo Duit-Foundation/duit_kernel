@@ -1,3 +1,7 @@
+## 4.2.2
+
+- Add cacheTTL to ServerAction and preparePayloadWithDataHash method in ServerActionExecutionCapabilityDelegate
+
 ## 4.2.1
 
 - Added new methods to DuitDataSource extension
