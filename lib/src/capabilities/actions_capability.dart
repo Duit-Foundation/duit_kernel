@@ -91,6 +91,18 @@ mixin ServerActionExecutionCapabilityDelegate implements DriverRefHolder {
         "ServerActionExecutionCapabilityDelegate",
       );
 
+  /// Save as preparePayload, but also calculate a hash of the data.
+  ///
+  /// Throws [MissingCapabilityMethodImplementation] by default if not overridden.
+  @mustBeOverridden
+  (Map<String, dynamic>, int) preparePayloadWithDataHash(
+    Iterable<ActionDependency> dependencies,
+  ) =>
+      throw const MissingCapabilityMethodImplementation(
+        "preparePayloadWithDataHash",
+        "ServerActionExecutionCapabilityDelegate",
+      );
+
   /// Handles and resolves an incoming [eventData] in the given [context].
   ///
   /// Implementations must process the [eventData] (typically a parsed [ServerEvent]
