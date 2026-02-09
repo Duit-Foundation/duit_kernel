@@ -82,6 +82,16 @@ void main() {
           ),
         );
       });
+
+      test("preparePayloadWithDataHash throws MissingMethodImplementation", () {
+        expect(
+          () => delegate.preparePayloadWithDataHash([]),
+          throwsMissing(
+            "preparePayloadWithDataHash",
+            "ServerActionExecutionCapabilityDelegate",
+          ),
+        );
+      });
     },
   );
 }
