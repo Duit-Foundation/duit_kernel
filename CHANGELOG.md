@@ -1,3 +1,7 @@
+## 4.2.3
+
+- Add action suppression caching logic for idempotent ServerAction
+
 ## 4.2.2
 
 - Add cacheTTL to ServerAction and preparePayloadWithDataHash method in ServerActionExecutionCapabilityDelegate

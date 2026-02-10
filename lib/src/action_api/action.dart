@@ -32,14 +32,20 @@ base class ServerAction {
   /// The TTL of the action in seconds.
   ///
   /// The TTL is the time after which the action can be executed again.
-  final Duration? cacheTTL;
+  final Duration? suppressionTTL;
+
+  /// Whether the action is idempotent.
+  ///
+  /// If the action is idempotent, it will be executed only once with the same payload.
+  final bool idempotent;
 
   ServerAction({
     required this.eventName,
     required this.executionType,
     this.dependsOn = const [],
     this.executionOptions,
-    this.cacheTTL,
+    this.suppressionTTL,
+    this.idempotent = false,
   });
 
   static ServerAction parse(Map<String, dynamic> json) =>
@@ -112,7 +118,8 @@ final class TransportAction extends ServerAction implements DependentAction {
     required super.dependsOn,
     this.meta,
     super.executionOptions,
-    super.cacheTTL,
+    super.suppressionTTL,
+    super.idempotent,
   }) : super(
           executionType: 0,
         );
@@ -125,9 +132,10 @@ final class TransportAction extends ServerAction implements DependentAction {
       dependsOn: source.getActionDependencies(),
       meta: source.meta,
       executionOptions: source.executionOptions(),
-      cacheTTL: source.containsKey("cacheTTL")
-          ? source.duration(key: "cacheTTL")
+      suppressionTTL: source.containsKey("suppressionTTL")
+          ? source.duration(key: "suppressionTTL")
           : null,
+      idempotent: source.getBool("idempotent"),
     );
   }
 }
@@ -145,7 +153,8 @@ final class ScriptAction extends ServerAction implements DependentAction {
     required this.script,
     required super.dependsOn,
     super.executionOptions,
-    super.cacheTTL,
+    super.suppressionTTL,
+    super.idempotent,
   }) : super(
           eventName: "script",
           executionType: 2,
@@ -158,9 +167,10 @@ final class ScriptAction extends ServerAction implements DependentAction {
       script: source.script,
       dependsOn: source.getActionDependencies(),
       executionOptions: source.executionOptions(),
-      cacheTTL: source.containsKey("cacheTTL")
-          ? source.duration(key: "cacheTTL")
+      suppressionTTL: source.containsKey("suppressionTTL")
+          ? source.duration(key: "suppressionTTL")
           : null,
+      idempotent: source.getBool("idempotent"),
     );
   }
 }
