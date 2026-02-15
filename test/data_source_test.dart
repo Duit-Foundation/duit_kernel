@@ -395,7 +395,8 @@ void main() {
       expect(data["icon"], result);
     });
 
-    test("should return default value if the value is not String, Map or IconData",
+    test(
+        "should return default value if the value is not String, Map or IconData",
         () {
       final defaultIcon = Icons.star;
       final json = <String, dynamic>{"icon": 42};
@@ -582,23 +583,28 @@ void main() {
 
     test("should parse color from RGBA list", () {
       final json = <String, dynamic>{
-        "color": [255, 0, 0, 0.5],
-        "color2": [0, 255, 0, 0.7],
-        "color3": [0, 0, 255, 0.3],
+        "color": [255, 0, 0, 190],
+        "color2": [0, 255, 0, 230],
+        "color3": [0, 0, 255, 100],
       };
 
       final data = DuitDataSource(json);
       expect(
         data.parseColor(key: "color"),
-        const Color.fromRGBO(255, 0, 0, 0.5),
+        const Color.fromARGB(190, 255, 0, 0),
       );
       expect(
         data.parseColor(key: "color2"),
-        const Color.fromRGBO(0, 255, 0, 0.7),
+        const Color.fromARGB(
+          230,
+          0,
+          255,
+          0,
+        ),
       );
       expect(
         data.parseColor(key: "color3"),
-        const Color.fromRGBO(0, 0, 255, 0.3),
+        const Color.fromARGB(100, 0, 0, 255),
       );
     });
 
@@ -7843,7 +7849,9 @@ void main() {
         MultitouchDragStrategy.sumAllPointers,
       );
       expect(
-          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer,);
+        data["multitouchDragStrategy"],
+        MultitouchDragStrategy.latestPointer,
+      );
       expect(
         data["multitouchDragStrategy2"],
         MultitouchDragStrategy.sumAllPointers,
@@ -7867,7 +7875,9 @@ void main() {
         MultitouchDragStrategy.averageBoundaryPointers,
       );
       expect(
-          data["multitouchDragStrategy"], MultitouchDragStrategy.latestPointer,);
+        data["multitouchDragStrategy"],
+        MultitouchDragStrategy.latestPointer,
+      );
       expect(
         data["multitouchDragStrategy2"],
         MultitouchDragStrategy.averageBoundaryPointers,

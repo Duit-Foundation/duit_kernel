@@ -201,11 +201,11 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   Color? _colorFromList(List color) {
     final colorData = color.map((e) => e as num).toList();
     return switch (colorData.length) {
-      4 => Color.fromRGBO(
+      4 => Color.fromARGB(
+          colorData[3].toInt(),
           colorData[0].toInt(),
           colorData[1].toInt(),
           colorData[2].toInt(),
-          colorData[3].toDouble(),
         ),
       3 => Color.fromRGBO(
           colorData[0].toInt(),
