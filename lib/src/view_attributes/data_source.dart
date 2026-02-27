@@ -3681,6 +3681,58 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves a [TooltipTriggerMode] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TooltipTriggerMode],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'triggerMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TooltipTriggerMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TooltipTriggerMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TooltipTriggerMode? tooltipTriggerMode({
+    String key = FlutterPropertyKeys.triggerMode,
+    TooltipTriggerMode? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is TooltipTriggerMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tooltipTriggerModeStringLookupTable[value];
+          } else {
+            return _json[key] = _tooltipTriggerModeStringLookupTable[value];
+          }
+        } else {
+          return _json[key] = _tooltipTriggerModeStringLookupTable[value];
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tooltipTriggerModeIntLookupTable[value];
+          } else {
+            return _json[key] = _tooltipTriggerModeIntLookupTable[value];
+          }
+        } else {
+          return _json[key] = _tooltipTriggerModeIntLookupTable[value];
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
   /// Retrieves a [ScrollPhysics] value from the JSON map for the given [key].
   ///
   /// Looks up the value associated with [key] in the JSON. If the value is already a [ScrollPhysics],
@@ -6065,7 +6117,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     if (value == null) {
       return defaultValue ??
           (throw ArgumentError(
-              "Value for key '$key' is null. Cannot map to object of type '$T'."));
+            "Value for key '$key' is null. Cannot map to object of type '$T'.",
+          ));
     }
 
     final fn = _customObjectFactoryLookupTable[typeArg ?? T];
@@ -6109,7 +6162,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     if (value == null) {
       return defaultValue ??
           (throw ArgumentError(
-              "Value for key '$key' is null. Cannot map to enum of type '$T'."));
+            "Value for key '$key' is null. Cannot map to enum of type '$T'.",
+          ));
     }
 
     final fn = _customEnumFactoryLookupTable[typeArg ?? T];
@@ -6276,6 +6330,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.visualDensity(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.keyboardDismissBehavior: (self, k, t, w) =>
         self.keyboardDismissBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.triggerMode: (self, k, t, w) =>
+        self.tooltipTriggerMode(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.physics: (self, k, t, w) =>
         self.scrollPhysics(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.dragStartBehavior: (self, k, t, w) =>
