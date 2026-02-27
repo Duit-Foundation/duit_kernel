@@ -1,3 +1,7 @@
+## 4.3.0
+
+- Added toEnum and toClass methods
+
 ## 4.2.3
 
 - Add action suppression caching logic for idempotent ServerAction
