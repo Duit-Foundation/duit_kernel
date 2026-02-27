@@ -7,18 +7,12 @@ import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
 import "package:flutter/rendering.dart";
 import "package:flutter/services.dart";
+import "package:meta/meta.dart";
 
 part "fields.dart";
 part "lookup.dart";
 part "icon_lookup.g.dart";
-
-/// Shortand for the extension type instance methods
-typedef _DispatchFn = dynamic Function(
-  DuitDataSource self,
-  String key,
-  Object? target,
-  bool warmUp,
-);
+part "typedefs.dart";
 
 /// A wrapper for JSON data that provides type-safe access to Dart/Flutter properties.
 ///
@@ -3687,6 +3681,58 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     }
   }
 
+  /// Retrieves a [TooltipTriggerMode] value from the JSON map for the given [key].
+  ///
+  /// Looks up the value associated with [key] in the JSON. If the value is already a [TooltipTriggerMode],
+  /// it is returned as is. If the value is a [String] or [int], it is converted using the lookup tables.
+  /// Otherwise, it returns [defaultValue].
+  ///
+  /// - [key]: The key to look up in the JSON map. Defaults to 'triggerMode'.
+  /// - [defaultValue]: The value to return if the key is not found or cannot be resolved. Defaults to null.
+  ///
+  /// Returns:
+  /// - A [TooltipTriggerMode] if the value is valid or can be parsed.
+  /// - [defaultValue] if the value is not a valid [TooltipTriggerMode] or cannot be parsed.
+  /// - `null` if both the value and [defaultValue] are null.
+  @preferInline
+  TooltipTriggerMode? tooltipTriggerMode({
+    String key = FlutterPropertyKeys.triggerMode,
+    TooltipTriggerMode? defaultValue,
+    Object? target,
+    bool warmUp = false,
+  }) {
+    final value = _readProp(key, target, warmUp);
+
+    if (value is TooltipTriggerMode) return value;
+
+    if (value == null) return defaultValue;
+
+    switch (value) {
+      case String():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tooltipTriggerModeStringLookupTable[value];
+          } else {
+            return _json[key] = _tooltipTriggerModeStringLookupTable[value];
+          }
+        } else {
+          return _json[key] = _tooltipTriggerModeStringLookupTable[value];
+        }
+      case int():
+        if (envAttributeWarmUpEnabled) {
+          if (warmUp) {
+            return _tooltipTriggerModeIntLookupTable[value];
+          } else {
+            return _json[key] = _tooltipTriggerModeIntLookupTable[value];
+          }
+        } else {
+          return _json[key] = _tooltipTriggerModeIntLookupTable[value];
+        }
+      default:
+        return defaultValue;
+    }
+  }
+
   /// Retrieves a [ScrollPhysics] value from the JSON map for the given [key].
   ///
   /// Looks up the value associated with [key] in the JSON. If the value is already a [ScrollPhysics],
@@ -5996,6 +6042,141 @@ extension type DuitDataSource(Map<String, dynamic> _json)
     return defaultValue;
   }
 
+  /// Static lookup table mapping enum types to their custom factory functions.
+  ///
+  /// Used by [toEnum] to resolve enum values from raw JSON (e.g. string or int)
+  /// when no built-in conversion exists. Factories are registered via
+  /// [registerCustomEnumFactory].
+  static final _customEnumFactoryLookupTable = <Type, ToEnumFactory>{};
+
+  /// Static lookup table mapping class types to their custom factory functions.
+  ///
+  /// Used by [toClass] to deserialize complex objects from JSON when no built-in
+  /// conversion exists. Factories are registered via [registerCustomObjectFactory].
+  static final _customObjectFactoryLookupTable = <Type, ToClassFactory>{};
+
+  /// Registers a custom factory for deserializing enum [T] from raw JSON values.
+  ///
+  /// Use this when [toEnum] needs to parse a custom enum type that has no
+  /// built-in support (e.g. enums with non-standard string representations).
+  ///
+  /// The [factory] receives the raw value (typically [String] or [int]) and must
+  /// return an instance of [T]. It is invoked by [toEnum] when the value is
+  /// neither null nor already of type [T].
+  ///
+  /// Registration is typically done at startup via [DuitRegistry.registerCustomEnumFactory].
+  /// Marked [@internal] as this is part of the framework's extension API.
+  @internal
+  @preferInline
+  static void registerCustomEnumFactory<T extends Enum>(
+    ToEnumFactory<T> factory,
+  ) =>
+      _customEnumFactoryLookupTable[T] = factory;
+
+  /// Registers a custom factory for deserializing class [T] from JSON.
+  ///
+  /// Use this when [toClass] needs to parse a custom object type that has no
+  /// built-in support. The [factory] receives the raw value (e.g. [Map] for
+  /// nested objects) and must return an instance of [T].
+  ///
+  /// Registration is typically done at startup via [DuitRegistry.registerCustomObjectFactory].
+  /// Marked [@internal] as this is part of the framework's extension API.
+  @internal
+  @preferInline
+  static void registerCustomObjectFactory<T extends Object>(
+    ToClassFactory<T> factory,
+  ) =>
+      _customObjectFactoryLookupTable[T] = factory;
+
+  /// Deserializes a value at [key] into an instance of custom class [T].
+  ///
+  /// Uses the factory registered for [T] (or [typeArg] if provided) via
+  /// [registerCustomObjectFactory]. If the value is already of type [T],
+  /// it is returned as-is. If the value is null and [defaultValue] is provided,
+  /// [defaultValue] is returned.
+  ///
+  /// Parameters:
+  /// - [key]: The JSON key holding the value to deserialize.
+  /// - [typeArg]: Optional type to look up the factory; defaults to [T].
+  /// - [defaultValue]: Value returned when the key is null or absent.
+  ///
+  /// Returns the deserialized instance, or [defaultValue] when applicable.
+  ///
+  /// Throws [ArgumentError] if:
+  /// - The value is null and no [defaultValue] is given.
+  /// - No custom object factory is registered for [T] (or [typeArg]).
+  ///
+  /// The result is cached back into the underlying JSON map at [key].
+  T toClass<T extends Object>({
+    required String key,
+    Type? typeArg,
+    T? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+    if (value is T) return value;
+    if (value == null) {
+      return defaultValue ??
+          (throw ArgumentError(
+            "Value for key '$key' is null. Cannot map to object of type '$T'.",
+          ));
+    }
+
+    final fn = _customObjectFactoryLookupTable[typeArg ?? T];
+    if (fn == null) {
+      return defaultValue ??
+          (throw ArgumentError(
+            "No custom object factory registered for type: $T",
+          ));
+    }
+    return _json[key] = fn(value) as T;
+  }
+
+  /// Deserializes a value at [key] into an instance of custom enum [T].
+  ///
+  /// Uses the factory registered for [T] (or [typeArg] if provided) via
+  /// [registerCustomEnumFactory]. If the value is already of type [T],
+  /// it is returned as-is. If the value is null and [defaultValue] is provided,
+  /// [defaultValue] is returned.
+  ///
+  /// Parameters:
+  /// - [key]: The JSON key holding the value to deserialize.
+  /// - [typeArg]: Optional type to look up the factory; defaults to [T].
+  /// - [defaultValue]: Value returned when the key is null or absent.
+  ///
+  /// Returns the deserialized enum, or [defaultValue] when applicable.
+  ///
+  /// Throws [ArgumentError] if:
+  /// - The value is null and no [defaultValue] is given.
+  /// - No custom enum factory is registered for [T] (or [typeArg]).
+  ///
+  /// The result is cached back into the underlying JSON map at [key].
+  T toEnum<T extends Enum>({
+    required String key,
+    Type? typeArg,
+    T? defaultValue,
+  }) {
+    final value = _readProp(key, null, false);
+
+    if (value is T) return value;
+
+    if (value == null) {
+      return defaultValue ??
+          (throw ArgumentError(
+            "Value for key '$key' is null. Cannot map to enum of type '$T'.",
+          ));
+    }
+
+    final fn = _customEnumFactoryLookupTable[typeArg ?? T];
+
+    if (fn == null) {
+      return defaultValue ??
+          (throw ArgumentError(
+            "No custom enum factory registered for type: $T",
+          ));
+    }
+    return _json[key] = fn(value) as T;
+  }
+
   /// The dispatch map for attribute keys to their corresponding handler functions.
   ///
   /// This map associates each supported [FlutterPropertyKeys] value with a function
@@ -6149,6 +6330,8 @@ extension type DuitDataSource(Map<String, dynamic> _json)
         self.visualDensity(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.keyboardDismissBehavior: (self, k, t, w) =>
         self.keyboardDismissBehavior(key: k, target: t, warmUp: w),
+    FlutterPropertyKeys.triggerMode: (self, k, t, w) =>
+        self.tooltipTriggerMode(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.physics: (self, k, t, w) =>
         self.scrollPhysics(key: k, target: t, warmUp: w),
     FlutterPropertyKeys.dragStartBehavior: (self, k, t, w) =>

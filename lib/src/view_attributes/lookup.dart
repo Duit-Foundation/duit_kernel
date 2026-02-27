@@ -1046,6 +1046,29 @@ const _keyboardDismissBehaviorStringLookupTable =
       ScrollViewKeyboardDismissBehavior.onDrag,
 };
 
+/// Lookup table for [TooltipTriggerMode] values by [int] type key.
+///
+/// Maps integer identifiers to [TooltipTriggerMode] enum values for tooltip trigger mode.
+/// Supported values: 0 (manual), 1 (longPress), 2 (tap).
+const _tooltipTriggerModeIntLookupTable = <int, TooltipTriggerMode>{
+  0: TooltipTriggerMode.manual,
+  1: TooltipTriggerMode.longPress,
+  2: TooltipTriggerMode.tap,
+};
+
+/// Lookup table for [TooltipTriggerMode] values by [String] type key.
+///
+/// Maps string identifiers to [TooltipTriggerMode] enum values for tooltip trigger mode.
+/// Supported values: "manual", "longPress", "tap".
+const _tooltipTriggerModeStringLookupTable = <String, TooltipTriggerMode>{
+  "manual": TooltipTriggerMode.manual,
+  "TooltipTriggerMode.manual": TooltipTriggerMode.manual,
+  "longPress": TooltipTriggerMode.longPress,
+  "TooltipTriggerMode.longPress": TooltipTriggerMode.longPress,
+  "tap": TooltipTriggerMode.tap,
+  "TooltipTriggerMode.tap": TooltipTriggerMode.tap,
+};
+
 /// Lookup table for [ScrollPhysics] values by [int] type key.
 ///
 /// Maps integer identifiers to [ScrollPhysics] objects for scroll physics behavior.

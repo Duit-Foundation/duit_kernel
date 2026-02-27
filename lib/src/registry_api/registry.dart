@@ -122,4 +122,37 @@ sealed class DuitRegistry {
       return null;
     }
   }
+
+  /// Registers a custom factory for deserializing enum [T] from raw JSON values.
+  ///
+  /// Use this when [DuitDataSource.toEnum] needs to parse a custom enum type
+  /// that has no built-in support (e.g. enums with non-standard string
+  /// representations). The [toEnum] factory receives the raw value (typically
+  /// [String] or [int]) and must return an instance of [T].
+  ///
+  /// Call this at app startup before any UI that parses the enum type.
+  /// Logs a success message via the configured [LoggingCapabilityDelegate].
+  @preferInline
+  static void registerCustomEnumFactory<T extends Enum>(
+    ToEnumFactory<T> toEnum,
+  ) {
+    DuitDataSource.registerCustomEnumFactory(toEnum);
+    _logManager.logInfo("Custom enum factory for $T registered successfully");
+  }
+
+  /// Registers a custom factory for deserializing class [T] from JSON.
+  ///
+  /// Use this when [DuitDataSource.toClass] needs to parse a custom object type
+  /// that has no built-in support. The [toClass] factory receives the raw value
+  /// (e.g. [Map] for nested objects) and must return an instance of [T].
+  ///
+  /// Call this at app startup before any UI that parses the object type.
+  /// Logs a success message via the configured [LoggingCapabilityDelegate].
+  @preferInline
+  static void registerCustomObjectFactory<T extends Object>(
+    ToClassFactory<T> toClass,
+  ) {
+    DuitDataSource.registerCustomObjectFactory(toClass);
+    _logManager.logInfo("Custom object factory for $T registered successfully");
+  }
 }
