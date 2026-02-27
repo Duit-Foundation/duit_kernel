@@ -19,6 +19,7 @@ sealed class FlutterPropertyKeys {
   static const padding = "padding";
   static const physics = "physics";
   static const trigger = "trigger";
+  static const triggerMode = "triggerMode";
   static const boxShape = "boxShape";
   static const byteData = "byteData";
   static const duration = "duration";
@@ -107,6 +108,7 @@ sealed class FlutterPropertyKeys {
     padding,
     physics,
     trigger,
+    triggerMode,
     boxShape,
     byteData,
     duration,
