@@ -8,6 +8,14 @@ typedef _DispatchFn = dynamic Function(
   bool warmUp,
 );
 
+/// A function that converts a raw JSON value to a custom type [T].
+typedef CommonDuitDataSourceMethodSignature<T> = T Function({
+  String key,
+  T? defaultValue,
+  Object? target,
+  bool warmUp,
+});
+
 /// A function that converts a raw JSON value to a custom enum [T].
 ///
 /// Used by [DuitDataSource.toEnum] when resolving enum values from JSON.

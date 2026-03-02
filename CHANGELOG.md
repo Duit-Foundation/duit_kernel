@@ -1,3 +1,7 @@
+## 4.3.1
+
+- Added tryParseIfNotNull method
+
 ## 4.3.0
 
 - Added toEnum and toClass methods

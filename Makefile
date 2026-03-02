@@ -21,3 +21,8 @@ format:
 
 gen icons:
 	fvm dart run tool/generate_icon_lookup.dart
+
+.PHONY: deps
+
+deps:
+	fvm flutter pub get

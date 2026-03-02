@@ -1620,7 +1620,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
   @preferInline
   TextSpan textSpan({
     String key = FlutterPropertyKeys.textSpan,
-    TextSpan defaultValue = const TextSpan(),
+    TextSpan? defaultValue,
     Object? target,
     bool warmUp = false,
   }) {
@@ -1630,7 +1630,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
       return value;
     }
 
-    if (value == null) return defaultValue;
+    if (value == null) return defaultValue ?? const TextSpan();
 
     switch (value) {
       case Map<String, dynamic>():
@@ -1644,7 +1644,7 @@ extension type DuitDataSource(Map<String, dynamic> _json)
           return _json[key] = _textSpanFromMap(value);
         }
       default:
-        return defaultValue;
+        return defaultValue ?? const TextSpan();
     }
   }
 
@@ -6175,6 +6175,72 @@ extension type DuitDataSource(Map<String, dynamic> _json)
           ));
     }
     return _json[key] = fn(value) as T;
+  }
+
+  /// Conditionally parses a value from the JSON map only when the [key] exists.
+  ///
+  /// This method avoids redundant parsing and maintains clear semantics when
+  /// an optional property must be distinguished from "not specified". Unlike
+  /// converter methods (e.g. [textSpan], [decoration]) that return a default
+  /// value when the key is absent, this method returns `null` — indicating
+  /// that the property was never present in the source data.
+  ///
+  /// **When to use:**
+  ///
+  /// - The target API expects `null` for absent optional parameters
+  ///   (e.g. Flutter's `Tooltip.richMessage`).
+  /// - You need to avoid running [converter] when the key is missing, for
+  ///   performance or to prevent side effects (e.g. caching).
+  /// - The semantic difference between "property absent" and "property present
+  ///   but invalid/default" matters.
+  ///
+  /// **Parameters:**
+  ///
+  /// - [key]: The JSON key to look up. Parsing is skipped entirely if this
+  ///   key is not in the map.
+  /// - [converter]: A [CommonDuitDataSourceMethodSignature]-compatible method (e.g. [textSpan],
+  ///   [decoration], [textStyle]). Invoked only when [key] exists.
+  /// - [defaultValue]: Passed through to [converter] when the key exists.
+  ///   Does not apply when the key is absent — in that case `null` is
+  ///   returned without calling [converter].
+  ///
+  /// **Returns:**
+  ///
+  /// - `null` if the map does not contain [key].
+  /// - The result of [converter] when [key] exists.
+  ///
+  /// **Example:**
+  ///
+  /// ```dart
+  /// // richMessage must be null when not specified; Tooltip uses message instead
+  /// richMessage: attrs.tryParseIfNotNull<TextSpan>(
+  ///   key: "richMessage",
+  ///   defaultValue: null,
+  ///   converter: attrs.textSpan,
+  /// ),
+  /// ```
+  ///
+  /// Without this method, the equivalent would be:
+  ///
+  /// ```dart
+  /// richMessage: attrs.containsKey("richMessage")
+  ///     ? attrs.textSpan(key: "richMessage", defaultValue: null)
+  ///     : null,
+  /// ```
+  T? tryParseIfNotNull<T>({
+    required String key,
+    required CommonDuitDataSourceMethodSignature<T> converter,
+    T? defaultValue,
+  }) {
+    if (containsKey(key)) {
+      return converter(
+        key: key,
+        defaultValue: defaultValue,
+        target: null,
+        warmUp: false,
+      );
+    }
+    return null;
   }
 
   /// The dispatch map for attribute keys to their corresponding handler functions.
