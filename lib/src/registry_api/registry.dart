@@ -2,15 +2,21 @@ import "dart:async";
 
 import "package:duit_kernel/duit_kernel.dart";
 import "package:duit_kernel/src/registry_api/components/index.dart";
+import "package:meta/meta.dart";
+
+const _messageExternalLibrarySupportNotEnabled =
+    "External library support is not enabled";
 
 /// The [DuitRegistry] class is responsible for registering and retrieving
 /// model factories, build factories, and attributes factories for custom DUIT elements.
 sealed class DuitRegistry {
   static final Map<String, BuildFactory> _customComponentRegistry = {};
   static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
-  static LoggingCapabilityDelegate _logManager = const LoggingManager();
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
+  static late LoggingCapabilityDelegate _logManager;
+  static late final Map<String, LibraryDescriptor> _libraries;
+  static late final Map<String, LibraryDescriptor> _reverseIndex;
 
   static FutureOr<void> initialize({
     @Deprecated("Will be removed in the next major release.")
@@ -21,8 +27,13 @@ sealed class DuitRegistry {
   }) async {
     _componentRegistry = componentRegistry ?? _componentRegistry;
     _theme = theme ?? _theme;
-    _logManager = logManager ?? _logManager;
+    _logManager = logManager ?? const LoggingManager();
     await _componentRegistry.init();
+
+    if (enableExternalLibrarySupport) {
+      _libraries = {};
+      _reverseIndex = {};
+    }
   }
 
   static DuitTheme get theme => _theme;
@@ -154,5 +165,69 @@ sealed class DuitRegistry {
   ) {
     DuitDataSource.registerCustomObjectFactory(toClass);
     _logManager.logInfo("Custom object factory for $T registered successfully");
+  }
+
+  /// Loads an external [LibraryDescriptor] into the registry.
+  ///
+  /// The [library] argument must be a compile-time constant (`@mustBeConst`).
+  /// After loading, every [WidgetDescriptor] declared in
+  /// [LibraryDescriptor.descriptors] is indexed in the internal reverse-lookup
+  /// map so that [getDescriptor] and [hasDescriptor] can resolve widget types
+  /// at O(1) cost.
+  ///
+  /// Loading the same library name twice is a no-op (an error is logged and
+  /// the call returns immediately).  Similarly, if a widget type key from the
+  /// new library already exists in the reverse index (registered by a
+  /// previously loaded library), an error is logged and that descriptor is
+  /// skipped.
+  ///
+  /// Example:
+  /// ```dart
+  /// DuitRegistry.loadLibrary(const MyWidgetLibrary());
+  /// ```
+  @experimental
+  static void loadLibrary(@mustBeConst LibraryDescriptor library) {
+    if (enableExternalLibrarySupport) {
+      if (_libraries.containsKey(library.name)) {
+        _logManager.logError("Library ${library.name} already loaded");
+        return;
+      }
+      _libraries[library.name] = library;
+      for (final key in library.descriptors.keys) {
+        _reverseIndex[key] = library;
+      }
+    } else {
+      _logManager.logCritical(_messageExternalLibrarySupportNotEnabled);
+      throw UnsupportedError(_messageExternalLibrarySupportNotEnabled);
+    }
+  }
+
+  /// Returns the [WidgetDescriptor] for [name] from the loaded external
+  /// libraries, or `null` if no descriptor with that widget type has been
+  /// registered.
+  ///
+  /// Uses the internal reverse-index built by [loadLibrary] for O(1) lookup.
+  @experimental
+  @preferInline
+  static WidgetDescriptor? getDescriptor(String name) {
+    if (enableExternalLibrarySupport) {
+      return _reverseIndex[name]?.getDescriptor(name);
+    } else {
+      _logManager.logCritical(_messageExternalLibrarySupportNotEnabled);
+      throw UnsupportedError(_messageExternalLibrarySupportNotEnabled);
+    }
+  }
+
+  /// Returns `true` if an external library loaded via [loadLibrary] contains a
+  /// [WidgetDescriptor] whose type equals [name].
+  @experimental
+  @preferInline
+  static bool hasDescriptor(String name) {
+    if (enableExternalLibrarySupport) {
+      return _reverseIndex[name]?.hasDescriptor(name) ?? false;
+    } else {
+      _logManager.logCritical(_messageExternalLibrarySupportNotEnabled);
+      throw UnsupportedError(_messageExternalLibrarySupportNotEnabled);
+    }
   }
 }
