@@ -14,7 +14,7 @@ sealed class DuitRegistry {
   static final Map<String, Map<String, dynamic>> _fragmentRegistry = {};
   static ComponentRegistry _componentRegistry = DefaultComponentRegistry();
   static DuitTheme _theme = const DuitTheme({});
-  static late LoggingCapabilityDelegate _logManager;
+  static LoggingCapabilityDelegate _logManager = const LoggingManager();
   static late final Map<String, LibraryDescriptor> _libraries;
   static late final Map<String, LibraryDescriptor> _reverseIndex;
 
@@ -27,7 +27,7 @@ sealed class DuitRegistry {
   }) async {
     _componentRegistry = componentRegistry ?? _componentRegistry;
     _theme = theme ?? _theme;
-    _logManager = logManager ?? const LoggingManager();
+    _logManager = logManager ?? _logManager;
     await _componentRegistry.init();
 
     if (enableExternalLibrarySupport) {
