@@ -1,3 +1,7 @@
+## 4.4.0
+
+- Added exrerimental support and API for external widget librariries
+
 ## 4.3.1
 
 - Added tryParseIfNotNull method
