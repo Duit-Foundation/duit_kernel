@@ -6,8 +6,8 @@ funding:
   - https://boosty.to/duit_foundation
 
 environment:
-  sdk: ">=3.4.4 <4.0.0"
-  flutter: ">=3.24.3"
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.27.0"
 
 dependencies:
   flutter:
