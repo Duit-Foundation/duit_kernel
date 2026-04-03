@@ -1,3 +1,7 @@
+## 4.4.1
+
+- Added [ElementChildRelation] in `lib/src/misc/element_child_relation.dart` as the canonical names for `WidgetDescriptor.childRelation` / element-tree child semantics (0–4).
+
 ## 4.4.0
 
 - Added exrerimental support and API for external widget librariries
