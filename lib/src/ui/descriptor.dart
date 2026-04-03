@@ -35,11 +35,7 @@ final class WidgetDescriptor {
 
   /// Defines the child relationship pattern for this element type.
   ///
-  /// - `0`: No child elements (leaf widgets like Text, Image)
-  /// - `1`: Single child element (wrapper widgets like Container, Padding)
-  /// - `2`: Multiple child elements (layout widgets like Row, Column, Stack)
-  /// - `3`: Component content
-  /// - `4`: Fragment content
+  /// Prefer [ElementChildRelation] constants instead of raw integers.
   final int childRelation;
 
   /// Whether this element type is controlled by default.
